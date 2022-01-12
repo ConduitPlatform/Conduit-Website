@@ -3,24 +3,18 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TypewriterComponent from 'typewriter-effect';
-import { CopyBlock, nord } from 'react-code-blocks';
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import {} from 'react-syntax-highlighter/dist/cjs/languages/prism/jsx';
+import { darcula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 export default function Landing() {
   return (
     <Container maxWidth="lg">
       <Box sx={{ my: 22 }} justifyContent={'center'} display={'grid'}>
-        <Typography
-          style={{ textAlign: 'center', color: 'black' }}
-          variant="h4"
-          component="h1"
-          gutterBottom>
+        <Typography style={{ textAlign: 'center' }} variant="h4" component="h1" gutterBottom>
           The only Backend you'll ever need
         </Typography>
-        <Typography
-          style={{ textAlign: 'center', color: 'black' }}
-          variant="h6"
-          component="h1"
-          gutterBottom>
+        <Typography style={{ textAlign: 'center' }} variant="h6" component="h1" gutterBottom>
           Built for
           <TypewriterComponent
             onInit={(typewriter) =>
@@ -37,14 +31,10 @@ export default function Landing() {
           />
         </Typography>
         <Box mt={'70px'}>
-          <Typography
-            style={{ marginTop: '30px', color: 'black' }}
-            variant="caption"
-            component="h1"
-            gutterBottom>
+          <Typography style={{ marginTop: '30px' }} variant="caption" component="h1" gutterBottom>
             Start here:
           </Typography>
-          <CopyBlock text={'curl .... docker compose'} language={'jsx'} theme={nord} wrapLines />
+          <SyntaxHighlighter style={darcula}>{'curl .... docker compose'}</SyntaxHighlighter>
         </Box>
       </Box>
     </Container>
