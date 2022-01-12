@@ -5,10 +5,8 @@ import Landing from '../src/components/structural/LandingPage/LandingPageUpper';
 
 export default function Index() {
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        <Landing />
-      </Box>
-    </Container>
+    <Box sx={{ my: 4 }}>
+      <Landing />
+    </Box>
   );
 }
