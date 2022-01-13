@@ -18,7 +18,7 @@ const styles = {
   },
 } as any;
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)(() => ({
   display: 'flex',
   justifyContent: 'space-evenly',
   alignItems: 'center',
@@ -27,7 +27,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 export default function LandingPageUpper() {
   return (
-    <Box sx={{ my: 12 }}>
+    <Box>
       <Grid container>
         <Grid sx={styles.basicText} item md={6} sm={12}>
           <Typography variant="h2" component="h1" gutterBottom>
