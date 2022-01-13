@@ -4,9 +4,9 @@ import Box from '@mui/material/Box';
 import TypewriterComponent from 'typewriter-effect';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { duotoneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import { Grid, Paper } from '@mui/material';
+import { Button, Divider, Grid } from '@mui/material';
 import workspace from '../../../../public/icons/workspace_PNG.png';
-import Paralos from '../../../../public/icons/Colored.svg';
+import Paralos from '../../../../public/icons/White.svg';
 import Quint from '../../../../public/icons/quint-logo.svg';
 import Image from 'next/image';
 
@@ -49,46 +49,39 @@ export default function Landing() {
             Build a beautiful, modern website with flexible, fully customizable, atomic Material-UI
             components. An experience you'd expect from a design system.
           </Typography>
-          <Box sx={{ my: 22 }}>
-            <Grid container>
-              <Grid item md={8} sm={12} xs={12}>
-                <Typography variant="caption" component="h1" gutterBottom>
-                  Start here:
-                </Typography>
-                <SyntaxHighlighter style={duotoneLight}>
-                  {'curl .... docker compose'}
-                </SyntaxHighlighter>
-              </Grid>
-              <Grid item sm={4} xs={1}></Grid>
-            </Grid>
+          <Box
+            sx={{ my: 22 }}
+            style={{
+              display: 'flex',
+              justifyContent: 'space-evenly',
+              alignItems: 'center',
+              flexFlow: '-moz-initial',
+            }}>
+            <Button size="large" variant="outlined" color="secondary">
+              GET STARTED
+            </Button>
+            <Box minWidth={'500px'} maxWidth={'100%'}>
+              <SyntaxHighlighter style={duotoneLight}>
+                {'curl .... docker compose'}
+              </SyntaxHighlighter>
+            </Box>
           </Box>
         </Grid>
         <Grid item md={6} sm={12}>
           <Image src={workspace} alt="workspace" />
         </Grid>
       </Grid>
+      <Divider>
+        <Typography>USED BY</Typography>
+      </Divider>
 
-      <Typography style={{ textAlign: 'center', marginTop: '60px', color: 'white' }}>
-        Used by
-      </Typography>
-      <Paper variant="outlined">
-        <Grid container justifyContent="space-around" alignItems="center" padding={3}>
-          <Image
-            src={Paralos}
-            height={'50px'}
-            alt="Paralos-logo"
-            style={{ objectFit: 'contain' }}
-          />
+      <Grid container justifyContent="space-around" alignItems="center" padding={3}>
+        <Image src={Paralos} height={'50px'} alt="Paralos-logo" />
 
-          <Image src={Quint} alt="Quint-logo" height={'50px'} style={{ objectFit: 'contain' }} />
+        <Image src={Quint} alt="Quint-logo" height={'50px'} />
 
-          <img
-            src="https://supabase.com/images/logos/mozilla--grey.png"
-            height={'50px'}
-            style={{ objectFit: 'contain' }}
-          />
-        </Grid>
-      </Paper>
+        <Image src={Quint} alt="Quint-logo" height={'50px'} />
+      </Grid>
     </Box>
   );
 }
