@@ -5,7 +5,9 @@ import TypewriterComponent from 'typewriter-effect';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { duotoneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Grid, Paper } from '@mui/material';
-import workspace from '../../../../.next/static/media/workspace_PNG.509bd743.png';
+import workspace from '../../../../public/icons/workspace_PNG.png';
+import Paralos from '../../../../public/icons/Colored.svg';
+import Quint from '../../../../public/icons/quint-logo.svg';
 import Image from 'next/image';
 
 const styles = {
@@ -62,7 +64,7 @@ export default function Landing() {
           </Box>
         </Grid>
         <Grid item md={6} sm={12}>
-          <Image src={workspace} />
+          <Image src={workspace} alt="workspace" />
         </Grid>
       </Grid>
 
@@ -71,17 +73,14 @@ export default function Landing() {
       </Typography>
       <Paper variant="outlined">
         <Grid container justifyContent="space-around" alignItems="center" padding={3}>
-          <img
-            src="https://supabase.com/images/logos/mozilla--grey.png"
+          <Image
+            src={Paralos}
             height={'50px'}
+            alt="Paralos-logo"
             style={{ objectFit: 'contain' }}
           />
 
-          <img
-            src="https://supabase.com/images/logos/mozilla--grey.png"
-            height={'50px'}
-            style={{ objectFit: 'contain' }}
-          />
+          <Image src={Quint} alt="Quint-logo" height={'50px'} style={{ objectFit: 'contain' }} />
 
           <img
             src="https://supabase.com/images/logos/mozilla--grey.png"
