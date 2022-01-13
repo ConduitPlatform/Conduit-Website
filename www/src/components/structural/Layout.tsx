@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FC } from 'react';
-import { Box, Container, Divider } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import Header from './Header';
 import Footer from './Footer';
 
@@ -14,9 +14,7 @@ const Layout: FC = ({ children }) => {
   return (
     <Box>
       <Header />
-      <Container maxWidth={'xl'} sx={{ height: '100vh' }}>
-        {children}
-      </Container>
+      <Box sx={{ minHeight: 'calc(100vh - 90px)' }}>{children}</Box>
       <Divider sx={styles.dividerSpacing} />
       <Footer />
     </Box>
