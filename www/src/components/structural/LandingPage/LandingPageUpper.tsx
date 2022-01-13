@@ -9,10 +9,18 @@ import { Grid, Paper } from '@mui/material';
 export default function Landing() {
   return (
     <Box sx={{ my: 12 }}>
-      <Typography style={{ textAlign: 'center' }} variant="h4" component="h1" gutterBottom>
+      <Typography
+        style={{ textAlign: 'center', color: 'white' }}
+        variant="h4"
+        component="h1"
+        gutterBottom>
         The only Backend you'll ever need
       </Typography>
-      <Typography style={{ textAlign: 'center' }} variant="h6" component="h1" gutterBottom>
+      <Typography
+        style={{ textAlign: 'center', color: 'white' }}
+        variant="h6"
+        component="h1"
+        gutterBottom>
         Built for
         <TypewriterComponent
           onInit={(typewriter) =>
@@ -28,29 +36,35 @@ export default function Landing() {
           }
         />
       </Typography>
-      <Box sx={{ my: 22 }} padding={'20px'}>
+      <Box sx={{ my: 22 }}>
         <Grid container>
-          <Grid item xs={3}></Grid>
-          <Grid item xs={6}>
-            <Typography style={{ marginTop: '30px' }} variant="caption" component="h1" gutterBottom>
+          <Grid item sm={3} xs={1}></Grid>
+          <Grid item sm={6} xs={10}>
+            <Typography
+              style={{ marginTop: '30px', color: 'white' }}
+              variant="caption"
+              component="h1"
+              gutterBottom>
               Start here:
             </Typography>
             <SyntaxHighlighter style={darcula}>{'curl .... docker compose'}</SyntaxHighlighter>
           </Grid>
-          <Grid item xs={3}></Grid>
+          <Grid item sm={3} xs={1}></Grid>
         </Grid>
       </Box>
 
-      <Typography style={{ textAlign: 'center', marginTop: '60px' }}>Used by</Typography>
-      <Paper style={{ height: '80px', backgroundColor: '#262840' }}>
+      <Typography style={{ textAlign: 'center', marginTop: '60px', color: 'white' }}>
+        Used by
+      </Typography>
+      <Paper variant="outlined" style={{ height: '80px' }}>
         <Grid container direction="row" justifyContent="center" alignItems="center">
-          <Grid textAlign={'center'} item xs={4}>
+          <Grid textAlign={'center'} item sm={4}>
             Icon
           </Grid>
-          <Grid textAlign={'center'} item xs={4}>
+          <Grid textAlign={'center'} item sm={4}>
             Icon
           </Grid>
-          <Grid textAlign={'center'} item xs={4}>
+          <Grid textAlign={'center'} item sm={4}>
             Icon
           </Grid>
         </Grid>

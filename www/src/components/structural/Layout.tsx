@@ -14,7 +14,7 @@ const Layout: FC = ({ children }) => {
   return (
     <Box>
       <Header />
-      <Container maxWidth={'xl'} sx={{ height: '100vh' }}>
+      <Container maxWidth={'xl'} sx={{ minHeight: '100vh' }}>
         {children}
       </Container>
       <Divider sx={styles.dividerSpacing} />

@@ -13,6 +13,10 @@ const theme = createTheme({
     error: {
       main: red.A400,
     },
+    background: {
+      paper: '#303030',
+      default: '#262840',
+    },
   },
   typography: {
     fontFamily: 'JetBrains Mono',
