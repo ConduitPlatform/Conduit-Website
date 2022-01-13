@@ -3,12 +3,9 @@ import { FC } from 'react';
 import { AppBar, Grid, Box, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const CustomAppBar = styled(AppBar)(
-  ({ theme }) => `
-  padding: ${theme.spacing(3, 4)};
-
-`
-);
+const CustomAppBar = styled(AppBar)(({ theme }) => ({
+  padding: theme.spacing(3, 4),
+}));
 
 const styles = {
   headerLayout: {
