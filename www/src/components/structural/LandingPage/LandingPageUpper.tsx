@@ -8,13 +8,22 @@ import { Button, Divider, Grid } from '@mui/material';
 import workspace from '../../../../public/icons/workspace_PNG.png';
 import Paralos from '../../../../public/icons/White.svg';
 import Quint from '../../../../public/icons/quint-logo.svg';
+import Agora from '../../../../public/icons/agora.svg';
 import Image from 'next/image';
+import { styled } from '@mui/material/styles';
 
 const styles = {
   basicText: {
     textAlign: ['center', 'center', 'left'],
   },
 } as any;
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-evenly',
+  alignItems: 'center',
+  paddingRight: '50px',
+}));
 
 export default function Landing() {
   return (
@@ -49,23 +58,16 @@ export default function Landing() {
             Build a beautiful, modern website with flexible, fully customizable, atomic Material-UI
             components. An experience you'd expect from a design system.
           </Typography>
-          <Box
-            sx={{ my: 22 }}
-            style={{
-              display: 'flex',
-              justifyContent: 'space-evenly',
-              alignItems: 'center',
-              flexFlow: '-moz-initial',
-            }}>
+          <StyledBox sx={{ my: 22 }}>
             <Button size="large" variant="outlined" color="secondary">
               GET STARTED
             </Button>
-            <Box minWidth={'500px'} maxWidth={'100%'}>
+            <Box minWidth={'500px'}>
               <SyntaxHighlighter style={duotoneLight}>
                 {'curl .... docker compose'}
               </SyntaxHighlighter>
             </Box>
-          </Box>
+          </StyledBox>
         </Grid>
         <Grid item md={6} sm={12}>
           <Image src={workspace} alt="workspace" />
@@ -76,11 +78,11 @@ export default function Landing() {
       </Divider>
 
       <Grid container justifyContent="space-around" alignItems="center" padding={3}>
-        <Image src={Paralos} height={'50px'} alt="Paralos-logo" />
+        <Image src={Paralos} alt="Paralos-logo" />
 
         <Image src={Quint} alt="Quint-logo" height={'50px'} />
 
-        <Image src={Quint} alt="Quint-logo" height={'50px'} />
+        <Image src={Agora} alt="Quint-logo" height={'50px'} />
       </Grid>
     </Box>
   );

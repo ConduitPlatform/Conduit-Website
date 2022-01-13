@@ -14,17 +14,6 @@ const StyledCard = styled(Paper)(({ theme }) => ({
   borderColor: theme.palette.secondary.main,
   flexDirection: 'column',
   backgroundColor: 'rgba(0, 0, 0, 0.2)',
-  '&:hover': {
-    borderWidth: '1px',
-    borderStyle: 'solid',
-    borderColor: theme.palette.secondary.main,
-    boxShadow: `0 1px 2px 1px ${theme.palette.secondary.main}`,
-  },
-  '&:focus': {
-    borderWidth: '1px',
-    borderStyle: 'solid',
-    borderColor: theme.palette.secondary.main,
-  },
 }));
 
 const StyledIconContainer = styled('div')(({ theme }) => ({
@@ -41,7 +30,7 @@ export default function Landing() {
   return (
     <Box sx={{ my: 22 }}>
       <Divider>
-        <Typography style={{ textAlign: 'center' }} variant="button" component="h1" gutterBottom>
+        <Typography variant="button" component="h1">
           Stop making the same stuff twice
         </Typography>
       </Divider>
