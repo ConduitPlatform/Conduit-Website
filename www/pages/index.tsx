@@ -9,11 +9,11 @@ export default function Index() {
     <Box sx={{ background: 'linear-gradient(0deg, rgba(38,40,64,1) 27%, rgba(31,32,52,1) 89%)' }}>
       <Container maxWidth={'xl'} sx={{ pt: [4, 8, 12] }}>
         <Landing1 />
-        <Landing2 />
         <Divider sx={{ my: 8 }}>
           <Typography>To whom we are addressing</Typography>
         </Divider>
         <LandingPageUsers />
+        <Landing2 />
       </Container>
     </Box>
   );
