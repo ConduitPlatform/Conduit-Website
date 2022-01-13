@@ -7,17 +7,18 @@ import { AirplaneTicket, ArrowForward } from '@mui/icons-material';
 
 const StyledCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
-  color: '#3c44b1',
   minHeight: '140px',
   borderWidth: '1px',
+  borderRadius: '12px',
   borderStyle: 'solid',
-  borderColor: theme.palette.primary.main,
+  borderColor: theme.palette.secondary.main,
   flexDirection: 'column',
-  backgroundColor: theme.palette.background.default,
+  backgroundColor: 'rgba(0, 0, 0, 0.2)',
   '&:hover': {
     borderWidth: '1px',
     borderStyle: 'solid',
     borderColor: theme.palette.secondary.main,
+    boxShadow: `0 1px 2px 1px ${theme.palette.secondary.main}`,
   },
   '&:focus': {
     borderWidth: '1px',

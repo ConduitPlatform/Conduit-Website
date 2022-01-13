@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles';
 const CustomAppBar = styled(AppBar)(
   ({ theme }) => `
   padding: ${theme.spacing(3, 4)};
+
 `
 );
 

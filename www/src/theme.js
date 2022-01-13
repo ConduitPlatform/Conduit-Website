@@ -1,17 +1,28 @@
 import { createTheme } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
+
+const primary = '#5B44F2';
+const secondary = '#07D9C4';
+const error = '#DC004E';
+const warning = '#E265AB';
 
 // Create a theme instance.
 const theme = createTheme({
   palette: {
+    mode: 'dark',
     primary: {
-      main: '#556cd6',
+      main: primary,
+      contrastText: '#F2F2F2',
     },
     secondary: {
-      main: '#19857b',
+      main: secondary,
+      contrastText: '#000',
     },
     error: {
-      main: red.A400,
+      main: error,
+      contrastText: '#fff',
+    },
+    warning: {
+      main: warning,
     },
     background: {
       paper: '#303030',
