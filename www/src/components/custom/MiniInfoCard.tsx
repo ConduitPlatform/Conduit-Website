@@ -10,7 +10,7 @@ interface MiniInfoProps {
 }
 
 const CustomCard = styled(Card)(({ theme }) => ({
-  padding: theme.spacing(2),
+  padding: theme.spacing(4, 2),
   transition: '0.2s',
   '&:hover': {
     boxShadow: '3px 3px 12px 1px rgba(0,0,0,0.1)',
