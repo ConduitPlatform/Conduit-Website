@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FC } from 'react';
-import { Box, Container, Divider } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import Header from './Header';
 import Footer from './Footer';
 

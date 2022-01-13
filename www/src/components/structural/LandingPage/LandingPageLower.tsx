@@ -26,7 +26,7 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.secondary.main,
 }));
 
-export default function Landing() {
+export default function LandingPageLower() {
   return (
     <Box sx={{ my: 22 }}>
       <Divider>

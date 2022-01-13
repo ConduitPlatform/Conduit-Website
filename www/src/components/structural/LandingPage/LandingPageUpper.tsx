@@ -25,7 +25,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   paddingRight: '50px',
 }));
 
-export default function Landing() {
+export default function LandingPageUpper() {
   return (
     <Box sx={{ my: 12 }}>
       <Grid container>
