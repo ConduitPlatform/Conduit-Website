@@ -5,6 +5,8 @@ import TypewriterComponent from 'typewriter-effect';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { duotoneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Grid, Paper } from '@mui/material';
+import workspace from '../../../../.next/static/media/workspace_PNG.509bd743.png';
+import Image from 'next/image';
 
 const styles = {
   basicText: {
@@ -60,11 +62,7 @@ export default function Landing() {
           </Box>
         </Grid>
         <Grid item md={6} sm={12}>
-          <img
-            src="https://cdn.pixabay.com/photo/2016/03/31/15/05/cat-1292989_1280.png"
-            width="100%"
-            style={{ objectFit: 'contain', marginTop: '-80px' }}
-          />
+          <Image src={workspace} />
         </Grid>
       </Grid>
 
