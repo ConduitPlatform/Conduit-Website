@@ -22,7 +22,7 @@ const StyledBox = styled(Box)(() => ({
   display: 'flex',
   justifyContent: 'space-evenly',
   alignItems: 'center',
-  paddingRight: '50px',
+  gap: 20,
 }));
 
 export default function LandingPageUpper() {
@@ -62,7 +62,7 @@ export default function LandingPageUpper() {
             <Button size="large" variant="outlined" color="secondary">
               GET STARTED
             </Button>
-            <Box minWidth={'500px'}>
+            <Box style={{ flexGrow: '1' }}>
               <SyntaxHighlighter style={duotoneLight}>
                 {'curl .... docker compose'}
               </SyntaxHighlighter>
