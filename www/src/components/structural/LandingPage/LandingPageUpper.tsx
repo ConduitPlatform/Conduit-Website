@@ -31,7 +31,7 @@ export default function LandingPageUpper() {
       <Grid container>
         <Grid sx={styles.basicText} item md={6} sm={12}>
           <Typography variant="h2" component="h1" gutterBottom>
-            <strong> The only Backend you'll ever need</strong>
+            <strong>{`The only Backend you'll ever need`}</strong>
           </Typography>
           <Typography variant="h4" component="h1" gutterBottom>
             Built for
@@ -55,8 +55,8 @@ export default function LandingPageUpper() {
             />
           </Typography>
           <Typography variant="body2" paddingTop={'50px'}>
-            Build a beautiful, modern website with flexible, fully customizable, atomic Material-UI
-            components. An experience you'd expect from a design system.
+            {`Build a beautiful, modern website with flexible, fully customizable,
+             atomic Material-UI components. An experience you'd expect from a design system.`}
           </Typography>
           <StyledBox sx={{ my: 22 }}>
             <Button size="large" variant="outlined" color="secondary">

@@ -16,7 +16,7 @@ const StyledCard = styled(Paper)(({ theme }) => ({
   backgroundColor: 'rgba(0, 0, 0, 0.2)',
 }));
 
-const StyledIconContainer = styled('div')(({ theme }) => ({
+const StyledIconContainer = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
   flexWrap: 'wrap',
@@ -42,7 +42,6 @@ export default function LandingPageLower() {
               <Typography align="center">&nbsp; Example card</Typography>
             </StyledIconContainer>
             <Divider />
-
             <Typography variant="subtitle2">
               Lorem, ipsum dolor sit amet consectetur
               <StyledIconButton size="small">
@@ -52,13 +51,13 @@ export default function LandingPageLower() {
           </StyledCard>
         </Grid>
         <Grid item md={3} sm={6} xs={12}>
-          <StyledCard variant="outlined"></StyledCard>
+          <StyledCard variant="outlined"/>
         </Grid>
         <Grid item md={3} sm={6} xs={12}>
-          <StyledCard variant="outlined"></StyledCard>
+          <StyledCard variant="outlined"/>
         </Grid>
         <Grid item md={3} sm={6} xs={12}>
-          <StyledCard variant="outlined"></StyledCard>
+          <StyledCard variant="outlined"/>
         </Grid>
       </Grid>
     </Box>
