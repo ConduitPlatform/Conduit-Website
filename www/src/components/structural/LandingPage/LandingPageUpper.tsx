@@ -11,6 +11,7 @@ import Quint from '../../../../public/icons/quint-logo.svg';
 import Agora from '../../../../public/icons/agora.svg';
 import Image from 'next/image';
 import { styled } from '@mui/material/styles';
+import CloudflareImage from '../../custom/CloudflareImage';
 
 const styles = {
   basicText: {
@@ -78,11 +79,11 @@ export default function LandingPageUpper() {
       </Divider>
 
       <Grid container justifyContent="space-around" alignItems="center" padding={3}>
-        <Image src={Paralos} alt="Paralos-logo" />
+        <CloudflareImage src={Quint} alt="Paralos-logo" />
 
-        <Image src={Quint} alt="Quint-logo" height={'50px'} />
+        <CloudflareImage src={'/icons/quint-logo.svg'} alt="Quint-logo" height={'50px'} width={'150px'} />
 
-        <Image src={Agora} alt="Quint-logo" height={'50px'} />
+        <CloudflareImage src={'/quint-logo.svg'} alt="Quint-logo" height={'50px'} width={'150px'} />
       </Grid>
     </Box>
   );
