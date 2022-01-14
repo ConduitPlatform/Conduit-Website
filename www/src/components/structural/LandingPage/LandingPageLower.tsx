@@ -1,6 +1,4 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import { Divider, Grid } from '@mui/material';
 import ModuleCard from '../../custom/ModuleCard';
 import DataArrayIcon from '@mui/icons-material/DataArray';
@@ -10,12 +8,9 @@ import PaymentIcon from '@mui/icons-material/Payment';
 
 export default function LandingPageLower() {
   return (
-    <Box sx={{ my: 22 }}>
-      <Divider>
-        <Typography variant="button" component="h1">
-          Stop making the same stuff twice
-        </Typography>
-      </Divider>
+    <>
+      <Divider sx={{ my: 8 }}>Stop making the same stuff twice</Divider>
+
       <Grid container spacing={10} padding={'30px'}>
         <Grid item md={3} sm={6} xs={12}>
           <ModuleCard
@@ -27,7 +22,7 @@ export default function LandingPageLower() {
         <Grid item md={3} sm={6} xs={12}>
           <ModuleCard
             title="MAILS"
-            subtitle="Create, send and manage your emails. You can sync them via multiple providers available."
+            subtitle="Create, send and manage your emails, syncing them via multiple providers."
             icon={<MailIcon />}
           />
         </Grid>
@@ -41,11 +36,11 @@ export default function LandingPageLower() {
         <Grid item md={3} sm={6} xs={12}>
           <ModuleCard
             title="PAYMENTS"
-            subtitle="Manage customers, products, subscriptions and transactions, all in one module."
+            subtitle="Manage customers, products, subscriptions and transactions!"
             icon={<PaymentIcon />}
           />
         </Grid>
       </Grid>
-    </Box>
+    </>
   );
 }

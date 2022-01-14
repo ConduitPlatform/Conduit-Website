@@ -37,6 +37,10 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.secondary.main,
 }));
 
+const StyledSubtitle = styled(Typography)(({ theme }) => ({
+  paddingTop: '7px',
+}));
+
 interface ModuleCardProps {
   icon?: ReactComponentElement<any>;
   title: string;
@@ -52,10 +56,10 @@ const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon }) => {
         <ArrowForward />
       </StyledIconContainer>
       <Divider />
-      <Typography variant="subtitle2">
+      <StyledSubtitle variant="subtitle2">
         {subtitle}
         <StyledIconButton size="small"></StyledIconButton>
-      </Typography>
+      </StyledSubtitle>
     </ModuleCardComponent>
   );
 };

@@ -7,7 +7,7 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import MiniInfoCard from '../../custom/MiniInfoCard';
+import TypewriterComponent from 'typewriter-effect';
 
 const StyledGridItem = styled(Grid)(() => ({
   display: 'flex',
@@ -20,23 +20,46 @@ const StyledGridItem = styled(Grid)(() => ({
   },
 }));
 
+const StyledGridItemText = styled(Grid)(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  flexWrap: 'wrap',
+}));
+
 export default function Roadmap() {
   return (
     <>
       <Divider sx={{ my: 8 }}>ROADMAP</Divider>
       <Grid container spacing={1}>
-        <StyledGridItem item md={6} sm={12} xs={12}>
-          <MiniInfoCard
-            className="fullGrow"
-            title="Strive to improve"
-            subText="Even though Conduit is on its' early steps it strives to improve. Our vision
-          is to help people build their backend as fast and with as little effort possible.
-          Being open-source was an easy decision as we strongly
-          believe the community is what is going to make Conduit great.
-          Even though Conduit is in a working state, in the coming months we will work on requested
-          changes/improvements and of course everyone is welcome to contibute. "
-          />
-        </StyledGridItem>
+        <StyledGridItemText item md={6} sm={12} xs={12}>
+          <Typography variant="h4">
+            Strive to{' '}
+            <TypewriterComponent
+              options={{
+                autoStart: true,
+                loop: true,
+              }}
+              onInit={(typewriter) =>
+                typewriter
+                  .typeString('Create')
+                  .pauseFor(1000)
+                  .deleteAll()
+                  .typeString('Improve')
+                  .pauseFor(1000)
+                  .deleteAll()
+                  .pauseFor(2000)
+                  .start()
+              }
+            />
+          </Typography>
+          <Typography variant="subtitle2">
+            Even though Conduit is on its' early steps it strives to improve. Our vision is to help
+            people build their backend as fast and with as little effort possible. Being open-source
+            was an easy decision as we strongly believe the community is what is going to make
+            Conduit great. Even though Conduit is in a working state, in the coming months we will
+            work on requested changes/improvements and of course everyone is welcome to contibute.
+          </Typography>
+        </StyledGridItemText>
         <StyledGridItem item md={6} sm={12}>
           <Timeline position="alternate">
             <TimelineItem>
