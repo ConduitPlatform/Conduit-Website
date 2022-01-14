@@ -11,13 +11,14 @@ import Layout from '../src/components/structural/Layout';
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
-export default function MyApp(props: any) {
+const ConduitApp = (props: any) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   return (
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <title>Conduit Website</title>
       </Head>
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
@@ -28,9 +29,11 @@ export default function MyApp(props: any) {
       </ThemeProvider>
     </CacheProvider>
   );
-}
+};
 
-MyApp.propTypes = {
+export default ConduitApp;
+
+ConduitApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   emotionCache: PropTypes.object,
   pageProps: PropTypes.object.isRequired,
