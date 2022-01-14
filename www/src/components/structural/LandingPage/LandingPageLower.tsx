@@ -35,7 +35,7 @@ export default function LandingPageLower() {
         </Typography>
       </Divider>
       <Grid container spacing={10} padding={'30px'}>
-        <Grid item xs={3}>
+        <Grid item md={3} sm={6} xs={12}>
           <StyledCard variant="outlined">
             <StyledIconContainer>
               <AirplaneTicket />
@@ -50,13 +50,13 @@ export default function LandingPageLower() {
             </Typography>
           </StyledCard>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item md={3} sm={6} xs={12}>
           <StyledCard variant="outlined" />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item md={3} sm={6} xs={12}>
           <StyledCard variant="outlined" />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item md={3} sm={6} xs={12}>
           <StyledCard variant="outlined" />
         </Grid>
       </Grid>

@@ -1,0 +1,92 @@
+import * as React from 'react';
+import { Divider, Grid, styled, Typography } from '@mui/material';
+import Timeline from '@mui/lab/Timeline';
+import TimelineItem from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
+import TimelineDot from '@mui/lab/TimelineDot';
+import MiniInfoCard from '../../custom/MiniInfoCard';
+
+const StyledGridItem = styled(Grid)(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexWrap: 'wrap',
+  '.fullGrow': {
+    flexGrow: 1,
+    width: 250,
+  },
+}));
+
+export default function Roadmap() {
+  return (
+    <>
+      <Divider sx={{ my: 8 }}>ROADMAP</Divider>
+      <Grid container spacing={1}>
+        <StyledGridItem item md={6} sm={12} xs={12}>
+          <MiniInfoCard
+            className="fullGrow"
+            title="Strive to improve"
+            subText="Even though Conduit is on its' early steps it strives to improve. Our vision
+          is to help people build their backend as fast and with as little effort possible.
+          Being open-source was an easy decision as we strongly
+          believe the community is what is going to make Conduit great.
+          Even though Conduit is in a working state, in the coming months we will work on requested
+          changes/improvements and of course everyone is welcome to contibute. "
+          />
+        </StyledGridItem>
+        <StyledGridItem item md={6} sm={12}>
+          <Timeline position="alternate">
+            <TimelineItem>
+              <TimelineOppositeContent>Typescript</TimelineOppositeContent>
+              <TimelineSeparator>
+                <TimelineDot color="info" />
+                <TimelineConnector />
+              </TimelineSeparator>
+              <TimelineContent>
+                <Typography variant="caption">
+                  Even though Conduit is mostly built on Typescript we want to make sure that
+                  everything has a type!
+                </Typography>
+              </TimelineContent>
+            </TimelineItem>
+            <TimelineItem>
+              <TimelineOppositeContent>
+                <Typography variant="caption">Documentation ... </Typography>{' '}
+              </TimelineOppositeContent>
+              <TimelineSeparator>
+                <TimelineDot color="success" />
+                <TimelineConnector />
+              </TimelineSeparator>
+              <TimelineContent>Documentation </TimelineContent>
+            </TimelineItem>
+            <TimelineItem>
+              <TimelineOppositeContent>More modules</TimelineOppositeContent>
+              <TimelineSeparator>
+                <TimelineDot color="error" />
+                <TimelineConnector />
+              </TimelineSeparator>
+              <TimelineContent>
+                <Typography variant="caption">Modules such as ... will be added</Typography>
+              </TimelineContent>
+            </TimelineItem>
+            <TimelineItem>
+              <TimelineOppositeContent>
+                <Typography variant="caption">
+                  Conduit is performant as-is. We'll make sure that stays true as the project grows
+                </Typography>
+              </TimelineOppositeContent>
+              <TimelineSeparator>
+                <TimelineDot color="secondary" />
+                <TimelineConnector />
+              </TimelineSeparator>
+              <TimelineContent>Performance</TimelineContent>
+            </TimelineItem>
+          </Timeline>
+        </StyledGridItem>
+      </Grid>
+    </>
+  );
+}
