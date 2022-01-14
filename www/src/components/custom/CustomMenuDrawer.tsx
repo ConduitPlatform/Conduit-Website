@@ -35,21 +35,16 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
           <strong>CONDUIT</strong>
         </Typography>
         <Divider />
-        <Box mt={2} display={'grid'} alignItems={'center'} justifyContent={'center'} gap={3}>
+        <Box mt={3} display={'grid'} alignItems={'center'} justifyContent={'center'} gap={4}>
           <Box margin={'auto'}>
-            <CustomHeaderLink ButtonProps={{ color: 'success' }} NextLinkProps={{ href: '/' }}>
-              Home
-            </CustomHeaderLink>
+            <CustomHeaderLink NextLinkProps={{ href: '/' }}>Home</CustomHeaderLink>
           </Box>
 
           <Box margin={'auto'}>
-            <CustomHeaderLink ButtonProps={{ color: 'success' }} NextLinkProps={{ href: '/docs' }}>
-              Docs
-            </CustomHeaderLink>
+            <CustomHeaderLink NextLinkProps={{ href: '/docs' }}>Docs</CustomHeaderLink>
           </Box>
           <Box margin={'auto'}>
             <CustomHeaderLink
-              ButtonProps={{ color: 'success' }}
               variantActive={'outlined'}
               variantInactive={'contained'}
               NextLinkProps={{ href: '/get-started' }}>

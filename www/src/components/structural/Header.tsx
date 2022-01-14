@@ -60,23 +60,15 @@ const Header: FC = () => {
             justifyContent={'space-between'}
             alignItems={'center'}>
             <Box display="flex" alignItems={'center'} columnGap={4}>
-              <Button disableRipple color={'success'}>
-                <Typography variant={'h6'}>
-                  <strong>CONDUIT LOGO</strong>
-                </Typography>
-              </Button>
+              <Typography variant={'h6'}>
+                <strong>CONDUIT LOGO</strong>
+              </Typography>
 
               <Box sx={styles.lgMenu}>
-                <CustomHeaderLink ButtonProps={{ color: 'success' }} NextLinkProps={{ href: '/' }}>
-                  Home
-                </CustomHeaderLink>
+                <CustomHeaderLink NextLinkProps={{ href: '/' }}>Home</CustomHeaderLink>
               </Box>
               <Box sx={styles.lgMenu}>
-                <CustomHeaderLink
-                  ButtonProps={{ color: 'success' }}
-                  NextLinkProps={{ href: '/docs' }}>
-                  Docs
-                </CustomHeaderLink>
+                <CustomHeaderLink NextLinkProps={{ href: '/docs' }}>Docs</CustomHeaderLink>
               </Box>
             </Box>
 
@@ -96,8 +88,7 @@ const Header: FC = () => {
                 <CustomHeaderLink
                   variantActive={'outlined'}
                   variantInactive={'contained'}
-                  NextLinkProps={{ href: '/get-started' }}
-                  ButtonProps={{ color: 'success' }}>
+                  NextLinkProps={{ href: '/get-started' }}>
                   GET STARTED
                 </CustomHeaderLink>
               </Box>
