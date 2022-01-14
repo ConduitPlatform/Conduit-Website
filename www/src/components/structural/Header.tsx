@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FC, useEffect, useState } from 'react';
-import { AppBar, Grid, Box, Button, IconButton, Typography, useMediaQuery } from '@mui/material';
+import { AppBar, Grid, Box, IconButton, Typography, useMediaQuery } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import CustomMenuDrawer from '../custom/CustomMenuDrawer';
@@ -46,9 +46,9 @@ const Header: FC = () => {
             justifyContent={'space-between'}
             alignItems={'center'}>
             <Box display="flex" alignItems={'center'} columnGap={4}>
-              <Button variant={'outlined'} color={'info'}>
-                CONDUIT LOGO
-              </Button>
+              <Typography variant={'h6'} color={'primary'}>
+                <strong>CONDUIT LOGO</strong>
+              </Typography>
               <Box sx={styles.lgMenu}>
                 <CustomHeaderLink href={'/'}>Home</CustomHeaderLink>
               </Box>
