@@ -34,7 +34,12 @@ const Header: FC = () => {
             <Button href={'/docs'}>Docs</Button>
           </Box>
           <Box display={'flex'} alignItems={'center'} columnGap={4}>
-            <Button color={'info'}>Github stars</Button>
+            <a href="https://github.com/Quintessential-SFT/Conduit-Website">
+              <img
+                alt="GitHub Repo stars"
+                src="https://img.shields.io/github/stars/Quintessential-SFT/Conduit-Website?color=%235B44F2&logoColor=%235B44F2&style=social"
+              />
+            </a>
             <Button variant={'contained'} color={'info'}>
               GET STARTED
             </Button>
