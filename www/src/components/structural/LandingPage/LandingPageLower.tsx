@@ -1,30 +1,12 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
-import { Divider, Grid, IconButton, Paper } from '@mui/material';
-import { AirplaneTicket, ArrowForward } from '@mui/icons-material';
-
-const StyledCard = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(2),
-  minHeight: '140px',
-  borderWidth: '1px',
-  borderRadius: '12px',
-  borderStyle: 'solid',
-  borderColor: theme.palette.secondary.main,
-  flexDirection: 'column',
-  backgroundColor: 'rgba(0, 0, 0, 0.2)',
-}));
-
-const StyledIconContainer = styled('div')(() => ({
-  display: 'flex',
-  alignItems: 'center',
-  flexWrap: 'wrap',
-}));
-
-const StyledIconButton = styled(IconButton)(({ theme }) => ({
-  color: theme.palette.secondary.main,
-}));
+import { Divider, Grid } from '@mui/material';
+import ModuleCard from '../../custom/ModuleCard';
+import DataArrayIcon from '@mui/icons-material/DataArray';
+import MailIcon from '@mui/icons-material/Mail';
+import SaveIcon from '@mui/icons-material/Save';
+import PaymentIcon from '@mui/icons-material/Payment';
 
 export default function LandingPageLower() {
   return (
@@ -36,28 +18,32 @@ export default function LandingPageLower() {
       </Divider>
       <Grid container spacing={10} padding={'30px'}>
         <Grid item md={3} sm={6} xs={12}>
-          <StyledCard variant="outlined">
-            <StyledIconContainer>
-              <AirplaneTicket />
-              <Typography align="center">&nbsp; Example card</Typography>
-            </StyledIconContainer>
-            <Divider />
-            <Typography variant="subtitle2">
-              Lorem, ipsum dolor sit amet consectetur
-              <StyledIconButton size="small">
-                <ArrowForward />
-              </StyledIconButton>
-            </Typography>
-          </StyledCard>
+          <ModuleCard
+            title="CMS"
+            subtitle="A full fledged schema-editor. You can even create your own custom endpoint!"
+            icon={<DataArrayIcon />}
+          />
         </Grid>
         <Grid item md={3} sm={6} xs={12}>
-          <StyledCard variant="outlined" />
+          <ModuleCard
+            title="MAILS"
+            subtitle="Create, send and manage your emails. You can sync them via multiple providers available."
+            icon={<MailIcon />}
+          />
         </Grid>
         <Grid item md={3} sm={6} xs={12}>
-          <StyledCard variant="outlined" />
+          <ModuleCard
+            title="STORAGE"
+            subtitle="Containers and folders make it so much easier to go through your files!"
+            icon={<SaveIcon />}
+          />
         </Grid>
         <Grid item md={3} sm={6} xs={12}>
-          <StyledCard variant="outlined" />
+          <ModuleCard
+            title="PAYMENTS"
+            subtitle="Manage customers, products, subscriptions and transactions, all in one module."
+            icon={<PaymentIcon />}
+          />
         </Grid>
       </Grid>
     </Box>

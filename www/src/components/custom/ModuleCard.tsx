@@ -18,18 +18,18 @@ const ModuleCardComponent = styled(Paper)(({ theme }) => ({
   '&:hover': {
     borderWidth: '3px',
     borderStyle: 'solid',
-    borderColor: theme.palette.secondary.main,
   },
   '&:focus': {
     borderWidth: '3px',
     borderStyle: 'solid',
-    borderColor: theme.palette.secondary.main,
   },
 }));
 
 const StyledIconContainer = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: '4px',
   flexWrap: 'wrap',
 }));
 
@@ -38,7 +38,7 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
 }));
 
 interface ModuleCardProps {
-  icon: ReactComponentElement<any>;
+  icon?: ReactComponentElement<any>;
   title: string;
   subtitle: string;
 }
@@ -48,14 +48,13 @@ const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon }) => {
     <ModuleCardComponent variant="outlined">
       <StyledIconContainer>
         {icon}
-        <Typography align="center">&nbsp; {title}</Typography>
+        <Typography textAlign="center">{title}</Typography>
+        <ArrowForward />
       </StyledIconContainer>
       <Divider />
       <Typography variant="subtitle2">
         {subtitle}
-        <StyledIconButton size="small">
-          <ArrowForward />
-        </StyledIconButton>
+        <StyledIconButton size="small"></StyledIconButton>
       </Typography>
     </ModuleCardComponent>
   );

@@ -8,7 +8,7 @@ import { Button, Divider, Grid } from '@mui/material';
 import workspace from '../../../../public/icons/workspace_PNG.png';
 import Paralos from '../../../../public/icons/White.svg';
 import Quint from '../../../../public/icons/quint-logo.svg';
-import Agora from '../../../../public/icons/agora.svg';
+import Sports from '../../../../public/icons/2sports.svg';
 import Image from 'next/image';
 import { styled } from '@mui/material/styles';
 
@@ -82,7 +82,7 @@ export default function LandingPageUpper() {
 
         <Image src={Quint} alt="Quint-logo" height={'50px'} />
 
-        <Image src={Agora} alt="Quint-logo" height={'50px'} />
+        <Image src={Sports} alt="Quint-logo" height={'50px'} />
       </Grid>
     </Box>
   );
