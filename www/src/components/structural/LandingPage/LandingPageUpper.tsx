@@ -81,7 +81,12 @@ export default function LandingPageUpper() {
       <Grid container justifyContent="space-around" alignItems="center" padding={3}>
         <CloudflareImage src={Quint} alt="Paralos-logo" />
 
-        <CloudflareImage src={'/icons/quint-logo.svg'} alt="Quint-logo" height={'50px'} width={'150px'} />
+        <CloudflareImage
+          src={'/icons/quint-logo.svg'}
+          alt="Quint-logo"
+          height={'50px'}
+          width={'150px'}
+        />
 
         <CloudflareImage src={'/quint-logo.svg'} alt="Quint-logo" height={'50px'} width={'150px'} />
       </Grid>

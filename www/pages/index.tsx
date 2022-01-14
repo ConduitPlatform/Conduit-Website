@@ -5,17 +5,13 @@ import { Container } from '@mui/material';
 import LandingPageUsers from '../src/components/structural/LandingPage/LandingPageUsers';
 import Roadmap from '../src/components/structural/LandingPage/Roadmap';
 
-//previous background
-//background: `linear-gradient(0deg, ${theme.palette.background.default} 27%, ${theme.palette.background.paper} 89%)`
-
 export default function Index() {
   return (
-      <Container maxWidth={'xl'} sx={{ pt: [4, 8, 12] }}>
-        <Landing1 />
-        <LandingPageUsers />
-        <Landing2 />
-        <Roadmap />
-      </Container>
-
+    <Container maxWidth={'xl'} sx={{ pt: [4, 8, 12] }}>
+      <Landing1 />
+      <LandingPageUsers />
+      <Landing2 />
+      <Roadmap />
+    </Container>
   );
 }

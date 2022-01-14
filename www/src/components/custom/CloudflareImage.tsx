@@ -1,3 +1,4 @@
+import React from 'react';
 import Image from 'next/image';
 import { ImageLoader, ImageProps } from 'next/dist/client/image';
 
@@ -15,12 +16,7 @@ const cloudflareLoader: ImageLoader = ({ src, width, quality }) => {
 };
 
 const CloudflareImage = (props: ImageProps) => {
-  return (
-    <Image
-      loader={cloudflareLoader}
-      {...props}
-    />
-  );
+  return <Image loader={cloudflareLoader} {...props} />;
 };
 
 export default CloudflareImage;

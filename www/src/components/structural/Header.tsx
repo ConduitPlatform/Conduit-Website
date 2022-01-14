@@ -80,7 +80,8 @@ const Header: FC = () => {
                 <a href="https://github.com/Quintessential-SFT/Conduit-Website">
                   <img
                     alt="GitHub Repo stars"
-                    src="https://img.shields.io/github/stars/Quintessential-SFT/Conduit-Website?color=%235B44F2&logoColor=%235B44F2&style=social"
+                    src="https://img.shields.io/github/stars/Quintessential-SFT/
+                    Conduit-Website?color=%235B44F2&logoColor=%235B44F2&style=social"
                   />
                 </a>
               </Box>

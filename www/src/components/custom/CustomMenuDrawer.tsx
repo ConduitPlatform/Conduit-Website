@@ -59,7 +59,8 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
               rel="noreferrer">
               <img
                 alt="GitHub Repo stars"
-                src="https://img.shields.io/github/stars/Quintessential-SFT/conduit?color=%235B44F2&logoColor=%235B44F2&style=social"
+                src="https://img.shields.io/github/stars/Quintessential-SFT
+                /conduit?color=%235B44F2&logoColor=%235B44F2&style=social"
               />
             </a>
           </Box>
