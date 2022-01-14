@@ -1,11 +1,10 @@
 import { styled } from '@mui/material/styles';
-import { Box, Divider, Drawer, DrawerProps, IconButton, Typography, useTheme } from '@mui/material';
+import { Box, Divider, Drawer, DrawerProps, Typography, useTheme } from '@mui/material';
 import * as React from 'react';
 import HeaderLinkButton from './HeaderLinkButton';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
 import { FC, useContext } from 'react';
 import { ColorModeContext } from '../../../pages/_app';
+import CustomSwitch from './CustomSwitch';
 
 const CustomDrawer = styled((props: DrawerProps) => (
   <Drawer
@@ -64,9 +63,10 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
             </a>
           </Box>
           <Box margin={'auto'}>
-            <IconButton onClick={colorMode.toggleColorMode} color="inherit">
-              {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-            </IconButton>
+            <CustomSwitch
+              checked={theme.palette.mode === 'dark'}
+              onClick={colorMode.toggleColorMode}
+            />
           </Box>
         </Box>
       </Box>

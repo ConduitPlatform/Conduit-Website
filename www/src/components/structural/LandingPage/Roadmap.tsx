@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Divider, Grid, styled, Typography } from '@mui/material';
+import { Box, Divider, Grid, styled, Typography } from '@mui/material';
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
@@ -28,7 +28,7 @@ const StyledGridItemText = styled(Grid)(() => ({
 
 export default function Roadmap() {
   return (
-    <>
+    <Box mb={16}>
       <Divider sx={{ my: 8 }}>ROADMAP</Divider>
       <Grid container spacing={1}>
         <StyledGridItemText item md={6} sm={12} xs={12}>
@@ -110,6 +110,6 @@ export default function Roadmap() {
           </Timeline>
         </StyledGridItem>
       </Grid>
-    </>
+    </Box>
   );
 }

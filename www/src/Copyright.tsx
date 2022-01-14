@@ -8,7 +8,7 @@ export default function Copyright() {
       {'Copyright © '}
       <MuiLink color="inherit" href="https://www.quintessential.gr/">
         Quintessential SFT
-      </MuiLink>
+      </MuiLink>{' '}
       {new Date().getFullYear()}.
     </Typography>
   );
