@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Card, Grid, Typography } from '@mui/material';
+import { Card, CardProps, Grid, Typography } from '@mui/material';
 import { FC, ReactComponentElement } from 'react';
 import { styled } from '@mui/material/styles';
 
@@ -25,9 +25,14 @@ const styles = {
     },
   },
 };
-const MiniInfoCard: FC<MiniInfoProps> = ({ imageComponent, title, subText }) => {
+const MiniInfoCard: FC<MiniInfoProps & CardProps> = ({
+  imageComponent,
+  title,
+  subText,
+  ...props
+}) => {
   return (
-    <CustomCard elevation={0} variant={'outlined'}>
+    <CustomCard elevation={0} variant={'outlined'} {...props}>
       <Grid my={2} sx={styles.image} container justifyContent={'center'}>
         {imageComponent}
       </Grid>
