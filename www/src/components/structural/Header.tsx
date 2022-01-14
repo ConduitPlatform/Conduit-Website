@@ -50,10 +50,10 @@ const Header: FC = () => {
                 <strong>CONDUIT LOGO</strong>
               </Typography>
               <Box sx={styles.lgMenu}>
-                <CustomHeaderLink href={'/'}>Home</CustomHeaderLink>
+                <CustomHeaderLink NextLinkProps={{ href: '/' }}>Home</CustomHeaderLink>
               </Box>
               <Box sx={styles.lgMenu}>
-                <CustomHeaderLink href={'/docs'}>Docs</CustomHeaderLink>
+                <CustomHeaderLink NextLinkProps={{ href: '/docs' }}>Docs</CustomHeaderLink>
               </Box>
             </Box>
             <Box display="flex" alignItems={'center'} columnGap={4}>
@@ -66,7 +66,12 @@ const Header: FC = () => {
                 </a>
               </Box>
               <Box sx={styles.lgMenu}>
-                <CustomHeaderLink href={'get-started'}>GET STARTED</CustomHeaderLink>
+                <CustomHeaderLink
+                  variantActive={'outlined'}
+                  variantInactive={'contained'}
+                  NextLinkProps={{ href: '/get-started' }}>
+                  GET STARTED
+                </CustomHeaderLink>
               </Box>
             </Box>
             <Box sx={styles.xsMenu}>
@@ -84,13 +89,19 @@ const Header: FC = () => {
             <strong> CONDUIT</strong>
           </Typography>
           <Box margin={'auto'}>
-            <CustomHeaderLink href={'/'}>Home</CustomHeaderLink>
+            <CustomHeaderLink NextLinkProps={{ href: '/' }}>Home</CustomHeaderLink>
+          </Box>
+
+          <Box margin={'auto'}>
+            <CustomHeaderLink NextLinkProps={{ href: '/docs' }}>Docs</CustomHeaderLink>
           </Box>
           <Box margin={'auto'}>
-            <CustomHeaderLink href={'/get-started'}>GET STARTED</CustomHeaderLink>
-          </Box>
-          <Box margin={'auto'}>
-            <CustomHeaderLink href={'/docs'}>Docs</CustomHeaderLink>
+            <CustomHeaderLink
+              variantActive={'outlined'}
+              variantInactive={'contained'}
+              NextLinkProps={{ href: '/get-started' }}>
+              GET STARTED
+            </CustomHeaderLink>
           </Box>
 
           <Box margin={'auto'}>
