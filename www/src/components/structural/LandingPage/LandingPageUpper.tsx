@@ -5,13 +5,13 @@ import TypewriterComponent from 'typewriter-effect';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { duotoneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Button, Divider, Grid } from '@mui/material';
-import workspace from '../../../../public/icons/workspace_PNG.png';
+// import workspace from '../../../../public/icons/workspace_PNG.png';
 import Paralos from '../../../../public/icons/White.svg';
 import Quint from '../../../../public/icons/quint-logo.svg';
 import Agora from '../../../../public/icons/agora.svg';
 // import Image from 'next/image';
 import { styled } from '@mui/material/styles';
-import CloudflareImage from '../../custom/CloudflareImage';
+// import CloudflareImage from '../../custom/CloudflareImage';
 
 const styles = {
   basicText: {
@@ -79,16 +79,9 @@ export default function LandingPageUpper() {
       </Divider>
 
       <Grid container justifyContent="space-around" alignItems="center" padding={3}>
-        <CloudflareImage src={Quint} alt="Paralos-logo" />
-
-        <CloudflareImage
-          src={'/icons/quint-logo.svg'}
-          alt="Quint-logo"
-          height={'50px'}
-          width={'150px'}
-        />
-
-        <CloudflareImage src={'/quint-logo.svg'} alt="Quint-logo" height={'50px'} width={'150px'} />
+        <Quint />
+        <Paralos />
+        <Agora />
       </Grid>
     </Box>
   );
