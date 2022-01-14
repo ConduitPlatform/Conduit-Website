@@ -31,11 +31,11 @@ const paletteDark: PaletteOptions = {
 const paletteLight: PaletteOptions = {
   primary: {
     main: primary,
-    contrastText: '#F2F2F2',
+    contrastText: '#000',
   },
   secondary: {
     main: secondary,
-    contrastText: '#000',
+    contrastText: '#F2F2F2',
   },
   error: {
     main: error,
@@ -45,8 +45,8 @@ const paletteLight: PaletteOptions = {
     main: warning,
   },
   background: {
-    paper: '#1F2034',
-    default: '#262840',
+    paper: '#F2F2F2',
+    default: '#F2F2F2',
   },
 };
 

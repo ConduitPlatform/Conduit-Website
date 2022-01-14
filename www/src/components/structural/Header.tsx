@@ -38,12 +38,9 @@ const Header: FC = () => {
             <Button href={'/docs'}>Docs</Button>
           </Box>
           <Box display={'flex'} alignItems={'center'} columnGap={4}>
-            <Box display={'flex'}>
-              {theme.palette.mode} mode
-              <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
-                {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-              </IconButton>
-            </Box>
+            <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+              {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
             <Button color={'info'}>Github stars</Button>
             <Button variant={'contained'} color={'info'}>
               GET STARTED

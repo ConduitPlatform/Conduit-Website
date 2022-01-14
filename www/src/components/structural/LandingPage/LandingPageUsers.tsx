@@ -20,21 +20,25 @@ export default function LandingPageUsers() {
         imageComponent={<ArchitectureIcon />}
         title={'Comfortable design'}
         subText={
-          'Design easy enough to be used and understood by all kinds of developers. Design easy enough to be used and understood by all kinds of developers.'
+          'Design easy enough to be used and understood by all kinds of developers.' +
+          ' Design easy enough to be used and understood by all kinds of developers.'
         }
       />
       <MiniInfoCard
         imageComponent={<StorageIcon />}
         title={'for developers'}
         subText={
-          'For developers that look for easy and fast api. Build your own api, create your own endpoints, use authentication as fast as posible, with a click of a button'
+          'For developers that look for easy and fast api.' +
+          ' Build your own api, create your own endpoints, use authentication as fast as posible,' +
+          ' with a click of a button'
         }
       />
       <MiniInfoCard
         imageComponent={<PlagiarismIcon />}
         title={'Documentation'}
         subText={
-          'Well written documentation on how to use every single functionality of the CMS. Well written documentation on how to use every single functionality of the CMS.'
+          'Well written documentation on how to use every single functionality of the CMS.' +
+          ' Well written documentation on how to use every single functionality of the CMS.'
         }
       />
     </Box>
