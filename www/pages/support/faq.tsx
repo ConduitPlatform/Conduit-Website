@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Typography, Container } from '@mui/material';
-import CustomizedAccordions from '../../src/components/custom/Accordion';
+import CustomizedAccordions from '../../src/components/custom/CustomAccordion';
 
 const dummyAccordionData = [
   { title: 'Question 1', content: 'Answer 1' },
