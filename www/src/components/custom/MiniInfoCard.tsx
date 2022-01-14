@@ -4,8 +4,8 @@ import { FC, ReactComponentElement } from 'react';
 import { styled } from '@mui/material/styles';
 
 interface MiniInfoProps {
-  imageComponent: ReactComponentElement<any>;
-  title: string;
+  imageComponent?: ReactComponentElement<any>;
+  title?: string;
   subText: string;
 }
 
@@ -33,9 +33,11 @@ const MiniInfoCard: FC<MiniInfoProps & CardProps> = ({
 }) => {
   return (
     <CustomCard elevation={0} variant={'outlined'} {...props}>
-      <Grid my={2} sx={styles.image} container justifyContent={'center'}>
-        {imageComponent}
-      </Grid>
+      {imageComponent && (
+        <Grid my={2} sx={styles.image} container justifyContent={'center'}>
+          {imageComponent}
+        </Grid>
+      )}
       <Typography align={'center'} variant={'h6'} gutterBottom>
         <strong>{title}</strong>
       </Typography>

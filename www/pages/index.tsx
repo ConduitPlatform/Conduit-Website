@@ -1,9 +1,10 @@
 import * as React from 'react';
 import Landing1 from '../src/components/structural/LandingPage/LandingPageUpper';
 import Landing2 from '../src/components/structural/LandingPage/LandingPageLower';
-import { Box, Container, Divider, Typography } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import LandingPageUsers from '../src/components/structural/LandingPage/LandingPageUsers';
 import theme from '../src/theme';
+import Roadmap from '../src/components/structural/LandingPage/Roadmap';
 
 export default function Index() {
   return (
@@ -13,11 +14,9 @@ export default function Index() {
       }}>
       <Container maxWidth={'xl'} sx={{ pt: [4, 8, 12] }}>
         <Landing1 />
-        <Divider sx={{ my: 8 }}>
-          <Typography>To whom we are addressing</Typography>
-        </Divider>
         <LandingPageUsers />
         <Landing2 />
+        <Roadmap />
       </Container>
     </Box>
   );
