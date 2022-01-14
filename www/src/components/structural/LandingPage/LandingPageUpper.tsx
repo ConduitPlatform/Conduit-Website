@@ -9,7 +9,7 @@ import workspace from '../../../../public/icons/workspace_PNG.png';
 import Paralos from '../../../../public/icons/White.svg';
 import Quint from '../../../../public/icons/quint-logo.svg';
 import Agora from '../../../../public/icons/agora.svg';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { styled } from '@mui/material/styles';
 import CloudflareImage from '../../custom/CloudflareImage';
 
@@ -71,7 +71,7 @@ export default function LandingPageUpper() {
           </StyledBox>
         </Grid>
         <Grid item md={6} sm={12}>
-          <Image src={workspace} alt="workspace" />
+          {/*<Image src={workspace} alt="workspace" />*/}
         </Grid>
       </Grid>
       <Divider>
