@@ -1,12 +1,23 @@
 import * as React from 'react';
-import { FC, useEffect, useState } from 'react';
-import { AppBar, Grid, Box, IconButton, Typography, useMediaQuery } from '@mui/material';
+import { FC, useContext, useEffect, useState } from 'react';
+import {
+  AppBar,
+  Grid,
+  Box,
+  IconButton,
+  Typography,
+  useMediaQuery,
+  Theme,
+  useTheme,
+  Button,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import CustomMenuDrawer from '../custom/CustomMenuDrawer';
-import theme from '../../theme';
 import CustomHeaderLink from '../custom/CustomHeaderLink';
-
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { ColorModeContext } from '../../../pages/_app';
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
   padding: theme.spacing(3, 4),
 }));
@@ -28,7 +39,10 @@ const styles = {
 
 const Header: FC = () => {
   const [drawer, setDrawer] = useState(false);
-  const matches = useMediaQuery(theme.breakpoints.up('md'));
+  const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
+
+  const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
 
   useEffect(() => {
     if (matches) {
@@ -46,17 +60,30 @@ const Header: FC = () => {
             justifyContent={'space-between'}
             alignItems={'center'}>
             <Box display="flex" alignItems={'center'} columnGap={4}>
-              <Typography variant={'h6'} color={'primary'}>
-                <strong>CONDUIT LOGO</strong>
-              </Typography>
+              <Button disableRipple color={'success'}>
+                <Typography variant={'h6'}>
+                  <strong>CONDUIT LOGO</strong>
+                </Typography>
+              </Button>
+
               <Box sx={styles.lgMenu}>
-                <CustomHeaderLink NextLinkProps={{ href: '/' }}>Home</CustomHeaderLink>
+                <CustomHeaderLink ButtonProps={{ color: 'success' }} NextLinkProps={{ href: '/' }}>
+                  Home
+                </CustomHeaderLink>
               </Box>
               <Box sx={styles.lgMenu}>
-                <CustomHeaderLink NextLinkProps={{ href: '/docs' }}>Docs</CustomHeaderLink>
+                <CustomHeaderLink
+                  ButtonProps={{ color: 'success' }}
+                  NextLinkProps={{ href: '/docs' }}>
+                  Docs
+                </CustomHeaderLink>
               </Box>
             </Box>
+
             <Box display="flex" alignItems={'center'} columnGap={4}>
+              <IconButton sx={styles.lgMenu} onClick={colorMode.toggleColorMode} color="inherit">
+                {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+              </IconButton>
               <Box sx={styles.lgMenu}>
                 <a href="https://github.com/Quintessential-SFT/Conduit-Website">
                   <img
@@ -69,7 +96,8 @@ const Header: FC = () => {
                 <CustomHeaderLink
                   variantActive={'outlined'}
                   variantInactive={'contained'}
-                  NextLinkProps={{ href: '/get-started' }}>
+                  NextLinkProps={{ href: '/get-started' }}
+                  ButtonProps={{ color: 'success' }}>
                   GET STARTED
                 </CustomHeaderLink>
               </Box>
@@ -82,41 +110,7 @@ const Header: FC = () => {
           </Grid>
         </Box>
       </CustomAppBar>
-
-      <CustomMenuDrawer open={drawer} onClose={() => setDrawer(false)}>
-        <Box display={'grid'} alignItems={'center'} justifyContent={'center'} gap={3} padding={4}>
-          <Typography align={'center'} color={'secondary'} variant={'h6'}>
-            <strong> CONDUIT</strong>
-          </Typography>
-          <Box margin={'auto'}>
-            <CustomHeaderLink NextLinkProps={{ href: '/' }}>Home</CustomHeaderLink>
-          </Box>
-
-          <Box margin={'auto'}>
-            <CustomHeaderLink NextLinkProps={{ href: '/docs' }}>Docs</CustomHeaderLink>
-          </Box>
-          <Box margin={'auto'}>
-            <CustomHeaderLink
-              variantActive={'outlined'}
-              variantInactive={'contained'}
-              NextLinkProps={{ href: '/get-started' }}>
-              GET STARTED
-            </CustomHeaderLink>
-          </Box>
-
-          <Box margin={'auto'}>
-            <a
-              href="https://github.com/Quintessential-SFT/conduit"
-              target={'_blank'}
-              rel="noreferrer">
-              <img
-                alt="GitHub Repo stars"
-                src="https://img.shields.io/github/stars/Quintessential-SFT/conduit?color=%235B44F2&logoColor=%235B44F2&style=social"
-              />
-            </a>
-          </Box>
-        </Box>
-      </CustomMenuDrawer>
+      <CustomMenuDrawer open={drawer} onClose={() => setDrawer(false)} />
     </>
   );
 };

@@ -1,5 +1,5 @@
 import NextLink from '../../Link';
-import { Button } from '@mui/material';
+import { Button, ButtonProps } from '@mui/material';
 import * as React from 'react';
 import { useRouter } from 'next/router';
 import { FC, useMemo } from 'react';
@@ -9,6 +9,7 @@ type variantTypes = 'text' | 'outlined' | 'contained' | undefined;
 
 type ExtraLinkProps = {
   NextLinkProps: LinkProps;
+  ButtonProps?: ButtonProps;
   variantActive?: variantTypes;
   variantInactive?: variantTypes;
 };
@@ -24,7 +25,9 @@ const CustomHeaderLink: FC<ExtraLinkProps> = ({ children, ...props }) => {
   );
   return (
     <NextLink prefetch underline={'none'} {...props.NextLinkProps}>
-      <Button variant={pathname === props.NextLinkProps.href ? variants.active : variants.inActive}>
+      <Button
+        variant={pathname === props.NextLinkProps.href ? variants.active : variants.inActive}
+        {...props.ButtonProps}>
         {children}
       </Button>
     </NextLink>
