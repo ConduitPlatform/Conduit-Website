@@ -13,10 +13,11 @@ import {
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import CustomMenuDrawer from '../custom/CustomMenuDrawer';
-import CustomHeaderLink from '../custom/CustomHeaderLink';
+import HeaderLinkButton from '../custom/HeaderLinkButton';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { ColorModeContext } from '../../../pages/_app';
+
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
   padding: theme.spacing(3, 4),
 }));
@@ -64,10 +65,10 @@ const Header: FC = () => {
               </Typography>
 
               <Box sx={styles.lgMenu}>
-                <CustomHeaderLink NextLinkProps={{ href: '/' }}>Home</CustomHeaderLink>
+                <HeaderLinkButton ButtonProps={{ href: '/' }}>Home</HeaderLinkButton>
               </Box>
               <Box sx={styles.lgMenu}>
-                <CustomHeaderLink NextLinkProps={{ href: '/docs' }}>Docs</CustomHeaderLink>
+                <HeaderLinkButton ButtonProps={{ href: '/docs' }}>Docs</HeaderLinkButton>
               </Box>
             </Box>
 
@@ -84,12 +85,12 @@ const Header: FC = () => {
                 </a>
               </Box>
               <Box sx={styles.lgMenu}>
-                <CustomHeaderLink
+                <HeaderLinkButton
                   variantActive={'outlined'}
                   variantInactive={'contained'}
-                  NextLinkProps={{ href: '/get-started' }}>
+                  ButtonProps={{ href: '/get-started' }}>
                   GET STARTED
-                </CustomHeaderLink>
+                </HeaderLinkButton>
               </Box>
             </Box>
             <Box sx={styles.xsMenu}>

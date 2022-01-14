@@ -31,7 +31,7 @@ export default function LandingPageLower() {
     <Box sx={{ my: 22 }}>
       <Divider>
         <Typography variant="button" component="h1">
-          Stop making the same stuff twice{' '}
+          Stop making the same stuff twice
         </Typography>
       </Divider>
       <Grid container spacing={10} padding={'30px'}>
@@ -51,13 +51,13 @@ export default function LandingPageLower() {
           </StyledCard>
         </Grid>
         <Grid item md={3} sm={6} xs={12}>
-          <StyledCard variant="outlined"/>
+          <StyledCard variant="outlined" />
         </Grid>
         <Grid item md={3} sm={6} xs={12}>
-          <StyledCard variant="outlined"/>
+          <StyledCard variant="outlined" />
         </Grid>
         <Grid item md={3} sm={6} xs={12}>
-          <StyledCard variant="outlined"/>
+          <StyledCard variant="outlined" />
         </Grid>
       </Grid>
     </Box>

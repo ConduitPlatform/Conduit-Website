@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
 import { Box, Divider, Drawer, DrawerProps, IconButton, Typography, useTheme } from '@mui/material';
 import * as React from 'react';
-import CustomHeaderLink from './CustomHeaderLink';
+import HeaderLinkButton from './HeaderLinkButton';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import { FC, useContext } from 'react';
@@ -37,19 +37,19 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
         <Divider />
         <Box mt={3} display={'grid'} alignItems={'center'} justifyContent={'center'} gap={4}>
           <Box margin={'auto'}>
-            <CustomHeaderLink NextLinkProps={{ href: '/' }}>Home</CustomHeaderLink>
+            <HeaderLinkButton ButtonProps={{ href: '/' }}>Home</HeaderLinkButton>
           </Box>
 
           <Box margin={'auto'}>
-            <CustomHeaderLink NextLinkProps={{ href: '/docs' }}>Docs</CustomHeaderLink>
+            <HeaderLinkButton ButtonProps={{ href: '/docs' }}>Docs</HeaderLinkButton>
           </Box>
           <Box margin={'auto'}>
-            <CustomHeaderLink
+            <HeaderLinkButton
               variantActive={'outlined'}
               variantInactive={'contained'}
-              NextLinkProps={{ href: '/get-started' }}>
+              ButtonProps={{ href: '/get-started' }}>
               GET STARTED
-            </CustomHeaderLink>
+            </HeaderLinkButton>
           </Box>
 
           <Box margin={'auto'}>
