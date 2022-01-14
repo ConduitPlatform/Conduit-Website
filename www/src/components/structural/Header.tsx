@@ -9,7 +9,6 @@ import {
   useMediaQuery,
   Theme,
   useTheme,
-  Button,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -41,7 +40,7 @@ const Header: FC = () => {
   const [drawer, setDrawer] = useState(false);
   const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 
-  const theme = useTheme();
+  const muiTheme = useTheme();
   const colorMode = useContext(ColorModeContext);
 
   useEffect(() => {
@@ -74,7 +73,7 @@ const Header: FC = () => {
 
             <Box display="flex" alignItems={'center'} columnGap={4}>
               <IconButton sx={styles.lgMenu} onClick={colorMode.toggleColorMode} color="inherit">
-                {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                {muiTheme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
               </IconButton>
               <Box sx={styles.lgMenu}>
                 <a href="https://github.com/Quintessential-SFT/Conduit-Website">
