@@ -7,16 +7,21 @@ import ArchitectureIcon from '@mui/icons-material/Architecture';
 
 const styles = {
   sectionLayout: {
-    display: 'grid',
+    display: 'flex',
+    flexWrap: 'wrap',
     gap: 4,
-    gridTemplateColumns: ['1fr', 'repeat(2,1fr)', 'repeat(3,1fr)'],
+    '.fullGrow': {
+      flexGrow: 1,
+      width: 250,
+    },
   },
-};
+} as const;
 
 export default function LandingPageUsers() {
   return (
     <Box sx={styles.sectionLayout}>
       <MiniInfoCard
+        className={'fullGrow'}
         imageComponent={<ArchitectureIcon />}
         title={'Comfortable design'}
         subText={
@@ -24,6 +29,7 @@ export default function LandingPageUsers() {
         }
       />
       <MiniInfoCard
+        className={'fullGrow'}
         imageComponent={<StorageIcon />}
         title={'for developers'}
         subText={
@@ -31,6 +37,7 @@ export default function LandingPageUsers() {
         }
       />
       <MiniInfoCard
+        className={'fullGrow'}
         imageComponent={<PlagiarismIcon />}
         title={'Documentation'}
         subText={
