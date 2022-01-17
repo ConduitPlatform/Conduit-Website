@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container, Typography } from '@mui/material';
 
 export const getStaticPaths = async () => {
   const res = await fetch('https://jsonplaceholder.typicode.com/posts');
@@ -29,11 +30,13 @@ export const getStaticProps = async (context) => {
 
 const Details = ({ post }) => {
   return (
-    <div>
-      <h1>{post.title}</h1>
-      <p>{post.body}</p>
-      <p>{post.userId}</p>
-    </div>
+    <Container>
+      <Typography variant="h5">
+        <strong>{post.title}</strong>
+      </Typography>
+      <Typography>{post.body}</Typography>
+      <Typography>{post.userId}</Typography>
+    </Container>
   );
 };
 
