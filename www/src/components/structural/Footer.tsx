@@ -6,6 +6,7 @@ import Image from 'next/image';
 import quintLogo from '../../../public/icons/quint-logo.svg';
 import { ColorModeContext } from '../../../pages/_app';
 import CustomSwitch from '../custom/CustomSwitch';
+import HeaderLinkButton from '../custom/HeaderLinkButton';
 
 const Footer: FC = () => {
   const muiTheme = useTheme();
@@ -13,17 +14,18 @@ const Footer: FC = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log('submit');
   };
 
   return (
-    <Box paddingY={2} paddingX={4}>
+    <Box paddingY={4} paddingX={4}>
       <Box
         margin={'auto'}
         maxWidth={'xl'}
         display={'flex'}
         justifyContent={'space-around'}
-        alignItems={'center'}>
+        alignItems={'center'}
+        flexWrap={'wrap'}
+        rowGap={4}>
         <Box>
           <Image objectFit={'contain'} src={quintLogo} alt={'quintessential-sft'} />
           <Box my={1}>
@@ -54,10 +56,12 @@ const Footer: FC = () => {
               onClick={colorMode.toggleColorMode}
             />
           </Box>
-          <Box display={'flex'} gap={3}>
-            <Button variant={'outlined'}>Home</Button>
-            <Button variant={'outlined'}>DOCS</Button>
-            <Button variant={'outlined'}>GET STARTED</Button>
+          <Box display={'flex'} flexWrap={'wrap'} gap={2}>
+            <HeaderLinkButton ButtonProps={{ size: 'small', href: '/' }}>Home</HeaderLinkButton>
+            <HeaderLinkButton ButtonProps={{ size: 'small', href: '/docs' }}>DOCS</HeaderLinkButton>
+            <HeaderLinkButton ButtonProps={{ size: 'small', href: '/get-started' }}>
+              GET STARTED
+            </HeaderLinkButton>
           </Box>
         </Box>
       </Box>
