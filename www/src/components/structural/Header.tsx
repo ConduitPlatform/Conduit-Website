@@ -58,7 +58,7 @@ const Header: FC = () => {
             </Box>
 
             <Box display="flex" alignItems={'center'} columnGap={4}>
-              <Box sx={styles.lgMenu}>
+              <Box sx={styles.lgMenu} mt={1}>
                 <a href="https://github.com/Quintessential-SFT/Conduit-Website">
                   <img
                     alt="GitHub Repo stars"
