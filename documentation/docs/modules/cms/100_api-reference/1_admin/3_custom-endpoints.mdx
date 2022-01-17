@@ -1,0 +1,145 @@
+---
+sidebar_label: Custom Endpoints
+sidebar_position: 3
+---
+
+# Custom Endpoint Admin Routes
+
+## Get Custom Endpoints
+
+|   Route                    | Method |
+| :------------------------: | :----: |
+| /admin/cms/customEndpoints |  GET   |
+
+Get a custom endpoint.
+
+### Query parameters
+
+|     Name    |  Type   | Required | Description |
+| :---------: | :-----: | :------: | :---------: |
+| search      | String  |  False   |             |
+| operation   | String  |  False   |             |
+
+### Returns
+
+- customEndpoints (JSON[])
+- count (integer)
+
+-------------------------------------------------
+
+## Create Custom Endpoint
+
+|   Route                    | Method |
+| :------------------------: | :----: |
+| /admin/cms/customEndpoints |  POST  |
+
+Create a custom endpoint.
+
+### Body parameters
+
+|     Name           |  Type   | Required | Description |
+| :----------------: | :-----: | :------: | :---------: |
+| name               | String  |  True    |             |
+| operation          | Integer |  True    |             |
+| selectedSchema     | String  |  False   |             |
+| selectedSchemaName | String  |  False   |             |
+| query              | JSON |  |  False   |             |
+| inputs             | JSON[]  |  True    |             |
+| assignments        | JSON[]  |  True    |             |
+| authentication     | Boolean |  False   |             |
+| sorted             | Boolean |  False   |             |
+| paginated          | Boolean |  False   |             |
+
+### Returns
+
+The custom endpoint in JSON format.
+
+### Example {#create-custom-endpoint-example}
+
+[Create](../../1_get-started.mdx/#schemas-example) and [populate](../../1_get-started.mdx/#documents-example)
+a schema named `citizens`, then send a **POST** request, including the necessary [authorization headers for an admin request] (TODO).
+
+```json title="POST on /admin/cms/customEndpoints"
+{
+  "name": "AdultSam",
+  "operation": 0,
+  "selectedSchema": "61e7debc5dadc501b101d166",
+  "authentication": false,
+  "paginated": false,
+  "sorted": false,
+  "query": {
+    "AND": [
+      {
+        "schemaField": "age",
+        "operation": 3,
+        "comparisonField": {
+          "type": "Custom",
+          "value": 18
+        }
+      },
+      {
+        "schemaField": "firstName",
+        "operation":0,
+        "comparisonField": {
+          "type": "Custom",
+          "value": "Sam"
+        }
+      }
+    ]
+  },
+  "assignments":[]
+}
+```
+
+This custom endpoint returns any citizens with a first name of "Sam", who are at least 18 years old.
+It can be accessed through a GET request on *"/cms/function/AdultSam"*.
+
+-------------------------------------------------
+
+## Patch Custom Endpoint
+
+|   Route                        | Method  |
+| :----------------------------: | :-----: |
+| /admin/cms/customEndpoints/:id |  PATCH  |
+
+Update a custom endpoint by id, modifying only the fields being provided.
+
+### Url parameters
+
+- id (string)
+
+### Body parameters
+
+|     Name           |  Type   | Required | Description |
+| :----------------: | :-----: | :------: | :---------: |
+| selectedSchema     | String  |  False   |             |
+| selectedSchemaName | String  |  False   |             |
+| query              | JSON |  |  False   |             |
+| inputs             | JSON[]  |  True    |             |
+| assignments        | JSON[]  |  True    |             |
+| authentication     | Boolean |  False   |             |
+| sorted             | Boolean |  False   |             |
+| paginated          | Boolean |  False   |             |
+
+
+### Returns
+
+The document in JSON format.
+
+-------------------------------------------------
+
+## Delete Custom Endpoint
+
+|   Route                                 |  Method  |
+| :-------------------------------------: | :------: |
+| /admin/cms/schemas/:schemaName/docs/:id |  DELETE  |
+
+Delete a custom endpoint by id.
+
+### Url parameters
+
+- id (string)
+
+### Returns
+
+'Custom Endpoint deleted'

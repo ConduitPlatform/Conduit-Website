@@ -1,0 +1,231 @@
+---
+sidebar_label: Schema Documents
+sidebar_position: 1
+---
+
+# Schema Document User Routes
+
+## Get Document
+
+|   Route              | Method |
+| :------------------: | :----: |
+| /cms/:schemaName/:id |  GET   |
+
+Get a CMS schema document by id.
+
+### Url parameters
+
+- schemaName (string)
+- id (string)
+
+### Returns
+
+The document in JSON format.
+
+```json title="Example Response"
+{
+  "result": {
+      "_id": "61e7debc5dadc501b101d166",
+      "firstName": "Nick",
+      "lastName": "Brown",
+      "ssn": "AAA-14-6823",
+      "age": 32,
+      "gender": "M",
+      "createdAt": "2022-01-19T09:49:48.558Z",
+      "updatedAt": "2022-01-19T09:49:48.558Z",
+      "__v": 0
+    }
+}
+```
+
+-------------------------------------------------
+
+## Get Documents
+
+|   Route          | Method |
+| :--------------: | :----: |
+| /cms/:schemaName |  GET   |
+
+Get CMS schemas documents.
+
+### Url parameters
+
+- schemaName (string)
+
+### Query parameters
+
+|     Name    |  Type    | Required | Description |
+| :---------: | :------: | :------: | :---------: |
+| skip        | Integer  |  False   |             |
+| limit       | Integer  |  False   |             |
+| sort        | String[] |  False   |             |
+
+### Returns
+
+- documents (JSON[])
+- count (integer)
+
+-------------------------------------------------
+
+## Create Document
+
+|   Route          | Method |
+| :--------------: | :----: |
+| /cms/:schemaName |  POST  |
+
+Create a CMS schema document.
+
+### Url parameters
+
+- schemaName (string)
+
+### Body parameters
+
+Accepts any fields available in the CMS schema.
+Required schema fields are required.
+
+### Returns
+
+The document in JSON format.
+
+-------------------------------------------------
+
+## Create Documents
+
+|   Rout e              | Method |
+| :-------------------: | :----: |
+| /cms/:schemaName/many |  POST  |
+
+Create multiple CMS schema documents.
+
+### Url parameters
+
+- schemaName (string)
+
+### Body parameters
+
+| Name  |  Type   | Required | Description |
+| :---: | :-----: | :------: | :---------: |
+| docs  | JSON[]  |  True    | Required schema fields are required. |
+
+### Returns
+
+- docs (JSON[])
+
+-------------------------------------------------
+
+## Update Document (PUT)
+
+|   Route              | Method |
+| :------------------: | :----: |
+| /cms/:schemaName/:id |  PUT   |
+
+Update a CMS schema document by id.
+The document is completely replaced and any missing optional fields are nulled.
+
+### Url parameters
+
+- schemaName (string)
+- id (string)
+
+### Body parameters
+
+Accepts any fields available in the CMS schema.
+Required schema fields are required.
+
+### Returns
+
+The document in JSON format.
+
+-------------------------------------------------
+
+## Update Documents (PUT)
+
+|   Route               | Method |
+| :-------------------: | :----: |
+| /cms/:schemaName/many |  PUT   |
+
+Update multiple CMS schema documents.
+The documents are completely replaced and any missing optional fields are nulled.
+
+### Url parameters
+
+- schemaName (string)
+
+### Body parameters
+
+| Name |  Type   | Required | Description |
+| :--: | :-----: | :------: | :---------: |
+| docs | JSON[]  |  True    | Required schema fields are required. |
+
+
+### Returns
+
+- docs (JSON[])
+
+-------------------------------------------------
+
+## Update Document (PATCH)
+
+|   Rout e             | Method |
+| :------------------: | :----: |
+| /cms/:schemaName/:id | PATCH  |
+
+Update a CMS schema document by id, modifying only the fields being provided.
+
+### Url parameters
+
+- schemaName (string)
+- id (string)
+
+### Body parameters
+
+Accepts any fields available in the CMS schema.
+Everything is optional.
+
+### Returns
+
+The document in JSON format.
+
+-------------------------------------------------
+
+## Update Documents (PATCH)
+
+|   Route               | Method |
+| :-------------------: | :----: |
+| /cms/:schemaName/many |  GET   |
+
+Update multiple CMS schema documents, modifying only the fields being provided.
+
+### Url parameters
+
+- schemaName (string)
+
+### Body parameters
+
+| Name |  Type   | Required | Description |
+| :--: | :-----: | :------: | :---------: |
+| docs | JSON[]  |  True    | Everything is optional |
+
+### Returns
+
+- docs (JSON[])
+
+-------------------------------------------------
+
+## Delete Document
+
+|   Route              | Method |
+| :------------------: | :----: |
+| /cms/:schemaName/:id | DELETE |
+
+Delete a CMS schema document by id.
+
+### Url parameters
+
+- schemaName (string)
+- id (string)
+
+### Returns
+
+'Ok'
