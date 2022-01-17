@@ -6,7 +6,7 @@ export default function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
-      <MuiLink color="inherit" href="https://www.quintessential.gr/">
+      <MuiLink color="inherit" href="https://www.quintessential.gr/" target={'_blank'}>
         Quintessential SFT
       </MuiLink>{' '}
       {new Date().getFullYear()}.

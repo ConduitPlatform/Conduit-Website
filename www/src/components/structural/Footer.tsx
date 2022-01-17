@@ -17,7 +17,7 @@ const Footer: FC = () => {
   };
 
   return (
-    <Box paddingY={4} paddingX={4}>
+    <Box paddingY={3} paddingX={4}>
       <Box
         margin={'auto'}
         maxWidth={'xl'}
@@ -66,7 +66,7 @@ const Footer: FC = () => {
         </Box>
       </Box>
 
-      <Box mt={4} mb={2}>
+      <Box mt={4}>
         <Copyright />
       </Box>
     </Box>
