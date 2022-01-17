@@ -9,19 +9,12 @@ import { ArrowForward } from '@mui/icons-material';
 const ModuleCardComponent = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   minHeight: '140px',
-  borderWidth: '1px',
   borderRadius: '12px',
-  borderStyle: 'solid',
   borderColor: theme.palette.secondary.main,
   flexDirection: 'column',
   backgroundColor: 'rgba(0, 0, 0, 0.2)',
   '&:hover': {
-    borderWidth: '3px',
-    borderStyle: 'solid',
-  },
-  '&:focus': {
-    borderWidth: '3px',
-    borderStyle: 'solid',
+    boxShadow: `0 0 0 1px ${theme.palette.secondary.main}, 3px 3px 12px 2px rgba(0,0,0, 0.3)`,
   },
 }));
 
