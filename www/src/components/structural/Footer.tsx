@@ -17,7 +17,12 @@ const Footer: FC = () => {
   };
 
   return (
-    <Box paddingY={3} paddingX={4}>
+    <Box
+      sx={{
+        background: (theme) => `${theme.palette.background.paper}`,
+      }}
+      paddingY={3}
+      paddingX={4}>
       <Box
         margin={'auto'}
         maxWidth={'xl'}
