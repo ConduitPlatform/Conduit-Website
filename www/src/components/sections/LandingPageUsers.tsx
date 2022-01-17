@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Divider, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import MiniInfoCard from '../custom/MiniInfoCard';
 import StorageIcon from '@mui/icons-material/Storage';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
@@ -20,10 +20,7 @@ const styles = {
 export default function LandingPageUsers() {
   return (
     <>
-      <Divider sx={{ my: 8 }}>
-        <Typography>To whom we are addressing</Typography>
-      </Divider>
-      <Box sx={styles.sectionLayout}>
+      <Box mt={[8, 12, 16]} sx={styles.sectionLayout}>
         <MiniInfoCard
           className={'fullGrow'}
           imageComponent={<ArchitectureIcon />}

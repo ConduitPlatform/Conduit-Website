@@ -6,7 +6,6 @@ import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { duotoneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Button, Grid } from '@mui/material';
 import Illustration from '../../../public/icons/Illustration';
-import Image from 'next/image';
 import { styled } from '@mui/material/styles';
 
 const styles = {
@@ -55,7 +54,7 @@ export default function IntroSection() {
             {`Build a beautiful, modern website with flexible, fully customizable,
              atomic Material-UI components. An experience you'd expect from a design system.`}
           </Typography>
-          <StyledBox sx={{ my: 22 }}>
+          <StyledBox my={8}>
             <Button size="large" variant="outlined" color="secondary">
               GET STARTED
             </Button>
@@ -66,7 +65,7 @@ export default function IntroSection() {
             </Box>
           </StyledBox>
         </Grid>
-        <Grid item md={6} sm={12}>
+        <Grid item md={6} sm={12} xs={12}>
           <Illustration />
           {/* <Image src={workspace} alt="workspace" /> */}
         </Grid>

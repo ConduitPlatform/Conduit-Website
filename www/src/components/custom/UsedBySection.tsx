@@ -9,7 +9,7 @@ import Image from 'next/image';
 
 export default function UsedBySection() {
   return (
-    <Box>
+    <Box mt={[8, 12]}>
       <Divider>
         <Typography>USED BY</Typography>
       </Divider>

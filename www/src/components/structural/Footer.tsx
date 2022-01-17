@@ -91,8 +91,10 @@ const Footer: FC = () => {
         margin={'auto'}
         maxWidth={'xl'}
         display={'flex'}
-        justifyContent={'space-between'}
-        alignItems={'center'}>
+        justifyContent={'space-around'}
+        alignItems={'center'}
+        flexWrap={'wrap'}
+        rowGap={3}>
         <Copyright />
         <QuintContactLinks />
       </Box>
