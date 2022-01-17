@@ -12,7 +12,7 @@ const Footer: FC = () => {
   const muiTheme = useTheme();
   const colorMode = useContext(ColorModeContext);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
   };
 
