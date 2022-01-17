@@ -1,12 +1,21 @@
 import * as React from 'react';
 import { FC, useContext } from 'react';
-import { Box, Button, FormHelperText, TextField, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  FormHelperText,
+  TextField,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import Copyright from '../../Copyright';
 import Image from 'next/image';
 import quintLogo from '../../../public/icons/quint-logo.svg';
 import { ColorModeContext } from '../../../pages/_app';
 import CustomSwitch from '../custom/CustomSwitch';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
+import QuintContactLinks from '../custom/QuintContactLinks';
 
 const Footer: FC = () => {
   const muiTheme = useTheme();
@@ -75,9 +84,17 @@ const Footer: FC = () => {
           </Box>
         </Box>
       </Box>
-
-      <Box mt={4}>
+      <Box maxWidth={'xl'} margin={'auto'} mt={4} mb={3}>
+        <Divider />
+      </Box>
+      <Box
+        margin={'auto'}
+        maxWidth={'xl'}
+        display={'flex'}
+        justifyContent={'space-between'}
+        alignItems={'center'}>
         <Copyright />
+        <QuintContactLinks />
       </Box>
     </Box>
   );
