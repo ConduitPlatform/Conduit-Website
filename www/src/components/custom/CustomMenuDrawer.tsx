@@ -36,11 +36,13 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
         <Divider />
         <Box mt={3} display={'grid'} alignItems={'center'} justifyContent={'center'} gap={4}>
           <Box margin={'auto'}>
-            <HeaderLinkButton ButtonProps={{ href: '/' }}>Home</HeaderLinkButton>
+            <HeaderLinkButton ButtonProps={{ href: '/', color: 'inherit' }}>Home</HeaderLinkButton>
           </Box>
 
           <Box margin={'auto'}>
-            <HeaderLinkButton ButtonProps={{ href: '/docs' }}>Docs</HeaderLinkButton>
+            <HeaderLinkButton ButtonProps={{ href: '/docs', color: 'inherit' }}>
+              Docs
+            </HeaderLinkButton>
           </Box>
           <Box margin={'auto'}>
             <HeaderLinkButton

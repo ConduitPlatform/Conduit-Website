@@ -62,9 +62,14 @@ const Footer: FC = () => {
             />
           </Box>
           <Box display={'flex'} flexWrap={'wrap'} gap={2}>
-            <HeaderLinkButton ButtonProps={{ size: 'small', href: '/' }}>Home</HeaderLinkButton>
-            <HeaderLinkButton ButtonProps={{ size: 'small', href: '/docs' }}>DOCS</HeaderLinkButton>
-            <HeaderLinkButton ButtonProps={{ size: 'small', href: '/get-started' }}>
+            <HeaderLinkButton ButtonProps={{ size: 'small', href: '/', color: 'inherit' }}>
+              Home
+            </HeaderLinkButton>
+            <HeaderLinkButton ButtonProps={{ size: 'small', href: '/docs', color: 'inherit' }}>
+              DOCS
+            </HeaderLinkButton>
+            <HeaderLinkButton
+              ButtonProps={{ size: 'small', href: '/get-started', color: 'inherit' }}>
               GET STARTED
             </HeaderLinkButton>
           </Box>

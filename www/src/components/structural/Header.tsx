@@ -50,10 +50,14 @@ const Header: FC = () => {
               </Typography>
 
               <Box sx={styles.lgMenu}>
-                <HeaderLinkButton ButtonProps={{ href: '/' }}>Home</HeaderLinkButton>
+                <HeaderLinkButton ButtonProps={{ href: '/', color: 'inherit' }}>
+                  Home
+                </HeaderLinkButton>
               </Box>
               <Box sx={styles.lgMenu}>
-                <HeaderLinkButton ButtonProps={{ href: '/docs' }}>Docs</HeaderLinkButton>
+                <HeaderLinkButton ButtonProps={{ href: '/docs', color: 'inherit' }}>
+                  Docs
+                </HeaderLinkButton>
               </Box>
             </Box>
 
