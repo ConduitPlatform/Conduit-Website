@@ -1,5 +1,5 @@
 import { FC, ReactElement } from 'react';
-import { Box, Card, Divider, Typography } from '@mui/material';
+import { Box, Card, CardProps, Divider, Typography } from '@mui/material';
 import * as React from 'react';
 
 const styles = {
@@ -12,9 +12,9 @@ type AboutCardProps = {
   text: string;
 };
 
-const AboutCard: FC<AboutCardProps> = ({ title, icon, text }) => {
+const AboutCard: FC<AboutCardProps & CardProps> = ({ title, icon, text, ...props }) => {
   return (
-    <Card sx={styles.card} elevation={0}>
+    <Card sx={styles.card} elevation={0} {...props}>
       <Box>
         <Box mb={2} display={'flex'} alignItems={'center'} gap={3}>
           {icon}
@@ -23,9 +23,7 @@ const AboutCard: FC<AboutCardProps> = ({ title, icon, text }) => {
           </Typography>
         </Box>
         <Divider />
-        <Typography my={2} variant={'h6'}>
-          {text}
-        </Typography>
+        <Typography my={2}>{text}</Typography>
       </Box>
     </Card>
   );
