@@ -6,6 +6,7 @@ import FadeOnScrollSection from '../src/components/custom/FadeOnScrollSection';
 import IntroSection from '../src/components/sections/IntroSection';
 import UsedBySection from '../src/components/custom/UsedBySection';
 import ModulesSection from '../src/components/sections/ModulesSection';
+import AboutUsSection from '../src/components/sections/AboutUsSection';
 
 export default function Index() {
   return (
@@ -22,6 +23,10 @@ export default function Index() {
       </FadeOnScrollSection>
       <FadeOnScrollSection>
         <Roadmap />
+      </FadeOnScrollSection>
+
+      <FadeOnScrollSection>
+        <AboutUsSection />
       </FadeOnScrollSection>
     </Container>
   );

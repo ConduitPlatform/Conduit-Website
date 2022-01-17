@@ -13,7 +13,11 @@ const FadeOnScrollSection: FC<FadeProps> = ({ children, ...props }) => {
       }
     });
     if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.unobserve(sectionRef.current);
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
   }, []);
   return (
     <Box ref={sectionRef}>
