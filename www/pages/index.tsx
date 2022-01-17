@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Container } from '@mui/material';
-import LandingPageUsers from '../src/components/structural/LandingPage/LandingPageUsers';
-import Roadmap from '../src/components/structural/LandingPage/Roadmap';
+import LandingPageUsers from '../src/components/sections/LandingPageUsers';
+import Roadmap from '../src/components/sections/Roadmap';
 import FadeOnScrollSection from '../src/components/custom/FadeOnScrollSection';
-import IntroSection from '../src/components/structural/LandingPage/IntroSection';
+import IntroSection from '../src/components/sections/IntroSection';
 import UsedBySection from '../src/components/custom/UsedBySection';
-import ModulesSection from '../src/components/structural/LandingPage/ModulesSection';
+import ModulesSection from '../src/components/sections/ModulesSection';
 
 export default function Index() {
   return (

@@ -5,7 +5,7 @@ import TypewriterComponent from 'typewriter-effect';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { duotoneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Button, Grid } from '@mui/material';
-import workspace from '../../../../public/icons/workspace_PNG.png';
+import workspace from '../../../public/icons/workspace_PNG.png';
 import Image from 'next/image';
 import { styled } from '@mui/material/styles';
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Box, Divider, Typography } from '@mui/material';
-import MiniInfoCard from '../../custom/MiniInfoCard';
+import MiniInfoCard from '../custom/MiniInfoCard';
 import StorageIcon from '@mui/icons-material/Storage';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import ArchitectureIcon from '@mui/icons-material/Architecture';

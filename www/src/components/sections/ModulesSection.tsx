@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Divider, Grid } from '@mui/material';
-import ModuleCard from '../../custom/ModuleCard';
+import ModuleCard from '../custom/ModuleCard';
 import DataArrayIcon from '@mui/icons-material/DataArray';
 import MailIcon from '@mui/icons-material/Mail';
 import SaveIcon from '@mui/icons-material/Save';
