@@ -17,7 +17,11 @@ const FadeOnScrollSection: FC<FadeProps> = ({ children, ...props }) => {
   }, []);
   return (
     <Box ref={sectionRef}>
-      <Grow in={isVisible} timeout={{ enter: 1500 }} {...props}>
+      <Grow
+        in={isVisible}
+        timeout={{ enter: 1500 }}
+        style={{ transitionDelay: '500ms' }}
+        {...props}>
         <Box>{children}</Box>
       </Grow>
     </Box>
