@@ -69,8 +69,8 @@ const Header: FC = () => {
               <Box sx={styles.lgMenu}>
                 <HeaderLinkButton
                   variantActive={'outlined'}
-                  variantInactive={'outlined'}
-                  ButtonProps={{ href: '/get-started', color: 'secondary' }}>
+                  variantInactive={'contained'}
+                  ButtonProps={{ href: '/get-started' }}>
                   GET STARTED
                 </HeaderLinkButton>
               </Box>
