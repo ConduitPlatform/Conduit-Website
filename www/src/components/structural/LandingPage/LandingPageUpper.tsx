@@ -77,12 +77,12 @@ export default function LandingPageUpper() {
         <Typography>USED BY</Typography>
       </Divider>
 
-      <Grid container justifyContent="space-around" alignItems="center" padding={3}>
-        <Image src={Paralos} alt="Paralos-logo" />
+      <Grid container justifyContent="space-around" alignItems="center" gap={3} padding={3}>
+        <Image src={Paralos} alt="Paralos-logo" height={'50px'} width="250px" />
 
-        <Image src={Quint} alt="Quint-logo" height={'50px'} />
+        <Image src={Quint} alt="Quint-logo" height={'50px'} width="250px" />
 
-        <Image src={Sports} alt="Quint-logo" height={'50px'} />
+        <Image src={Sports} alt="Quint-logo" height={'50px'} width="250px" />
       </Grid>
     </Box>
   );
