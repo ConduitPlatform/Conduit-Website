@@ -1,16 +1,17 @@
 import React from 'react';
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Button, Container, Divider, Paper, Typography } from '@mui/material';
 import Link from 'next/link';
 import { styled } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const CustomHeaderComponent = styled(Typography)(({ theme }) => ({
-  padding: theme.spacing(4),
   textDecoration: 'underline',
+  paddingBottom: '40px',
   textDecorationColor: `${theme.palette.secondary.main}`,
   textTransform: 'uppercase',
   '&:hover': {
     textShadow: ` 2px 2px 5px ${theme.palette.primary.main}`,
+    textDecoration: 'none',
   },
 }));
 
@@ -43,19 +44,22 @@ export const getStaticProps = async (context) => {
 
 const Details = ({ post }) => {
   return (
-    <Container>
+    <Container maxWidth="xl">
       <Link href="/blog">
         <Button color="secondary" startIcon={<ArrowBackIcon />}>
           go back
         </Button>
       </Link>
-      <CustomHeaderComponent marginTop="30px" variant="h5" textAlign="center">
-        <strong>{post.title}</strong>
-      </CustomHeaderComponent>
-      <Typography>{post.body}</Typography>
-      <Box padding={10}>
-        <Typography>Author:{post.userId}</Typography>
-      </Box>
+      <Paper elevation={0} sx={{ padding: '20px' }}>
+        <CustomHeaderComponent marginTop="30px" variant="h6" textAlign="center">
+          <strong>{post.title}</strong>
+        </CustomHeaderComponent>
+        <Divider />
+        <Typography padding="30px">{post.body}</Typography>
+        <Box padding={10}>
+          <Typography>Author:{post.userId}</Typography>
+        </Box>
+      </Paper>
     </Container>
   );
 };
