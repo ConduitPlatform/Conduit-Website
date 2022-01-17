@@ -37,7 +37,7 @@ const StyledSubtitle = styled(Typography)(({ theme }) => ({
 interface ModuleCardProps {
   icon?: ReactComponentElement<any>;
   title: string;
-  subtitle: string;
+  subtitle: ReactComponentElement<any>;
 }
 
 const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon }) => {

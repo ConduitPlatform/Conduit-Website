@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Divider, Grid } from '@mui/material';
+import { Divider, Grid, Typography } from '@mui/material';
 import ModuleCard from '../custom/ModuleCard';
 import DataArrayIcon from '@mui/icons-material/DataArray';
 import MailIcon from '@mui/icons-material/Mail';
@@ -13,21 +13,54 @@ export default function ModulesSection() {
         <Grid item md={4} sm={6} xs={12}>
           <ModuleCard
             title="CMS"
-            subtitle="A full fledged schema-editor. You can even create your own custom endpoint!"
+            subtitle={
+              <>
+                <Typography>
+                  A full fledged schema-editor. You can even create your own custom endpoint!
+                </Typography>
+                <ul>
+                  <li>Description</li>
+                  <li>Description</li>
+                  <li>Description</li>
+                </ul>
+              </>
+            }
             icon={<DataArrayIcon />}
           />
         </Grid>
         <Grid item md={4} sm={6} xs={12}>
           <ModuleCard
             title="MAILS"
-            subtitle="Create, send and manage your emails, syncing them via multiple providers."
+            subtitle={
+              <>
+                <Typography>
+                  Create, send and manage your emails, syncing them via multiple providers.
+                </Typography>
+                <ul>
+                  <li>Description</li>
+                  <li>Description</li>
+                  <li>Description</li>
+                </ul>
+              </>
+            }
             icon={<MailIcon />}
           />
         </Grid>
         <Grid item md={4} sm={6} xs={12}>
           <ModuleCard
             title="STORAGE"
-            subtitle="Containers and folders make it so much easier to go through your files!"
+            subtitle={
+              <>
+                <Typography>
+                  Containers and folders make it so much easier to go through your files!!
+                </Typography>
+                <ul>
+                  <li>Description</li>
+                  <li>Description</li>
+                  <li>Description</li>
+                </ul>
+              </>
+            }
             icon={<SaveIcon />}
           />
         </Grid>
