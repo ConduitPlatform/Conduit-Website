@@ -5,7 +5,7 @@ import TypewriterComponent from 'typewriter-effect';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { duotoneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Button, Grid } from '@mui/material';
-import workspace from '../../../public/icons/workspace_PNG.png';
+import Illustration from '../../../public/icons/Illustration';
 import Image from 'next/image';
 import { styled } from '@mui/material/styles';
 
@@ -67,7 +67,8 @@ export default function IntroSection() {
           </StyledBox>
         </Grid>
         <Grid item md={6} sm={12}>
-          <Image src={workspace} alt="workspace" />
+          <Illustration />
+          {/* <Image src={workspace} alt="workspace" /> */}
         </Grid>
       </Grid>
     </Box>
