@@ -4,11 +4,8 @@ import Box from '@mui/material/Box';
 import TypewriterComponent from 'typewriter-effect';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { duotoneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import { Button, Divider, Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import workspace from '../../../../public/icons/workspace_PNG.png';
-import Paralos from '../../../../public/icons/White.svg';
-import Quint from '../../../../public/icons/quint-logo.svg';
-import Sports from '../../../../public/icons/2sports.svg';
 import Image from 'next/image';
 import { styled } from '@mui/material/styles';
 
@@ -25,7 +22,7 @@ const StyledBox = styled(Box)(() => ({
   gap: 20,
 }));
 
-export default function LandingPageUpper() {
+export default function IntroSection() {
   return (
     <Box>
       <Grid container>
@@ -72,17 +69,6 @@ export default function LandingPageUpper() {
         <Grid item md={6} sm={12}>
           <Image src={workspace} alt="workspace" />
         </Grid>
-      </Grid>
-      <Divider>
-        <Typography>USED BY</Typography>
-      </Divider>
-
-      <Grid container justifyContent="space-around" alignItems="center" gap={3} padding={3}>
-        <Image src={Paralos} alt="Paralos-logo" height={'50px'} width="250px" />
-
-        <Image src={Quint} alt="Quint-logo" height={'50px'} width="250px" />
-
-        <Image src={Sports} alt="Quint-logo" height={'50px'} width="250px" />
       </Grid>
     </Box>
   );
