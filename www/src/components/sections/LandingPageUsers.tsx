@@ -20,7 +20,7 @@ const styles = {
 export default function LandingPageUsers() {
   return (
     <>
-      <Box mt={[8, 12, 16]} sx={styles.sectionLayout}>
+      <Box mt={[8, 12]} sx={styles.sectionLayout}>
         <MiniInfoCard
           className={'fullGrow'}
           imageComponent={<ArchitectureIcon />}
