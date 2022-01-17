@@ -59,6 +59,11 @@ const Header: FC = () => {
                   Docs
                 </HeaderLinkButton>
               </Box>
+              <Box sx={styles.lgMenu}>
+                <HeaderLinkButton ButtonProps={{ href: '/blog', color: 'inherit' }}>
+                  Blog
+                </HeaderLinkButton>
+              </Box>
             </Box>
 
             <Box display="flex" alignItems={'center'} columnGap={4}>
