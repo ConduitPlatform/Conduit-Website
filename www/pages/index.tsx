@@ -11,7 +11,9 @@ export default function Index() {
   return (
     <Container maxWidth={'xl'} sx={{ pt: [4, 8, 12] }}>
       <IntroSection />
-      <UsedBySection />
+      <FadeOnScrollSection>
+        <UsedBySection />
+      </FadeOnScrollSection>
       <FadeOnScrollSection>
         <LandingPageUsers />
       </FadeOnScrollSection>

@@ -1,13 +1,19 @@
 import * as React from 'react';
 import { FC } from 'react';
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, Theme } from '@mui/material';
+
+const styles = {
+  container: {
+    boxShadow: '2px 5px 5px 1px rgb(0,0,0,.01)',
+    background: 'white',
+    padding: (theme: Theme) => theme.spacing(1, 2),
+    borderRadius: 4,
+  },
+};
 
 const QuintContactLinks: FC = () => {
   return (
-    <Box
-      display={'flex'}
-      sx={{ background: 'white', padding: (theme) => theme.spacing(1, 2), borderRadius: 4 }}
-      gap={1}>
+    <Box display={'flex'} sx={styles.container} gap={1}>
       <IconButton
         component={'a'}
         href="https://www.linkedin.com/company/quintessentialsft/"
