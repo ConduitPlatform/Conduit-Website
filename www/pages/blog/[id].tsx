@@ -1,5 +1,18 @@
 import React from 'react';
-import { Container, Typography } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
+import Link from 'next/link';
+import { styled } from '@mui/material/styles';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+const CustomHeaderComponent = styled(Typography)(({ theme }) => ({
+  padding: theme.spacing(4),
+  textDecoration: 'underline',
+  textDecorationColor: `${theme.palette.secondary.main}`,
+  textTransform: 'uppercase',
+  '&:hover': {
+    textShadow: ` 2px 2px 5px ${theme.palette.primary.main}`,
+  },
+}));
 
 export const getStaticPaths = async () => {
   const res = await fetch('https://jsonplaceholder.typicode.com/posts');
@@ -31,11 +44,18 @@ export const getStaticProps = async (context) => {
 const Details = ({ post }) => {
   return (
     <Container>
-      <Typography variant="h5">
+      <Link href="/blog">
+        <Button color="secondary" startIcon={<ArrowBackIcon />}>
+          go back
+        </Button>
+      </Link>
+      <CustomHeaderComponent marginTop="30px" variant="h5" textAlign="center">
         <strong>{post.title}</strong>
-      </Typography>
+      </CustomHeaderComponent>
       <Typography>{post.body}</Typography>
-      <Typography>{post.userId}</Typography>
+      <Box padding={10}>
+        <Typography>Author:{post.userId}</Typography>
+      </Box>
     </Container>
   );
 };
