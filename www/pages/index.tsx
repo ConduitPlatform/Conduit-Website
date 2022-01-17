@@ -1,11 +1,11 @@
 import * as React from 'react';
-import Landing2 from '../src/components/structural/LandingPage/LandingPageLower';
 import { Container } from '@mui/material';
 import LandingPageUsers from '../src/components/structural/LandingPage/LandingPageUsers';
 import Roadmap from '../src/components/structural/LandingPage/Roadmap';
 import FadeOnScrollSection from '../src/components/custom/FadeOnScrollSection';
 import IntroSection from '../src/components/structural/LandingPage/IntroSection';
 import UsedBySection from '../src/components/custom/UsedBySection';
+import ModulesSection from '../src/components/structural/LandingPage/ModulesSection';
 
 export default function Index() {
   return (
@@ -15,11 +15,9 @@ export default function Index() {
       <FadeOnScrollSection>
         <LandingPageUsers />
       </FadeOnScrollSection>
-
       <FadeOnScrollSection>
-        <Landing2 />
+        <ModulesSection />
       </FadeOnScrollSection>
-
       <FadeOnScrollSection>
         <Roadmap />
       </FadeOnScrollSection>
