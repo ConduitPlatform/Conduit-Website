@@ -1,0 +1,41 @@
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "documentation/**"
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    name: Deploy Conduit Docs
+    needs:
+      [build-conduit-docs]
+    steps:
+      - name: Deploy Conduit Docs
+        uses: fjogeleit/http-request-action@master
+        with:
+          url: "http://20.101.9.248/conduit-docs/conduit-grp/"
+          method: "POST"
+          username: admin
+          password: ${{ secrets.KUBECTLPROXY_PASSWORD }}
+
+  build-conduit-web:
+    runs-on: ubuntu-20.04
+    name: Build Conduit Docs
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+
+      - name: Build the image
+        run: docker build --no-cache -t quintessential.azurecr.io/conduit-docs:latest -f ./Dockerfile ./documentation
+
+      - name: Docker login
+        run: echo $PASSWORD | docker login --username $USERNAME --password-stdin $REGISTRY
+        env:
+          USERNAME: ${{ secrets.QUINT_DOCKER_USER }}
+          PASSWORD: ${{ secrets.QUINT_DOCKER_PASSWORD }}
+          REGISTRY: ${{ secrets.QUINT_DOCKER_URL }}
+
+      - name: Push the image
+        run: docker push ${{ secrets.QUINT_DOCKER_URL }}/conduit-docs:latest

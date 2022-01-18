@@ -1,17 +1,32 @@
 import * as React from 'react';
-import Landing1 from '../src/components/structural/LandingPage/LandingPageUpper';
-import Landing2 from '../src/components/structural/LandingPage/LandingPageLower';
 import { Container } from '@mui/material';
-import LandingPageUsers from '../src/components/structural/LandingPage/LandingPageUsers';
-import Roadmap from '../src/components/structural/LandingPage/Roadmap';
+import LandingPageUsers from '../src/components/sections/LandingPageUsers';
+import Roadmap from '../src/components/sections/Roadmap';
+import FadeOnScrollSection from '../src/components/custom/FadeOnScrollSection';
+import IntroSection from '../src/components/sections/IntroSection';
+import UsedBySection from '../src/components/custom/UsedBySection';
+import ModulesSection from '../src/components/sections/ModulesSection';
+import AboutUsSection from '../src/components/sections/AboutUsSection';
 
 export default function Index() {
   return (
     <Container maxWidth={'xl'} sx={{ pt: [4, 8, 12] }}>
-      <Landing1 />
-      <LandingPageUsers />
-      <Landing2 />
-      <Roadmap />
+      <IntroSection />
+      <FadeOnScrollSection>
+        <UsedBySection />
+      </FadeOnScrollSection>
+      <FadeOnScrollSection>
+        <LandingPageUsers />
+      </FadeOnScrollSection>
+      <FadeOnScrollSection>
+        <ModulesSection />
+      </FadeOnScrollSection>
+      <FadeOnScrollSection>
+        <Roadmap />
+      </FadeOnScrollSection>
+      <FadeOnScrollSection>
+        <AboutUsSection />
+      </FadeOnScrollSection>
     </Container>
   );
 }
