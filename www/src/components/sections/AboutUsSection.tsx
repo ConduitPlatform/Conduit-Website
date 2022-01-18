@@ -11,7 +11,7 @@ const AboutUsSection: FC = () => {
   return (
     <Box mb={16}>
       <Divider sx={{ my: 8 }}>ABOUT US</Divider>
-      <Box display={'grid'} gap={4}>
+      <Box display={'grid'} gap={2}>
         <AboutCard
           title={'WHO POWERED CONDUIT'}
           icon={<AccountCircleIcon color={'inherit'} sx={{ width: 80, height: 80 }} />}
