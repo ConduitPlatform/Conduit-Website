@@ -1,6 +1,6 @@
-import Link from 'next/link';
-
 import React from 'react';
+import Link from 'next/link';
+import { styled } from '@mui/material/styles';
 import { FC } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -14,13 +14,26 @@ import { Post } from '../../models/Post.interface';
 import { Tag } from '../../models/Tag';
 import { Avatar, CardHeader, Grid } from '@mui/material';
 
+const StyledCard = styled(Card)(({ theme }) => ({
+  margin: 'auto',
+  marginTop: 2,
+  padding: '20px',
+  borderRadius: '8px',
+  boxShadow: '0 0 0 1px rgba(255,255,255,0.2)',
+}));
+
 const BlogCard: FC<{ post: Post }> = ({ post }: { post: Post }) => {
   const { slug, metaData } = post;
   const { title, dateString, mainImageUrl, excerpt, tags } = metaData;
   return (
-    <Grid sm={6} item>
-      <Card sx={{ margin: 'auto', marginTop: 2, padding: '20px', borderRadius: '8px' }}>
-        <CardMedia component="img" height="200" image={mainImageUrl} />
+    <Grid lg={6} xs={12} item>
+      <StyledCard>
+        <CardMedia
+          component="img"
+          style={{ borderRadius: '8px' }}
+          height="200"
+          image={mainImageUrl}
+        />
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: 'black' }} aria-label="recipe">
@@ -55,7 +68,7 @@ const BlogCard: FC<{ post: Post }> = ({ post }: { post: Post }) => {
             </Button>
           </Link>
         </CardActions>
-      </Card>
+      </StyledCard>
     </Grid>
   );
 };
