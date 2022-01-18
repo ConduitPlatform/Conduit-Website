@@ -1,0 +1,34 @@
+---
+sidebar_label: 'Third Party'
+sidebar_position: 2
+---
+In order to login or register with third-party provider you need to [activate the corresponding provider](./config#third-party-configuration).
+
+## Facebook
+By accessing this route you can either login or register with facebook.
+
+| route             | method |       requires authentication |
+| -----------       | -----------   | ----------- |
+| /authentication/facebook      | POST       |  false
+
+### Body params
+| Body params | Type | Required | Description
+| :-----------------: | :----: | :---------------------: | :---------------------: |
+| access_token |  String   |      true   | [See how to get an access token ](https://developers.facebook.com/docs/facebook-login/access-tokens/#usertokens).
+
+## Google
+Login/register with Google by providing a token from the client.
+[See how to configure google authentication](./config/#google)
+
+| route             | method |       requires authentication |
+| -----------       | -----------   | ----------- |
+| /authentication/google      | POST       |  false
+
+### Body params
+| Body params | Type | Required | Description
+| :-----------------: | :----: | :---------------------: | :---------------------: |
+| id_token |  String   |      true   |
+| access_token |  String   |      true   |
+| expires_in |  String   |      true   |
+
+### Returns
