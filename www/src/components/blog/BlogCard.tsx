@@ -24,7 +24,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 
 const BlogCard: FC<{ post: Post }> = ({ post }: { post: Post }) => {
   const { slug, metaData } = post;
-  const { title, dateString, mainImageUrl, excerpt, tags } = metaData;
+  const { title, dateString, mainImageUrl, excerpt, tags, publisher, publisherIcon } = metaData;
   return (
     <Grid lg={6} xs={12} item>
       <StyledCard>
@@ -36,23 +36,26 @@ const BlogCard: FC<{ post: Post }> = ({ post }: { post: Post }) => {
         />
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: 'black' }} aria-label="recipe">
-              KF
-            </Avatar>
+            <img
+              src={publisherIcon}
+              width="50px"
+              height="50px"
+              style={{ borderRadius: '50px' }}
+              alt="publisher"
+            />
           }
           title={
             <Typography gutterBottom variant="h5" component="div">
               {title}
             </Typography>
           }
-          subheader={
-            <Typography variant="body2" color="text.secondary">
-              {excerpt}
-            </Typography>
-          }
+          subheader={`by: ${publisher}`}
         />
         <CardContent>
-          <Stack direction="row" spacing={1}>
+          <Typography variant="body2" color="text.secondary">
+            {excerpt}
+          </Typography>
+          <Stack direction="row" spacing={1} style={{ paddingTop: '20px' }}>
             {tags.map((tag: Tag, index: number) => (
               <Link key={index} href={`/blog`} passHref>
                 <Chip label={tag} color="secondary" variant="outlined" />
