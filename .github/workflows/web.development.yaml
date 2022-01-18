@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build the image
-        run: docker build --no-cache -t quintessential.azurecr.io/conduit-web:latest -f ./Dockerfile ./www
+        run: docker build --no-cache -t quintessential.azurecr.io/conduit-web:latest -f ./www/Dockerfile ./www
 
       - name: Docker login
         run: echo $PASSWORD | docker login --username $USERNAME --password-stdin $REGISTRY

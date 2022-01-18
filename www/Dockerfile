@@ -6,6 +6,6 @@ WORKDIR /app
 
 RUN yarn && yarn build
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD ["yarn", "start"]
