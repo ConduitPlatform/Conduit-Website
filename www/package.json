@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
-    "precommit": "echo precommit running test is successful"
+    "precommit": "prettier --write \"**/*.{js,ts,tsx}\""
   },
   "dependencies": {
     "@emotion/cache": "^11.7.1",
