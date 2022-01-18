@@ -6,7 +6,7 @@ interface Props {
   mainImageUrl: string;
 }
 
-const BlogHeaderComponent: FC<Props> = ({ title, dateString, mainImageUrl }) => {
+const BlogHeader: FC<Props> = ({ title, dateString, mainImageUrl }) => {
   return (
     <div style={{ width: '600px', margin: 'auto' }}>
       <h1>{title}</h1>
@@ -16,4 +16,4 @@ const BlogHeaderComponent: FC<Props> = ({ title, dateString, mainImageUrl }) => 
   );
 };
 
-export default BlogHeaderComponent;
+export default BlogHeader;

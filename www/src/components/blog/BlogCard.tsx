@@ -13,7 +13,7 @@ import Chip from '@mui/material/Chip';
 import { Post } from '../../models/Post.interface';
 import { Tag } from '../../models/Tag';
 
-const CardComponent: FC<{ post: Post }> = ({ post }: { post: Post }) => {
+const BlogCard: FC<{ post: Post }> = ({ post }: { post: Post }) => {
   const { slug, metaData } = post;
   const { title, dateString, mainImageUrl, excerpt, tags } = metaData;
   return (
@@ -44,4 +44,4 @@ const CardComponent: FC<{ post: Post }> = ({ post }: { post: Post }) => {
   );
 };
 
-export default CardComponent;
+export default BlogCard;

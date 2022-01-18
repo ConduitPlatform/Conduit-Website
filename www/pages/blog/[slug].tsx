@@ -4,9 +4,9 @@ import fs from 'fs';
 import path from 'path';
 import React from 'react';
 import matter from 'gray-matter';
-import BlogHeaderComponent from '../../src/components/blog/BlogHeader.component';
-import TableOfContentsComponent from '../../src/components/blog/TableOfContents.component';
-import TableOfContentsItemComponent from '../../src/components/blog/TableOfContentsItem.component';
+import BlogHeader from '../../src/components/blog/BlogHeader';
+import TableOfContents from '../../src/components/blog/TableOfContents';
+import TableOfContentsItem from '../../src/components/blog/TableOfContentsItem';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import hljs from 'highlight.js';
@@ -17,9 +17,9 @@ import 'highlight.js/styles/vs2015.css';
 hljs.registerLanguage('typescript', typescript);
 
 const components = {
-  BlogHeaderComponent,
-  TableOfContentsComponent,
-  TableOfContentsItemComponent,
+  BlogHeaderComponent: BlogHeader,
+  TableOfContentsComponent: TableOfContents,
+  TableOfContentsItemComponent: TableOfContentsItem,
 };
 
 export default function Article({ source }: InferGetStaticPropsType<typeof getStaticProps>) {

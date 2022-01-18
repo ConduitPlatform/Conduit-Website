@@ -8,7 +8,7 @@ import { TextField, Typography, Chip, Stack, Paper } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
 
-import CardComponent from '../../src/components/blog/Card.component';
+import BlogCard from '../../src/components/blog/BlogCard';
 
 import { Post } from '../../src/models/Post.interface';
 import { Tag, tagFilters } from '../../src/models/Tag';
@@ -100,9 +100,9 @@ const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps
       <div style={{ display: 'flex' }}>
         {filteredPosts.map((post: Post, index: number) => {
           if (!isAllTag && post.metaData.tags.some((tag: Tag) => tags.includes(tag))) {
-            return <CardComponent key={index} post={post} />;
+            return <BlogCard key={index} post={post} />;
           } else if (isAllTag) {
-            return <CardComponent key={index} post={post} />;
+            return <BlogCard key={index} post={post} />;
           }
         })}
       </div>

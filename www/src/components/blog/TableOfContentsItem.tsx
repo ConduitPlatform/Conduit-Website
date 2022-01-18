@@ -5,7 +5,7 @@ interface Props {
   children: ReactNode;
 }
 
-const TableOfContentsItemComponent: FC<Props> = ({ topic, children }) => {
+const TableOfContentsItem: FC<Props> = ({ topic, children }) => {
   return (
     <section id={topic.toLowerCase()} className="section-heading">
       <h2>{topic}</h2>
@@ -14,4 +14,4 @@ const TableOfContentsItemComponent: FC<Props> = ({ topic, children }) => {
   );
 };
 
-export default TableOfContentsItemComponent;
+export default TableOfContentsItem;

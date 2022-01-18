@@ -17,7 +17,7 @@ interface Section {
 
 const marginTop = 100;
 
-const TableOfContentsComponent: FC = () => {
+const TableOfContents: FC = () => {
   const [offsetY, setOffsetY] = useState(0);
   const [sections, setSections] = useState<Section[]>([]);
 
@@ -121,4 +121,4 @@ const TableOfContentsComponent: FC = () => {
   );
 };
 
-export default TableOfContentsComponent;
+export default TableOfContents;
