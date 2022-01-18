@@ -17,6 +17,7 @@ import HeaderLinkButton from '../custom/HeaderLinkButton';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { ColorModeContext } from '../../../pages/_app';
+import DropdownMenu from '../custom/DropdownMenu';
 
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
   padding: theme.spacing(3, 4),
@@ -69,6 +70,9 @@ const Header: FC = () => {
               </Box>
               <Box sx={styles.lgMenu}>
                 <HeaderLinkButton ButtonProps={{ href: '/docs' }}>Docs</HeaderLinkButton>
+              </Box>
+              <Box sx={styles.lgMenu}>
+                <DropdownMenu />
               </Box>
             </Box>
 
