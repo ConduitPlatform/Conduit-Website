@@ -1,0 +1,178 @@
+---
+label: 'Admin'
+sidebar_label: 'Admin Routes'
+sidebar_position: 2
+---
+# Admin
+These routes are required admin authentication.
+
+## Send an email
+This route is used for sending emails.
+
+|        route        | method
+| :-----------------: | :----: |
+| /admin/email/send |  POST   |
+
+#### Body params
+| Body params | Type | Required | Description
+| :-----------------: | :----: | :---------------------: |
+| email |  String  |      true   |  Email of receiver
+| sender |  String  |      true   | Email of sender
+| variables |  JSON   |      false   | email variables
+| subject |  String   |      false   | Subject of email
+| body |  String   |      false   | Body of email
+| templateName |  String   |      false   | Name of the template
+
+## Managing email templates
+### Get email templates
+List the local saved templates.
+
+|        route        | method
+| :-----------------: | :----: |
+| /admin/email/templates |  GET
+
+#### Query params
+| Query params | Type | Required | Description
+| :-----------------: | :----: | :---------------------: | :---------------------: |
+| skip |  String  |      true   |  Used for pagination.
+| limit |  String  |      true   | Used for pagination.
+| search |  JSON   |      false   | Used for searching
+
+#### Returns
+
+```json
+{
+    "templateDocuments": [
+        {
+            "_id_":"string"
+             "variables":"string[]"
+             "externalManaged": "boolean",
+             "name": "string",
+             "subject":"string",
+             "body":"string",
+             "createdAt":"string",
+             "updatedAt":"string"
+        }
+    ],
+    "totalCount": "number"
+}
+```
+
+### Create an email templates
+
+|        route        | method
+| :-----------------: | :----:
+| /admin/email/templates |  POST
+
+#### Body params
+| Body params | Type | Required | Description |
+| :-----------------: | :----: | :---------------------: | :---------------------: |
+| name |  String  |      true   |  Template name |
+| subject |  String  |      false   | Template subject |
+| body |  String   |      true   | Template body |
+| sender |  String   |      false   | Sender    |
+| externalManaged |  String   |      false   | True if the template is saved already on the provider. |
+
+#### Returns
+
+```json
+{
+    "template": {
+            "_id_":"string"
+             "variables":"string[]"
+             "externalManaged": "boolean",
+             "name": "string",
+             "subject":"string",
+             "body":"string",
+             "createdAt":"string",
+             "updatedAt":"string"
+    }
+}
+```
+
+### Edit a template
+
+|        route        | method
+| :-----------------: | :----:
+| /admin/email/templates /:id |  PATCH
+#### Body params
+| Body params | Type | Required | Description |
+| :-----------------: | :----: | :---------------------: | :---------------------: |
+| name |  String  |      false   |  New template name |
+| subject |  String  |      false   | New template subject |
+| body |  String   |      false   | New template body |
+
+**Url params**
+- id(string)
+
+####  Returns
+```json
+{
+    "template": {
+            "_id_":"string"
+             "variables":"string[]"
+             "externalManaged": "boolean",
+             "name": "string",
+             "subject":"string",
+             "body":"string",
+             "createdAt":"string",
+             "updatedAt":"string"
+    }
+}
+```
+### Delete templates
+
+|        route        | method
+| :-----------------: | :----:
+| /admin/email/templates |  DELETE
+
+#### Body params
+| Body params | Type | Required | Description |
+| :-----------------: | :----: | :---------------------: | :---------------------: |
+| ids |  String[]  |      true   |  Array with template ids|
+
+### Upload a template
+Email module provides a way to upload a local saved template on the configured email provider.
+
+|        route        | method
+| :-----------------: | :----:
+| /admin/email/templates/upload |  POST
+
+#### Body params
+| Body params | Type | Required | Description |
+| :-----------------: | :----: | :---------------------: | :---------------------: |
+| _id |  String  |      true   |  Object id of the template|
+
+## Managing external templates
+
+External templates are the templates that are saved on the email provider( Mailgun, Sendgrid etc).
+
+### Get external templates
+
+|        route        | method
+| :-----------------: | :----:
+| /admin/email/externalTemplates |  GET
+
+#### Returns
+
+```json
+{
+    "templateDocuments": [
+        {
+            "_id_":"string"
+             "variables":"string[]"
+             "externalManaged": "boolean",
+             "name": "string",
+             "subject":"string",
+             "body":"string",
+             "createdAt":"string",
+             "updatedAt":"string"
+        }
+    ],
+    "totalCount": "number"
+}
+```
+
+### Synchronize external templates
+
+Synchronizes external templates using the configured email provider.
