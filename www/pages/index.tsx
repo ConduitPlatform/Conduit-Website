@@ -24,7 +24,6 @@ export default function Index() {
       <FadeOnScrollSection>
         <Roadmap />
       </FadeOnScrollSection>
-
       <FadeOnScrollSection>
         <AboutUsSection />
       </FadeOnScrollSection>
