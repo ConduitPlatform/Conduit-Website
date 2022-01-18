@@ -10,18 +10,6 @@ import BlogCard from '../../src/components/blog/BlogCard';
 import { Post } from '../../src/models/Post.interface';
 import { Tag, tagFilters } from '../../src/models/Tag';
 
-const styles = {
-  sectionLayout: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: 4,
-    '.fullGrow': {
-      flexGrow: 1,
-      width: 250,
-    },
-  },
-} as const;
-
 const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
   const [postTitles] = useState<string[]>(
@@ -56,6 +44,7 @@ const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps
       <Paper component="form" sx={{ width: 400, margin: '20px auto', boxShadow: 0 }}>
         <TextField
           style={{ width: 400 }}
+          color="secondary"
           placeholder="Search..."
           value={searchString}
           onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchString(e.target.value)}
@@ -103,7 +92,7 @@ const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps
         </Stack>
       </Box>
 
-      <Grid container spacing={5}>
+      <Grid container spacing={5} padding="5px">
         {filteredPosts.map((post: Post, index: number) => {
           if (!isAllTag && post.metaData.tags.some((tag: Tag) => tags.includes(tag))) {
             return <BlogCard key={index} post={post} />;

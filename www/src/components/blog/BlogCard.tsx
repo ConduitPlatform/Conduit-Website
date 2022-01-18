@@ -19,7 +19,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
   marginTop: 2,
   padding: '20px',
   borderRadius: '8px',
-  boxShadow: '0 0 0 1px rgba(255,255,255,0.2)',
+  boxShadow: '0 0 0 1px rgba(130,130,130,0.3)',
 }));
 
 const BlogCard: FC<{ post: Post }> = ({ post }: { post: Post }) => {
@@ -55,7 +55,7 @@ const BlogCard: FC<{ post: Post }> = ({ post }: { post: Post }) => {
           <Stack direction="row" spacing={1}>
             {tags.map((tag: Tag, index: number) => (
               <Link key={index} href={`/blog`} passHref>
-                <Chip label={tag} variant="outlined" />
+                <Chip label={tag} color="secondary" variant="outlined" />
               </Link>
             ))}
           </Stack>
