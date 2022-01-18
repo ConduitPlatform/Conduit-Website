@@ -10,8 +10,7 @@ import {
   useTheme,
 } from '@mui/material';
 import Copyright from '../../Copyright';
-import Image from 'next/image';
-import quintLogo from '../../../public/icons/quint-logo.svg';
+import QuintLogo from '../../../public/icons/quint-logo.svg';
 import { ColorModeContext } from '../../../pages/_app';
 import CustomSwitch from '../custom/CustomSwitch';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
@@ -41,7 +40,7 @@ const Footer: FC = () => {
         flexWrap={'wrap'}
         rowGap={4}>
         <Box>
-          <Image objectFit={'contain'} src={quintLogo} alt={'quintessential-sft'} />
+          <QuintLogo />
           <Box my={1}>
             <Typography variant={'body2'}>Join the quintessential newsletter!</Typography>
             <FormHelperText>Learn all of our news about products and updates.</FormHelperText>

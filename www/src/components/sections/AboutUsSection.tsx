@@ -2,8 +2,7 @@ import { FC } from 'react';
 import { Box, Divider } from '@mui/material';
 import * as React from 'react';
 import TrackChangesTwoToneIcon from '@mui/icons-material/TrackChangesTwoTone';
-import Image from 'next/Image';
-import openSource from '../../../public/icons/open-source-fill.svg';
+import OpenSource from '../../../public/icons/open-source-fill.svg';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AboutCard from '../custom/AboutCard';
 
@@ -28,17 +27,7 @@ const AboutUsSection: FC = () => {
         />
         <AboutCard
           title={'GOING OPENSOURCE'}
-          icon={
-            <Box
-              sx={{
-                height: '80px',
-                width: '80px',
-                overflow: 'hidden',
-                position: 'relative',
-              }}>
-              <Image alt="Mountains" layout="responsive" src={openSource} objectFit={'contain'} />
-            </Box>
-          }
+          icon={<OpenSource />}
           text={
             'Our passion for open source, communities and knowledge sharing leads us into crafting services and solutions and hosting events which empower innovation and networking.'
           }
