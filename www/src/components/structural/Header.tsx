@@ -1,22 +1,10 @@
 import * as React from 'react';
-import { FC, useContext, useEffect, useState } from 'react';
-import {
-  AppBar,
-  Grid,
-  Box,
-  IconButton,
-  Typography,
-  useMediaQuery,
-  Theme,
-  useTheme,
-} from '@mui/material';
+import { FC, useEffect, useState } from 'react';
+import { AppBar, Grid, Box, IconButton, Typography, useMediaQuery, Theme } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import CustomMenuDrawer from '../custom/CustomMenuDrawer';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { ColorModeContext } from '../../../pages/_app';
 
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
   padding: theme.spacing(3, 4),
@@ -41,9 +29,6 @@ const Header: FC = () => {
   const [drawer, setDrawer] = useState(false);
   const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 
-  const muiTheme = useTheme();
-  const colorMode = useContext(ColorModeContext);
-
   useEffect(() => {
     if (matches) {
       setDrawer(false);
@@ -65,18 +50,24 @@ const Header: FC = () => {
               </Typography>
 
               <Box sx={styles.lgMenu}>
-                <HeaderLinkButton ButtonProps={{ href: '/' }}>Home</HeaderLinkButton>
+                <HeaderLinkButton ButtonProps={{ href: '/', color: 'inherit' }}>
+                  Home
+                </HeaderLinkButton>
               </Box>
               <Box sx={styles.lgMenu}>
-                <HeaderLinkButton ButtonProps={{ href: '/docs' }}>Docs</HeaderLinkButton>
+                <HeaderLinkButton ButtonProps={{ href: '/docs', color: 'inherit' }}>
+                  Docs
+                </HeaderLinkButton>
+              </Box>
+              <Box sx={styles.lgMenu}>
+                <HeaderLinkButton ButtonProps={{ href: '/blog', color: 'inherit' }}>
+                  Blog
+                </HeaderLinkButton>
               </Box>
             </Box>
 
             <Box display="flex" alignItems={'center'} columnGap={4}>
-              <IconButton sx={styles.lgMenu} onClick={colorMode.toggleColorMode} color="inherit">
-                {muiTheme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-              </IconButton>
-              <Box sx={styles.lgMenu}>
+              <Box sx={styles.lgMenu} mt={1}>
                 <a href="https://github.com/Quintessential-SFT/Conduit-Website">
                   <img
                     alt="GitHub Repo stars"

@@ -4,14 +4,9 @@ import Box from '@mui/material/Box';
 import TypewriterComponent from 'typewriter-effect';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { duotoneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import { Button, Divider, Grid } from '@mui/material';
-// import workspace from '../../../../public/icons/workspace_PNG.png';
-import Paralos from '../../../../public/icons/White.svg';
-import Quint from '../../../../public/icons/quint-logo.svg';
-import Agora from '../../../../public/icons/agora.svg';
-// import Image from 'next/image';
+import { Button, Grid } from '@mui/material';
+import Illustration from '../../../public/icons/Illustration';
 import { styled } from '@mui/material/styles';
-// import CloudflareImage from '../../custom/CloudflareImage';
 
 const styles = {
   basicText: {
@@ -26,7 +21,7 @@ const StyledBox = styled(Box)(() => ({
   gap: 20,
 }));
 
-export default function LandingPageUpper() {
+export default function IntroSection() {
   return (
     <Box>
       <Grid container>
@@ -59,7 +54,7 @@ export default function LandingPageUpper() {
             {`Build a beautiful, modern website with flexible, fully customizable,
              atomic Material-UI components. An experience you'd expect from a design system.`}
           </Typography>
-          <StyledBox sx={{ my: 22 }}>
+          <StyledBox my={8}>
             <Button size="large" variant="outlined" color="secondary">
               GET STARTED
             </Button>
@@ -70,18 +65,10 @@ export default function LandingPageUpper() {
             </Box>
           </StyledBox>
         </Grid>
-        <Grid item md={6} sm={12}>
-          {/*<Image src={workspace} alt="workspace" />*/}
+        <Grid item md={6} sm={12} xs={12}>
+          <Illustration />
+          {/* <Image src={workspace} alt="workspace" /> */}
         </Grid>
-      </Grid>
-      <Divider>
-        <Typography>USED BY</Typography>
-      </Divider>
-
-      <Grid container justifyContent="space-around" alignItems="center" padding={3}>
-        <Quint />
-        <Paralos />
-        <Agora />
       </Grid>
     </Box>
   );
