@@ -8,14 +8,14 @@ import { TextField, Typography, Chip, Stack, Paper } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
 
-import CardComponent from '../../src/components/custom/Card.component';
+import CardComponent from '../../src/components/blog/Card.component';
 
 import { Post } from '../../src/models/Post.interface';
 import { Tag, tagFilters } from '../../src/models/Tag';
 
 const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
-  const [postTitles, setPostTitles] = useState<string[]>(
+  const [postTitles] = useState<string[]>(
     posts.map((post: Post) => post.metaData.title.toLowerCase())
   );
   const [searchString, setSearchString] = useState('');

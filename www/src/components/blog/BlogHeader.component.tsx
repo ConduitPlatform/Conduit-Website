@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 
 interface Props {
   title: string;
@@ -6,15 +6,11 @@ interface Props {
   mainImageUrl: string;
 }
 
-const BlogHeaderComponent: FC<Props> = ({
-  title,
-  dateString,
-  mainImageUrl,
-}) => {
+const BlogHeaderComponent: FC<Props> = ({ title, dateString, mainImageUrl }) => {
   return (
     <div style={{ width: '600px', margin: 'auto' }}>
       <h1>{title}</h1>
-      <img style={{ width: '600px' }} src={mainImageUrl} />
+      <img style={{ width: '600px' }} src={mainImageUrl} alt={'img'} />
       <p>Posted on {dateString}</p>
     </div>
   );

@@ -10,9 +10,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
-
-import { Post } from '../models/Post.interface';
-import { Tag } from '../models/Tag';
+import { Post } from '../../models/Post.interface';
+import { Tag } from '../../models/Tag';
 
 const CardComponent: FC<{ post: Post }> = ({ post }: { post: Post }) => {
   const { slug, metaData } = post;
@@ -31,7 +30,7 @@ const CardComponent: FC<{ post: Post }> = ({ post }: { post: Post }) => {
         <Stack style={{ marginTop: 24 }} direction="row" spacing={1}>
           {tags.map((tag: Tag, index: number) => (
             <Link key={index} href={`/blog`} passHref>
-              <Chip label={tag} variant="outlined" onClick={() => {}} />
+              <Chip label={tag} variant="outlined" />
             </Link>
           ))}
         </Stack>

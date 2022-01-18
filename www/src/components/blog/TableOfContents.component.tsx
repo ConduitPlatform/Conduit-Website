@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 
 import { useTheme } from '@mui/material';
 
@@ -9,8 +9,6 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 
-interface Props {}
-
 interface Section {
   topic: string;
   boundingTop: number;
@@ -19,7 +17,7 @@ interface Section {
 
 const marginTop = 100;
 
-const TableOfContentsComponent: FC<Props> = () => {
+const TableOfContentsComponent: FC = () => {
   const [offsetY, setOffsetY] = useState(0);
   const [sections, setSections] = useState<Section[]>([]);
 
@@ -31,9 +29,7 @@ const TableOfContentsComponent: FC<Props> = () => {
   }, []);
 
   useEffect(() => {
-    const els: HTMLElement[] = Array.from(
-      document.querySelectorAll('section.section-heading')
-    );
+    const els: HTMLElement[] = Array.from(document.querySelectorAll('section.section-heading'));
 
     const allSections = els.map((el: HTMLElement, index: number) => {
       const { top: boundingTop } = el.getBoundingClientRect();
@@ -69,8 +65,7 @@ const TableOfContentsComponent: FC<Props> = () => {
 
     sections.forEach((section: Section, index: number) => {
       if (index === 0) {
-        section.isActive =
-          sections[index + 1].boundingTop > offsetY + marginTop;
+        section.isActive = sections[index + 1].boundingTop > offsetY + marginTop;
       } else {
         if (sections[index + 1]) {
           section.isActive =
@@ -92,17 +87,14 @@ const TableOfContentsComponent: FC<Props> = () => {
               {index !== sections.length - 1 && (
                 <TimelineSeparator>
                   <TimelineDot
-                    color='secondary'
+                    color="secondary"
                     variant={section.isActive ? 'filled' : 'outlined'}
                   />
                   <TimelineConnector />
                 </TimelineSeparator>
               )}
               {index === sections.length - 1 && (
-                <TimelineDot
-                  color='secondary'
-                  variant={section.isActive ? 'filled' : 'outlined'}
-                />
+                <TimelineDot color="secondary" variant={section.isActive ? 'filled' : 'outlined'} />
               )}
               <TimelineContent>
                 <span
@@ -117,8 +109,7 @@ const TableOfContentsComponent: FC<Props> = () => {
                       : customTheme.palette.text.primary,
                     textTransform: 'capitalize',
                     cursor: 'pointer',
-                  }}
-                >
+                  }}>
                   {section.topic}
                 </span>
               </TimelineContent>
