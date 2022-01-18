@@ -4,14 +4,23 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { TextField, Typography, Chip, Stack, Paper } from '@mui/material';
-
+import { TextField, Chip, Stack, Paper, Box, Container, Grid } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-
 import BlogCard from '../../src/components/blog/BlogCard';
-
 import { Post } from '../../src/models/Post.interface';
 import { Tag, tagFilters } from '../../src/models/Tag';
+
+const styles = {
+  sectionLayout: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: 4,
+    '.fullGrow': {
+      flexGrow: 1,
+      width: 250,
+    },
+  },
+} as const;
 
 const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
@@ -43,10 +52,7 @@ const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps
   }, [tags]);
 
   return (
-    <div style={{ paddingTop: '72px', marginBottom: '48px' }}>
-      <Typography align="center" color="primary" variant="h1">
-        Blog
-      </Typography>
+    <Container style={{ paddingTop: '30px' }}>
       <Paper component="form" sx={{ width: 400, margin: '20px auto', boxShadow: 0 }}>
         <TextField
           style={{ width: 400 }}
@@ -59,7 +65,7 @@ const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps
           }}
         />
       </Paper>
-      <Paper
+      <Box
         sx={{
           height: 50,
           display: 'flex',
@@ -95,9 +101,9 @@ const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps
             />
           ))}
         </Stack>
-      </Paper>
+      </Box>
 
-      <div style={{ display: 'flex' }}>
+      <Grid container spacing={5}>
         {filteredPosts.map((post: Post, index: number) => {
           if (!isAllTag && post.metaData.tags.some((tag: Tag) => tags.includes(tag))) {
             return <BlogCard key={index} post={post} />;
@@ -105,8 +111,8 @@ const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps
             return <BlogCard key={index} post={post} />;
           }
         })}
-      </div>
-    </div>
+      </Grid>
+    </Container>
   );
 };
 
