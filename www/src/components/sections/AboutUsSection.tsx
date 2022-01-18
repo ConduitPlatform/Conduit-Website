@@ -10,7 +10,7 @@ import AboutCard from '../custom/AboutCard';
 const AboutUsSection: FC = () => {
   return (
     <Box mb={16}>
-      <Divider sx={{ my: 8 }}>ABOUT US</Divider>
+      <Divider sx={{ mt: [8, 16, 24], mb: 8 }}>ABOUT US</Divider>
       <Box display={'grid'} gap={2}>
         <AboutCard
           title={'WHO POWERED CONDUIT'}

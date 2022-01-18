@@ -8,7 +8,7 @@ import SaveIcon from '@mui/icons-material/Save';
 export default function ModulesSection() {
   return (
     <>
-      <Divider sx={{ my: 8 }}>Stop making the same stuff twice</Divider>
+      <Divider sx={{ mt: [8, 16, 24], mb: 8 }}>Stop making the same stuff twice</Divider>
       <Grid container spacing={3} padding={'30px'}>
         <Grid item md={4} sm={6} xs={12}>
           <ModuleCard
