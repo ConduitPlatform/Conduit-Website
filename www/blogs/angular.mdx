@@ -1,82 +1,55 @@
 ---
-title: 'Ionic Angular'
-dateString: 'November 11, 2021'
-mainImageUrl: '/blogIcons/quint-image.jpeg'
-excerpt: 'Learn about Ionic and Angular'
-tags: ['Ionic', 'Angular']
+title: 'Human Error'
+dateString: 'December 2, 2021'
+mainImageUrl: 'https://images.prismic.io/quintessentialwebsite/d2e3861f-b00a-4d00-938a-b22dfe9978dd_FB+LD.png?auto=format%2Ccompress&fit=max&q=50&w=1700&h=956'
+excerpt: 'What is the impact of human errors?'
+publisher: 'John Wicked'
+publisherPosition: 'Back end engineer'
+publisherIcon: 'https://images.prismic.io/quintessentialwebsite/2395921e-1b1b-4154-9e33-44970ae03d32_1_yFBGWR50zTc9S4PreOh6fw+%281%29.jpeg?auto=format%2Ccompress&fit=max&q=50'
+tags: ['Backend', 'philosophy']
 ---
-
 <BlogHeaderComponent
   title={title}
   dateString={dateString}
   mainImageUrl={mainImageUrl}
+  publisher={publisher}
+  publisherIcon={publisherIcon}
+  publisherPosition={publisherPosition}
 />
-
-<TableOfContentsComponent />
-
-<TableOfContentsItemComponent topic='Ionic'>
   <p>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae aperiam
-    omnis nesciunt, porro possimus ullam, nemo vero esse perferendis quam
-    voluptas architecto dicta quisquam eos magni culpa cupiditate earum officia
-    natus quo voluptates saepe vel, tempore reiciendis? Maxime labore
-    perspiciatis quos id eaque fuga architecto laudantium tenetur velit magnam
-    laborum, ut nihil aspernatur blanditiis iure sequi, consequuntur repellendus
-    et dolor a minima porro impedit eveniet ea.
+According to Wikipedia, Human Error is defined as
+
+something having been done that was <strong>“not intended by the actor; not desired by a set
+ of rules or an external observer; or that led the task or system outside its acceptable limits”</strong>
+
+I am sure we all have a grasp on what it is, as we’ve heard of it in most airplane crashes and are even guilty of it in our everyday lives while driving, writing code, or operating a nuclear facility in Three Mile Island. However, as this is an engineering article and I like to call myself a software engineer even outside of LinkedIn (shocker I know), we’re going to focus more on how human errors affect our everyday lives as programmers and what (if?) we can do about them. Also, I like analogies very much as I feel they can help, if done right, tackle new problems by using already existing knowledge so expect a lot of those.
   </p>
-</TableOfContentsItemComponent>
+<TableOfContentsItemComponent topic='What is the impact of human errors?'>
+<p>
+In general? Huge. Whether it is a RegEx causing CloudFlare’s servers to overload taking down a good chunk of the Internet with them or Hedge Funds loading up on too many GameStop shorts, the potential damage is immense.
 
-<TableOfContentsItemComponent topic='Angular'>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae aperiam omnis
-  nesciunt, porro possimus ullam, nemo vero esse perferendis quam voluptas
-  architecto dicta quisquam eos magni culpa cupiditate earum officia natus quo
-  voluptates saepe vel, tempore reiciendis? Maxime labore perspiciatis quos id
-  eaque fuga architecto laudantium tenetur velit magnam laborum, ut nihil
-  aspernatur blanditiis iure sequi, consequuntur repellendus et dolor a minima
-  porro impedit eveniet ea. architecto dicta quisquam eos magni culpa cupiditate
-  earum officia natus quo voluptates saepe vel, tempore reiciendis? Maxime
-  labore perspiciatis quos id eaque fuga architecto laudantium tenetur velit
-  magnam laborum, ut nihil aspernatur blanditiis iure sequi, consequuntur
-  repellendus et dolor a minima porro impedit eveniet ea. architecto dicta
-  quisquam eos magni culpa cupiditate earum officia natus quo voluptates saepe
-  vel, tempore reiciendis? Maxime labore perspiciatis quos id eaque fuga
-  architecto laudantium tenetur velit magnam laborum, ut nihil aspernatur
-  blanditiis iure sequi, consequuntur repellendus et dolor a minima porro
-  impedit eveniet ea.
-</TableOfContentsItemComponent>
+I will make the area of interest a lot smaller here and talk about how they affect back-end development since this is the area I have the most experience in. Besides, I feel (with no offense to our front-end colleagues) that the impact human errors have on the back-end can be much bigger than on the client-side of things. It’s one thing to worry about what will happen if the new form you added in the latest release breaks and another to wake up in the middle of the night to check again if your code to delete a user’s photo is rock solid and you don’t end up in GDPR jail (been there, done that and no automated test will ever make your primal brain feel safe).
 
-<TableOfContentsItemComponent topic='Filler'>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae aperiam omnis
-  nesciunt, porro possimus ullam, nemo vero esse perferendis quam voluptas
-  architecto dicta quisquam eos magni culpa cupiditate earum officia natus quo
-  voluptates saepe vel, tempore reiciendis? Maxime labore perspiciatis quos id
-  eaque fuga architecto laudantium tenetur velit magnam laborum, ut nihil
-  aspernatur blanditiis iure sequi, consequuntur repellendus et dolor a minima
-  porro impedit eveniet ea. Voluptatibus sequi necessitatibus voluptatum
-  repellat corporis. Amet numquam laboriosam ea provident consequatur illum eius
-  deleniti a consectetur itaque sapiente sit minus quis ab libero repudiandae,
-  laborum quam corporis iure dolor temporibus, fuga tenetur dolorum?Lorem ipsum
-  dolor sit amet consectetur adipisicing elit. Beatae aperiam omnis nesciunt,
-  porro possimus ullam, nemo vero esse perferendis quam voluptas architecto
-  dicta quisquam eos magni culpa cupiditate earum officia natus quo voluptates
-  saepe vel, tempore reiciendis? Maxime labore perspiciatis quos id eaque fuga
-  architecto laudantium tenetur velit magnam laborum, ut nihil aspernatur
-  blanditiis iure sequi, consequuntur repellendus et dolor a minima porro
-  impedit eveniet ea. Voluptatibus sequi necessitatibus voluptatum repellat
-  corporis. Amet numquam laboriosam ea provident consequatur illum eius deleniti
-  a consectetur itaque sapiente sit minus quis ab libero repudiandae, laborum
-  quam corporis iure dolor temporibus, fuga tenetur dolorum?Lorem ipsum dolor
-  sit amet consectetur adipisicing elit. Beatae aperiam omnis nesciunt, porro
-  possimus ullam, nemo vero esse perferendis quam voluptas architecto dicta
-  quisquam eos magni culpa cupiditate earum officia natus quo voluptates saepe
-  vel, tempore reiciendis? Maxime labore perspiciatis quos id eaque fuga
-  architecto laudantium tenetur velit magnam laborum, ut nihil aspernatur
-  blanditiis iure sequi, consequuntur repellendus et dolor a minima porro
-  impedit eveniet ea. Voluptatibus sequi necessitatibus voluptatum repellat
-  cors, fuga tenetur dolorum?nihil aspernatur blanditiis iure sequi,
-  consequuntur repellendus et dolor a minima porro impedit eveniet ea.
-  Voluptatibus sequi necessitatibus voluptatum repellat corporis. Amet numquam
-  laboriosam ea provident consequatur illum eius deleniti a consectetur itaque
-  sapiente sit minus quis ab libero repudiandae, laborum quam corporis iure
-  dolor temporibus, fuga tenetur doloruma?
+So what can actually go wrong? After all, having 100% code coverage in your tests is supposed to be enough. Or is it (*Vsauce music plays*)?
+
+</p>
+<BlogImageContainer maxWidth={'800px'} subTitle={'Automated tests are essential but can’t guarantee everything always works'} src={"https://prismic-io.s3.amazonaws.com/quintessentialwebsite/69412402-6813-4ad9-ba80-4a74f7a8db22_4xrnk8+2.jpg"} />
+<br/><br/>
+While automated tests are essential for every production application, it doesn’t mean you can just lay back and be 100% certain no bugs will ever happen. After all, these tests are also written by humans that cause the software to have bugs in the first place, more widely known as programmers. Unless you are absolutely certain you can test against any issue that might come up during the software’s lifetime, automated tests can provide some guarantees for the software up to a level. It is just a matter of time before these missed test cases come up as bugs.
+
+I’d argue that one of the most error-prone areas in back-end development is communication with third-party APIs. We all need them and use them, but they are one of the biggest pain points when you’re going to production and they include humans a lot. Now, of course, most of the well-known APIs will have prebuilt clients for the widely used programming languages, very detailed documentation, endpoints that are kind of self-explanatory, and a sandbox environment so you can write automated tests, all of which really help you prevent trips to a psychologist. However, there will come a time when you will have to use a third-party API that is missing some or all of these “features” (I put this in quotes, as I regard them as necessities for all public APIs and not nice-to-haves). This is where the madness unfolds, especially if more than one person is working on this project, as now you have a lot of dependency on humans. You depend on them correctly understanding the poorly written documentation and handling any case not documented as well as writing the business logic code. The cherry on top is when there is no sandbox environment or it was made as an afterthought -therefore unusable- so you can’t even write automated tests for it.
+
+The second and final point is communication. Human beings don’t come with interfaces and documentation yet (hopefully Neuralink solves this, but please Elon don’t use YAML), so communication is by default nondeterministic. You can give the same person the same thing phrased differently and get a different result every time. Since most, if not all of the business logic is handled by the back-end, there is less leeway than a Ryanair economy class seat for gaps in the understanding of the project or the features. Unfortunately, this is where most people (and especially developers) are not very good at. It is so easy to do it wrong and so hard to be sure that it is done right that I’d say that this is the biggest cause of “unexpected features” in production software.
+
+</TableOfContentsItemComponent>
+<TableOfContentsItemComponent topic='Will it be fixed when Homo Sapiens stable is released?'>
+  So far into the article, things are looking a bit like a Rubik’s cube. The more you think about it, the harder it becomes. It might be just me and my gross incompetence at solving a Rubik’s cube but you get the point. The cold hard truth is you can’t solve human errors. You can do your best to avoid them and then once an issue comes up due to them fix it as soon as possible, while also trying to prevent it from happening again. Even then, once in a while, your Amazon order will be lost, my loadout will bug out in COD Warzone and my API will return a 500 because 10 different variables conspired to cause a division by zero.
+
+  Let’s explore then a few ideas for handling human errors as a lead developer and also how not to do it.
+
+  One of the first things that might come to mind is punishment, which in the software development world would mean harsh words from your lead and/or ridicule from the team. After all, that guy that missed the STOP sign in the road was really moved by your use of the French language and I’m sure he’ll be more careful next time. I think that experience in other areas has shown us that punishment is not the best course of action for these types of things. In the end, human errors are not really avoidable, unless they are due to lack of attention or care, where I believe some strong criticism is warranted. In other cases, what is most likely to happen is that developers will be afraid to own up their mistakes and will result in them playing the blame game which really hurts the team’s morale or just straight up hide them from you out of fear (leading to Issue Silos?). What I’d argue is a better solution is to embrace these mistakes and focus on solving them when they happen, as well as update your practices to make sure they either don’t happen at all or are very unlikely in the future. In any case, yelling at your team because of mistakes is bad even from an engineering point of view, as you’re devoting time and energy to something that in the end does not fix anything, while this time and energy would be much better spent at tackling the actual issue and developing mechanisms to prevent similar mistakes from happening.
+
+  Previously, I mentioned that automated tests will not catch every bug that might come up. While true, it does not mean you should ignore them. It will not only prevent a lot of bugs that cannot be caught by manual testing, but it also has some added benefits. For starters, it makes refactoring a lot easier and safe. Refactors is just a matter of time since no first version of code is perfect and are essential to keep the codebase maintainable and under control. The indirect result of this is that there will be even fewer mistakes made that way since refactoring and generally changing the code requires less brainpower and the developers can be more confident.
+
+  Adding to automated tests, what also helps deliver software that is higher quality is developing a culture of ownership. The code a developer writes should not be just another part of a big soulless system. The developers must have ownership of their code (not in the legal sense, rather a more psychological connection) and as a result, be responsible for it. When an issue arises, the developer who wrote the code should be the one responsible for fixing it, not because he is the one who messed up, but because it is their code.
 </TableOfContentsItemComponent>

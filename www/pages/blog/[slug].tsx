@@ -9,10 +9,14 @@ import TableOfContents from '../../src/components/blog/TableOfContents';
 import TableOfContentsItem from '../../src/components/blog/TableOfContentsItem';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 import hljs from 'highlight.js';
 import typescript from 'highlight.js/lib/languages/typescript';
-
 import 'highlight.js/styles/vs2015.css';
+import { Box, Button, Container } from '@mui/material';
+import { useRouter } from 'next/router';
+import BlogImageContainer from '../../src/components/blog/BlogImageContainer';
 
 hljs.registerLanguage('typescript', typescript);
 
@@ -20,17 +24,28 @@ const components = {
   BlogHeaderComponent: BlogHeader,
   TableOfContentsComponent: TableOfContents,
   TableOfContentsItemComponent: TableOfContentsItem,
+  BlogImageContainer: BlogImageContainer,
 };
 
 export default function Article({ source }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const router = useRouter();
   useEffect(() => {
     hljs.highlightAll();
   }, []);
 
   return (
-    <div style={{ width: '600px', margin: 'auto' }}>
-      <MDXRemote {...source} components={components} />
-    </div>
+    <Container sx={{ pt: 4, pb: 12 }} maxWidth={'xl'}>
+      <Button
+        sx={{ marginLeft: [0, 0, 0, 6] }}
+        color={'inherit'}
+        startIcon={<ArrowBackIcon />}
+        onClick={() => router.back()}>
+        GO BACK
+      </Button>
+      <Box maxWidth={'lg'} margin={'auto'} mt={1}>
+        <MDXRemote {...source} components={components} />
+      </Box>
+    </Container>
   );
 }
 

@@ -1,4 +1,5 @@
 import React, { FC, ReactNode } from 'react';
+import { Box, Typography } from '@mui/material';
 
 interface Props {
   topic: string;
@@ -8,8 +9,10 @@ interface Props {
 const TableOfContentsItem: FC<Props> = ({ topic, children }) => {
   return (
     <section id={topic.toLowerCase()} className="section-heading">
-      <h2>{topic}</h2>
-      <div>{children}</div>
+      <Typography variant={'h5'} gutterBottom>
+        <strong>{topic}</strong>
+      </Typography>
+      <Box>{children}</Box>
     </section>
   );
 };
