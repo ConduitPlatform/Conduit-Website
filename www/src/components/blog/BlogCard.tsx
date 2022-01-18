@@ -40,7 +40,7 @@ const BlogCard: FC<{ post: Post }> = ({ post }: { post: Post }) => {
               src={publisherIcon}
               width="50px"
               height="50px"
-              style={{ borderRadius: '50px' }}
+              style={{ borderRadius: '50px', objectFit: 'cover' }}
               alt="publisher"
             />
           }
