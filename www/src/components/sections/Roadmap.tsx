@@ -98,7 +98,8 @@ export default function Roadmap() {
             <TimelineItem>
               <TimelineOppositeContent>
                 <Typography variant="caption">
-                  Conduit is performant as-is. We'll make sure that stays true as the project grows
+                  {`Conduit is performant as-is.
+                   We'll make sure that stays true as the project grows`}
                 </Typography>
               </TimelineOppositeContent>
               <TimelineSeparator>
