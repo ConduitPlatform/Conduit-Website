@@ -4,13 +4,14 @@ import Box from '@mui/material/Box';
 import TypewriterComponent from 'typewriter-effect';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { duotoneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import { Button, Grid, Grow, SxProps } from '@mui/material';
+import { Button, Grid, Grow } from '@mui/material';
 import Illustration from '../../../public/icons/Illustration';
 import { styled } from '@mui/material/styles';
 import { ArrowForwardIos } from '@mui/icons-material';
 import Link from '../../Link';
+import { SxObject } from '../../models/SxObjects';
 
-const styles: { [field: string]: SxProps } = {
+const styles: SxObject = {
   basicText: {
     textAlign: ['center', 'center', 'left'],
   },

@@ -1,26 +1,31 @@
 import * as React from 'react';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import MiniInfoCard from '../custom/MiniInfoCard';
 import StorageIcon from '@mui/icons-material/Storage';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import ArchitectureIcon from '@mui/icons-material/Architecture';
+import { SxObject } from '../../models/SxObjects';
 
-const styles = {
+const styles: SxObject = {
   sectionLayout: {
     display: 'flex',
     flexWrap: 'wrap',
+    px: [0, 4],
     gap: 4,
     '.fullGrow': {
       flexGrow: 1,
       width: 250,
     },
   },
-} as const;
+};
 
 export default function LandingPageUsers() {
   return (
-    <>
-      <Box mt={[8, 12]} sx={styles.sectionLayout}>
+    <Box mt={[8, 12, 16]}>
+      <Typography py={3} variant={'h4'}>
+        <strong>Why Choose us?</strong>
+      </Typography>
+      <Box sx={styles.sectionLayout}>
         <MiniInfoCard
           className={'fullGrow'}
           imageComponent={<ArchitectureIcon />}
@@ -51,6 +56,6 @@ export default function LandingPageUsers() {
           }
         />
       </Box>
-    </>
+    </Box>
   );
 }

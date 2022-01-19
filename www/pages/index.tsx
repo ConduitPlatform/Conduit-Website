@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container } from '@mui/material';
+import { Box, Container, Divider } from '@mui/material';
 import LandingPageUsers from '../src/components/sections/LandingPageUsers';
 import Roadmap from '../src/components/sections/Roadmap';
 import FadeOnScrollSection from '../src/components/custom/FadeOnScrollSection';
@@ -13,7 +13,12 @@ export default function Index() {
     <Container maxWidth={'xl'} sx={{ pt: [4, 8, 12] }}>
       <IntroSection />
       <FadeOnScrollSection>
-        <UsedBySection />
+        <Box>
+          <UsedBySection />
+          <Box my={[4, 8]}>
+            <Divider />
+          </Box>
+        </Box>
       </FadeOnScrollSection>
       <FadeOnScrollSection>
         <LandingPageUsers />

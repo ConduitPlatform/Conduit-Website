@@ -4,9 +4,11 @@ import { Divider, DividerProps, Typography } from '@mui/material';
 
 const CustomDivider = styled(({ children, ...props }: DividerProps) => (
   <Divider {...props}>
-    <Typography>
-      <strong>{children}</strong>
-    </Typography>
+    {children && (
+      <Typography>
+        <strong>{children}</strong>
+      </Typography>
+    )}
   </Divider>
 ))((theme) => ({
   marginTop: theme.theme.spacing(20),
