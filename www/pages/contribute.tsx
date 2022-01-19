@@ -1,6 +1,8 @@
-import { Box, Container, Paper, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import * as React from 'react';
+import { Box, Button, Container, Paper, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { ArrowBack } from '@mui/icons-material';
+import Link from 'next/link';
 
 const ContributePaperComponent = styled(Paper)(({ theme }) => ({
   display: 'grid',
@@ -31,6 +33,11 @@ const TypographyComponent = styled(Typography)(({ theme }) => ({
 export default function Contribute() {
   return (
     <Container maxWidth={'lg'} sx={{ pt: [2, 4, 8] }}>
+      <Link href={'/'} passHref>
+        <Button sx={{ marginLeft: [0, 0, 0, 6] }} color={'inherit'} startIcon={<ArrowBack />}>
+          GO BACK
+        </Button>
+      </Link>
       <Heading textAlign="center" variant="h4" padding="25px">
         Contribute to Conduit
       </Heading>

@@ -12,9 +12,9 @@ import hljs from 'highlight.js';
 import typescript from 'highlight.js/lib/languages/typescript';
 import 'highlight.js/styles/vs2015.css';
 import { Box, Button, Container, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
 import BlogImageContainer from '../../src/components/blog/BlogImageContainer';
 import BlogHighlighter from '../../src/components/blog/BlogHighlighter';
+import Link from 'next/link';
 
 hljs.registerLanguage('typescript', typescript);
 
@@ -28,20 +28,17 @@ const components = {
 };
 
 export default function Article({ source }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const router = useRouter();
   useEffect(() => {
     hljs.highlightAll();
   }, []);
 
   return (
     <Container sx={{ pt: 4, pb: 12 }} maxWidth={'xl'}>
-      <Button
-        sx={{ marginLeft: [0, 0, 0, 6] }}
-        color={'inherit'}
-        startIcon={<ArrowBackIcon />}
-        onClick={() => router.back()}>
-        GO BACK
-      </Button>
+      <Link href="/blog" passHref>
+        <Button sx={{ marginLeft: [0, 0, 0, 6] }} color={'inherit'} startIcon={<ArrowBackIcon />}>
+          GO BACK
+        </Button>
+      </Link>
       <Box maxWidth={'lg'} margin={'auto'} mt={1}>
         <MDXRemote {...source} components={components} />
       </Box>
