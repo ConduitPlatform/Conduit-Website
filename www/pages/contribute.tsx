@@ -3,17 +3,16 @@ import { styled } from '@mui/material/styles';
 import * as React from 'react';
 
 const ContributePaperComponent = styled(Paper)(({ theme }) => ({
-  display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'space-between',
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  [theme.breakpoints.down('md')]: {
+    gridTemplateColumns: '1fr',
+  },
   padding: theme.spacing(2),
   minHeight: '140px',
   borderRadius: '8px',
   borderColor: theme.palette.secondary.main,
   backgroundColor: 'rgba(0, 0, 0, 0.2)',
-  '& > *': {
-    flex: '1 1 50%',
-  },
 }));
 
 const ATagComponent = styled('a')(({ theme }) => ({
@@ -47,7 +46,7 @@ export default function Contribute() {
         </Box>
         <Box
           sx={{
-            borderLeft: (theme) => ['none', `1px solid ${theme.palette.secondary.main}`],
+            borderLeft: (theme) => ['none', 'none', `1px solid ${theme.palette.secondary.main}`],
           }}>
           <TypographyComponent variant="h5">Welcoming environment</TypographyComponent>
           <TypographyComponent variant="subtitle2">
