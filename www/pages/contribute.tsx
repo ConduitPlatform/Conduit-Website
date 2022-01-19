@@ -16,12 +16,21 @@ const ContributePaperComponent = styled(Paper)(({ theme }) => ({
   },
 }));
 
+const ATagComponent = styled('a')(({ theme }) => ({
+  color: theme.palette.secondary.main,
+}));
+
+const Heading = styled(Typography)(({ theme }) => ({
+  fontWeight: 'bold',
+  textShadow: `1px 2px ${theme.palette.secondary.main}`,
+}));
+
 export default function Contribute() {
   return (
     <Container maxWidth={'lg'} sx={{ pt: [4, 8, 12] }}>
-      <Typography textAlign="center" variant="h4" padding="25px">
+      <Heading textAlign="center" variant="h4" padding="25px">
         Contribute to Conduit
-      </Typography>
+      </Heading>
       <ContributePaperComponent elevation={1} style={{ border: '1px solid black' }}>
         <Box>
           <Typography padding="20px" variant="h5">
@@ -34,7 +43,10 @@ export default function Contribute() {
             Conduit members, you are more than welcome to join us!
           </Typography>
         </Box>
-        <Box sx={{ borderLeft: (theme) => `1px solid ${theme.palette.secondary.main}` }}>
+        <Box
+          sx={{
+            borderLeft: (theme) => ['none', `1px solid ${theme.palette.secondary.main}`],
+          }}>
           <Typography sx={{ padding: '20px' }} variant="h5">
             Welcoming environment
           </Typography>
@@ -53,13 +65,15 @@ export default function Contribute() {
             lives and how they experience the world, and that in itself is gratifying.
           </Typography>
           <Typography style={{ marginBottom: '-30px' }} padding="20px" variant="h5">
-            <a href="https://github.com/Quintessential-SFT/conduit/blob/master/CODE_OF_CONDUCT.md">
+            <ATagComponent href="https://github.com/Quintessential-SFT/conduit/blob/master/CODE_OF_CONDUCT.md">
               Read our code of conduct ✊🏼
-            </a>
+            </ATagComponent>
           </Typography>
           <Typography padding="20px" variant="subtitle2">
             Also refer to our{' '}
-            <a href="https://github.com/Quintessential-SFT/conduit#readme">readme</a>
+            <ATagComponent href="https://github.com/Quintessential-SFT/conduit#readme">
+              readme
+            </ATagComponent>
           </Typography>
           <Typography padding="20px" variant="h5">
             Join us on social platforms!
