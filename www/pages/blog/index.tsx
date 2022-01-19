@@ -1,105 +1,77 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { TextField, Chip, Stack, Paper, Box, Container, Grid } from '@mui/material';
+import { TextField, Paper, Container, Grid, Tab, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import BlogCard from '../../src/components/blog/BlogCard';
 import { Post } from '../../src/models/Post.interface';
 import { Tag, tagFilters } from '../../src/models/Tag';
+import CustomTabs from '../../src/components/custom/CustomTabs';
 
 const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
-  const [postTitles] = useState<string[]>(
-    posts.map((post: Post) => post.metaData.title.toLowerCase())
-  );
   const [searchString, setSearchString] = useState('');
-  const [isAllTag, setIsAllTag] = useState(true);
-  const [tags, setTags] = useState<Tag[]>([]);
+  const [tag, setTag] = useState<Tag | ''>('');
 
-  useEffect(() => {
-    const filteredPostsTitles: string[] = [...postTitles].filter(
-      (title: string) => title.indexOf(searchString.trim().toLowerCase()) !== -1
+  const handleChange = (event: React.SyntheticEvent, newValue: Tag) => {
+    setTag(newValue);
+  };
+
+  const displayedPosts = useMemo(() => {
+    let tempPosts = posts.filter((post: Post) =>
+      post.metaData.title.toLowerCase().includes(searchString)
     );
-
-    const refilteredPosts: Post[] = [...posts].filter((post: Post) =>
-      filteredPostsTitles.includes(post.metaData.title.toLowerCase())
-    );
-
-    setFilteredPosts(refilteredPosts);
-  }, [searchString, postTitles, posts]);
-
-  useEffect(() => {
-    if (tags.length > 0) {
-      setIsAllTag(false);
-    } else {
-      setIsAllTag(true);
+    if (tag) {
+      tempPosts = tempPosts.filter((post: Post) => post.metaData.tags.find((item) => item == tag));
     }
-  }, [tags]);
+    return tempPosts;
+  }, [posts, tag, searchString]);
 
   return (
-    <Container style={{ paddingTop: '30px' }}>
-      <Paper component="form" sx={{ width: 400, margin: '20px auto', boxShadow: 0 }}>
-        <TextField
-          style={{ width: 400 }}
-          color="secondary"
-          placeholder="Search..."
-          value={searchString}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchString(e.target.value)}
-          InputProps={{
-            startAdornment: <SearchIcon style={{ fontSize: 30, marginRight: 8 }} />,
-            style: { fontSize: 20 },
-          }}
-        />
-      </Paper>
+    <Container sx={{ py: 4 }}>
       <Box
         sx={{
-          height: 50,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          margin: '20px auto',
-          boxShadow: 0,
-        }}>
-        <Stack direction="row" spacing={1}>
-          <Chip
-            onClick={() => {
-              setTags([]);
-              setIsAllTag(true);
-            }}
-            label="All"
-            variant="outlined"
-            color={isAllTag ? 'secondary' : 'default'}
-          />
-          {tagFilters.map((tag: Tag, index: number) => (
-            <Chip
-              onClick={() => {
-                if (!tags.includes(tag)) {
-                  setTags([...tags, tag]);
-                } else {
-                  const selectedTags = [...tags].filter((selectedTag: Tag) => selectedTag !== tag);
-                  setTags(selectedTags);
-                }
-              }}
-              key={index}
-              label={tag}
-              variant="outlined"
-              color={tags.includes(tag) ? 'secondary' : 'default'}
-            />
+          padding: (theme) => theme.spacing(1, 1, 4, 1),
+        }}
+        width={'100%'}
+        display={'flex'}
+        flexWrap={'wrap'}
+        alignItems={'center'}
+        rowGap={2}
+        columnGap={12}
+        justifyContent={'center'}>
+        <CustomTabs
+          value={tag}
+          scrollButtons={true}
+          variant={'scrollable'}
+          color={'secondary'}
+          onChange={handleChange}>
+          <Tab value="" label="All" />
+          {tagFilters.map((tag) => (
+            <Tab key={tag} value={tag} label={tag} />
           ))}
-        </Stack>
+        </CustomTabs>
+        <Paper component="form" sx={{ maxWidth: 600, boxShadow: 0 }}>
+          <TextField
+            fullWidth
+            size={'small'}
+            color="secondary"
+            placeholder="Search..."
+            value={searchString}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchString(e.target.value)}
+            InputProps={{
+              startAdornment: <SearchIcon />,
+            }}
+          />
+        </Paper>
       </Box>
 
-      <Grid container spacing={5} padding="5px">
-        {filteredPosts.map((post: Post, index: number) => {
-          if (!isAllTag && post.metaData.tags.some((tag: Tag) => tags.includes(tag))) {
-            return <BlogCard key={index} post={post} />;
-          } else if (isAllTag) {
-            return <BlogCard key={index} post={post} />;
-          }
-        })}
+      <Grid mt={1} container spacing={5} padding="5px">
+        {displayedPosts.map((post: Post, index: number) => (
+          <BlogCard key={index} post={post} />
+        ))}
       </Grid>
     </Container>
   );
