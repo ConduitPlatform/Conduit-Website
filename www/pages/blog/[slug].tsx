@@ -1,8 +1,7 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import fs from 'fs';
 import path from 'path';
-import React from 'react';
 import matter from 'gray-matter';
 import BlogHeader from '../../src/components/blog/BlogHeader';
 import SectionItem from '../../src/components/blog/SectionItem';

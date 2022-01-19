@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { FC } from 'react';
 import Link from 'next/link';
 import { styled } from '@mui/material/styles';
-import { FC } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -12,9 +11,9 @@ import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import { Post } from '../../models/Post.interface';
 import { Tag } from '../../models/Tag';
-import { Avatar, CardHeader, Grid } from '@mui/material';
+import { CardHeader, Grid } from '@mui/material';
 
-const StyledCard = styled(Card)(({ theme }) => ({
+const StyledCard = styled(Card)(() => ({
   margin: 'auto',
   marginTop: 2,
   padding: '20px',

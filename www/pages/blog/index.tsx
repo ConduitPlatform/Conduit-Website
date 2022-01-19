@@ -1,6 +1,5 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, ChangeEvent, useState } from 'react';
 import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
-import { ChangeEvent, useState } from 'react';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
@@ -49,8 +48,8 @@ const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps
           color={'secondary'}
           onChange={handleChange}>
           <Tab value="" label="All" />
-          {tagFilters.map((tag) => (
-            <Tab key={tag} value={tag} label={tag} />
+          {tagFilters.map((item) => (
+            <Tab key={item} value={item} label={item} />
           ))}
         </CustomTabs>
         <Paper component="form" sx={{ maxWidth: 600, boxShadow: 0 }}>
