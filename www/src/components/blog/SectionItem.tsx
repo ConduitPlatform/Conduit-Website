@@ -6,9 +6,9 @@ interface Props {
   children: ReactNode;
 }
 
-const TableOfContentsItem: FC<Props> = ({ topic, children }) => {
+const SectionItem: FC<Props> = ({ topic, children }) => {
   return (
-    <section id={topic.toLowerCase()} className="section-heading">
+    <section id={topic.toLowerCase()}>
       <Typography variant={'h5'} gutterBottom>
         <strong>{topic}</strong>
       </Typography>
@@ -17,4 +17,4 @@ const TableOfContentsItem: FC<Props> = ({ topic, children }) => {
   );
 };
 
-export default TableOfContentsItem;
+export default SectionItem;

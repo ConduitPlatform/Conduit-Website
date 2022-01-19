@@ -24,7 +24,7 @@ something having been done that was <strong>“not intended by the actor; not de
 
 I am sure we all have a grasp on what it is, as we’ve heard of it in most airplane crashes and are even guilty of it in our everyday lives while driving, writing code, or operating a nuclear facility in Three Mile Island. However, as this is an engineering article and I like to call myself a software engineer even outside of LinkedIn (shocker I know), we’re going to focus more on how human errors affect our everyday lives as programmers and what (if?) we can do about them. Also, I like analogies very much as I feel they can help, if done right, tackle new problems by using already existing knowledge so expect a lot of those.
   </p>
-<TableOfContentsItemComponent topic='What is the impact of human errors?'>
+<SectionItemComponent topic='What is the impact of human errors?'>
 <p>
 In general? Huge. Whether it is a RegEx causing CloudFlare’s servers to overload taking down a good chunk of the Internet with them or Hedge Funds loading up on too many GameStop shorts, the potential damage is immense.
 
@@ -41,8 +41,8 @@ I’d argue that one of the most error-prone areas in back-end development is co
 
 The second and final point is communication. Human beings don’t come with interfaces and documentation yet (hopefully Neuralink solves this, but please Elon don’t use YAML), so communication is by default nondeterministic. You can give the same person the same thing phrased differently and get a different result every time. Since most, if not all of the business logic is handled by the back-end, there is less leeway than a Ryanair economy class seat for gaps in the understanding of the project or the features. Unfortunately, this is where most people (and especially developers) are not very good at. It is so easy to do it wrong and so hard to be sure that it is done right that I’d say that this is the biggest cause of “unexpected features” in production software.
 
-</TableOfContentsItemComponent>
-<TableOfContentsItemComponent topic='Will it be fixed when Homo Sapiens stable is released?'>
+</SectionItemComponent>
+<SectionItemComponent topic='Will it be fixed when Homo Sapiens stable is released?'>
   So far into the article, things are looking a bit like a Rubik’s cube. The more you think about it, the harder it becomes. It might be just me and my gross incompetence at solving a Rubik’s cube but you get the point. The cold hard truth is you can’t solve human errors. You can do your best to avoid them and then once an issue comes up due to them fix it as soon as possible, while also trying to prevent it from happening again. Even then, once in a while, your Amazon order will be lost, my loadout will bug out in COD Warzone and my API will return a 500 because 10 different variables conspired to cause a division by zero.
 
   Let’s explore then a few ideas for handling human errors as a lead developer and also how not to do it.
@@ -52,4 +52,4 @@ The second and final point is communication. Human beings don’t come with inte
   Previously, I mentioned that automated tests will not catch every bug that might come up. While true, it does not mean you should ignore them. It will not only prevent a lot of bugs that cannot be caught by manual testing, but it also has some added benefits. For starters, it makes refactoring a lot easier and safe. Refactors is just a matter of time since no first version of code is perfect and are essential to keep the codebase maintainable and under control. The indirect result of this is that there will be even fewer mistakes made that way since refactoring and generally changing the code requires less brainpower and the developers can be more confident.
 
   Adding to automated tests, what also helps deliver software that is higher quality is developing a culture of ownership. The code a developer writes should not be just another part of a big soulless system. The developers must have ownership of their code (not in the legal sense, rather a more psychological connection) and as a result, be responsible for it. When an issue arises, the developer who wrote the code should be the one responsible for fixing it, not because he is the one who messed up, but because it is their code.
-</TableOfContentsItemComponent>
+</SectionItemComponent>

@@ -6,7 +6,7 @@ import React from 'react';
 import matter from 'gray-matter';
 import BlogHeader from '../../src/components/blog/BlogHeader';
 import TableOfContents from '../../src/components/blog/TableOfContents';
-import TableOfContentsItem from '../../src/components/blog/TableOfContentsItem';
+import SectionItem from '../../src/components/blog/SectionItem';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -14,7 +14,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import hljs from 'highlight.js';
 import typescript from 'highlight.js/lib/languages/typescript';
 import 'highlight.js/styles/vs2015.css';
-import { Box, Button, Container } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import BlogImageContainer from '../../src/components/blog/BlogImageContainer';
 
@@ -23,8 +23,10 @@ hljs.registerLanguage('typescript', typescript);
 const components = {
   BlogHeaderComponent: BlogHeader,
   TableOfContentsComponent: TableOfContents,
-  TableOfContentsItemComponent: TableOfContentsItem,
+  SectionItemComponent: SectionItem,
   BlogImageContainer: BlogImageContainer,
+  Box: Box,
+  Typography: Typography,
 };
 
 export default function Article({ source }: InferGetStaticPropsType<typeof getStaticProps>) {
