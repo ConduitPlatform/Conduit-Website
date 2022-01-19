@@ -1,10 +1,10 @@
-export type Tag = 'Angular' | 'Ionic' | 'React' | 'Next' | 'Nest' | 'Node';
+export type Tag = 'Development' | 'Design' | 'Business' | 'Updates' | 'Features' | 'Open source';
 
 export const tagFilters: Tag[] = [
-  'Angular',
-  'Ionic',
-  'React',
-  'Next',
-  'Nest',
-  'Node',
+  'Features',
+  'Open source',
+  'Development',
+  'Design',
+  'Business',
+  'Updates',
 ];

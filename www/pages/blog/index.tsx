@@ -40,7 +40,7 @@ const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps
         flexWrap={'wrap'}
         alignItems={'center'}
         rowGap={2}
-        columnGap={12}
+        columnGap={5}
         justifyContent={'center'}>
         <CustomTabs
           value={tag}
