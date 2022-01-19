@@ -4,21 +4,22 @@ import Box from '@mui/material/Box';
 import TypewriterComponent from 'typewriter-effect';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { duotoneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, SxProps } from '@mui/material';
 import Illustration from '../../../public/icons/Illustration';
 import { styled } from '@mui/material/styles';
 import { ArrowForwardIos } from '@mui/icons-material';
-import Link from 'next/link';
+import Link from '../../Link';
 
-const styles = {
+const styles: { [field: string]: SxProps } = {
   basicText: {
     textAlign: ['center', 'center', 'left'],
   },
-} as any;
+};
 
 const StyledBox = styled(Box)(() => ({
   display: 'flex',
   justifyContent: 'space-evenly',
+  flexWrap: 'wrap',
   alignItems: 'center',
   gap: 20,
 }));
@@ -57,15 +58,16 @@ export default function IntroSection() {
              atomic Material-UI components. An experience you'd expect from a design system.`}
           </Typography>
           <StyledBox my={8}>
-            <Link href="/docs">
-              <Button
-                size="large"
-                variant="outlined"
-                color="secondary"
-                endIcon={<ArrowForwardIos />}>
-                GET STARTED
-              </Button>
-            </Link>
+            <Button
+              component={Link}
+              href={'/docs'}
+              size="large"
+              variant="outlined"
+              color="secondary"
+              endIcon={<ArrowForwardIos />}>
+              GET STARTED
+            </Button>
+
             <Box style={{ flexGrow: '1' }}>
               <SyntaxHighlighter style={duotoneLight}>
                 {'curl .... docker compose'}
