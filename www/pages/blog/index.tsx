@@ -30,10 +30,10 @@ const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps
   }, [posts, tag, searchString]);
 
   return (
-    <Container sx={{ py: 4 }}>
+    <Container sx={{ pt: 4, pb: 12 }}>
       <Box
         sx={{
-          padding: (theme) => theme.spacing(1, 1, 4, 1),
+          padding: (theme) => theme.spacing(1, 0),
         }}
         width={'100%'}
         display={'flex'}
