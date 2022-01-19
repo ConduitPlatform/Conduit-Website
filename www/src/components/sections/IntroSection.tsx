@@ -7,6 +7,8 @@ import { duotoneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Button, Grid } from '@mui/material';
 import Illustration from '../../../public/icons/Illustration';
 import { styled } from '@mui/material/styles';
+import { ArrowForwardIos } from '@mui/icons-material';
+import Link from 'next/link';
 
 const styles = {
   basicText: {
@@ -55,9 +57,15 @@ export default function IntroSection() {
              atomic Material-UI components. An experience you'd expect from a design system.`}
           </Typography>
           <StyledBox my={8}>
-            <Button size="large" variant="outlined" color="secondary">
-              GET STARTED
-            </Button>
+            <Link href="/docs">
+              <Button
+                size="large"
+                variant="outlined"
+                color="secondary"
+                endIcon={<ArrowForwardIos />}>
+                GET STARTED
+              </Button>
+            </Link>
             <Box style={{ flexGrow: '1' }}>
               <SyntaxHighlighter style={duotoneLight}>
                 {'curl .... docker compose'}
