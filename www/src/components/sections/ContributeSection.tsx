@@ -4,7 +4,7 @@ import * as React from 'react';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 const ContributeSection: FC = () => {
   return (
-    <Box mt={[8, 12, 16]}>
+    <Box mt={[8, 16, 20]}>
       <Typography gutterBottom align={'center'} variant={'h3'}>
         <strong>Join the conduit Community</strong>
       </Typography>

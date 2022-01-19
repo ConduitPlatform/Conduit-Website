@@ -27,8 +27,9 @@ export default function Index() {
       <FadeOnScrollSection>
         <ModulesSection />
       </FadeOnScrollSection>
-
-      <ContributeSection />
+      <FadeOnScrollSection>
+        <ContributeSection />
+      </FadeOnScrollSection>
       <FadeOnScrollSection>
         <Roadmap />
       </FadeOnScrollSection>
