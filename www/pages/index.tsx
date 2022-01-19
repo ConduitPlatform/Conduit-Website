@@ -7,6 +7,7 @@ import IntroSection from '../src/components/sections/IntroSection';
 import UsedBySection from '../src/components/custom/UsedBySection';
 import ModulesSection from '../src/components/sections/ModulesSection';
 import AboutUsSection from '../src/components/sections/AboutUsSection';
+import ContributeSection from '../src/components/sections/ContributeSection';
 
 export default function Index() {
   return (
@@ -26,6 +27,8 @@ export default function Index() {
       <FadeOnScrollSection>
         <ModulesSection />
       </FadeOnScrollSection>
+
+      <ContributeSection />
       <FadeOnScrollSection>
         <Roadmap />
       </FadeOnScrollSection>
