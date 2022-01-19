@@ -27,12 +27,7 @@ const config = {
           // Please change this to your repo.
           editUrl: 'https://github.com/Quintessential-SFT/Conduit-Website/tree/master/documentation',
         },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          editUrl:
-            'https://github.com/Quintessential-SFT/Conduit-Website/tree/master/documentation',
-        },
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
@@ -41,7 +36,7 @@ const config = {
   ],
 
   themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+  /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
         title: 'Conduit',
@@ -56,7 +51,11 @@ const config = {
             position: 'left',
             label: 'Docs',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          // {
+          //   to: '/blog',
+          //   label: 'Blog',
+          //   position: 'left'
+          // },
           {
             href: 'https://github.com/Quintessential-SFT/conduit',
             label: 'GitHub',
@@ -71,9 +70,17 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Overview',
+                to: '/',
               },
+              {
+                label: 'Core',
+                to: '/core',
+              },
+              // {
+              //   label: 'Modules',
+              //   to: '/modules',
+              // },
             ],
           },
           {
@@ -97,17 +104,13 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
-              },
-              {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/Quintessential-SFT/conduit',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © Quintessential SFT ${new Date().getFullYear()}. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
