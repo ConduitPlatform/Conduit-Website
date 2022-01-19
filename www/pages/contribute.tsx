@@ -30,7 +30,7 @@ const TypographyComponent = styled(Typography)(({ theme }) => ({
 
 export default function Contribute() {
   return (
-    <Container maxWidth={'lg'} sx={{ pt: [4, 8, 12] }}>
+    <Container maxWidth={'lg'} sx={{ pt: [2, 4, 8] }}>
       <Heading textAlign="center" variant="h4" padding="25px">
         Contribute to Conduit
       </Heading>
