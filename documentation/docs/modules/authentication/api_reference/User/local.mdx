@@ -4,7 +4,7 @@ sidebar_label : 'Local Routes'
 ---
 
 First of all, you have to create a client , to proceed to an operation.
-See here for more: [Create a client](../../core/security)
+See here for more: [Create a client](../../../../core/security)
 
 ## Headers
 Each request should include these:
@@ -19,9 +19,9 @@ Each request should include these:
 
 ## User registration
 
-| route             | method |       requires authentication |
-| -----------       | -----------   | ----------- |
-| /authentication/local/new      | POST       |  false
+| route                      | method        | requires authentication |
+| -----------                | -----------   | -----------             |
+| /authentication/local/new  | POST          |  false                  |
 
 ### Body params
 | Body params | Type | Required
@@ -124,8 +124,6 @@ If **'Ok'** is returned, an email will be sent to you to reset the password.
 ## 2FA - Two Factor Authentication
 
 ### Enable 2FA
-In order to enable two factor authentication you need to enable it by  [updating the authentication configuration](./config).
-
 | route             | method        |       requires authentication |
 | -----------       | -----------   | ----------- |
 | /authentication/local/enable-twofa/      | PUT       |  true
@@ -133,6 +131,7 @@ In order to enable two factor authentication you need to enable it by  [updating
 | Body params | Type | Required | Description
 | :-----------------: | :----: | :---------------------: | :---------------------: |
 | phoneNumber |  String   |      true   | Should begin with your international Dialling Code
+
 
 ***Check your mobile phone for the verification code***.
 
