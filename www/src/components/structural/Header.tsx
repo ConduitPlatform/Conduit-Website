@@ -19,6 +19,7 @@ import Link from '../../Link';
 
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
   padding: theme.spacing(3, 4),
+  top: -1,
 }));
 
 const styles = {
