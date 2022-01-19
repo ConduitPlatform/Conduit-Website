@@ -5,7 +5,6 @@ import path from 'path';
 import React from 'react';
 import matter from 'gray-matter';
 import BlogHeader from '../../src/components/blog/BlogHeader';
-import TableOfContents from '../../src/components/blog/TableOfContents';
 import SectionItem from '../../src/components/blog/SectionItem';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
@@ -22,7 +21,6 @@ hljs.registerLanguage('typescript', typescript);
 
 const components = {
   BlogHeaderComponent: BlogHeader,
-  TableOfContentsComponent: TableOfContents,
   SectionItemComponent: SectionItem,
   BlogImageContainer: BlogImageContainer,
   Box: Box,
