@@ -9,13 +9,13 @@ import SectionItem from '../../src/components/blog/SectionItem';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
 import hljs from 'highlight.js';
 import typescript from 'highlight.js/lib/languages/typescript';
 import 'highlight.js/styles/vs2015.css';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import BlogImageContainer from '../../src/components/blog/BlogImageContainer';
+import BlogHighlighter from '../../src/components/blog/BlogHighlighter';
 
 hljs.registerLanguage('typescript', typescript);
 
@@ -23,6 +23,7 @@ const components = {
   BlogHeaderComponent: BlogHeader,
   SectionItemComponent: SectionItem,
   BlogImageContainer: BlogImageContainer,
+  BlogHighlighter: BlogHighlighter,
   Box: Box,
   Typography: Typography,
 };
