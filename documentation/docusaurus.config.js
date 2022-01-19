@@ -77,10 +77,10 @@ const config = {
                 label: 'Core',
                 to: '/core',
               },
-              {
-                label: 'Modules',
-                to: '/modules',
-              },
+              // {
+              //   label: 'Modules',
+              //   to: '/modules',
+              // },
             ],
           },
           {
