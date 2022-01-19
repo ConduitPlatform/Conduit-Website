@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import CustomMenuDrawer from '../custom/CustomMenuDrawer';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
+import DropdownMenu from '../custom/DropdownMenu';
 
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
   padding: theme.spacing(3, 4),
@@ -63,6 +64,9 @@ const Header: FC = () => {
                 <HeaderLinkButton ButtonProps={{ href: '/blog', color: 'inherit' }}>
                   Blog
                 </HeaderLinkButton>
+              </Box>
+              <Box sx={styles.lgMenu}>
+                <DropdownMenu />
               </Box>
             </Box>
 

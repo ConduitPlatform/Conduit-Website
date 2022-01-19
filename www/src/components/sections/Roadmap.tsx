@@ -53,11 +53,14 @@ export default function Roadmap() {
             />
           </Typography>
           <Typography variant="subtitle2">
-            Even though Conduit is on its' early steps it strives to improve. Our vision is to help
-            people build their backend as fast and with as little effort possible. Being open-source
-            was an easy decision as we strongly believe the community is what is going to make
-            Conduit great. Even though Conduit is in a working state, in the coming months we will
-            work on requested changes/improvements and of course everyone is welcome to contibute.
+            {`Even though Conduit is on its' early steps it strives to improve.
+             Our vision is to help people build their backend as fast and with
+             as little effort possible.
+             Being open-source was an easy decision as we strongly believe the
+             community is what is going to make Conduit great. Even though
+             Conduit is in a working state, in the coming months we will
+             work on requested changes/improvements and of course everyone is
+             welcome to contribute.`}
           </Typography>
         </StyledGridItemText>
         <StyledGridItem item md={6} sm={12}>

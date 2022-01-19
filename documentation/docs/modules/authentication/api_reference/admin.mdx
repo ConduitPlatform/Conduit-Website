@@ -1,0 +1,123 @@
+---
+label: 'Admin'
+sidebar_label: 'Admin Routes'
+sidebar_position: 2
+---
+# Admin
+## Get users
+Fetching all registered users
+
+|        Route        | Method |
+| :-----------------: | :----: |
+| /admin/authentication/users |  GET |
+### Query params
+| Query params | Type | Required | Description |
+| :-----------------: | :----: | :---------------------: | :---------------------: |
+| skip |  Number   |      false   | Used for pagination
+| limit |  Number   |      false   | Used for pagination
+| isActive |  Boolean   |      false   | If true returns active users
+| provider |  String   |     false   |  Select the type of provider
+| search |  String   |      false   |  Used for searching
+| sort |  String   |       false   |  Sort option
+
+
+### Returns
+```json
+{
+    "users": [
+        {
+            "_id": "string",
+            "active": "boolean",
+            "isVerified": "boolean",
+            "hasTwoFa": "boolean",
+            "email": "string",
+            "createdAt": "date",
+            "updatedAt": "date",
+            "phoneNumber":"string"
+
+        }
+    ]
+}
+```
+
+## Create user
+
+|        route        | method | requires admin authentication |
+| :-----------------: | :----: | :---------------------: |
+| /admin/authentication/users |  POST   |          true           |
+
+### Body params
+|        Body params        | Type | Required |
+| :-----------------: | :----: | :---------------------: |
+| identification |  String   |      true   |
+| password |  String   |      true   |
+
+
+
+## Edit user
+You can edit user details by accessing this route .
+
+|        route        | method | requires admin authentication |
+| :-----------------: | :----: | :---------------------: |
+| /admin/authentication/users/:id |  PATCH   |          true           |
+
+### Body params
+| Body params | Type | Required
+| :-----------------: | :----: | :---------------------: |
+| email |  String   |      false   |
+| isVerified |  Boolean   |      false   |
+| isActive |  Boolean   |      false   |
+| hasTwoFa |  Boolean   |     false   |
+| phoneNumber |  String   |      false   |
+
+### Url params
+- id(string) - required
+
+
+## Delete users
+
+Admin can also delete users.
+
+|        route        | method | requires admin authentication |
+| :-----------------: | :----: | :---------------------: |
+| /admin/authentication/users/ |  DELETE   |          true           |
+
+
+### Query params
+
+| Body params | Type | Required | Description
+| :-----------------: | :----: | :---------------------: |
+| ids |  String []  |      true   | Array with user ids
+
+## Blocking and Unblocking users
+
+### Block user
+Block users from authenticating.
+
+|        route        | method | requires admin authentication |
+| :-----------------: | :----: | :---------------------: |
+| /admin/authentication/users/:id/block |  POST   |          true           |
+
+#### Url params
+- id(string) - required
+
+### Unblock user
+
+|        route        | method | requires admin authentication |
+| :-----------------: | :----: | :---------------------: |
+| /admin/authentication/users/:id/unblock |  POST   |          true           |
+
+#### Url params
+- id(string) - required
+
+### Toggle users
+Active users become inactive  and vice versa.
+
+|        route        | method | requires admin authentication |
+| :-----------------: | :----: | :---------------------: |
+| /admin/authentication/users/toggle |  POST   |          true           |
+
+#### Body params
+| Body params | Type | Required | Description
+| :-----------------: | :----: | :---------------------: |
+| ids |  String []  |      true   | Array with user ids
