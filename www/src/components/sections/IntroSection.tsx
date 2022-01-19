@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import TypewriterComponent from 'typewriter-effect';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { duotoneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import { Button, Grid, SxProps } from '@mui/material';
+import { Button, Grid, Grow, SxProps } from '@mui/material';
 import Illustration from '../../../public/icons/Illustration';
 import { styled } from '@mui/material/styles';
 import { ArrowForwardIos } from '@mui/icons-material';
@@ -76,7 +76,12 @@ export default function IntroSection() {
           </StyledBox>
         </Grid>
         <Grid item md={6} sm={12} xs={12}>
-          <Illustration />
+          <Grow in={true} timeout={{ enter: 1000 }}>
+            <Box>
+              <Illustration />
+            </Box>
+          </Grow>
+
           {/* <Image src={workspace} alt="workspace" /> */}
         </Grid>
       </Grid>
