@@ -3,7 +3,7 @@ on:
     types:
       - opened
     paths:
-      - "www/**"
+      - "documentation/**"
 
 jobs:
   build-test:
@@ -17,4 +17,4 @@ jobs:
           node-version: "14"
 
       - run: yarn
-      - run: cd www && yarn build
+      - run: cd documentation && yarn build
