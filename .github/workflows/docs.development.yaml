@@ -20,7 +20,7 @@ jobs:
           username: admin
           password: ${{ secrets.KUBECTLPROXY_PASSWORD }}
 
-  build-conduit-web:
+  build-conduit-docs:
     runs-on: ubuntu-20.04
     name: Build Conduit Docs
     steps:
