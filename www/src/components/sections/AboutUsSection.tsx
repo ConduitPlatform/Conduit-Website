@@ -1,10 +1,11 @@
 import { FC } from 'react';
-import { Box, Divider } from '@mui/material';
+import { Box } from '@mui/material';
 import * as React from 'react';
 import TrackChangesTwoToneIcon from '@mui/icons-material/TrackChangesTwoTone';
 import OpenSource from '../../../public/icons/open-source-fill.svg';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AboutCard from '../custom/AboutCard';
+import CustomDivider from '../custom/CustomDivider';
 
 const styles = {
   cardLayout: {
@@ -21,7 +22,7 @@ const styles = {
 const AboutUsSection: FC = () => {
   return (
     <Box mb={16}>
-      <Divider sx={{ mt: [8, 16, 24], mb: 8 }}>ABOUT US</Divider>
+      <CustomDivider>ABOUT US</CustomDivider>
       <Box sx={styles.cardLayout}>
         <AboutCard
           title={'Who powered conduit'}

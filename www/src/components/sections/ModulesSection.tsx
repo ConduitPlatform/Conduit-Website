@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { Divider, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import ModuleCard from '../custom/ModuleCard';
 import DataArrayIcon from '@mui/icons-material/DataArray';
 import MailIcon from '@mui/icons-material/Mail';
 import SaveIcon from '@mui/icons-material/Save';
+import CustomDivider from '../custom/CustomDivider';
 
 export default function ModulesSection() {
   return (
     <>
-      <Divider sx={{ mt: [8, 16, 24], mb: 8 }}>Stop making the same stuff twice</Divider>
+      <CustomDivider>Stop making the same stuff twice</CustomDivider>
       <Grid container spacing={3} padding={'30px'}>
         <Grid item md={4} sm={6} xs={12}>
           <ModuleCard

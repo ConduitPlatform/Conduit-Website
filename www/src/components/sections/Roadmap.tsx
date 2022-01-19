@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Divider, Grid, styled, Typography } from '@mui/material';
+import { Box, Grid, styled, Typography } from '@mui/material';
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
@@ -8,6 +8,7 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import TypewriterComponent from 'typewriter-effect';
+import CustomDivider from '../custom/CustomDivider';
 
 const StyledGridItem = styled(Grid)(() => ({
   display: 'flex',
@@ -29,7 +30,7 @@ const StyledGridItemText = styled(Grid)(() => ({
 export default function Roadmap() {
   return (
     <Box>
-      <Divider sx={{ mt: [8, 16, 24], mb: 8 }}>ROADMAP</Divider>
+      <CustomDivider>ROADMAP</CustomDivider>
       <Grid container spacing={1}>
         <StyledGridItemText item md={6} sm={12} xs={12}>
           <Typography variant="h4">
