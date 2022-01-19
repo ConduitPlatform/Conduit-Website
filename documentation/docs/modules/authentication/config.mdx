@@ -4,20 +4,31 @@ sidebar_position: 3
 ---
 
 # Config
+## Auth Config
 
-## Local configuration
-You can operate on authentication configuration with the help of the admin panel.
-<!-- ![Local Configuration](/img/localConfig.png) -->
-## Third party configuration
-### Facebook
+- **Token Invalidation Period:** You can change the live duration of the token.
 
-You can enable the facebook authentication through the admin panel by triggering the enabled/disabled button. Also, you can enable the account linking.
-<!-- ![Facebook Configuration](/img/facebookConfig.png) -->
-### Google
-In the same way, you can configure the google authentication.
-<!-- ![Google Configuration](/img/googleConfig.png) -->
+![Enable sign-in method](/img/authentication/auth_config.png)
+## Enable sign in method
+You can configure  the authentication module through the admin panel.<br />
+Depending on the sign-in method desired, toggle the corresponding button.<br />
+You may optionally enable email verification.
 
-### Twitch
-Same for twitch authentication.
-<!-- ![Twitch Configuration](/img/twitchConfig.png) -->
+![Enable sign-in method](/img/authentication/enable_sign_in_method.png)
 
+## How to enable 2FA?
+Find the user you are interested in, press the edit button on the right side of the panel and<br />
+a pop-up window will be displayed to you. In order to enable it, you should fill the phone number<br />
+section  with your actual phone number. <br />
+
+![Enable sign-in methods](/img/authentication/enable2FA.png)
+
+Users may now  individually [enable](./api_reference/user/local/#enable-2fa)  2FA
+for their accounts.
+
+## Third party
+
+You may third party authentication options through the admin panel by enabling the corresponding provider.<br />
+You may also enable account linking.
+
+![Third party Configuration](/img/authentication/facebook_enable.png)
