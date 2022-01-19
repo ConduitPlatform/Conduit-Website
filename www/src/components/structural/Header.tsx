@@ -1,11 +1,21 @@
 import * as React from 'react';
 import { FC, useEffect, useState } from 'react';
-import { AppBar, Grid, Box, IconButton, Typography, useMediaQuery, Theme } from '@mui/material';
+import {
+  AppBar,
+  Grid,
+  Box,
+  IconButton,
+  Typography,
+  useMediaQuery,
+  Theme,
+  Button,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import CustomMenuDrawer from '../custom/CustomMenuDrawer';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
 import DropdownMenu from '../custom/DropdownMenu';
+import Link from '../../Link';
 
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
   padding: theme.spacing(3, 4),
@@ -45,16 +55,12 @@ const Header: FC = () => {
             container
             justifyContent={'space-between'}
             alignItems={'center'}>
-            <Box display="flex" alignItems={'center'} columnGap={4}>
-              <Typography variant={'h6'}>
-                <strong>CONDUIT LOGO</strong>
-              </Typography>
-
-              <Box sx={styles.lgMenu}>
-                <HeaderLinkButton ButtonProps={{ href: '/', color: 'inherit' }}>
-                  Home
-                </HeaderLinkButton>
-              </Box>
+            <Box display="flex" alignItems={'center'} columnGap={5}>
+              <Button color={'inherit'} href={'/'} component={Link}>
+                <Typography variant={'h6'}>
+                  <strong>CONDUIT LOGO</strong>
+                </Typography>
+              </Button>
               <Box sx={styles.lgMenu}>
                 <HeaderLinkButton ButtonProps={{ href: '/docs', color: 'inherit' }}>
                   Docs

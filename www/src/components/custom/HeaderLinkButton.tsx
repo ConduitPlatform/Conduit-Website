@@ -21,10 +21,15 @@ const HeaderLinkButton: FC<ExtraLinkProps> = ({ children, ...props }) => {
     }),
     [props.variantActive, props.variantInactive]
   );
+
+  const isActiveLink = props.ButtonProps?.href
+    ? pathname.startsWith(props.ButtonProps.href)
+    : false;
+
   return (
     <Button
       component={Link}
-      variant={pathname === props.ButtonProps?.href ? variants.active : variants.inActive}
+      variant={isActiveLink ? variants.active : variants.inActive}
       {...props.ButtonProps}>
       {children}
     </Button>
