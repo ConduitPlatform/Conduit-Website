@@ -18,6 +18,7 @@ export default function ModulesSection() {
         <Grid item md={4} sm={6} xs={12}>
           <ModuleCard
             title="CMS"
+            href="/docs/modules/cms/"
             subtitle={
               <>
                 <Typography>
@@ -36,6 +37,7 @@ export default function ModulesSection() {
         <Grid item md={4} sm={6} xs={12}>
           <ModuleCard
             title="MAILS"
+            href="/docs/modules/email/"
             subtitle={
               <>
                 <Typography>
@@ -54,6 +56,7 @@ export default function ModulesSection() {
         <Grid item md={4} sm={6} xs={12}>
           <ModuleCard
             title="STORAGE"
+            href="/docs/modules/storage"
             subtitle={
               <>
                 <Typography>

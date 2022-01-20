@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 import { Divider, IconButton, Paper } from '@mui/material';
 
 import { ArrowForward } from '@mui/icons-material';
+import Link from '../../Link';
 
 const ModuleCardComponent = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -30,7 +31,7 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.secondary.main,
 }));
 
-const StyledSubtitle = styled(Typography)(({ theme }) => ({
+const StyledSubtitle = styled(Typography)(() => ({
   paddingTop: '7px',
 }));
 
@@ -38,15 +39,18 @@ interface ModuleCardProps {
   icon?: ReactComponentElement<any>;
   title: string;
   subtitle: ReactComponentElement<any>;
+  href: string;
 }
 
-const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon }) => {
+const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon, href }) => {
   return (
     <ModuleCardComponent variant="outlined">
       <StyledIconContainer>
         {icon}
         <Typography textAlign="center">{title}</Typography>
-        <ArrowForward />
+        <IconButton href={href} component={Link}>
+          <ArrowForward />
+        </IconButton>
       </StyledIconContainer>
       <Divider />
       <StyledSubtitle variant="subtitle2">
