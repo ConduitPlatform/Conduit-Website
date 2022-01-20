@@ -38,11 +38,12 @@ const StyledSubtitle = styled(Typography)(() => ({
 interface ModuleCardProps {
   icon?: ReactComponentElement<any>;
   title: string;
-  subtitle: ReactComponentElement<any>;
+  subtitle: string;
+  listItems: string[];
   href: string;
 }
 
-const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon, href }) => {
+const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon, href, listItems }) => {
   return (
     <ModuleCardComponent variant="outlined">
       <StyledIconContainer>
@@ -54,7 +55,12 @@ const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon, href }) => {
       </StyledIconContainer>
       <Divider />
       <StyledSubtitle variant="subtitle2">
-        {subtitle}
+        <Typography>{subtitle}</Typography>
+        <ul>
+          {listItems.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
         <StyledIconButton size="small"></StyledIconButton>
       </StyledSubtitle>
     </ModuleCardComponent>

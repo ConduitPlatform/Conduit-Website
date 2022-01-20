@@ -19,18 +19,12 @@ export default function ModulesSection() {
           <ModuleCard
             title="CMS"
             href="/docs/modules/cms/"
-            subtitle={
-              <>
-                <Typography>
-                  A full fledged schema-editor. You can even create your own custom endpoint!
-                </Typography>
-                <ul>
-                  <li>Create any content type(schema)</li>
-                  <li>Create collections based on said types</li>
-                  <li>Expose content through GraphQL</li>
-                </ul>
-              </>
-            }
+            subtitle="A full fledged schema-editor. You can even create your own custom endpoint!"
+            listItems={[
+              'Create any content type(schema)',
+              'Create collections based on said types',
+              'Expose content through GraphQL',
+            ]}
             icon={<DataArrayIcon />}
           />
         </Grid>
@@ -38,20 +32,12 @@ export default function ModulesSection() {
           <ModuleCard
             title="MAILS"
             href="/docs/modules/email/"
-            subtitle={
-              <>
-                <Typography>
-                  Create, send and manage your emails, syncing them via multiple providers.
-                </Typography>
-                <ul>
-                  <li>Upload your email templates on email provider account.</li>
-                  <li>
-                    Download created email templates from email provider to your local database.
-                  </li>
-                  <li>Email variables are also supported.</li>
-                </ul>
-              </>
-            }
+            subtitle="Create, send and manage your emails, syncing them via multiple providers."
+            listItems={[
+              'Upload your email templates on email provider account.',
+              'Download created email templates from email provider to your local database.',
+              'Email variables are also supported',
+            ]}
             icon={<MailIcon />}
           />
         </Grid>
@@ -59,18 +45,8 @@ export default function ModulesSection() {
           <ModuleCard
             title="STORAGE"
             href="/docs/modules/storage"
-            subtitle={
-              <>
-                <Typography>
-                  Containers and folders make it so much easier to go through your files!!
-                </Typography>
-                <ul>
-                  <li>Description</li>
-                  <li>Description</li>
-                  <li>Description</li>
-                </ul>
-              </>
-            }
+            subtitle="Containers and folders make it so much easier to go through your files!!"
+            listItems={['description1', 'description2']}
             icon={<SaveIcon />}
           />
         </Grid>
