@@ -15,6 +15,7 @@ import { ColorModeContext } from '../../../pages/_app';
 import CustomSwitch from '../custom/CustomSwitch';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
 import QuintContactLinks from '../custom/QuintContactLinks';
+import { navigationLinks } from '../../fixedData/navigationLinks';
 
 const Footer: FC = () => {
   const muiTheme = useTheme();
@@ -70,16 +71,13 @@ const Footer: FC = () => {
             />
           </Box>
           <Box display={'flex'} flexWrap={'wrap'} gap={2}>
-            <HeaderLinkButton ButtonProps={{ size: 'small', href: '/blog', color: 'inherit' }}>
-              Blog
-            </HeaderLinkButton>
-            <HeaderLinkButton ButtonProps={{ size: 'small', href: '/docs', color: 'inherit' }}>
-              DOCS
-            </HeaderLinkButton>
-            <HeaderLinkButton
-              ButtonProps={{ size: 'small', href: '/get-started', color: 'inherit' }}>
-              GET STARTED
-            </HeaderLinkButton>
+            {navigationLinks.map((item) => (
+              <HeaderLinkButton
+                key={item.title}
+                ButtonProps={{ href: item.href, color: 'inherit' }}>
+                {item.title}
+              </HeaderLinkButton>
+            ))}
           </Box>
         </Box>
       </Box>
