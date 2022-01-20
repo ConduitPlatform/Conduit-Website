@@ -20,9 +20,9 @@ const styles: SxObject = {
 
 export default function LandingPageUsers() {
   return (
-    <Box mt={[8, 12, 16]}>
+    <Box mt={[12, 16]}>
       <Typography py={3} variant={'h4'}>
-        <strong>Why Choose us?</strong>
+        <strong>Why Choose Conduit?</strong>
       </Typography>
       <Box sx={styles.sectionLayout}>
         <MiniInfoCard

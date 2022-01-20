@@ -43,7 +43,9 @@ const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon, href, listItem
     <ModuleCardComponent variant="outlined">
       <StyledIconContainer>
         {icon}
-        <Typography textAlign="center">{title}</Typography>
+        <Typography textAlign="center">
+          <strong>{title}</strong>
+        </Typography>
         <IconButton size="small" href={href} component={Link}>
           <ArrowForward />
         </IconButton>
