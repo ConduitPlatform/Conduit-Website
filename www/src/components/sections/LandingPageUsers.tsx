@@ -10,7 +10,6 @@ const styles: SxObject = {
   sectionLayout: {
     display: 'flex',
     flexWrap: 'wrap',
-    px: [0, 4],
     gap: 4,
     '.fullGrow': {
       flexGrow: 1,

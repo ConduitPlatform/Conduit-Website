@@ -14,7 +14,7 @@ export default function ModulesSection() {
         </Typography>
         <Typography variant={'body1'}>with various tools conduit has to offer!</Typography>
       </Box>
-      <Grid container spacing={3} padding={'30px'}>
+      <Grid container spacing={3}>
         <Grid item display="flex" md={4} sm={6} xs={12}>
           <ModuleCard
             title="CMS"
