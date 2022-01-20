@@ -1,13 +1,14 @@
-import { styled } from '@mui/material/styles';
-import { Box, Button, Divider, Drawer, DrawerProps, Typography, useTheme } from '@mui/material';
+import { alpha, styled } from '@mui/material/styles';
+import { Box, Button, Drawer, DrawerProps, Theme, Typography, useTheme } from '@mui/material';
 import * as React from 'react';
 import HeaderLinkButton from './HeaderLinkButton';
 import { FC, useContext } from 'react';
 import { ColorModeContext } from '../../../pages/_app';
 import CustomSwitch from './CustomSwitch';
 import DropdownMenu from './DropdownMenu';
-import Link from '../../Link';
 import { navigationLinks } from '../../fixedData/navigationLinks';
+import { SxObject } from '../../models/SxObjects';
+import Link from '../../Link';
 
 const CustomDrawer = styled((props: DrawerProps) => (
   <Drawer
@@ -26,47 +27,70 @@ const CustomDrawer = styled((props: DrawerProps) => (
   },
 }));
 
+const styles: SxObject = {
+  drawerBox: {
+    position: 'relative',
+  },
+  drawerTitle: {
+    position: 'absolute',
+    display: 'flex',
+    justifyContent: 'center',
+    top: 0,
+    right: 0,
+    left: 0,
+    padding: 2,
+    borderBottom: '1px solid',
+    borderColor: (theme: Theme) => alpha(theme.palette.text.primary, 0.4),
+  },
+};
 const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
 
+  const onButtonClick = () => (props?.onClose ? props.onClose({}, 'backdropClick') : undefined);
+
   return (
     <CustomDrawer {...props}>
-      <Box padding={3}>
-        <Button fullWidth color={'inherit'} href={'/'} component={Link}>
-          <Typography variant={'h6'}>
-            <strong>CONDUIT LOGO</strong>
-          </Typography>
-        </Button>
-        <Divider />
-        <Box mt={3} display={'grid'} alignItems={'center'} justifyContent={'center'} gap={4}>
+      <Box
+        sx={styles.drawerBox}
+        height={'100vh'}
+        display={'grid'}
+        alignItems={'center'}
+        justifyContent={'center'}>
+        <Box sx={styles.drawerTitle}>
+          <Button href={'/'} component={Link} color={'inherit'} onClick={onButtonClick}>
+            <Typography variant={'h4'}>
+              <strong>CONDUIT</strong>
+            </Typography>
+          </Button>
+        </Box>
+        <Box display={'grid'} alignItems={'center'} gap={3}>
           {navigationLinks.map((item) => (
             <Box key={item.title} margin={'auto'}>
-              <HeaderLinkButton ButtonProps={{ href: item.href, color: 'inherit' }}>
-                {item.title}
+              <HeaderLinkButton
+                ButtonProps={{ onClick: onButtonClick, href: item.href, color: 'inherit' }}>
+                <Typography>
+                  <strong>{item.title}</strong>
+                </Typography>
               </HeaderLinkButton>
             </Box>
           ))}
           <Box margin={'auto'}>
-            <DropdownMenu />
-          </Box>
-          <Box margin={'auto'}>
             <HeaderLinkButton
-              variantActive={'outlined'}
-              variantInactive={'contained'}
-              ButtonProps={{ href: '/docs', color: 'secondary' }}>
-              GET STARTED
+              ButtonProps={{ onClick: onButtonClick, href: '/docs', color: 'inherit' }}>
+              <Typography>
+                <strong>GET STARTED</strong>
+              </Typography>
             </HeaderLinkButton>
           </Box>
           <Box margin={'auto'}>
-            <a
-              href="https://github.com/Quintessential-SFT/conduit"
-              target={'_blank'}
-              rel="noreferrer">
+            <DropdownMenu size={'large'} sx={{ fontWeight: 'bold' }} />
+          </Box>
+          <Box mt={4}>
+            <a href="https://github.com/Quintessential-SFT/conduit">
               <img
                 alt="GitHub Repo stars"
-                src="https://img.shields.io/github/stars/Quintessential-SFT
-                /conduit?color=%235B44F2&logoColor=%235B44F2&style=social"
+                src="https://img.shields.io/github/stars/Quintessential-SFT/conduit?logoColor=%2307D9C4&style=social"
               />
             </a>
           </Box>

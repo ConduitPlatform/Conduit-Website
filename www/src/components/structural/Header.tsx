@@ -59,8 +59,8 @@ const Header: FC = () => {
             alignItems={'center'}>
             <Box display="flex" alignItems={'center'} columnGap={5}>
               <Button color={'inherit'} href={'/'} component={Link}>
-                <Typography variant={'h6'}>
-                  <strong>CONDUIT LOGO</strong>
+                <Typography variant={'h5'}>
+                  <strong>CONDUIT</strong>
                 </Typography>
               </Button>
               {navigationLinks.map((item) => (
