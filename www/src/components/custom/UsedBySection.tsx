@@ -21,7 +21,7 @@ export default function UsedBySection() {
         <Box sx={svgResponsiveStyle}>
           <Quint height="50" />
         </Box>
-        <Sports height="50" viewBox="0 0 377 144" />
+        <Sports width={130} height="50" viewBox="0 0 377 144" />
       </Grid>
     </Box>
   );
