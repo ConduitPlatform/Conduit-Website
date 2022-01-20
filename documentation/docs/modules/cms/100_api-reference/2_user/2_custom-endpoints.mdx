@@ -1,0 +1,51 @@
+---
+sidebar_label: Custom Endpoints
+sidebar_position: 3
+---
+
+# Custom Endpoint User Routes
+
+Custom endpoints are exposed under `/cms/function/:customEndpointName`.
+
+**Notice:** Routes are **only** generated for **enabled** custom endpoints, whose schema also **enables *crudOperations***.
+
+## Parameters
+
+A Custom endpoint's parameters are defined during CustomEndpoint creation.
+
+Paginated **GET** routes enable support for the following url parameters:
+
+| URL params |  Type   | Required |  Description              | Example |
+| :--------: | :-----: |:-------: | : ----------------------: | :-----: |
+| skip       | Integer | True     | Docs to skip              | 20      |
+| limit      | Integer | True     | Docs to get               | 20      |
+| sortObj    | String  | False    | Sort by fields            |   **TODO**      |
+| populate   | String  | False    | Relation fields to expand |   **TODO**      |
+
+## Return Types
+
+**TODO**
+
+### Example {#custom-endpoint-routes-example}
+
+[Create](../../1_get-started.mdx/#schemas-example) and 
+[populate](../../1_get-started.mdx/#documents-example) a schema named `citizens`, 
+then [register](../../1_get-started.mdx/#custom-endpoints-example) the `AdultSam` 
+custom endpoint, returning citizens with a first name of Sam, who have at least 18 years of age.<br />
+You may now send a **GET** request, including the necessary [authorization headers for a user request] (TODO).
+
+```json title="GET on /admin/cms/functions/AdultSam"
+[
+    {
+        "_id": "61e7debc5dadc501b101d167",
+        "firstName": "Sam",
+        "lastName": "Wizmore",
+        "ssn": "AAA-28-2952",
+        "age": 52,
+        "gender": "M",
+        "createdAt": "2022-01-19T09:49:48.558Z",
+        "updatedAt": "2022-01-19T09:49:48.558Z",
+        "__v": 0
+    }
+]
+```
