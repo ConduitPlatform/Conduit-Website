@@ -5,7 +5,9 @@ import {
   Button,
   Divider,
   FormHelperText,
+  SxProps,
   TextField,
+  Theme,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -16,6 +18,12 @@ import CustomSwitch from '../custom/CustomSwitch';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
 import QuintContactLinks from '../custom/QuintContactLinks';
 import { navigationLinks } from '../../fixedData/navigationLinks';
+
+const svgResponsiveStyle: SxProps = {
+  '& *': {
+    fill: (theme: Theme) => theme.palette.text.primary,
+  },
+};
 
 const Footer: FC = () => {
   const muiTheme = useTheme();
@@ -41,7 +49,9 @@ const Footer: FC = () => {
         flexWrap={'wrap'}
         rowGap={4}>
         <Box>
-          <QuintLogo />
+          <Box sx={svgResponsiveStyle}>
+            <QuintLogo />
+          </Box>
           <Box my={1}>
             <Typography variant={'body2'}>Join the quintessential newsletter!</Typography>
             <FormHelperText>Learn all of our news about products and updates.</FormHelperText>
