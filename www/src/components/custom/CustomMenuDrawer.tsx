@@ -54,7 +54,7 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
             <HeaderLinkButton
               variantActive={'outlined'}
               variantInactive={'contained'}
-              ButtonProps={{ href: '/docs' }}>
+              ButtonProps={{ href: '/docs', color: 'secondary' }}>
               GET STARTED
             </HeaderLinkButton>
           </Box>

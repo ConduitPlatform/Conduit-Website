@@ -16,12 +16,12 @@ export default function UsedBySection() {
     <Box mt={8}>
       <Grid container justifyContent="space-around" alignItems="center" gap={3} padding={3}>
         <Box sx={svgResponsiveStyle}>
-          <Paralos height="50" />
+          <Paralos width={220} />
         </Box>
         <Box sx={svgResponsiveStyle}>
-          <Quint height="50" />
+          <Quint width={220} />
         </Box>
-        <Sports width={130} height="50" viewBox="0 0 377 144" />
+        <Sports width={220} height="50" viewBox="0 0 377 144" />
       </Grid>
     </Box>
   );
