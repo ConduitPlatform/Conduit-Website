@@ -9,11 +9,9 @@ export default function UsedBySection() {
   return (
     <Box mt={8}>
       <Grid container justifyContent="space-around" alignItems="center" gap={3} padding={3}>
-        <Paralos width="250" height="50" viewBox="0 0 239 62" />
-        <Quint width="250" height="50" viewBox="0 0 187 34" />
-        <Box>
-          <Sports width="250" height="50" viewBox="0 0 377 144" />
-        </Box>
+        <Paralos width="250" height="50" />
+        <Quint width="250" height="50" />
+        <Sports width="250" height="50" viewBox="0 0 377 144" />
       </Grid>
     </Box>
   );
