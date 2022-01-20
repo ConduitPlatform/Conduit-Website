@@ -19,4 +19,4 @@ jobs:
           node-version: "14"
 
       - run: cd www && npm install
-      - run: yarn build
+      - run: cd www && yarn build
