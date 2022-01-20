@@ -16,6 +16,7 @@ import CustomMenuDrawer from '../custom/CustomMenuDrawer';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
 import DropdownMenu from '../custom/DropdownMenu';
 import Link from '../../Link';
+import { navigationLinks } from '../../fixedData/navigationLinks';
 
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
   padding: theme.spacing(3, 4),
@@ -62,16 +63,13 @@ const Header: FC = () => {
                   <strong>CONDUIT LOGO</strong>
                 </Typography>
               </Button>
-              <Box sx={styles.lgMenu}>
-                <HeaderLinkButton ButtonProps={{ href: '/docs', color: 'inherit' }}>
-                  Docs
-                </HeaderLinkButton>
-              </Box>
-              <Box sx={styles.lgMenu}>
-                <HeaderLinkButton ButtonProps={{ href: '/blog', color: 'inherit' }}>
-                  Blog
-                </HeaderLinkButton>
-              </Box>
+              {navigationLinks.map((item) => (
+                <Box key={item.title} sx={styles.lgMenu}>
+                  <HeaderLinkButton ButtonProps={{ href: item.href, color: 'inherit' }}>
+                    {item.title}
+                  </HeaderLinkButton>
+                </Box>
+              ))}
               <Box sx={styles.lgMenu}>
                 <DropdownMenu />
               </Box>
@@ -90,7 +88,7 @@ const Header: FC = () => {
                 <HeaderLinkButton
                   variantActive={'outlined'}
                   variantInactive={'contained'}
-                  ButtonProps={{ href: '/get-started' }}>
+                  ButtonProps={{ href: '/docs' }}>
                   GET STARTED
                 </HeaderLinkButton>
               </Box>

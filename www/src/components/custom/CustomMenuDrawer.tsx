@@ -7,6 +7,7 @@ import { ColorModeContext } from '../../../pages/_app';
 import CustomSwitch from './CustomSwitch';
 import DropdownMenu from './DropdownMenu';
 import Link from '../../Link';
+import { navigationLinks } from '../../fixedData/navigationLinks';
 
 const CustomDrawer = styled((props: DrawerProps) => (
   <Drawer
@@ -39,16 +40,13 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
         </Button>
         <Divider />
         <Box mt={3} display={'grid'} alignItems={'center'} justifyContent={'center'} gap={4}>
-          <Box margin={'auto'}>
-            <HeaderLinkButton ButtonProps={{ href: '/docs', color: 'inherit' }}>
-              Docs
-            </HeaderLinkButton>
-          </Box>
-          <Box margin={'auto'}>
-            <HeaderLinkButton ButtonProps={{ href: '/blog', color: 'inherit' }}>
-              Blog
-            </HeaderLinkButton>
-          </Box>
+          {navigationLinks.map((item) => (
+            <Box key={item.title} margin={'auto'}>
+              <HeaderLinkButton ButtonProps={{ href: item.href, color: 'inherit' }}>
+                {item.title}
+              </HeaderLinkButton>
+            </Box>
+          ))}
           <Box margin={'auto'}>
             <DropdownMenu />
           </Box>
@@ -56,7 +54,7 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
             <HeaderLinkButton
               variantActive={'outlined'}
               variantInactive={'contained'}
-              ButtonProps={{ href: '/get-started' }}>
+              ButtonProps={{ href: '/docs' }}>
               GET STARTED
             </HeaderLinkButton>
           </Box>
