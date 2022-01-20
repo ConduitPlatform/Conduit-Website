@@ -5,11 +5,29 @@ sidebar_position: 1
 
 # Cinema Ticket Booking
 
-**<ins>Scenario</ins>:**<br />
-You are a building a ticket booking website for a cinema.<br />
-You need a fast, yet efficient way to develop 
+This is a beginner friendly tutorial intended to familiarize developers with the creation and 
+utilization of custom schemas in a simple ticket booking application.
 
-**<ins>Requirements</ins>:**<br />
+This tutorial makes use of [Conduit's REST API] (TODO) for CRUD operations.
+
+### Prerequisites
+
+Following this tutorial requires that you have already read the CMS module's 
+[Getting Started](../1_get-started.mdx) guide.<br />
+Please make sure you understand the basics before resuming.
+
+Make sure you don't disable CRUD operations or enable authentication while 
+creating your schemas as this goes beyond the scope of this basic tutorial.
+
+-------------------------------------------------
+
+### Scenario
+
+You are a building a ticket booking website for a cinema.<br />
+You need a fast, yet efficient way to build your application's backend.
+
+### Requirements
+
 Your website needs to keep track of movies, halls and projections.<br />
 It should also be aware of ticket availability for the latter.<br />
 In order to represent each one of these through types, we need to figure out their specifications.
@@ -19,97 +37,73 @@ A hall needs a name, a number of seats and a class.<br />
 A projection has relation fields to a movie and a hall, as well as a datetime field and 
 a counter for the tickets sold for it.
 
-All of the generated schemas come with unique identifiers and timestamps for creation and<br />
-modification times out of the box, so we don't need to specify any of these ourselves.
-
 Head to the admin panel's CMS page so we can begin creating our schemas.<br />
-Here's a [reminder](../1_get-started.mdx/#create-schemas-example) for you in case you need 
-to freshen up your memory on how to do that.
 
-Make sure you don't disable CRUD operations or enable authentication for our simple tutorial.<br />
+-------------------------------------------------
 
-**<ins>Movies</ins>:**<br />
+## Building our Backend
+
+### Movies Schema:
+
 Create a new schema and name it `Movies`.<br />
 A movie's name is a string, so drag a text field element into the schema fields area.<br />
-After the field edit pane is brought up, sets its name to `name` and make it required, then press "OK".
+After the field edit pane is brought up, set its name to `name` and make it required.
 
-Drag another text field, name it `director`, make it `required` and save that too.<br />
+Drag another text field, name it `director`, make it required and save that too.<br />
 We are going to represent duration in minutes, so use a number field, name it `duration` and make that too required.<br />
 At last, drag a date field into the schema area, name it `releaseDate`. Yeap, that's also required.
 
-**TODO: ADD SCREENSHOT**
+![Movies Schema Created](/img/modules/cms/tutorials/cinema_tickets_booking/movies_schema_created.png)
 
 Our schema looks solid. Hit that save button 💾.
 
-**<ins>Halls</ins>:**<br />
+Note how we used a text type for the `Movies` schemas's `director` field in 
+order to keep the tutorial's complexity at check.<br />
+Ideally, we would be storing the directors on a separate schema and using a relation field instead.<br />
+Feel free to play around and improve on the original design after you're done.
+
+### Halls Schema:
+
 Create a `Halls` schema, adding three required fields.<br />
-A `name` text field, a `seats` number field and a `class` enum field (of type string).
+A `name` text field, a `seats` number field and a `class` enum field (of type text).<br />
+Enum options are separated via new lines.
+
+![Halls Class Enum](/img/modules/cms/tutorials/cinema_tickets_booking/halls_class_enum.png)
 
 Damn, you're getting good at this.
 
-**<ins>Projections</ins>:**<br />
+### Projections Schema:
+
 Last but not least, create a `Projections` schema to combine these two.<br />
 Add two required relation fields. Name the first one `movie` and select `Movies` from the relation type dropdown.<br />
-Now create a required `hall` field, setting its relation type to `Halls`.<br />
+Now create a required `hall` field, setting its relation type to `Halls`.
+
+![Projections Movie Relation](/img/modules/cms/tutorials/cinema_tickets_booking/projections_movie_relation.png)
+
 Use a date field to represent the `startTime` and make it required.<br />
-At last, throw in a required `ticketsSold` number field.
+At last, throw in a required `ticketsSold` number field with a default value of 0.
 
 We are going to use that last one to calculate the number of tickets available for sale based on the hall's seats down the road.
 
+-------------------------------------------------
 
+## Testing our CRUD Endpoints
 
-
-
-
-**TODO CONTINUE**
-
-Hey, our client is on the phone, we have new requirements. Damn it!<br />
-Tickets should now contain a unique identifier and support discounted prices.<br />
-So how do we go about implementing these changes?
-
-Let's create a new ticket schema.
+Wait that's it?<br />
+Almost. Remember that `Allow CRUD operations` checkbox you definitely didn't toggle off during schema creation?<br />
+Yeap. Your schemas are already exposed through [Conduit's REST API] (TODO).<br />
+GraphQl is also supported out of the box, but we're focusing on REST for this tutorial.
 
 **TODO**
-**write this and explain how to apply migrations**
 
+-------------------------------------------------
 
-
-Custom Endpoints? Director name, pegi18...
-
-
-
-Lets represent them as schemas and figure out their required fields.
-
-|  Type               | Fields |
-| :-----------------: | :----: |       
-| Movie               | name, 
-| Hall                | 
-| Ticket Availability |
-
-To keep things simple, we will not be implementing user authentication or payments in this example,<br />
-but you can easily add these in later using the [authentication](../../authentication) and 
-[payments](../../payments) modules.
-
-Now, lets walk through the configuration process.<br />
-Bring up the [Admin Panel] (TODO) and click on CMS in the list of available modules on the sidebar.
-
-![Schema List View](/img/modules/cms/admin/schema_list_view.png)
-
-You are now in the Schemas tab of the CMS module's settings.
-
-Lets begin by registering a new schema for our movies.<br />
-Clicking on the `Create New` button will prompt you for a type name, insert `Movies`.
-
-You should now be greeted by the schema creation and modification view.<br />
-We are going to specify a few sensible fields for our movie type.
-
-![Schema Edit View](/img/modules/cms/admin/schema_edit_view_filled.png)
-
-Drag a `Text` field element into our schema.<br />
-A field modification pane should pop up on the right.<br />
-This is going to be our movie's name field, so simply specify `name` as the field's name 
-and toggle the `required` checkbox.<br />
-This is going to make sure every movie entry has a name field.
+## Registering Custom Endpoints
 
 **TODO**
-**Simplify instructions, pointing to getting started and finnish tutorial**
+
+-------------------------------------------------
+
+## Finishing Touches
+
+**TODO**

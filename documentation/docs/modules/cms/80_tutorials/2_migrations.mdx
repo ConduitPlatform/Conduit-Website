@@ -1,0 +1,65 @@
+---
+sidebar_label: Applying Migrations
+sidebar_position: 2
+---
+
+# Applying Migrations
+
+This tutorial is going to teach you how to implement migrations and help you adapt 
+your existing schemas upon receiving new requirements, without losing any of your precious data.
+
+### Prerequisites
+
+This guide is a followup to the critically-acclaimed 
+[Cinema Ticket Booking tutorial](1_cinema_ticket_booking.mdx).<br />
+You don't really need to have used the previous tutorial to follow along, 
+but you'll need a basic understanding of the module's functionalities, so make sure you've at the very 
+least read the [Getting Started](../1_get-started.mdx) guide for the CMS module.
+
+-------------------------------------------------
+
+### Scenario
+
+So that previous project ended up being a **🅱️ig Success** 
+and I'm now enjoying my flashy vacation on a greek island 🍹.<br />
+Life is gooood. Oof, that's my new intern assistant on the phone.
+
+-Sir, our client just contacted us, we have some new requirements. 
+
+Damn it!<br />
+Tickets should now contain a unique identifier and support discounted prices.<br />
+They even need a pointless directors bio page for stuff nobody is ever going to read! 😵
+
+Hey docs guy, how can I implement these changes without breaking my production site?
+
+-Fear not fellow awesome person reading these docs. We've got you covered.
+
+### Requirements
+
+We are going to register two new schemas. One for our tickets and one for our directors.<br />
+We'll then migrate every unique `director` from our existing `Movies` schema over to the new dedicated one.<br />
+Similarly, we'll figure out a way to do the same for our `Projections` schema's `ticketsSold` field.
+
+-------------------------------------------------
+
+## Altering our Backend
+
+### Creating the new Schemas
+
+**TODO**
+
+### Migrating our Data
+
+**TODO**
+
+-------------------------------------------------
+
+## Where to go from here
+
+A similar real world application would definitely require some form of user authentication, 
+as we well as support for sending emails and processing payments.<br />
+We would therefore implore you to check out the respective modules:
+
+- [Authentication](../../authentication)
+- [Email](../../email)
+- [Payments](../../payments)
