@@ -39,7 +39,7 @@ const Footer: FC = () => {
         background: (theme) => `${theme.palette.background.paper}`,
       }}
       paddingY={3}
-      paddingX={4}>
+      paddingX={[2, 4]}>
       <Box
         margin={'auto'}
         maxWidth={'xl'}
