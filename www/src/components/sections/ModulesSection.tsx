@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Divider, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import ModuleCard from '../custom/ModuleCard';
 import DataArrayIcon from '@mui/icons-material/DataArray';
 import MailIcon from '@mui/icons-material/Mail';
@@ -7,8 +7,13 @@ import SaveIcon from '@mui/icons-material/Save';
 
 export default function ModulesSection() {
   return (
-    <>
-      <Divider sx={{ mt: [8, 16, 24], mb: 8 }}>Stop making the same stuff twice</Divider>
+    <Box mt={[8, 12, 16]}>
+      <Box py={3}>
+        <Typography variant={'h4'}>
+          <strong>Build a backend in minutes</strong>
+        </Typography>
+        <Typography variant={'body1'}>with various tools conduit has to offer!</Typography>
+      </Box>
       <Grid container spacing={3} padding={'30px'}>
         <Grid item md={4} sm={6} xs={12}>
           <ModuleCard
@@ -65,6 +70,6 @@ export default function ModulesSection() {
           />
         </Grid>
       </Grid>
-    </>
+    </Box>
   );
 }
