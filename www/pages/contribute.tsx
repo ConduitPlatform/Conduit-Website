@@ -3,6 +3,7 @@ import { Box, Button, Container, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ArrowBack } from '@mui/icons-material';
 import Link from 'next/link';
+import Github from '../public/icons/github.svg';
 
 const ContributePaperComponent = styled(Paper)(({ theme }) => ({
   display: 'grid',
@@ -75,11 +76,13 @@ export default function Contribute() {
               Read our code of conduct ✊🏼
             </ATagComponent>
           </TypographyComponent>
-          <TypographyComponent variant="subtitle2">
-            Also refer to our{' '}
+          <TypographyComponent display="flex" alignItems="center" variant="subtitle2">
+            Also refer to our
+            <div>&nbsp;</div>
             <ATagComponent href="https://github.com/Quintessential-SFT/conduit#readme">
               readme
             </ATagComponent>
+            <Github />
           </TypographyComponent>
           <TypographyComponent variant="h5">Join us on social platforms!</TypographyComponent>
           <TypographyComponent variant="subtitle2">
