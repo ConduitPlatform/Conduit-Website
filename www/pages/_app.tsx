@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider } from '@emotion/react';
 import createEmotionCache from '../src/createEmotionCache';
 import Layout from '../src/components/structural/Layout';
-import { PaletteMode } from '@mui/material';
+import { PaletteMode, responsiveFontSizes } from '@mui/material';
 import getDesignTokens from '../src/theme';
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -29,7 +29,10 @@ const ConduitApp = (props: any) => {
   );
 
   // Update the theme only if the mode changes
-  const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+  const theme = useMemo(() => {
+    const newTheme = createTheme(getDesignTokens(mode));
+    return responsiveFontSizes(newTheme);
+  }, [mode]);
 
   return (
     <CacheProvider value={emotionCache}>
