@@ -15,7 +15,7 @@ export default function ModulesSection() {
         <Typography variant={'body1'}>with various tools conduit has to offer!</Typography>
       </Box>
       <Grid container spacing={3} padding={'30px'}>
-        <Grid item md={4} sm={6} xs={12}>
+        <Grid item display="flex" md={4} sm={6} xs={12}>
           <ModuleCard
             title="CMS"
             href="/docs/modules/cms/"
@@ -25,16 +25,16 @@ export default function ModulesSection() {
                   A full fledged schema-editor. You can even create your own custom endpoint!
                 </Typography>
                 <ul>
-                  <li>Description</li>
-                  <li>Description</li>
-                  <li>Description</li>
+                  <li>Create any content type(schema)</li>
+                  <li>Create collections based on said types</li>
+                  <li>Expose content through GraphQL</li>
                 </ul>
               </>
             }
             icon={<DataArrayIcon />}
           />
         </Grid>
-        <Grid item md={4} sm={6} xs={12}>
+        <Grid item display="flex" md={4} sm={6} xs={12}>
           <ModuleCard
             title="MAILS"
             href="/docs/modules/email/"
@@ -44,16 +44,18 @@ export default function ModulesSection() {
                   Create, send and manage your emails, syncing them via multiple providers.
                 </Typography>
                 <ul>
-                  <li>Description</li>
-                  <li>Description</li>
-                  <li>Description</li>
+                  <li>Upload your email templates on email provider account.</li>
+                  <li>
+                    Download created email templates from email provider to your local database.
+                  </li>
+                  <li>Email variables are also supported.</li>
                 </ul>
               </>
             }
             icon={<MailIcon />}
           />
         </Grid>
-        <Grid item md={4} sm={6} xs={12}>
+        <Grid item display="flex" md={4} sm={6} xs={12}>
           <ModuleCard
             title="STORAGE"
             href="/docs/modules/storage"

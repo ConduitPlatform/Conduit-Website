@@ -48,7 +48,7 @@ const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon, href }) => {
       <StyledIconContainer>
         {icon}
         <Typography textAlign="center">{title}</Typography>
-        <IconButton href={href} component={Link}>
+        <IconButton size="small" href={href} component={Link}>
           <ArrowForward />
         </IconButton>
       </StyledIconContainer>
