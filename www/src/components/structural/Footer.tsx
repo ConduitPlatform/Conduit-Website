@@ -5,7 +5,9 @@ import {
   Button,
   Divider,
   FormHelperText,
+  SxProps,
   TextField,
+  Theme,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -15,6 +17,13 @@ import { ColorModeContext } from '../../../pages/_app';
 import CustomSwitch from '../custom/CustomSwitch';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
 import QuintContactLinks from '../custom/QuintContactLinks';
+import { navigationLinks } from '../../fixedData/navigationLinks';
+
+const svgResponsiveStyle: SxProps = {
+  '& *': {
+    fill: (theme: Theme) => theme.palette.text.primary,
+  },
+};
 
 const Footer: FC = () => {
   const muiTheme = useTheme();
@@ -30,7 +39,7 @@ const Footer: FC = () => {
         background: (theme) => `${theme.palette.background.paper}`,
       }}
       paddingY={3}
-      paddingX={4}>
+      paddingX={[2, 4]}>
       <Box
         margin={'auto'}
         maxWidth={'xl'}
@@ -40,7 +49,9 @@ const Footer: FC = () => {
         flexWrap={'wrap'}
         rowGap={4}>
         <Box>
-          <QuintLogo />
+          <Box sx={svgResponsiveStyle}>
+            <QuintLogo />
+          </Box>
           <Box my={1}>
             <Typography variant={'body2'}>Join the quintessential newsletter!</Typography>
             <FormHelperText>Learn all of our news about products and updates.</FormHelperText>
@@ -70,16 +81,13 @@ const Footer: FC = () => {
             />
           </Box>
           <Box display={'flex'} flexWrap={'wrap'} gap={2}>
-            <HeaderLinkButton ButtonProps={{ size: 'small', href: '/blog', color: 'inherit' }}>
-              Blog
-            </HeaderLinkButton>
-            <HeaderLinkButton ButtonProps={{ size: 'small', href: '/docs', color: 'inherit' }}>
-              DOCS
-            </HeaderLinkButton>
-            <HeaderLinkButton
-              ButtonProps={{ size: 'small', href: '/get-started', color: 'inherit' }}>
-              GET STARTED
-            </HeaderLinkButton>
+            {navigationLinks.map((item) => (
+              <HeaderLinkButton
+                key={item.title}
+                ButtonProps={{ href: item.href, color: 'inherit' }}>
+                {item.title}
+              </HeaderLinkButton>
+            ))}
           </Box>
         </Box>
       </Box>

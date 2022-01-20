@@ -10,7 +10,6 @@ const styles: SxObject = {
   sectionLayout: {
     display: 'flex',
     flexWrap: 'wrap',
-    px: [0, 4],
     gap: 4,
     '.fullGrow': {
       flexGrow: 1,
@@ -21,27 +20,18 @@ const styles: SxObject = {
 
 export default function LandingPageUsers() {
   return (
-    <Box mt={[8, 12, 16]}>
+    <Box mt={[12, 16]}>
       <Typography py={3} variant={'h4'}>
-        <strong>Why Choose us?</strong>
+        <strong>Why Choose Conduit?</strong>
       </Typography>
       <Box sx={styles.sectionLayout}>
-        <MiniInfoCard
-          className={'fullGrow'}
-          imageComponent={<ArchitectureIcon />}
-          title={'Comfortable design'}
-          subText={
-            'Design easy enough to be used and understood by all kinds of developers.' +
-            ' Design easy enough to be used and understood by all kinds of developers.'
-          }
-        />
         <MiniInfoCard
           className={'fullGrow'}
           imageComponent={<StorageIcon />}
           title={'for developers'}
           subText={
             'For developers that look for easy and fast api.' +
-            ' Build your own api, create your own endpoints,' +
+            ' Build your own server, create your own endpoints,' +
             ' use authentication as fast as posible,' +
             ' with a click of a button'
           }
@@ -53,6 +43,15 @@ export default function LandingPageUsers() {
           subText={
             'Well written documentation on how to use every single functionality of the CMS.' +
             ' Well written documentation on how to use every single functionality of the CMS.'
+          }
+        />
+        <MiniInfoCard
+          className={'fullGrow'}
+          imageComponent={<ArchitectureIcon />}
+          title={'Comfortable design'}
+          subText={
+            'Design easy enough to be used and understood by all kinds of developers.' +
+            ' Design easy enough to be used and understood by all kinds of developers.'
           }
         />
       </Box>

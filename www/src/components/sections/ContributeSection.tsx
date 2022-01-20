@@ -5,7 +5,7 @@ import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import Link from '../../Link';
 const ContributeSection: FC = () => {
   return (
-    <Box mt={[8, 16, 20]}>
+    <Box mt={[16, 20]}>
       <Typography gutterBottom align={'center'} variant={'h3'}>
         <strong>Join the Conduit Community</strong>
       </Typography>

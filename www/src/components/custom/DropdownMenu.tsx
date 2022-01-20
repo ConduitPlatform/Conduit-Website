@@ -4,7 +4,8 @@ import Button from '@mui/material/Button';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
+import { ButtonProps } from '@mui/material';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -47,7 +48,7 @@ const StyledMenu = styled((props: MenuProps) => (
   },
 }));
 
-const DropdownMenu = () => {
+const DropdownMenu: FC<ButtonProps> = ({ ...props }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [releases, setReleases] = useState([]);
   const open = Boolean(anchorEl);
@@ -77,9 +78,11 @@ const DropdownMenu = () => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         variant="outlined"
+        color={'secondary'}
         disableElevation
         onClick={handleClick}
-        endIcon={<KeyboardArrowDownIcon />}>
+        endIcon={<KeyboardArrowDownIcon />}
+        {...props}>
         Releases
       </Button>
       <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>

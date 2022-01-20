@@ -16,6 +16,7 @@ import CustomMenuDrawer from '../custom/CustomMenuDrawer';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
 import DropdownMenu from '../custom/DropdownMenu';
 import Link from '../../Link';
+import { navigationLinks } from '../../fixedData/navigationLinks';
 
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
   padding: theme.spacing(3, 4),
@@ -58,20 +59,17 @@ const Header: FC = () => {
             alignItems={'center'}>
             <Box display="flex" alignItems={'center'} columnGap={5}>
               <Button color={'inherit'} href={'/'} component={Link}>
-                <Typography variant={'h6'}>
-                  <strong>CONDUIT LOGO</strong>
+                <Typography variant={'h5'}>
+                  <strong>CONDUIT</strong>
                 </Typography>
               </Button>
-              <Box sx={styles.lgMenu}>
-                <HeaderLinkButton ButtonProps={{ href: '/docs', color: 'inherit' }}>
-                  Docs
-                </HeaderLinkButton>
-              </Box>
-              <Box sx={styles.lgMenu}>
-                <HeaderLinkButton ButtonProps={{ href: '/blog', color: 'inherit' }}>
-                  Blog
-                </HeaderLinkButton>
-              </Box>
+              {navigationLinks.map((item) => (
+                <Box key={item.title} sx={styles.lgMenu}>
+                  <HeaderLinkButton ButtonProps={{ href: item.href, color: 'inherit' }}>
+                    {item.title}
+                  </HeaderLinkButton>
+                </Box>
+              ))}
               <Box sx={styles.lgMenu}>
                 <DropdownMenu />
               </Box>
@@ -79,11 +77,10 @@ const Header: FC = () => {
 
             <Box display="flex" alignItems={'center'} columnGap={4}>
               <Box sx={styles.lgMenu} mt={1}>
-                <a href="https://github.com/Quintessential-SFT/Conduit-Website">
+                <a href="https://github.com/Quintessential-SFT/conduit">
                   <img
                     alt="GitHub Repo stars"
-                    src="https://img.shields.io/github/stars/Quintessential-SFT/
-                    Conduit-Website?color=%235B44F2&logoColor=%235B44F2&style=social"
+                    src="https://img.shields.io/github/stars/Quintessential-SFT/conduit?logoColor=%2307D9C4&style=social"
                   />
                 </a>
               </Box>
@@ -91,7 +88,7 @@ const Header: FC = () => {
                 <HeaderLinkButton
                   variantActive={'outlined'}
                   variantInactive={'contained'}
-                  ButtonProps={{ href: '/get-started' }}>
+                  ButtonProps={{ href: '/docs', color: 'secondary' }}>
                   GET STARTED
                 </HeaderLinkButton>
               </Box>

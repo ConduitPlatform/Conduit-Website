@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 import { Divider, IconButton, Paper } from '@mui/material';
 
 import { ArrowForward } from '@mui/icons-material';
+import Link from '../../Link';
 
 const ModuleCardComponent = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -12,9 +13,8 @@ const ModuleCardComponent = styled(Paper)(({ theme }) => ({
   borderRadius: '12px',
   borderColor: theme.palette.secondary.main,
   flexDirection: 'column',
-  backgroundColor: 'rgba(0, 0, 0, 0.2)',
   '&:hover': {
-    boxShadow: `0 0 0 1px ${theme.palette.secondary.main}, 3px 3px 12px 2px rgba(0,0,0, 0.3)`,
+    boxShadow: `0 0 0 1px ${theme.palette.secondary.main}, 3px 3px 12px 2px rgba(0,0,0, 0.2)`,
   },
 }));
 
@@ -26,32 +26,38 @@ const StyledIconContainer = styled('div')(() => ({
   flexWrap: 'wrap',
 }));
 
-const StyledIconButton = styled(IconButton)(({ theme }) => ({
-  color: theme.palette.secondary.main,
-}));
-
-const StyledSubtitle = styled(Typography)(({ theme }) => ({
+const StyledSubtitle = styled(Typography)(() => ({
   paddingTop: '7px',
 }));
 
 interface ModuleCardProps {
   icon?: ReactComponentElement<any>;
   title: string;
-  subtitle: ReactComponentElement<any>;
+  subtitle: string;
+  listItems: string[];
+  href: string;
 }
 
-const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon }) => {
+const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon, href, listItems }) => {
   return (
     <ModuleCardComponent variant="outlined">
       <StyledIconContainer>
         {icon}
-        <Typography textAlign="center">{title}</Typography>
-        <ArrowForward />
+        <Typography textAlign="center">
+          <strong>{title}</strong>
+        </Typography>
+        <IconButton size="small" href={href} component={Link}>
+          <ArrowForward />
+        </IconButton>
       </StyledIconContainer>
       <Divider />
       <StyledSubtitle variant="subtitle2">
-        {subtitle}
-        <StyledIconButton size="small"></StyledIconButton>
+        <Typography>{subtitle}</Typography>
+        <ul>
+          {listItems.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
       </StyledSubtitle>
     </ModuleCardComponent>
   );

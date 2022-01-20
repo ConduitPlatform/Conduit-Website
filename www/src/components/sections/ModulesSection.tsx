@@ -4,69 +4,93 @@ import ModuleCard from '../custom/ModuleCard';
 import DataArrayIcon from '@mui/icons-material/DataArray';
 import MailIcon from '@mui/icons-material/Mail';
 import SaveIcon from '@mui/icons-material/Save';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
 export default function ModulesSection() {
   return (
-    <Box mt={[8, 12, 16]}>
+    <Box mt={[12, 16]}>
       <Box py={3}>
         <Typography variant={'h4'}>
           <strong>Build a backend in minutes</strong>
         </Typography>
-        <Typography variant={'body1'}>with various tools conduit has to offer!</Typography>
+        <Typography variant={'body1'}>with various modules conduit has to offer!</Typography>
       </Box>
-      <Grid container spacing={3} padding={'30px'}>
-        <Grid item md={4} sm={6} xs={12}>
+      <Grid container spacing={3}>
+        <Grid item display="flex" md={4} sm={6} xs={12}>
           <ModuleCard
             title="CMS"
-            subtitle={
-              <>
-                <Typography>
-                  A full fledged schema-editor. You can even create your own custom endpoint!
-                </Typography>
-                <ul>
-                  <li>Description</li>
-                  <li>Description</li>
-                  <li>Description</li>
-                </ul>
-              </>
-            }
+            href="/docs/modules/cms/"
+            subtitle="This module facilitates the management of content types through the generation of db level schemas"
+            listItems={[
+              'Create any content type(schema)',
+              'Create collections based on said types',
+              'Expose content through GraphQL',
+              'Pagination, sorting etc',
+            ]}
             icon={<DataArrayIcon />}
           />
         </Grid>
-        <Grid item md={4} sm={6} xs={12}>
+        <Grid item display="flex" md={4} sm={6} xs={12}>
           <ModuleCard
             title="MAILS"
-            subtitle={
-              <>
-                <Typography>
-                  Create, send and manage your emails, syncing them via multiple providers.
-                </Typography>
-                <ul>
-                  <li>Description</li>
-                  <li>Description</li>
-                  <li>Description</li>
-                </ul>
-              </>
-            }
+            href="/docs/modules/email/"
+            subtitle="This module is used for sending e-mails base on templates or not via any plugin or code."
+            listItems={[
+              'Upload your email templates on email provider account.',
+              'Download created email templates from email provider to your local database.',
+              'Email variables are also supported',
+            ]}
             icon={<MailIcon />}
           />
         </Grid>
-        <Grid item md={4} sm={6} xs={12}>
+        <Grid item display="flex" md={4} sm={6} xs={12}>
           <ModuleCard
             title="STORAGE"
-            subtitle={
-              <>
-                <Typography>
-                  Containers and folders make it so much easier to go through your files!!
-                </Typography>
-                <ul>
-                  <li>Description</li>
-                  <li>Description</li>
-                  <li>Description</li>
-                </ul>
-              </>
-            }
+            href="/docs/modules/storage"
+            subtitle="Containers and folders make it so much easier to go through your files!!"
+            listItems={['description1', 'description2']}
             icon={<SaveIcon />}
+          />
+        </Grid>
+        <Grid item display="flex" md={4} sm={6} xs={12}>
+          <ModuleCard
+            title="AUTHENTICATION"
+            href="/docs/modules/authentication/"
+            subtitle="The authentication module is a module that offers authentication in multiple ways."
+            listItems={[
+              'Local authentication with email/password',
+              'Optional 2FA supported on all strategies',
+              'Optional Account linking',
+            ]}
+            icon={<PeopleAltIcon />}
+          />
+        </Grid>
+        <Grid item display="flex" md={4} sm={6} xs={12}>
+          <ModuleCard
+            title="FORMS"
+            href="/docs/modules/forms/"
+            subtitle="Simple form submission support. Mostly a glue for various conduit modules since we don't have a workflow creation tool"
+            listItems={[
+              'Local authentication with email/password',
+              'Optional 2FA supported on all strategies',
+              'Optional Account linking',
+            ]}
+            icon={<FormatAlignLeftIcon />}
+          />
+        </Grid>
+        <Grid item display="flex" md={4} sm={6} xs={12}>
+          <ModuleCard
+            title="NOTIFICATIONS"
+            href="/docs/modules/push-notifications/"
+            subtitle="Handles sending push notifications to users"
+            listItems={[
+              'Compatible with Firebase Push Notification Service',
+              'Easily configurable',
+              'Failover baked-in',
+            ]}
+            icon={<NotificationsActiveIcon />}
           />
         </Grid>
       </Grid>

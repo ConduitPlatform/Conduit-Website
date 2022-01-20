@@ -55,8 +55,9 @@ export default function IntroSection() {
             />
           </Typography>
           <Typography variant="body2" paddingTop={'50px'}>
-            {`Build a beautiful, modern website with flexible, fully customizable,
-             atomic Material-UI components. An experience you'd expect from a design system.`}
+            {`Build a flexible, fully customizable backend server, using Conduit.
+            Conduit is a NodeJS-based Backend as a Server,
+             that aims to cut down development times by providing ready-made modules that offer common functionality out of the box.`}
           </Typography>
           <StyledBox my={8}>
             <Button
