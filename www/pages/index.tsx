@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Box, Container, Divider } from '@mui/material';
-import LandingPageUsers from '../src/components/sections/LandingPageUsers';
 import Roadmap from '../src/components/sections/Roadmap';
 import FadeOnScrollSection from '../src/components/custom/FadeOnScrollSection';
 import IntroSection from '../src/components/sections/IntroSection';
@@ -9,6 +8,7 @@ import ModulesSection from '../src/components/sections/ModulesSection';
 import AboutUsSection from '../src/components/sections/AboutUsSection';
 import ContributeSection from '../src/components/sections/ContributeSection';
 import CoreSection from '../src/components/sections/CoreSection';
+import UsageSection from '../src/components/sections/UsageSection';
 
 export default function Index() {
   return (
@@ -23,7 +23,7 @@ export default function Index() {
         </Box>
       </FadeOnScrollSection>
       <FadeOnScrollSection>
-        <LandingPageUsers />
+        <UsageSection />
       </FadeOnScrollSection>
       <FadeOnScrollSection>
         <CoreSection />
