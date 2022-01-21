@@ -6,15 +6,6 @@ sidebar_label : 'Local Routes'
 First of all, you have to create a client , to proceed to an operation.
 See here for more: [Create a client](../../../../core/security)
 
-<!-- ## Headers -->
-<!-- Each request should include these: -->
-
-<!-- | Param      | Required |       Type | -->
-<!-- | ----------- | ----------- | ----------- | -->
-<!-- | clientid      | True        |   String -->
-<!-- | clientsecret   | True       |  String -->
-<!-- | masterkey    |  True        | String -->
-
 ## User registration
 
 | route             | method |       requires authentication |
@@ -52,7 +43,7 @@ Since  a user is registered, you need to verify your email. ***Check your email 
 
 ```tsx
 curl --location --request GET '<<CONDUIT_URL>>/hook/authentication/verify-email/' \
---header 'clientid: <API Key>'0
+--header 'clientid: <API Key>'
 ```
 
 -----------------------------------------------------
