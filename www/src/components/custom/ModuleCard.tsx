@@ -2,8 +2,7 @@ import * as React from 'react';
 import { FC, ReactComponentElement } from 'react';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
-import { Divider, IconButton, Paper } from '@mui/material';
-import { alpha } from '@mui/material';
+import { Divider, IconButton, Paper, alpha } from '@mui/material';
 
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Link from '../../Link';
