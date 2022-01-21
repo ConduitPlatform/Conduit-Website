@@ -6,7 +6,67 @@ sidebar_position: 2
 # Getting Started
 
 ## How do I start?
-Using this module requires to create an account on the provider that you want to use.
-
-## Setting configuration
+Using this module requires to create an account on the provider that you want to use.<br />
 Depending on the provider that you are using , you have to [set the email provider configuration](./config).
+
+## Execution
+
+**TODO**
+
+##### Using Docker
+
+```jsx
+docker run ...............
+```
+
+##### Using npm
+
+```jsx
+CONDUIT_SERVER=0.0.0.0:55152 SERVICE_IP=0.0.0.0:56155 npx @conduit/email start
+```
+
+
+-------------------------------------------------------
+
+## Sending Emails
+
+For convenience,I will make use of [Mailgun](../email/config#mailgun) provider to start showing you how to send Emails.<br />
+Do not forget to [create an account on Mailgun](https://signup.mailgun.com/new/signup).<br />
+Lucky you! You may now start sending Emails!
+
+![Send an email](/img/email/send_email.png)
+
+You may also choose the template option. <br />
+This option lets you to send an Email using a created template.<br />
+So , lets proceed with an example!
+
+## Templates
+To send an Email using a template, you should have create a template before.
+You can create a template by clicking the corresponding button.
+
+### Using Variables
+Conduit Email module supports template variables using handlebars.<br />
+So each variable must be inside a block.<br />
+For example: ```{{variable}}```
+
+![Create template with variables](/img/email/variables.png)
+
+Variable option is supported using handlebars.<br />
+Since you have created a template , the only thing you need to do is to choose it when the time to send Email will come.<br />
+
+![Send an email with variables](/img/email/send_variable_email.png)
+
+Find out more about variables and Handlebars expressions [here](https://handlebarsjs.com/guide/expressions.html).
+
+### Import a template
+
+Email module also supports an option which lets you import a template that you have created on the provider. <br />
+So, you may want for convenience to use this template instead of creating it through the admin panel. <br />
+Since you have configured your provider account with the Conduit, you will be able to import a template. <br />
+A drop down menu , which contains  the external created templates, will be displayed to you if you click the corresponding button.<br />
+
+![Import template](/img/email/import_template.png)
+
+### Synchronize external templates
+This option synchronizes the locally stored external templates  with the ones available in the remote provider.
+
