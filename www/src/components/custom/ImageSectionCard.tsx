@@ -21,7 +21,7 @@ const styles: SxObject = {
   },
   iconSize: {
     '& > *': {
-      maxHeight: 150,
+      maxHeight: 100,
     },
   },
   dividerSpacing: { mt: 1, mb: 2 },
