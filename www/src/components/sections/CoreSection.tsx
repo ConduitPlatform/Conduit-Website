@@ -57,7 +57,7 @@ const CoreSection: FC = () => {
         <Link href={'/docs/core/config'}>
           <ImageSectionCard
             subText={
-              'This is the basic module used to add modules to conduit and update configuration. In order for conduit to be initialized a database connection is needed.'
+              'This is the basic module used to add modules to conduit and update configuration.'
             }
             title={'Config'}
             image={<ToolIcon />}
