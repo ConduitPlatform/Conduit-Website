@@ -1,9 +1,10 @@
 import { FC } from 'react';
 import { Box } from '@mui/material';
 import * as React from 'react';
-import TrackChangesTwoToneIcon from '@mui/icons-material/TrackChangesTwoTone';
-import OpenSource from '../../../public/icons/open-source-fill.svg';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import OpenSource from '../../../public/icons/check.svg';
+import Target from '../../../public/icons/wikimapia.svg';
+import FaceIcon from '../../../public/icons/futurama.svg';
+
 import AboutCard from '../custom/AboutCard';
 import CustomDivider from '../custom/CustomDivider';
 
@@ -26,14 +27,14 @@ const AboutUsSection: FC = () => {
       <Box sx={styles.cardLayout}>
         <AboutCard
           title={'Who powered conduit'}
-          icon={<AccountCircleIcon color={'inherit'} sx={{ width: 60, height: 60 }} />}
+          icon={<FaceIcon />}
           text={
             "Conduit is powered by Quintessential. Quintessential is a technology company that develops premium software solutions for internal use and third-party clients. Quintessential is deeply concerned about Design and Development in every product that is being managed or developed under it's guidance."
           }
         />
         <AboutCard
           title={'What we strive for'}
-          icon={<TrackChangesTwoToneIcon color={'error'} sx={{ width: 60, height: 60 }} />}
+          icon={<Target />}
           text={
             'We want to deliver the most seamless backend experience possible. Even though Conduit is in a working state in the coming months we will work on requested changes/improvements and of course everyone is welcome to contibute.'
           }
