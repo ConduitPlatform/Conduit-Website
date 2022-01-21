@@ -26,11 +26,12 @@ export default function Index() {
         <LandingPageUsers />
       </FadeOnScrollSection>
       <FadeOnScrollSection>
-        <ModulesSection />
-      </FadeOnScrollSection>
-      <FadeOnScrollSection>
         <CoreSection />
       </FadeOnScrollSection>
+      <FadeOnScrollSection>
+        <ModulesSection />
+      </FadeOnScrollSection>
+
       <FadeOnScrollSection>
         <ContributeSection />
       </FadeOnScrollSection>
