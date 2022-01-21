@@ -2,20 +2,9 @@
 sidebar_position: 1
 sidebar_label : 'Local Routes'
 ---
-
+# Local Authentication
 First of all, you have to create a client , to proceed to an operation.
 See here for more: [Create a client](../../../../core/security)
-
-## Headers
-Each request should include these:
-
-| Param      | Required |       Type |
-| ----------- | ----------- | ----------- |
-| clientid      | True        |   String
-| clientsecret   | True       |  String
-| masterkey    |  True        | String
-
-
 
 ## User registration
 
@@ -36,6 +25,9 @@ Each request should include these:
 }
 ```
 
+
+-----------------------------------------------------
+
 ## Verify email
 Since  a user is registered, you need to verify your email. ***Check your email to take the verification token***!
 
@@ -53,6 +45,9 @@ Since  a user is registered, you need to verify your email. ***Check your email 
 curl --location --request GET '<<CONDUIT_URL>>/hook/authentication/verify-email/' \
 --header 'clientid: <API Key>'
 ```
+
+-----------------------------------------------------
+
 ## Login
 
 | route             | method |       requires authentication |
@@ -75,6 +70,8 @@ curl --location --request GET '<<CONDUIT_URL>>/hook/authentication/verify-email/
 }
 ```
 
+-----------------------------------------------------
+
 ## Forgot password
 
 | route             | method |       requires authentication |
@@ -90,6 +87,8 @@ curl --location --request GET '<<CONDUIT_URL>>/hook/authentication/verify-email/
 
 If **'Ok'** is returned, an email will be sent to you to reset the password.
 
+-----------------------------------------------------
+
 ## Reset password
  An email has been sent to you to reset the password.
 
@@ -103,6 +102,7 @@ If **'Ok'** is returned, an email will be sent to you to reset the password.
 | passwordResetToken |  String   |      true   |
 | password |  String   |      true   |
 
+-----------------------------------------------------
 
 ## Change password
 
@@ -120,6 +120,8 @@ If **'Ok'** is returned, an email will be sent to you to reset the password.
 ### Returns
 - If 2FA is enabled then a message will be returned asking for token input.
 - Otherwise,
+
+-----------------------------------------------------
 
 ## 2FA - Two Factor Authentication
 
@@ -148,6 +150,7 @@ Use the verification code sent to you in order to verify your phone number.
 | :-----------------: | :----: | :---------------------: | :---------------------: |
 | code |  String   |      true   | Verification code that has been sent to your phone
 
+-----------------------------------------------------
 
 ### Login with 2FA
 
@@ -164,6 +167,8 @@ A verification code will be sent to you. Use this code in order to login.
 | :-----------------: | :----: | :---------------------: | :---------------------: |
 | email |  String   |      true   | Your email
 | code |  String   |      true   | Verification code code
+
+-----------------------------------------------------
 
 ### Disable 2FA
 There is no parameters for this route.
