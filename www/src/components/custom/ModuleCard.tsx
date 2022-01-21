@@ -14,7 +14,9 @@ const ModuleCardComponent = styled(Paper)(({ theme }) => ({
   borderRadius: '12px',
   borderColor: theme.palette.secondary.main,
   flexDirection: 'column',
+  transition: '0.5s',
   '&:hover': {
+    transform: 'scale(1.01)',
     boxShadow: `3px 4px 5px 1px ${alpha(
       theme.palette.secondary.main,
       0.35
