@@ -6,7 +6,7 @@ import LockIcon from '../../../public/icons/lock.svg';
 import ApiIcon from '../../../public/icons/connect.svg';
 import { SxObject } from '../../models/SxObjects';
 import MemoryIcon from '@mui/icons-material/Memory';
-import Link from 'next/Link';
+import Link from 'next/link';
 
 const styles: SxObject = {
   childrenGrow: {
