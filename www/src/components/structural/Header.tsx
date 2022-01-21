@@ -1,15 +1,6 @@
 import * as React from 'react';
 import { FC, useEffect, useState } from 'react';
-import {
-  AppBar,
-  Grid,
-  Box,
-  IconButton,
-  Typography,
-  useMediaQuery,
-  Theme,
-  Button,
-} from '@mui/material';
+import { AppBar, Grid, Box, IconButton, useMediaQuery, Theme, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import CustomMenuDrawer from '../custom/CustomMenuDrawer';
@@ -17,6 +8,7 @@ import HeaderLinkButton from '../custom/HeaderLinkButton';
 import DropdownMenu from '../custom/DropdownMenu';
 import Link from '../../Link';
 import { navigationLinks } from '../../fixedData/navigationLinks';
+import CustomLogo from '../custom/CustomLogo';
 
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
   padding: theme.spacing(3, 4),
@@ -35,12 +27,6 @@ const styles = {
   xsMenu: {
     display: ['block', 'block', 'none'],
     marginLeft: 'auto',
-  },
-  logo: {
-    background: (theme: Theme) =>
-      `linear-gradient(180deg, ${theme.palette.primary.light} 20%, ${theme.palette.secondary.light} 60%, ${theme.palette.secondary.main} 90%)`,
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
   },
 };
 
@@ -65,10 +51,7 @@ const Header: FC = () => {
             alignItems={'center'}>
             <Box display="flex" alignItems={'center'} columnGap={5}>
               <Button color={'inherit'} href={'/'} component={Link}>
-                <Typography sx={styles.logo} variant={'h5'}>
-                  <strong>{'</>'}</strong>
-                  <strong>CONDUIT</strong>
-                </Typography>
+                <CustomLogo />
               </Button>
               {navigationLinks.map((item) => (
                 <Box key={item.title} sx={styles.lgMenu}>
