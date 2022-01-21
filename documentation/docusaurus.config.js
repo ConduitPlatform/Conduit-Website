@@ -74,12 +74,12 @@ const config = {
                 to: '/',
               },
               {
-                label: 'Core',
-                to: '/core',
-              },
-              {
                 label: 'Modules',
                 to: '/modules',
+              },
+              {
+                label: 'Admin Panel',
+                to: '/admin-panel',
               },
             ],
           },
