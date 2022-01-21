@@ -2,9 +2,9 @@ import * as React from 'react';
 import { FC, ReactComponentElement } from 'react';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
-import { Divider, IconButton, Paper } from '@mui/material';
+import { Divider, IconButton, Paper, alpha } from '@mui/material';
 
-import { ArrowForward } from '@mui/icons-material';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Link from '../../Link';
 
 const ModuleCardComponent = styled(Paper)(({ theme }) => ({
@@ -13,8 +13,13 @@ const ModuleCardComponent = styled(Paper)(({ theme }) => ({
   borderRadius: '12px',
   borderColor: theme.palette.secondary.main,
   flexDirection: 'column',
+  transition: '0.5s',
   '&:hover': {
-    boxShadow: `0 0 0 1px ${theme.palette.secondary.main}, 3px 3px 12px 2px rgba(0,0,0, 0.2)`,
+    transform: 'scale(1.01)',
+    boxShadow: `3px 4px 5px 1px ${alpha(
+      theme.palette.secondary.main,
+      0.35
+    )}, 3px 3px 12px 2px rgba(0,0,0, 0.2)`,
   },
 }));
 
@@ -47,7 +52,7 @@ const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon, href, listItem
           <strong>{title}</strong>
         </Typography>
         <IconButton size="small" href={href} component={Link}>
-          <ArrowForward />
+          <ArrowForwardIosIcon />
         </IconButton>
       </StyledIconContainer>
       <Divider />

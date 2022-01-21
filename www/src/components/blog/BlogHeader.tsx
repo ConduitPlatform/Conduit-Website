@@ -10,7 +10,7 @@ interface Props {
   publisherPosition: string;
 }
 const styles = {
-  image: { borderRadius: 8, width: '100%', height: 600, objectFit: 'cover' },
+  image: { borderRadius: 8, width: '100%', maxHeight: 600, objectFit: 'contain' },
   avatar: { borderRadius: '50%', objectFit: 'cover' },
   opacity: { opacity: 0.7 },
 } as const;

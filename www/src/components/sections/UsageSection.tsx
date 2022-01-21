@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Box, Typography } from '@mui/material';
 import MiniInfoCard from '../custom/MiniInfoCard';
-import StorageIcon from '@mui/icons-material/Storage';
-import PlagiarismIcon from '@mui/icons-material/Plagiarism';
-import ArchitectureIcon from '@mui/icons-material/Architecture';
 import { SxObject } from '../../models/SxObjects';
+import Document from '../../../public/icons/icons8-document.svg';
+import Edit from '../../../public/icons/icons8-edit.svg';
+import Database from '../../../public/icons/icons8-menu.svg';
+import RecommendIcon from '@mui/icons-material/Recommend';
 
 const styles: SxObject = {
   sectionLayout: {
@@ -18,16 +19,17 @@ const styles: SxObject = {
   },
 };
 
-export default function LandingPageUsers() {
+export default function UsageSection() {
   return (
     <Box mt={[12, 16]}>
-      <Typography py={3} variant={'h4'}>
+      <Typography py={3} alignItems={'center'} display={'flex'} variant={'h4'}>
+        <RecommendIcon sx={{ width: 40, height: 40, mr: 1 }} color={'secondary'} />
         <strong>Why Choose Conduit?</strong>
       </Typography>
       <Box sx={styles.sectionLayout}>
         <MiniInfoCard
           className={'fullGrow'}
-          imageComponent={<StorageIcon />}
+          imageComponent={<Database />}
           title={'for developers'}
           subText={
             'For developers that look for easy and fast api.' +
@@ -38,20 +40,20 @@ export default function LandingPageUsers() {
         />
         <MiniInfoCard
           className={'fullGrow'}
-          imageComponent={<PlagiarismIcon />}
-          title={'Documentation'}
-          subText={
-            'Well written documentation on how to use every single functionality of the CMS.' +
-            ' Well written documentation on how to use every single functionality of the CMS.'
-          }
-        />
-        <MiniInfoCard
-          className={'fullGrow'}
-          imageComponent={<ArchitectureIcon />}
+          imageComponent={<Edit />}
           title={'Comfortable design'}
           subText={
             'Design easy enough to be used and understood by all kinds of developers.' +
             ' Design easy enough to be used and understood by all kinds of developers.'
+          }
+        />
+        <MiniInfoCard
+          className={'fullGrow'}
+          imageComponent={<Document />}
+          title={'Documentation'}
+          subText={
+            'Well written documentation on how to use every single functionality of the CMS.' +
+            ' Well written documentation on how to use every single functionality of the CMS.'
           }
         />
       </Box>

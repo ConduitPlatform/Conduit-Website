@@ -1,5 +1,5 @@
-import { alpha, styled } from '@mui/material/styles';
-import { Box, Button, Drawer, DrawerProps, Theme, Typography, useTheme } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Box, Button, Drawer, DrawerProps, Typography, useTheme } from '@mui/material';
 import * as React from 'react';
 import HeaderLinkButton from './HeaderLinkButton';
 import { FC, useContext } from 'react';
@@ -9,6 +9,7 @@ import DropdownMenu from './DropdownMenu';
 import { navigationLinks } from '../../fixedData/navigationLinks';
 import { SxObject } from '../../models/SxObjects';
 import Link from '../../Link';
+import CustomLogo from './CustomLogo';
 
 const CustomDrawer = styled((props: DrawerProps) => (
   <Drawer
@@ -39,8 +40,6 @@ const styles: SxObject = {
     right: 0,
     left: 0,
     padding: 2,
-    borderBottom: '1px solid',
-    borderColor: (theme: Theme) => alpha(theme.palette.text.primary, 0.4),
   },
 };
 const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
@@ -59,9 +58,7 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
         justifyContent={'center'}>
         <Box sx={styles.drawerTitle}>
           <Button href={'/'} component={Link} color={'inherit'} onClick={onButtonClick}>
-            <Typography variant={'h4'}>
-              <strong>CONDUIT</strong>
-            </Typography>
+            <CustomLogo />
           </Button>
         </Box>
         <Box display={'grid'} alignItems={'center'} gap={3}>

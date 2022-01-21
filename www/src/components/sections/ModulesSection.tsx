@@ -7,13 +7,15 @@ import SaveIcon from '@mui/icons-material/Save';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
 
 export default function ModulesSection() {
   return (
     <Box mt={[12, 16]}>
       <Box py={3}>
-        <Typography variant={'h4'}>
-          <strong>Build a backend in minutes</strong>
+        <Typography mb={1} alignItems={'center'} display={'flex'} variant={'h4'}>
+          <ViewModuleIcon sx={{ width: 40, height: 40, mr: 1 }} color={'secondary'} />
+          <strong> Build a backend in minutes</strong>
         </Typography>
         <Typography variant={'body1'}>with various modules conduit has to offer!</Typography>
       </Box>
