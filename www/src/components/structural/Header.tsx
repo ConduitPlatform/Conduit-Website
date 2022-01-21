@@ -36,6 +36,12 @@ const styles = {
     display: ['block', 'block', 'none'],
     marginLeft: 'auto',
   },
+  logo: {
+    background: (theme: Theme) =>
+      `linear-gradient(180deg, ${theme.palette.primary.light} 20%, ${theme.palette.secondary.light} 60%, ${theme.palette.secondary.main} 90%)`,
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+  },
 };
 
 const Header: FC = () => {
@@ -59,7 +65,8 @@ const Header: FC = () => {
             alignItems={'center'}>
             <Box display="flex" alignItems={'center'} columnGap={5}>
               <Button color={'inherit'} href={'/'} component={Link}>
-                <Typography variant={'h5'}>
+                <Typography sx={styles.logo} variant={'h5'}>
+                  <strong>{'</>'}</strong>
                   <strong>CONDUIT</strong>
                 </Typography>
               </Button>
