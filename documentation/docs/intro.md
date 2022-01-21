@@ -12,7 +12,7 @@ by providing ready-made modules that offer common functionality out of the box, 
 maximum flexibility to add custom functionality.
 
 ## Features
-- Transports: REST, GraphQL, WebSockets(via Socket.io) and grpc
+- Transports: REST, GraphQL, WebSockets(via Socket.io) and gRPC
 - Database Support for MongoDB and PostgreSQL(alpha)
 - In-memory database through Redis
 - All functionalities and routes available both as REST and GraphQL endpoints
@@ -27,8 +27,6 @@ maximum flexibility to add custom functionality.
 - Storage using either GCS or Azure Blob Storage (S3 coming soon)
 - Chat(alpha)
 - Forms for basic form submission and forwarding to email
-- Payments with Stripe
-- Custom workflows with "Actor" (WIP)
 - Conduit SDK can be used to add new modules or custom services
 - so much more
 
