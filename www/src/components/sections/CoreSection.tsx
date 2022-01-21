@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { Box, Typography } from '@mui/material';
 import ImageSectionCard from '../custom/ImageSectionCard';
-import ToolIcon from '../../../public/icons/tools.svg';
+import ToolIcon from '../../../public/icons/services.svg';
 import LockIcon from '../../../public/icons/lock.svg';
-import ApiIcon from '../../../public/icons/apiIcon.svg';
+import ApiIcon from '../../../public/icons/connect.svg';
 import { SxObject } from '../../models/SxObjects';
 import MemoryIcon from '@mui/icons-material/Memory';
 import Link from 'next/Link';
