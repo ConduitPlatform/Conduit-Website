@@ -5,6 +5,7 @@ import StorageIcon from '@mui/icons-material/Storage';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import ArchitectureIcon from '@mui/icons-material/Architecture';
 import { SxObject } from '../../models/SxObjects';
+import RecommendIcon from '@mui/icons-material/Recommend';
 
 const styles: SxObject = {
   sectionLayout: {
@@ -21,7 +22,8 @@ const styles: SxObject = {
 export default function LandingPageUsers() {
   return (
     <Box mt={[12, 16]}>
-      <Typography py={3} variant={'h4'}>
+      <Typography py={3} alignItems={'center'} display={'flex'} variant={'h4'}>
+        <RecommendIcon sx={{ width: 40, height: 40, mr: 1 }} color={'secondary'} />
         <strong>Why Choose Conduit?</strong>
       </Typography>
       <Box sx={styles.sectionLayout}>
