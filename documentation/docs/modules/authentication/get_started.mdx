@@ -1,11 +1,60 @@
 ---
-sidebar_label: 'Getting Started'
+sidebar_label: 'Get Started'
 sidebar_position: 2
 ---
 
 # Getting Started
 
-## Where do I start?
-<p> First of all, you need to install MongoDb database since currently only mongoose is supported.
- <br/>
- </p>
+## Execution
+
+**TODO**
+
+##### Using Docker
+
+```jsx
+docker run ...............
+```
+
+##### Using npm
+
+```jsx
+CONDUIT_SERVER=0.0.0.0:55152 SERVICE_IP=0.0.0.0:56156 npx @conduit/authentication start
+```
+
+At this point, you should have a functional Authentication instance.<br />
+You can now, create and manipulate users  through the Admin Panel
+
+-------------------------------------------------
+
+## Using the Admin Panel
+
+The Users tab is where manipulating takes place. From Users tab you can do CRUD operations.
+
+![authentication overview](/img/authentication/authentication_overview.png)
+
+-------------------------------------------------
+
+## User
+So, lets talk about creating, editing and deleting users.
+### Create
+A basic operation you may want to do, is creating a User. <br />
+So, use your email and a desired password to do this.
+![create user](/img/authentication/add_user.png)
+
+-------------------------------------------------
+
+### Edit
+
+By clicking the corresponding edit button , you'll the edit pop-up window.
+
+![edit user](/img/authentication/edit_user.png)
+
+You can either, change your email, and add you phone number. <br/>
+In case that you want to enable the 2FA, fill the phone field and tick the corresponding box. <br/>
+
+-------------------------------------------------
+
+### Delete
+
+Also, you may want to delete multiple users at once. <br />
+Just select the users that you want to delete and click the corresponding button.
