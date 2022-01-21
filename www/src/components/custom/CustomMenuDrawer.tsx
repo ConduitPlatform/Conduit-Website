@@ -1,5 +1,5 @@
-import { alpha, styled } from '@mui/material/styles';
-import { Box, Button, Drawer, DrawerProps, Theme, Typography, useTheme } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Box, Button, Drawer, DrawerProps, Typography, useTheme } from '@mui/material';
 import * as React from 'react';
 import HeaderLinkButton from './HeaderLinkButton';
 import { FC, useContext } from 'react';
@@ -40,8 +40,6 @@ const styles: SxObject = {
     right: 0,
     left: 0,
     padding: 2,
-    borderBottom: '1px solid',
-    borderColor: (theme: Theme) => alpha(theme.palette.text.primary, 0.4),
   },
 };
 const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
