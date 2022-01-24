@@ -1,0 +1,46 @@
+# Forms module
+
+![Forms List View](/img/modules/forms/admin/forms_list_view.png)
+
+This module supports creating and submitting forms.
+
+## Features
+
+- Form creation
+- Form submission
+- File attachments
+- Spam detection
+
+## Installation
+
+**TODO**
+
+##### Using Docker
+
+```jsx
+docker pull ..............
+```
+
+##### Using npm
+
+```jsx
+npm install @conduit/forms
+```
+
+## Dependencies
+
+- [Email](../email/email.mdx)
+- [Storage](../storage/storage.mdx) (optional: attachments)
+
+## Minimum Configuration
+
+This module is configurable. All features are enabled by default.<br />
+See [Configuration](config.mdx) section.
+
+## Environmental Variables
+
+|  Name          | Required |  Description                                  |  Example      |
+| :------------: | :------: | :-------------------------------------------: | :-----------: |
+| CONDUIT_SERVER |  True    | Conduit Core's address and port               | 0.0.0.0:55152 |
+| SERVICE_IP     |  True    | Address and port to listen to for this module | 0.0.0.0:56154 |
+| REGISTER_NAME  |  False   |   **TODO**                                    | False         |
