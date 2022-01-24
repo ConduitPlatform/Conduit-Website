@@ -32,14 +32,14 @@ const CoreSection: FC = () => {
         flexWrap={'wrap'}
         sx={styles.childrenGrow}
         gap={4}>
-        <Link href={'/docs/core/router'}>
+        <Link href={'/docs/core/router'} passHref>
           <ImageSectionCard
             subText={'Conduit router provides a way to register routes for REST and GraphQL APIs.'}
             title={'Router'}
             image={<ApiIcon />}
           />
         </Link>
-        <Link href={'/docs/core/security'}>
+        <Link href={'/docs/core/security'} passHref>
           <ImageSectionCard
             flexDirection={'row-reverse'}
             subText={
@@ -49,7 +49,7 @@ const CoreSection: FC = () => {
             image={<LockIcon />}
           />
         </Link>
-        <Link href={'/docs/core/config'}>
+        <Link href={'/docs/core/config'} passHref>
           <ImageSectionCard
             subText={
               'This is the basic module used to add modules to Conduit and update configuration.'
