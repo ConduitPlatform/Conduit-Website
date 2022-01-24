@@ -22,13 +22,13 @@ html[data-theme='dark'] {
   --ifm-navbar-background-color:#1F2034;
   --ifm-footer-background-color:#1F2034;
   --ifm-table-stripe-background:#1F2034;
-  --ifm-color-primary: #07D9C4;
-  --ifm-color-primary-dark: #08D8C3;
-  --ifm-color-primary-darker: #08CFBB;
-  --ifm-color-primary-darkest: #06B9A7;
-  --ifm-color-primary-light: #08E1CB;
-  --ifm-color-primary-lighter: #09E7D0;
-  --ifm-color-primary-lightest: #09F3DB;
+  --ifm-color-primary: #07d9c4;
+  --ifm-color-primary-dark: #06c3b0;
+  --ifm-color-primary-darker: #06b8a7;
+  --ifm-color-primary-darkest: #059889;
+  --ifm-color-primary-light: #08efd8;
+  --ifm-color-primary-lighter: #0af7df;
+  --ifm-color-primary-lightest: #2bf8e4;
 }
 
 html[data-theme='dark'] footer {
