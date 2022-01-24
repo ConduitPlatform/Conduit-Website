@@ -47,8 +47,15 @@ html[data-theme='dark'] main{
 }
 
 
+.wrap-row-container {
+  display:flex;
+  flex-wrap: wrap;
+}
 
-
+.card:hover {
+  transition:0.2s;
+  box-shadow: 0px 0px 1px 1px var(--ifm-color-primary);
+}
 
 
 html[data-theme='dark'] .docusaurus-highlight-code-line {
