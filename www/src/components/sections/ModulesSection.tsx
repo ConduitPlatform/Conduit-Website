@@ -95,6 +95,44 @@ export default function ModulesSection() {
             icon={<NotificationsActiveIcon />}
           />
         </Grid>
+        <Grid item display="flex" md={4} sm={6} xs={12}>
+          <ModuleCard
+            title="CHAT"
+            href="/docs/modules/push-notifications/"
+            subtitle="Allows communication between many users with a simple to use UI"
+            listItems={[
+              'Allows multiple room creation',
+              'Invite users to your room',
+              'Delete messages on the fly',
+            ]}
+            icon={<NotificationsActiveIcon />}
+          />
+        </Grid>
+        <Grid item display="flex" md={4} sm={6} xs={12}>
+          <ModuleCard
+            title="DATABASE"
+            href="/docs/modules/push-notifications/"
+            subtitle="This module allows for basic functionality on both SQL DBs through Sequelize and MongoDB through Mongoose."
+            listItems={[
+              'query language of the module is BSON, since it is easy to serialize into string and deserialize into query objects that can be easily manipulated in JS',
+              'Many supported operations',
+            ]}
+            icon={<NotificationsActiveIcon />}
+          />
+        </Grid>
+        <Grid item display="flex" md={4} sm={6} xs={12}>
+          <ModuleCard
+            title="SMS"
+            href="/docs/modules/push-notifications/"
+            subtitle="Provides sms delivery functionality in conduit, focused mainly in 2FA currently"
+            listItems={[
+              'Compatible with Firebase Push Notification Service',
+              'Easily configurable',
+              'Failover baked-in',
+            ]}
+            icon={<NotificationsActiveIcon />}
+          />
+        </Grid>
       </Grid>
     </Box>
   );
