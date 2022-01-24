@@ -49,7 +49,7 @@ const Header: FC = () => {
             container
             justifyContent={'space-between'}
             alignItems={'center'}>
-            <Box display="flex" alignItems={'center'} columnGap={5}>
+            <Box display="flex" alignItems={'center'} columnGap={4}>
               <Button color={'inherit'} href={'/'} component={Link}>
                 <CustomLogo />
               </Button>
@@ -65,7 +65,7 @@ const Header: FC = () => {
               </Box>
             </Box>
 
-            <Box display="flex" alignItems={'center'} columnGap={4}>
+            <Box display="flex" alignItems={'center'} columnGap={3}>
               <Box sx={styles.lgMenu} mt={1}>
                 <a href="https://github.com/Quintessential-SFT/conduit">
                   <img
