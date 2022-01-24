@@ -17,14 +17,14 @@ export default function ModulesSection() {
           <ViewModuleIcon sx={{ width: 40, height: 40, mr: 1 }} color={'secondary'} />
           <strong> Build a backend in minutes</strong>
         </Typography>
-        <Typography variant={'body1'}>with various modules conduit has to offer!</Typography>
+        <Typography variant={'body1'}>with various modules Conduit has to offer!</Typography>
       </Box>
       <Grid container spacing={3}>
         <Grid item display="flex" md={4} sm={6} xs={12}>
           <ModuleCard
             title="CMS"
             href="/docs/modules/cms/"
-            subtitle="This module facilitates the management of content types through the generation of db level schemas"
+            subtitle="This module facilitates the management of content types through the generation of db level schemas."
             listItems={[
               'Create any content type(schema)',
               'Create collections based on said types',
@@ -73,7 +73,7 @@ export default function ModulesSection() {
           <ModuleCard
             title="FORMS"
             href="/docs/modules/forms/"
-            subtitle="Simple form submission support. Mostly a glue for various conduit modules since we don't have a workflow creation tool"
+            subtitle="Simple form submission support. Mostly a glue for various Conduit modules since we don't have a workflow creation tool"
             listItems={[
               'Local authentication with email/password',
               'Optional 2FA supported on all strategies',

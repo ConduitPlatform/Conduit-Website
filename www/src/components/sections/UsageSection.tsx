@@ -30,7 +30,7 @@ export default function UsageSection() {
         <MiniInfoCard
           className={'fullGrow'}
           imageComponent={<Database />}
-          title={'for developers'}
+          title={'For developers'}
           subText={
             'For developers that look for easy and fast api.' +
             ' Build your own server, create your own endpoints,' +
@@ -53,7 +53,7 @@ export default function UsageSection() {
           title={'Documentation'}
           subText={
             'Well written documentation on how to use every single functionality of the CMS.' +
-            ' Well written documentation on how to use every single functionality of the CMS.'
+            ' Endpoint documentation is automatically generated so as to further facilitate development.'
           }
         />
       </Box>
