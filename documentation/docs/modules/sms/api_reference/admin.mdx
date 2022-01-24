@@ -1,0 +1,19 @@
+---
+label: 'Admin'
+sidebar_label: 'Admin Routes'
+sidebar_position: 2
+---
+# Admin
+Admin authorization headers are required.
+
+## Send SMS
+
+
+|        Route        | Method |
+| :-----------------: | :----: |
+| /admin/sms/send |  POST |
+### Body params
+| Body params | Type | Required | Description |
+| :-----------------: | :----: | :---------------------: | :---------------------: |
+| message |  String   |      true   | Sms body
+| To |  String   |      true   | Receiver phone number
