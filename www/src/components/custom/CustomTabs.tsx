@@ -12,7 +12,7 @@ const CustomTabs = styled(Tabs)(({ theme }) => ({
     minHeight: 0,
   },
   '& .Mui-selected': {
-    color: '#FFF',
+    color: '#fff',
     borderRadius: 8,
     background: theme.palette.secondary.dark,
   },
