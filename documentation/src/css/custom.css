@@ -22,13 +22,6 @@ html[data-theme='dark'] {
   --ifm-navbar-background-color:#1F2034;
   --ifm-footer-background-color:#1F2034;
   --ifm-table-stripe-background:#1F2034;
-  --ifm-color-primary: #07d9c4;
-  --ifm-color-primary-dark: #06c3b0;
-  --ifm-color-primary-darker: #06b8a7;
-  --ifm-color-primary-darkest: #059889;
-  --ifm-color-primary-light: #08efd8;
-  --ifm-color-primary-lighter: #0af7df;
-  --ifm-color-primary-lightest: #2bf8e4;
 }
 
 html[data-theme='dark'] footer {
@@ -61,14 +54,8 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-html[data-theme='dark'] .navbar__title {
-  font-size:25px;
-  background: linear-gradient(180deg, rgb(123, 105, 244) 20%, rgb(56, 224, 207) 60%, #07D9C4 90%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color: transparent;
-}
 
-html[data-theme='light'] .navbar__title {
+.navbar__title {
   font-size:25px;
   background:linear-gradient(180deg, rgb(56, 224, 207) 20%, rgb(123, 105, 244) 60%, #5B44F2 90%);
   -webkit-background-clip:text;
