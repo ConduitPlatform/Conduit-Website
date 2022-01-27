@@ -1,0 +1,46 @@
+---
+sidebar_label: Configuration
+sidebar_position: 2
+---
+
+# Configuration
+
+Bring up the admin panel and head to the module's administration page, 
+selecting the `Config` tab.
+
+## Available Options
+
+![Configuration View](/img/modules/storage/admin/storage_config.png)
+
+### Provider
+
+Choose your storage provider.<br />
+
+#### Local {#local-storage}
+
+**TODO**
+
+Stores files locally.<br/>
+You may specify a custom storage path root for your files.<br />
+Files are saved under `/var/tmp` by default.
+
+#### Azure {#azure-storage}
+
+![Configuration Edit Azure](/img/modules/storage/admin/config_edit_azure.png)
+
+Stores files on Azure Cloud.<br />
+Requires an Azure [connection string](https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string).
+
+#### Google {#google-storage}
+
+![Configuration Edit Google](/img/modules/storage/admin/config_edit_google.png)
+
+Stores files on Google Cloud.<br />
+Requires a Google [service accound key path](https://cloud.google.com/iam/docs/creating-managing-service-account-keys) 
+and [bucket name](https://cloud.google.com/storage/docs/naming-buckets).
+
+## Updating the Module's Config
+
+Edit the configuration and save your changes.
+
+That's it. Your configuration is now updated.
