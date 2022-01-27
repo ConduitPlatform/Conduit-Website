@@ -1,0 +1,64 @@
+---
+sidebar_label: 'Get Started'
+sidebar_position: 1
+---
+
+# Getting Started
+
+## Prerequisites
+
+Using the Storage module requires that you already have a basic understanding of how Conduit functions.<br />
+Please read the project's [main getting started guide] (TODO) before proceeding.
+
+## Execution
+
+**TODO**
+
+##### Using Docker
+
+```jsx
+docker run ...............
+```
+
+##### Using npm
+
+```jsx
+CONDUIT_SERVER=0.0.0.0:55152 SERVICE_IP=0.0.0.0:56154 npx @conduit/cms start
+```
+
+**Notice:** This module is disabled by default as it requires initial configuration.<br />
+Selecting **[Local](config.mdx/#local-storage) storage as your provider is the fastest way to get started.
+For more information on how to configure the Storage module, see [Configuration](config.mdx).
+
+-------------------------------------------------
+
+## Using the Admin Panel
+
+### Creating a Container
+
+Creating your own file system requires that you create a container first.<br />
+
+![Create container](/img/modules/storage/admin/create_container.png)
+
+After creating a container, you may now populate your file system.
+
+### Create a Folder
+
+Choose a name for your folder and select the container where you wish to store it.<br />
+
+![Create Folder](/img/modules/storage/admin/create_folder.png)
+
+Repeat the same process for creating additional subfolders.
+
+## Store a file in a folder
+
+Optianally, navigate to the folder where you wish the file to be stored in.<br />
+**Example:** _/mycontainer/myfolder_
+
+![Create File Empty](/img/modules/storage/admin/create_file_empty.png)
+
+Click on `Add` and specify your file's details.<br />
+
+![Create File Filled](/img/modules/storage/admin/create_file_filled.png)
+
+Save your file.

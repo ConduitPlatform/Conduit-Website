@@ -2,10 +2,49 @@
 sidebar_label: 'Storage'
 ---
 
-# Storage module
+# Storage
 
-![Storage module](/img/storage/storage_module.png)
+![Storage Module](/img/modules/storage/admin/storage_module.png)
 
-This will provide a flexible and consistent storage mechanism.<br />
-This module lets you to create hierarchical data structures.Also you can store your data in an
-organized way. Documents may have complex structures and subcollections.
+This module provides persistent storage and facilitates the creation of hierarchical data structures.<br />
+Documents may have complex structures and subcollections and can be stored locally or on a cloud provider.
+
+
+## Features
+
+- Local storage
+- Microsoft Azure
+- Google Cloud
+
+## Installation
+
+**TODO**
+
+##### Using Docker
+
+```jsx
+docker pull ..............
+```
+
+##### Using npm
+
+```jsx
+npm install @conduit/cms
+```
+
+## Dependencies
+
+This module has no dependencies.
+
+## Minimum Configuration
+
+This module is disabled by default as it requires specifying a storage provider.<br />
+See [Configuration](config.mdx).
+
+## Environmental Variables
+
+|  Name          | Required |  Description                                  |  Example      |
+| :------------: | :------: | :-------------------------------------------: | :-----------: |
+| CONDUIT_SERVER |  True    | Conduit Core's address and port               | 0.0.0.0:55152 |
+| SERVICE_IP     |  True    | Address and port to listen to for this module | 0.0.0.0:56154 |
+| REGISTER_NAME  |  False   |   **TODO**                                    | False         |
