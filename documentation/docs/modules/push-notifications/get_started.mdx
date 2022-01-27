@@ -1,0 +1,35 @@
+---
+sidebar_label: 'Get Started'
+sidebar_position: 2
+---
+
+# Getting Started
+
+## Where do I start?
+
+To start sending notifications you need to create a Firebase project.<br />
+Also, you have to configure the module through the admin panel.<br />
+See how to configure [here](./config).<br />
+Once you have the module configured,you are ready to start sending.So lets see an example.
+
+## Send notifications
+
+### Client App
+
+The first thing that you have to keep in your mind is that each token is related to notification token.<br />
+Actually, the notification token is the Firebase Cloud Messaging registration token.<br />
+Your first job is to set up a client application
+and retrieve its registration token.<br />
+See how to set up client [here](https://firebase.google.com/docs/cloud-messaging/js/client).
+
+### Set notification token
+
+After receiving the FCM registration token, you are ready to proceed.<br />
+As mentioned above, each user is related to a token. In a way I lied.
+You, the user, are the one to connect it through the [SetNotificationToken] (TODO) route.
+
+### Send a message
+
+Select the user that you want to receive the push notification and make sure that the selected user has a token assigned to himself.
+
+![Send message push](/img/modules/push-notifications/send_notification.png)
