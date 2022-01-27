@@ -1,0 +1,43 @@
+---
+sidebar_label: Get Started
+sidebar_position: 1
+---
+
+# Getting Started
+
+## Prerequisites
+
+Using the SMS module requires that you already have a basic understanding of how Conduit functions.<br />
+Please read the project's [main getting started guide] (TODO) before proceeding.
+
+## Execution
+
+**TODO**
+
+##### Using Docker
+
+```jsx
+docker run ...............
+```
+
+##### Using npm
+
+```jsx
+CONDUIT_SERVER=0.0.0.0:55152 SERVICE_IP=0.0.0.0:56154 npx @conduit/sms start
+```
+
+**Notice:** This module is disabled by default as it requires initial configuration.<br />
+For more information on how to configure the SMS module, see [Configuration](config.mdx).
+
+-------------------------------------------------
+
+## Using the Admin Panel
+
+[Launch the admin panel] (TODO) and navigate to the SMS page.<br />
+Make sure you have configured your SMS provider and enabled the module.
+
+### Send SMS {#send-sms}
+
+![Send SMS](/img/modules/sms/admin/send_sms.png)
+
+Specify your receiver's phone number and sms body, then click `Send`.
