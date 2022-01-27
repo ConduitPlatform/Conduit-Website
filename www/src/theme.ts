@@ -31,11 +31,11 @@ const paletteDark: PaletteOptions = {
 const paletteLight: PaletteOptions = {
   primary: {
     main: primary,
-    contrastText: '#000',
+    contrastText: '#fff',
   },
   secondary: {
     main: secondary,
-    contrastText: '#F2F2F2',
+    contrastText: '#fff',
   },
   error: {
     main: error,

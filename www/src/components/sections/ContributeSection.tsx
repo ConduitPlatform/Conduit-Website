@@ -28,7 +28,7 @@ const ContributeSection: FC = () => {
         </Button>
       </Box>
       <Typography align={'center'}>
-        Lets make conduit great <strong>Together!</strong>
+        Lets make Conduit great <strong>Together!</strong>
       </Typography>
     </Box>
   );

@@ -25,26 +25,21 @@ const CoreSection: FC = () => {
         <MemoryIcon sx={{ width: 40, height: 40, mr: 1 }} color={'secondary'} />
         <strong>Conduit Core</strong>
       </Typography>
-      <Typography mb={4}>
-        This is the core package of Conduit, which contains the server and common
-        <strong> functionalities</strong>.
-      </Typography>
+
       <Box
         display={'flex'}
         justifyContent={'space-around'}
         flexWrap={'wrap'}
         sx={styles.childrenGrow}
         gap={4}>
-        <Link href={'/docs/core/router'}>
+        <Link href={'/docs/core/router'} passHref>
           <ImageSectionCard
-            subText={
-              'This module should provide a way to generate routes both for REST and GraphQL APIs, along with documentation.'
-            }
+            subText={'Conduit router provides a way to register routes for REST and GraphQL APIs.'}
             title={'Router'}
             image={<ApiIcon />}
           />
         </Link>
-        <Link href={'/docs/core/security'}>
+        <Link href={'/docs/core/security'} passHref>
           <ImageSectionCard
             flexDirection={'row-reverse'}
             subText={
@@ -54,10 +49,10 @@ const CoreSection: FC = () => {
             image={<LockIcon />}
           />
         </Link>
-        <Link href={'/docs/core/config'}>
+        <Link href={'/docs/core/config'} passHref>
           <ImageSectionCard
             subText={
-              'This is the basic module used to add modules to conduit and update configuration.'
+              'This is the basic module used to add modules to Conduit and update configuration.'
             }
             title={'Config'}
             image={<ToolIcon />}

@@ -81,7 +81,10 @@ export default function Roadmap() {
             </TimelineItem>
             <TimelineItem>
               <TimelineOppositeContent>
-                <Typography variant="caption">Documentation ... </Typography>{' '}
+                <Typography variant="caption">
+                  Documentation is a continuous work in progress so that everything makes sense to
+                  the end user
+                </Typography>
               </TimelineOppositeContent>
               <TimelineSeparator>
                 <TimelineDot color="success" />
@@ -90,13 +93,15 @@ export default function Roadmap() {
               <TimelineContent>Documentation </TimelineContent>
             </TimelineItem>
             <TimelineItem>
-              <TimelineOppositeContent>More modules</TimelineOppositeContent>
+              <TimelineOppositeContent>New features</TimelineOppositeContent>
               <TimelineSeparator>
                 <TimelineDot color="error" />
                 <TimelineConnector />
               </TimelineSeparator>
               <TimelineContent>
-                <Typography variant="caption">Modules such as ... will be added</Typography>
+                <Typography variant="caption">
+                  Modules such as Payments and Actor will be added
+                </Typography>
               </TimelineContent>
             </TimelineItem>
             <TimelineItem>
