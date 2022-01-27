@@ -1,0 +1,8 @@
+.root-card {
+    height: 100%;
+    text-decoration:none !important;
+}
+
+.p-color {
+    color:var(--ifm-font-color-base);
+}
