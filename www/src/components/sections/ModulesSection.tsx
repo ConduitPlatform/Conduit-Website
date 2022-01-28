@@ -97,7 +97,6 @@ export default function ModulesSection() {
                 title={item.title}
                 href={item.href}
                 subtitle={item.subtitle}
-                listItems={[]}
                 icon={item.icon}
               />
             </Grid>
