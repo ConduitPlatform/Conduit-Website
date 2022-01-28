@@ -18,21 +18,21 @@ unnecessary for mongo.
 
 ## Supported operations
 
-|  Operation                                        | Description                                                                                     |
-| :------------:                                    | :---------------------------------------------------------------------------------------------: |
-| [```in```](./queries#in)              | Matches any of the values specified in an array                                                 |
-| [```contains```](./queries#contains)  | Checks if a value is contained in an array or not.                                                           |
-| [```nin```](./queries/#nin)            | Selects the documents where the value of a field is not equal any value in the specified array.              |
-| [```eq```](./queries#eq)             | Matches documents where the value of a field equals the specified value.                                     |
-| [```ne```](./queries#ne)             | Selects the documents where the value of the field is not equal to the specified value                       |
-| [```lt```](./queries#lt)             | Selects the documents where the value of the field is less than (i.e. <) the specified value.                |
-| [```gt```](./queries#gt)             | Selects the documents where the value of the field is greater than (i.e. >) the specified value.             |
-| [```lte```](./queries#lte)            | Selects the documents where the value of the field is less or equal than (i.e. <=) the specified value.      |
-| [```gte```](./queries#gte)            | Selects the documents where the value of the field is greater or equal than (i.e. >=) the specified value.   |
-| [```or```](./queries#or)             | Performs OR operation on an array of two or more expressions and selects the documents that satisfy at least one  |
-| [```and```](./queries#and)             | Performs AND operation on an array of two or more expressions and selects the documents that satisfy at least one  |
-| [```not```](./queries#not)             | Performs NOT operation on an array of two or more expressions and selects the documents that do not match the expression |
-
+|  Operation                                        | Description                                                                                                              |
+| :------------:                                    | :---------------------------------------------------------------------------------------------:                          |
+| [```in```](./queries#in)                          | Matches any of the values specified in an array                                                                          |
+| [```contains```](./queries#contains)              | Checks if a value is contained in an array or not.                                                                       |
+| [```nin```](./queries/#nin)                       | Selects the documents where the value of a field is not equal any value in the specified array.                          |
+| [```eq```](./queries#eq)                          | Matches documents where the value of a field equals the specified value.                                                 |
+| [```ne```](./queries#ne)                          | Selects the documents where the value of the field is not equal to the specified value                                   |
+| [```lt```](./queries#lt)                          | Selects the documents where the value of the field is less than (i.e. <) the specified value.                            |
+| [```gt```](./queries#gt)                          | Selects the documents where the value of the field is greater than (i.e. >) the specified value.                         |
+| [```lte```](./queries#lte)                        | Selects the documents where the value of the field is less or equal than (i.e. <=) the specified value.                  |
+| [```gte```](./queries#gte)                        | Selects the documents where the value of the field is greater or equal than (i.e. >=) the specified value.               |
+| [```or```](./queries#or)                          | Performs OR operation on an array of two or more expressions and selects the documents that satisfy at least one         |
+| [```and```](./queries#and)                        | Performs AND operation on an array of two or more expressions and selects the documents that satisfy at least one        |
+| [```not```](./queries#not)                        | Performs NOT operation on an array of two or more expressions and selects the documents that do not match the expression |
+| [```regex```](./queries#regex)                    | Select the documents where the value of the field matches the regex.                                                     |
 These operators have been tested thoroughly in varying levels of complexity
 
 --------------------------------------------------------------------------------------------------------------------------------------------------

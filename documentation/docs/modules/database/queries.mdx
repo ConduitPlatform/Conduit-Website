@@ -24,6 +24,9 @@ Where ids is an array of object ids.
 
 ### $contains
 
+In mongoDB $contains and $in operator does the same thing.<br />
+However in SQL DBs $contains differs from $in operator. <br />
+
 ```jsx title="Syntax"
 { field: { $in: [<value1>, <value2>, ... <valueN> ] } }
 ```
@@ -49,6 +52,10 @@ Returns the documents where the value of a field is equal with a specified value
 
 ```jsx title="Syntax"
 { <field>: { $eq: <value> } }
+
+or
+
+{ <field>:  <value> }
 ```
 
 ```jsx title="Example"
@@ -113,7 +120,17 @@ Returns the documents where the value of a field is greater or equal to a specif
 ```jsx title="Example"
 const documents = SchemaName.getInstance().findMany({ age: { $gte: 18 })
 ```
+### $regex
 
+Returns the documents where the value of a field matches with the specified regex.
+
+```jsx title="Syntax"
+{ <field>: { $regex: <regex> } }
+```
+
+```jsx title="Example"
+const documents = SchemaName.getInstance().findMany({ name: { $regex: '.*conduit.*' })
+```
 ---------------------------------------------------------------------------------------------
 
 ## Logical Operators
@@ -152,4 +169,60 @@ Performs logical NOT operation on an ```<operator expression>```s and returns th
 
 ```jsx title="Example"
 const documents = SchemaName.getInstance().findMany( { price: { $not: { $lte: 5 } } } )
+```
+
+---------------------------------------------------------------------------------------------
+
+## Query parameters
+
+### Select
+
+```jsx title="Syntax"
+select = TODO
+```
+
+### Skip
+
+Skip value defines how many documents will be skipped.
+```jsx title="Syntax"
+skip = <value>
+```
+
+### Limit
+
+Limit value defines how many documents you are gonna fetch.
+```jsx title="Syntax"
+limit = <value>
+```
+
+### Sort
+
+Database module supports  descending and ascending sorting order.
+Skip value defines how many documents will be skipped.
+
+```jsx title="Syntax Option 1"
+sort = "fieldName"  // ascending order
+sort = "-fieldName" // descending order
+```
+
+### Populate
+In order to populate documents, you should follow the syntax below:
+
+```jsx title="Syntax Option 1"
+populate = ["value1", "value2"]
+```
+
+```jsx title="Syntax Option 2"
+populate = "value1,value2"
+```
+### Query Example
+```jsx title="Example"
+const documents = SchemaName.getInstance().findMany(
+    { name : "joker" },
+    select,
+    skip,
+    limit,
+    sort,
+    populate
+)
 ```
