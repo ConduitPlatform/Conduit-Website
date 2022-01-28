@@ -5,6 +5,9 @@ import Emails from '../../../public/moduleIcons/emails.svg';
 import Forms from '../../../public/moduleIcons/forms.svg';
 import Storage from '../../../public/moduleIcons/storage.svg';
 import Notifications from '../../../public/moduleIcons/notifications.svg';
+import SMS from '../../../public/moduleIcons/sms.svg';
+import CMS from '../../../public/moduleIcons/cms.svg';
+import Database from '../../../public/moduleIcons/database.svg';
 
 export const ModuleCardData = [
   {
@@ -12,7 +15,7 @@ export const ModuleCardData = [
     href: '/docs/modules/cms/',
     subtitle:
       'This module facilitates the management of content types through the generation of db level schemas.',
-    icon: <Emails />,
+    icon: <CMS />,
   },
   {
     title: 'MAILS',
@@ -57,12 +60,12 @@ export const ModuleCardData = [
     href: '/docs/modules/database',
     subtitle:
       'This module allows for basic functionality on both SQL DBs through Sequelize and MongoDB through Mongoose.',
-    icon: <Emails />,
+    icon: <Database />,
   },
   {
     title: 'SMS',
     href: '/docs/modules/email/',
     subtitle: 'Provides sms delivery functionality in conduit, focused mainly in 2FA currently',
-    icon: <Emails />,
+    icon: <SMS />,
   },
 ];

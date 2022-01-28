@@ -10,7 +10,8 @@ import Link from '../../Link';
 const ModuleCardComponent = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   border: 'none',
-  boxShadow: `inset 0 0 0 1px ${theme.palette.secondary.dark}`,
+  boxShadow: `inset 0 0 0 0.5px ${theme.palette.secondary.dark}`,
+  textDecoration: 'none',
   borderRadius: '12px',
   height: '100%',
 }));
