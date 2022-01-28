@@ -32,7 +32,10 @@ const CustomCarousel: FC = ({ children }) => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const childrenCount = useMemo(() => React.Children.count(children), [children]);
+  const childrenCount = useMemo(() => {
+    setActiveStep(0);
+    return React.Children.count(children);
+  }, [children]);
 
   return (
     <Box>

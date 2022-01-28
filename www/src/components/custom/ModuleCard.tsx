@@ -40,15 +40,13 @@ const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon, href }) => {
       <ModuleCardComponent variant="outlined">
         <StyledIconContainer>
           {icon}
-          <Typography textAlign="center">
+          <Typography variant={'h6'} textAlign="center">
             <strong>{title}</strong>
           </Typography>
           <ArrowForwardIosIcon />
         </StyledIconContainer>
         <Divider />
-        <StyledSubtitle variant="subtitle2">
-          <Typography>{subtitle}</Typography>
-        </StyledSubtitle>
+        <StyledSubtitle>{subtitle}</StyledSubtitle>
       </ModuleCardComponent>
     </Link>
   );
