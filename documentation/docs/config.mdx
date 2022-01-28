@@ -5,10 +5,132 @@ sidebar_position: 4
 
 # Configuration
 
-## Core
+Conduit is a backend platform composed of multiple service modules interacting with one another.<br />
+Some of them are simple enough to require no configuration whatsoever, while 
+others provide just enough default values to get their service started, with additional options modifying their behaviour further.<br />
+Certain modules depend heavily on third party service credentials, making it impossible for them to function without initial configuration.<br />
+The latter actually rely on the administrators providing configuration values before these modules can be activated for the first time.<br />
 
-**TODO**
+Some configuration option examples could include the choice of an underlying db engine and credentials in a database module or 
+choosing between email and username login identifiers in an authentication module.
 
-## Modules
+By now, we have established how most modules provide some form of configuration, whether they rely on it or not.<br />
+But how does one actually configure all of these distributed service modules?
 
-**TODO**
+Conduit provides a centralized form of module configuration, meaning administrators are capable of 
+specifying their desired config options for any individual module through Conduit itself.
+
+Modules can be configured through the [Admin Panel](admin-panel.mdx) or using [Conduit's REST API](router/1_rest.mdx).<br />
+
+<ins><strong>Notice:</strong> Modules need to be <strong>online</strong> in order for them to be configurable and for their configuration to be retrievable.</ins>
+
+-------------------------------------------------
+
+## Using the Admin Panel {#ui-config}
+
+Every configurable module has a configuration section in the [Admin Panel](admin-panel.mdx).<br/>
+From there, you can easily enable or disable the module itself, as well as view and modify the rest of its settings.
+
+**Example:** Viewing and updating the Pizza Delivery module's configuration.
+
+Everybody loves a good pizza, right? Lets see what this module has to offer.<br />
+
+![Config Example View](/img/config/admin/config_ex_view.png)
+
+What? No XXL pizzas and pineap... This is clearly a mistake.<br />
+Edit this 🍍 monstrosity out of existence!
+
+![Config Example Edit](/img/config/admin/config_ex_edit.png)
+
+Quick, save your configuration before the heathens get a grip of what's going on!
+
+![Config Example Success](/img/config/admin/config_ex_success.png)
+
+Not gonna lie, they had us on the first half.
+
+-------------------------------------------------
+
+## Manual Configuration {#manual-config}
+
+Any administrator can retrieve and update a module's configuration using REST API requests to that module's configuration endpoint.
+
+<ins><strong>Notice:</strong> Make sure you provide <strong>[authorization headers] (TODO)</strong> with your configuration requests.</ins>
+
+### Get Configuration {#manual-config-get}
+
+Getting a module's active configuration is a simple as sending a `GET` request to `/admin/config/$moduleName`.
+
+**Example:** Getting the Chat module's configuration.
+
+```json title="GET on /admin/config/chat"
+{}
+```
+
+```json title="Response"
+{
+  "config": {
+    "active": true,
+    "allowMessageDelete": true,
+    "allowMessageEdit": true
+  }
+}
+```
+
+-------------------------------------------------
+
+### Update Configuration {#manual-config-update}
+
+In order to update a module's configuration, send a `PUT` request to `/admin/config/$moduleName`, containing your desired configuration.
+
+**Example:** Updating the Chat module's configuration so as to disable message deletion and modification.
+
+```json title="PUT on /admin/config/chat"
+{
+  "config": {
+    "active": true,
+    "allowMessageDelete": false,
+    "allowMessageEdit": false
+  }
+}
+```
+
+```json title="Response"
+{
+  "config": {
+    "active": true,
+    "allowMessageDelete": false,
+    "allowMessageEdit": false
+  }
+}
+```
+
+<ins><strong>Notice:</strong> Request bodies should contain a <strong>complete</strong> configuration, <strong>not</strong> just the fields to be modified.</ins>
+
+-------------------------------------------------
+
+### Finding out a Module's Name
+
+You may list available modules by sending a `GET` request to `/admin/config/modules`.
+
+```json title="GET on /admin/config/modules"
+{}
+```
+
+```json title="Example Response"
+{
+  "modules": [
+    {
+      "moduleName": "database",
+      "url": "0.0.0.0:55165"
+    },
+    {
+      "moduleName": "authentication",
+      "url": "0.0.0.0:55183"
+    },
+    {
+      "moduleName": "chat",
+      "url": "0.0.0.0:55163"
+    }
+  ]
+}
+```
