@@ -8,7 +8,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Link from '../../Link';
 
 const ModuleCardComponent = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(2),
+  padding: theme.spacing(2, 2, 4, 2),
   border: 'none',
   boxShadow: `inset 0 0 0 0.5px ${theme.palette.secondary.dark}`,
   textDecoration: 'none',
@@ -46,7 +46,7 @@ const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon, href }) => {
           </Typography>
           <ArrowForwardIosIcon />
         </StyledIconContainer>
-        <Divider />
+        <Divider sx={{ my: 1 }} />
         <StyledSubtitle>{subtitle}</StyledSubtitle>
       </ModuleCardComponent>
     </Link>

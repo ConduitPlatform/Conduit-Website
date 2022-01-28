@@ -13,16 +13,16 @@ export default function ModulesSection() {
   const preparedCards = useMemo(() => {
     const containers: ReactElement[] = [];
 
-    const x = !lg && !md ? 3 : md ? 1 : 2;
-    const gridSize = x === 3 ? 4 : x === 2 ? 6 : 12;
-    const containerLength = Math.ceil(ModuleCardData.length / x);
+    const itemsShown = md ? 1 : lg ? 2 : 3;
+    const gridSize = 12 / itemsShown;
+    const containerLength = Math.ceil(ModuleCardData.length / itemsShown);
 
     for (let i = 0; i < containerLength; i++) {
-      const gridItems = ModuleCardData.slice(i * x, i * x + x);
+      const gridItems = ModuleCardData.slice(i * itemsShown, i * itemsShown + itemsShown);
       containers.push(
         <Grid container>
           {gridItems.map((item, index) => (
-            <Grid padding={2} key={`${i}-${index}`} item xs={gridSize}>
+            <Grid py={1} px={2} key={`${i}-${index}`} item xs={gridSize}>
               <ModuleCard
                 title={item.title}
                 href={item.href}
