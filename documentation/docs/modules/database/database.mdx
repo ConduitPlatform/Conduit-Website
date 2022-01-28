@@ -67,3 +67,10 @@ Currently the sequelize implementation has the following limitations:
 - Update queries always update only the provided fields without the option to replace entire rows unless all columns are provided.
 This behaviour is supported only for not changing
 - Like operations do not work
+
+## Note
+
+Mongoose and sequelize where selected due to their similar nature, so that we can maintain
+a compatibility layer fairly easily. This provider would probably be best to be exported as
+a library down the road. The purpose of the library is to provide a compatibility between MongoDB
+and sequelize.
