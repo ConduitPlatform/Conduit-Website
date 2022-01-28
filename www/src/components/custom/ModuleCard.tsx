@@ -9,10 +9,10 @@ import Link from '../../Link';
 
 const ModuleCardComponent = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
-  minHeight: '140px',
+  border: 'none',
+  boxShadow: `inset 0 0 0 1px ${theme.palette.secondary.dark}`,
   borderRadius: '12px',
-  flexDirection: 'column',
-  transition: '0.5s',
+  height: '100%',
 }));
 
 const StyledIconContainer = styled('div')(() => ({
