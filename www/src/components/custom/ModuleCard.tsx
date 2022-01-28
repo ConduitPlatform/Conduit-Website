@@ -23,19 +23,18 @@ const StyledIconContainer = styled('div')(() => ({
   flexWrap: 'wrap',
 }));
 
-const StyledSubtitle = styled(Typography)(() => ({
-  paddingTop: '7px',
+const StyledSubtitle = styled(Typography)(({ theme }) => ({
+  padding: theme.spacing(3),
 }));
 
 interface ModuleCardProps {
   icon?: ReactComponentElement<any>;
   title: string;
   subtitle: string;
-  listItems?: string[];
   href: string;
 }
 
-const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon, href, listItems }) => {
+const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon, href }) => {
   return (
     <Link href={href} passhref>
       <ModuleCardComponent variant="outlined">

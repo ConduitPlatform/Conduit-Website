@@ -3,14 +3,10 @@ import { Box, Button, MobileStepper, Theme } from '@mui/material';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
-import { FC, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { SxObject } from '../../models/SxObjects';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
-
-type CarouselProps = {
-  maxSteps: number;
-};
 
 const styles: SxObject = {
   stepper: {
@@ -21,7 +17,7 @@ const styles: SxObject = {
   },
 };
 
-const CustomCarousel: FC<CarouselProps> = ({ maxSteps, children }) => {
+const CustomCarousel: FC = ({ children }) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleStepChange = (step: number) => {
@@ -36,6 +32,8 @@ const CustomCarousel: FC<CarouselProps> = ({ maxSteps, children }) => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const childrenCount = useMemo(() => React.Children.count(children), [children]);
+
   return (
     <Box>
       <AutoPlaySwipeableViews
@@ -48,11 +46,11 @@ const CustomCarousel: FC<CarouselProps> = ({ maxSteps, children }) => {
       <MobileStepper
         color={'secondary'}
         sx={styles.stepper}
-        steps={maxSteps}
+        steps={childrenCount}
         position="static"
         activeStep={activeStep}
         nextButton={
-          <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+          <Button size="small" onClick={handleNext} disabled={activeStep === childrenCount - 1}>
             <KeyboardArrowRight color={'secondary'} />
           </Button>
         }
