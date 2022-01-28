@@ -20,9 +20,9 @@ export default function ModulesSection() {
     for (let i = 0; i < containerLength; i++) {
       const gridItems = ModuleCardData.slice(i * x, i * x + x);
       containers.push(
-        <Grid container spacing={2}>
+        <Grid container>
           {gridItems.map((item, index) => (
-            <Grid key={`${i}-${index}`} item xs={gridSize}>
+            <Grid padding={2} key={`${i}-${index}`} item xs={gridSize}>
               <ModuleCard
                 title={item.title}
                 href={item.href}
