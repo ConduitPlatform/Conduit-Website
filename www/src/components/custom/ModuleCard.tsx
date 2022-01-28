@@ -14,13 +14,6 @@ const ModuleCardComponent = styled(Paper)(({ theme }) => ({
   borderColor: theme.palette.secondary.main,
   flexDirection: 'column',
   transition: '0.5s',
-  '&:hover': {
-    transform: 'scale(1.01)',
-    boxShadow: `3px 4px 5px 1px ${alpha(
-      theme.palette.secondary.main,
-      0.35
-    )}, 3px 3px 12px 2px rgba(0,0,0, 0.2)`,
-  },
 }));
 
 const StyledIconContainer = styled('div')(() => ({
