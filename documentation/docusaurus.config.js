@@ -8,14 +8,13 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Conduit Platform',
   tagline: 'Less is more',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://www.getconduit.dev',
   baseUrl: '/docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
-
+  organizationName: 'ConduitPlatform', // Usually your GitHub org/user name.
+  projectName: 'Conduit', // Usually your repo name.
   presets: [
     [
       'classic',
@@ -25,7 +24,7 @@ const config = {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/Quintessential-SFT/Conduit-Website/tree/master/documentation',
+          editUrl: 'https://github.com/ConduitPlatform/Conduit-Website/tree/master/documentation',
         },
         blog: false,
         theme: {
@@ -38,6 +37,9 @@ const config = {
   themeConfig:
   /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      colorMode: {
+        defaultMode: 'dark',
+      },
       navbar: {
         title: 'Conduit',
         // logo: {
@@ -51,13 +53,14 @@ const config = {
             position: 'left',
             label: 'Docs',
           },
-          // {
-          //   to: '/blog',
-          //   label: 'Blog',
-          //   position: 'left'
-          // },
           {
-            href: 'https://github.com/Quintessential-SFT/conduit',
+            to: 'https://www.getconduit.dev/blog',
+            target: "_self",
+            label: 'Blog',
+            position: 'left'
+          },
+          {
+            href: 'https://github.com/ConduitPlatform/Conduit',
             label: 'GitHub',
             position: 'right',
           },
@@ -105,12 +108,12 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/Quintessential-SFT/conduit',
+                href: 'https://github.com/ConduitPlatform/Conduit',
               },
             ],
           },
         ],
-        copyright: `Copyright © Quintessential SFT ${new Date().getFullYear()}. Built with Docusaurus.`,
+        copyright: `Copyright © Conduit ${new Date().getFullYear()}. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,

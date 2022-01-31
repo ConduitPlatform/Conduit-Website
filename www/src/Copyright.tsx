@@ -9,6 +9,7 @@ export default function Copyright() {
       <MuiLink color="inherit" href="https://github.com/ConduitPlatform/Conduit" target={'_blank'}>
         Conduit
       </MuiLink>
+      {' '}
       {new Date().getFullYear()}.
     </Typography>
   );
