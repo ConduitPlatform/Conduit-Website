@@ -19,6 +19,7 @@
     "@mui/lab": "^5.0.0-alpha.64",
     "@mui/material": "^5.2.8",
     "@types/react-syntax-highlighter": "^13.5.2",
+    "@types/react-vertical-timeline-component": "^3.3.2",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.4.0",
     "next": "^12.0.8",
