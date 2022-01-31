@@ -17,7 +17,7 @@ import CustomSwitch from '../custom/CustomSwitch';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
 import ContactLinks from '../custom/ContactLinks';
 import { navigationLinks } from '../../fixedData/navigationLinks';
-import CustomLogo from '../custom/CustomLogo';
+import ConduitLogo from '../../../public/conduitLogo.svg';
 
 const svgResponsiveStyle: SxProps = {
   '& *': {
@@ -50,7 +50,7 @@ const Footer: FC = () => {
         rowGap={4}>
         <Box>
           <Box sx={svgResponsiveStyle}>
-            <CustomLogo />
+            <ConduitLogo />
           </Box>
           <Box my={1}>
             <Typography variant={'body2'}>Join the Conduit newsletter!</Typography>

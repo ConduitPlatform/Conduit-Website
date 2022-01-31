@@ -9,7 +9,7 @@ import DropdownMenu from './DropdownMenu';
 import { navigationLinks } from '../../fixedData/navigationLinks';
 import { SxObject } from '../../models/SxObjects';
 import Link from '../../Link';
-import CustomLogo from './CustomLogo';
+import ConduitLogo from '../../../public/conduitLogo.svg';
 
 const CustomDrawer = styled((props: DrawerProps) => (
   <Drawer
@@ -58,7 +58,7 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
         justifyContent={'center'}>
         <Box sx={styles.drawerTitle}>
           <Button href={'/'} component={Link} color={'inherit'} onClick={onButtonClick}>
-            <CustomLogo />
+            <ConduitLogo />
           </Button>
         </Box>
         <Box display={'grid'} alignItems={'center'} gap={3}>

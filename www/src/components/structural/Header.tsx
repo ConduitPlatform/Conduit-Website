@@ -8,7 +8,7 @@ import HeaderLinkButton from '../custom/HeaderLinkButton';
 import DropdownMenu from '../custom/DropdownMenu';
 import Link from '../../Link';
 import { navigationLinks } from '../../fixedData/navigationLinks';
-import CustomLogo from '../custom/CustomLogo';
+import ConduitLogo from '../../../public/conduitLogo.svg';
 
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
   padding: theme.spacing(3, 4),
@@ -51,7 +51,7 @@ const Header: FC = () => {
             alignItems={'center'}>
             <Box display="flex" alignItems={'center'} columnGap={4}>
               <Grid container href={'/'} component={Link}>
-                <CustomLogo />
+                <ConduitLogo />
               </Grid>
               {navigationLinks.map((item) => (
                 <Box key={item.title} sx={styles.lgMenu}>
