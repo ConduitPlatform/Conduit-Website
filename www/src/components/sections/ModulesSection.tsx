@@ -1,42 +1,11 @@
 import * as React from 'react';
-import { Box, Grid, Theme, Typography, useMediaQuery } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import ModuleCard from '../custom/ModuleCard';
 import { ViewModuleTwoTone } from '@mui/icons-material';
-import CustomCarousel from '../custom/CustomCarousel';
-import { ReactElement, useMemo } from 'react';
 import { ModuleCardData } from '../custom/ModuleCardData';
+import CustomSnapBox from '../custom/CustomSnapBox';
 
 export default function ModulesSection() {
-  const lg = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'));
-  const md = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
-
-  const preparedCards = useMemo(() => {
-    const containers: ReactElement[] = [];
-
-    const itemsShown = md ? 1 : lg ? 2 : 3;
-    const gridSize = 12 / itemsShown;
-    const containerLength = Math.ceil(ModuleCardData.length / itemsShown);
-
-    for (let i = 0; i < containerLength; i++) {
-      const gridItems = ModuleCardData.slice(i * itemsShown, i * itemsShown + itemsShown);
-      containers.push(
-        <Grid container>
-          {gridItems.map((item, index) => (
-            <Grid py={1} px={2} key={`${i}-${index}`} item xs={gridSize}>
-              <ModuleCard
-                title={item.title}
-                href={item.href}
-                subtitle={item.subtitle}
-                icon={item.icon}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      );
-    }
-    return containers;
-  }, [md, lg]);
-
   return (
     <Box mt={[12, 16]}>
       <Box py={3}>
@@ -46,9 +15,18 @@ export default function ModulesSection() {
         </Typography>
         <Typography variant={'body1'}>with various modules Conduit has to offer!</Typography>
       </Box>
-      <Box>
-        <CustomCarousel>{preparedCards}</CustomCarousel>
-      </Box>
+      <CustomSnapBox pb={1} gap={3}>
+        {ModuleCardData.map((item, index) => (
+          <Box key={index}>
+            <ModuleCard
+              title={item.title}
+              href={item.href}
+              subtitle={item.subtitle}
+              icon={item.icon}
+            />
+          </Box>
+        ))}
+      </CustomSnapBox>
     </Box>
   );
 }
