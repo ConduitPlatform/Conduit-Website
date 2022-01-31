@@ -2,9 +2,7 @@ import * as React from 'react';
 import { FC } from 'react';
 import { Box, IconButton, Theme } from '@mui/material';
 import Instagram from '../../../public/social/instagram.svg';
-import Behance from '../../../public/social/behance.svg';
 import Github from '../../../public/social/github-colored.svg';
-import LinkedIn from '../../../public/social/linkedin.svg';
 import Medium from '../../../public/social/medium.svg';
 import Facebook from '../../../public/social/facebook.svg';
 
@@ -17,25 +15,9 @@ const styles = {
   },
 };
 
-const QuintContactLinks: FC = () => {
+const ContactLinks: FC = () => {
   return (
     <Box display={'flex'} sx={styles.container} gap={1}>
-      <IconButton
-        component={'a'}
-        href="https://www.linkedin.com/company/quintessentialsft/"
-        target="_blank"
-        id="quint-footer-icon-0"
-        rel="noreferrer">
-        <LinkedIn />
-      </IconButton>
-      <IconButton
-        component={'a'}
-        href="https://www.behance.net/quintessentialgr/"
-        target="_blank"
-        id="quint-footer-icon-1"
-        rel="noreferrer">
-        <Behance />
-      </IconButton>
       <IconButton
         component={'a'}
         href="https://www.facebook.com/quintessentialSFT/"
@@ -72,4 +54,4 @@ const QuintContactLinks: FC = () => {
   );
 };
 
-export default QuintContactLinks;
+export default ContactLinks;

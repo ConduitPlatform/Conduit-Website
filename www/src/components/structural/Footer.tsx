@@ -16,7 +16,7 @@ import QuintLogo from '../../../public/icons/quint-logo.svg';
 import { ColorModeContext } from '../../../pages/_app';
 import CustomSwitch from '../custom/CustomSwitch';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
-import QuintContactLinks from '../custom/QuintContactLinks';
+import ContactLinks from '../custom/ContactLinks';
 import { navigationLinks } from '../../fixedData/navigationLinks';
 
 const svgResponsiveStyle: SxProps = {
@@ -103,7 +103,7 @@ const Footer: FC = () => {
         flexWrap={'wrap'}
         rowGap={3}>
         <Copyright />
-        <QuintContactLinks />
+        <ContactLinks />
       </Box>
     </Box>
   );
