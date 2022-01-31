@@ -2,8 +2,7 @@ import * as React from 'react';
 import { FC, ReactComponentElement } from 'react';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
-import { Divider, Paper } from '@mui/material';
-
+import { Divider, Paper, IconButton } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Link from '../../Link';
 
@@ -37,19 +36,19 @@ interface ModuleCardProps {
 
 const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon, href }) => {
   return (
-    <Link href={href} passhref>
-      <ModuleCardComponent variant="outlined">
-        <StyledIconContainer>
-          {icon}
-          <Typography variant={'h6'} textAlign="center">
-            <strong>{title}</strong>
-          </Typography>
+    <ModuleCardComponent variant="outlined">
+      <StyledIconContainer>
+        {icon}
+        <Typography variant={'h6'} textAlign="center">
+          <strong>{title}</strong>
+        </Typography>
+        <IconButton component={Link} href={href}>
           <ArrowForwardIosIcon />
-        </StyledIconContainer>
-        <Divider sx={{ my: 1 }} />
-        <StyledSubtitle>{subtitle}</StyledSubtitle>
-      </ModuleCardComponent>
-    </Link>
+        </IconButton>
+      </StyledIconContainer>
+      <Divider sx={{ my: 1 }} />
+      <StyledSubtitle>{subtitle}</StyledSubtitle>
+    </ModuleCardComponent>
   );
 };
 
