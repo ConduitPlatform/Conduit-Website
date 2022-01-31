@@ -5,8 +5,8 @@ const CustomLogo: FC = () => {
   const theme = useTheme();
   return (
     <svg
-      width="187"
-      height="47"
+      width="130"
+      height="32"
       viewBox="0 0 488 129"
       fill="none"
       xmlns="http://www.w3.org/2000/svg">
@@ -26,7 +26,7 @@ const CustomLogo: FC = () => {
           gradientUnits="userSpaceOnUse">
           <stop stopColor={theme.palette.primary.main} />
           <stop offset="0.675641" stopColor={theme.palette.secondary.dark} />
-          <stop offset="1" stopColor="#07D9C4" />
+          <stop offset="1" stopColor={theme.palette.secondary.main} />
         </linearGradient>
       </defs>
     </svg>

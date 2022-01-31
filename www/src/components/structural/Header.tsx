@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FC, useEffect, useState } from 'react';
-import { AppBar, Grid, Box, IconButton, useMediaQuery, Theme, Button } from '@mui/material';
+import { AppBar, Grid, Box, IconButton, useMediaQuery, Theme } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import CustomMenuDrawer from '../custom/CustomMenuDrawer';
@@ -50,9 +50,9 @@ const Header: FC = () => {
             justifyContent={'space-between'}
             alignItems={'center'}>
             <Box display="flex" alignItems={'center'} columnGap={4}>
-              <Button color={'inherit'} href={'/'} component={Link}>
+              <Grid container href={'/'} component={Link}>
                 <CustomLogo />
-              </Button>
+              </Grid>
               {navigationLinks.map((item) => (
                 <Box key={item.title} sx={styles.lgMenu}>
                   <HeaderLinkButton ButtonProps={{ href: item.href, color: 'inherit' }}>
