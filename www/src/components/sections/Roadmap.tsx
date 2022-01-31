@@ -30,7 +30,6 @@ const StyledGridItemText = styled(Grid)(() => ({
 export default function Roadmap() {
   return (
     <Box>
-      <CustomDivider>ROADMAP</CustomDivider>
       <Grid container spacing={1}>
         <StyledGridItemText item md={6} sm={12} xs={12}>
           <Typography variant="h4">
