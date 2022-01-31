@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button, MobileStepper, Theme } from '@mui/material';
+import { Box, IconButton, MobileStepper, Theme } from '@mui/material';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
@@ -20,22 +20,28 @@ const styles: SxObject = {
 const CustomCarousel: FC = ({ children }) => {
   const [activeStep, setActiveStep] = useState(0);
 
+  const childrenCount = useMemo(() => {
+    setActiveStep(0);
+    return React.Children.count(children);
+  }, [children]);
+
   const handleStepChange = (step: number) => {
     setActiveStep(step);
   };
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((prevActiveStep) => {
+      if (prevActiveStep === childrenCount - 1) return 0;
+      return prevActiveStep + 1;
+    });
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prevActiveStep) => {
+      if (prevActiveStep === 0) return childrenCount - 1;
+      return prevActiveStep - 1;
+    });
   };
-
-  const childrenCount = useMemo(() => {
-    setActiveStep(0);
-    return React.Children.count(children);
-  }, [children]);
 
   return (
     <Box>
@@ -53,14 +59,14 @@ const CustomCarousel: FC = ({ children }) => {
         position="static"
         activeStep={activeStep}
         nextButton={
-          <Button size="small" onClick={handleNext} disabled={activeStep === childrenCount - 1}>
+          <IconButton size="small" color={'secondary'} onClick={handleNext}>
             <KeyboardArrowRight color={'secondary'} />
-          </Button>
+          </IconButton>
         }
         backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+          <IconButton size="small" color={'secondary'} onClick={handleBack}>
             <KeyboardArrowLeft color={'secondary'} />
-          </Button>
+          </IconButton>
         }
       />
     </Box>
