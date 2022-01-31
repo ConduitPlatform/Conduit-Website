@@ -61,18 +61,3 @@ html[data-theme='dark'] main{
 html[data-theme='dark'] .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.3);
 }
-
-
-html[data-theme='light'] .navbar__title {
-  font-size:25px;
-  background:linear-gradient(180deg, rgb(56, 224, 207) 20%, rgb(123, 105, 244) 60%, #5B44F2 90%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color: transparent;
-}
-html[data-theme='dark'] .navbar__title {
-  font-size:25px;
-  background:linear-gradient(180deg, rgb(123, 105, 244) 20%, rgb(56, 224, 207) 60%, #07D9C4 90%);  -webkit-background-clip:text;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color: transparent;
-}
-

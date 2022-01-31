@@ -39,11 +39,11 @@ const config = {
   /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'Conduit',
-        // logo: {
-        //   alt: 'My Site Logo',
-        //   src: 'img/logo.svg',
-        // },
+        title: '',
+        logo: {
+          alt: 'My Site Logo',
+          src: 'img/logo.svg',
+        },
         items: [
           {
             type: 'doc',
