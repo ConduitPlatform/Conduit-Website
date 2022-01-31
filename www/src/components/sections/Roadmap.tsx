@@ -34,7 +34,7 @@ export default function Roadmap() {
       <Grid container spacing={1}>
         <StyledGridItemText item md={6} sm={12} xs={12}>
           <Typography variant="h4">
-            Strive to{' '}
+            Strive to
             <TypewriterComponent
               options={{
                 autoStart: true,
