@@ -6,7 +6,7 @@ const CustomSnapBox = styled(Box)(({ theme }) => ({
   display: 'grid',
   gridTemplateColumns: 'repeat(auto-fill,minmax(375px, 1fr))',
   [theme.breakpoints.down('md')]: {
-    gridTemplateColumns: 'repeat(9,minmax(275px, 400px))',
+    gridTemplateColumns: 'repeat(9,minmax(350px, 450px))',
   },
 
   scrollSnapType: 'x mandatory',
