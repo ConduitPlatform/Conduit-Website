@@ -29,14 +29,14 @@ const AboutUsSection: FC = () => {
           title={'Who powered conduit'}
           icon={<FaceIcon />}
           text={
-            "Conduit is powered by Quintessential. Quintessential is a technology company that develops premium software solutions for internal use and third-party clients. Quintessential is deeply concerned about Design and Development in every product that is being managed or developed under it's guidance."
+            'Conduit was created in Quintessential, and as a technology company that develops premium software solutions, we wanted to create a platform that will allows us to move quicker and deliver better quality software each time.'
           }
         />
         <AboutCard
           title={'What we strive for'}
           icon={<Target />}
           text={
-            'We want to deliver the most seamless backend experience possible. Even though Conduit is in a working state in the coming months we will work on requested changes/improvements and of course everyone is welcome to contibute.'
+            'We want to deliver the most seamless backend experience possible. Even though Conduit is in a working state in the coming months we will work on requested changes/improvements and of course everyone is welcome to contribute.'
           }
         />
         <AboutCard

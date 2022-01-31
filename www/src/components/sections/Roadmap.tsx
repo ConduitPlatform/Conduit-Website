@@ -48,18 +48,24 @@ export default function Roadmap() {
                   .typeString('Improve')
                   .pauseFor(1000)
                   .deleteAll()
+                  .typeString('Innovate')
+                  .pauseFor(1000)
+                  .deleteAll()
                   .pauseFor(2000)
                   .start()
               }
             />
           </Typography>
           <Typography variant="subtitle2">
-            {`Even though Conduit is on its' early steps it strives to improve.
-             Our vision is to help people build their backend as fast and with
+            {`Even though Conduit is on its' early steps it comes 
+            with tons of functionality out-of-the-box.
+             Our vision is to help people build quality and performant backends
+              as fast and with
              as little effort possible.
-             Being open-source was an easy decision as we strongly believe the
-             community is what is going to make Conduit great. Even though
-             Conduit is in a working state, in the coming months we will
+             Being open-source was an easy decision as we couldn't have made Conduit
+              without OSS technologies.
+             We strongly believe the community is what is going to make Conduit great.
+             Even though Conduit is in a working state, in the coming months we will
              work on requested changes/improvements and of course everyone is
              welcome to contribute.`}
           </Typography>
@@ -67,15 +73,15 @@ export default function Roadmap() {
         <StyledGridItem item md={6} sm={12}>
           <Timeline position="alternate">
             <TimelineItem>
-              <TimelineOppositeContent>Typescript</TimelineOppositeContent>
+              <TimelineOppositeContent>Better Types</TimelineOppositeContent>
               <TimelineSeparator>
                 <TimelineDot color="info" />
                 <TimelineConnector />
               </TimelineSeparator>
               <TimelineContent>
                 <Typography variant="caption">
-                  Even though Conduit is mostly built on Typescript we want to make sure that
-                  everything has a type!
+                  Even though Conduit is built on Typescript we want to make sure that everything
+                  has a type!
                 </Typography>
               </TimelineContent>
             </TimelineItem>
