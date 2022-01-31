@@ -15,7 +15,7 @@ export default function ModulesSection() {
         </Typography>
         <Typography variant={'body1'}>with various modules Conduit has to offer!</Typography>
       </Box>
-      <CustomSnapBox pb={1} gap={3}>
+      <CustomSnapBox gridColumnLength={ModuleCardData.length} pb={1} gap={3}>
         {ModuleCardData.map((item, index) => (
           <Box key={index}>
             <ModuleCard
