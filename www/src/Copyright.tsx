@@ -6,9 +6,9 @@ export default function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
-      <MuiLink color="inherit" href="https://www.quintessential.gr/" target={'_blank'}>
-        Quintessential SFT
-      </MuiLink>{' '}
+      <MuiLink color="inherit" href="https://github.com/ConduitPlatform/Conduit" target={'_blank'}>
+        Conduit
+      </MuiLink>
       {new Date().getFullYear()}.
     </Typography>
   );
