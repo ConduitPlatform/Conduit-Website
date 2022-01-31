@@ -2,25 +2,17 @@ import * as React from 'react';
 import { FC, ReactComponentElement } from 'react';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
-import { Divider, IconButton, Paper, alpha } from '@mui/material';
-
+import { Divider, Paper, IconButton } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Link from '../../Link';
 
 const ModuleCardComponent = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(2),
-  minHeight: '140px',
+  padding: theme.spacing(2, 2, 4, 2),
+  border: 'none',
+  boxShadow: `inset 0 0 0 0.5px ${theme.palette.secondary.dark}`,
+  textDecoration: 'none',
   borderRadius: '12px',
-  borderColor: theme.palette.secondary.main,
-  flexDirection: 'column',
-  transition: '0.5s',
-  '&:hover': {
-    transform: 'scale(1.01)',
-    boxShadow: `3px 4px 5px 1px ${alpha(
-      theme.palette.secondary.main,
-      0.35
-    )}, 3px 3px 12px 2px rgba(0,0,0, 0.2)`,
-  },
+  height: '100%',
 }));
 
 const StyledIconContainer = styled('div')(() => ({
@@ -31,39 +23,31 @@ const StyledIconContainer = styled('div')(() => ({
   flexWrap: 'wrap',
 }));
 
-const StyledSubtitle = styled(Typography)(() => ({
-  paddingTop: '7px',
+const StyledSubtitle = styled(Typography)(({ theme }) => ({
+  padding: theme.spacing(3),
 }));
 
 interface ModuleCardProps {
   icon?: ReactComponentElement<any>;
   title: string;
   subtitle: string;
-  listItems: string[];
   href: string;
 }
 
-const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon, href, listItems }) => {
+const ModuleCard: FC<ModuleCardProps> = ({ title, subtitle, icon, href }) => {
   return (
     <ModuleCardComponent variant="outlined">
       <StyledIconContainer>
         {icon}
-        <Typography textAlign="center">
+        <Typography variant={'h6'} textAlign="center">
           <strong>{title}</strong>
         </Typography>
-        <IconButton size="small" href={href} component={Link}>
+        <IconButton component={Link} href={href}>
           <ArrowForwardIosIcon />
         </IconButton>
       </StyledIconContainer>
-      <Divider />
-      <StyledSubtitle variant="subtitle2">
-        <Typography>{subtitle}</Typography>
-        <ul>
-          {listItems.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-      </StyledSubtitle>
+      <Divider sx={{ my: 1 }} />
+      <StyledSubtitle>{subtitle}</StyledSubtitle>
     </ModuleCardComponent>
   );
 };
