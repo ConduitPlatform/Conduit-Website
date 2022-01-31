@@ -9,7 +9,7 @@ const config = {
   title: 'Conduit Platform',
   tagline: 'Less is more',
   url: 'https://mystifying-borg-373afd.netlify.app',
-  baseUrl: '/',
+  baseUrl: '/docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
