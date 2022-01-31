@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import ModuleCard from '../custom/ModuleCard';
 import DataArrayIcon from '@mui/icons-material/DataArray';
 import MailIcon from '@mui/icons-material/Mail';
@@ -8,6 +8,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import Link from '../../Link';
 
 export default function ModulesSection() {
   return (
@@ -134,6 +135,19 @@ export default function ModulesSection() {
           />
         </Grid>
       </Grid>
+      <Typography mt={3} gutterBottom align={'center'} variant={'subtitle1'}>
+        <strong>What is next for Conduit </strong>
+        <Button
+          href={'/roadmap'}
+          component={Link}
+          color={'secondary'}
+          variant={'text'}
+          size={'small'}>
+          <Typography align={'center'}>
+            <strong>Visit our roadmap</strong>
+          </Typography>
+        </Button>
+      </Typography>
     </Box>
   );
 }
