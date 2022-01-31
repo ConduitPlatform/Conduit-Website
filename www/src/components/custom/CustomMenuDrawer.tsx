@@ -84,10 +84,10 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
             <DropdownMenu size={'large'} sx={{ fontWeight: 'bold' }} />
           </Box>
           <Box mt={4}>
-            <a href="https://github.com/Quintessential-SFT/conduit">
+            <a href="https://github.com/ConduitPlatform/Conduit">
               <img
                 alt="GitHub Repo stars"
-                src="https://img.shields.io/github/stars/Quintessential-SFT/conduit?style=social"
+                src="https://img.shields.io/github/stars/ConduitPlatform/Conduit?style=social"
               />
             </a>
           </Box>

@@ -67,10 +67,10 @@ const Header: FC = () => {
 
             <Box display="flex" alignItems={'center'} columnGap={3}>
               <Box sx={styles.lgMenu} mt={1}>
-                <a href="https://github.com/Quintessential-SFT/conduit">
+                <a href="https://github.com/ConduitPlatform/Conduit">
                   <img
                     alt="GitHub Repo stars"
-                    src="https://img.shields.io/github/stars/Quintessential-SFT/conduit?style=social"
+                    src="https://img.shields.io/github/stars/ConduitPlatform/Conduit?style=social"
                   />
                 </a>
               </Box>
