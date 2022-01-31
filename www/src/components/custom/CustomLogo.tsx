@@ -19,14 +19,12 @@ const CustomLogo: FC = () => {
       <defs>
         <linearGradient
           id="paint0_linear_2617_15561"
-          x1="0.412109"
-          y1="42.6721"
-          x2="487.249"
-          y2="35.224"
+          x2="0%"
+          y2="100%"
           gradientUnits="userSpaceOnUse">
-          <stop stopColor={theme.palette.primary.main} />
-          <stop offset="0.675641" stopColor={theme.palette.secondary.dark} />
-          <stop offset="1" stopColor={theme.palette.secondary.main} />
+          <stop stopColor={theme.palette.primary.dark} />
+          <stop offset="0.875641" stopColor={theme.palette.secondary.main} />
+          <stop offset="1" stopColor={theme.palette.secondary.light} />
         </linearGradient>
       </defs>
     </svg>
