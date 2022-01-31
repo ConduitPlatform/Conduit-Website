@@ -8,8 +8,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Conduit Platform',
   tagline: 'Less is more',
-  url: 'https://www.getconduit.dev',
-  baseUrl: '/docs/',
+  url: 'https://mystifying-borg-373afd.netlify.app',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
