@@ -12,12 +12,12 @@ import {
   useTheme,
 } from '@mui/material';
 import Copyright from '../../Copyright';
-import QuintLogo from '../../../public/icons/quint-logo.svg';
 import { ColorModeContext } from '../../../pages/_app';
 import CustomSwitch from '../custom/CustomSwitch';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
-import QuintContactLinks from '../custom/QuintContactLinks';
+import ContactLinks from '../custom/ContactLinks';
 import { navigationLinks } from '../../fixedData/navigationLinks';
+import CustomLogo from '../custom/CustomLogo';
 
 const svgResponsiveStyle: SxProps = {
   '& *': {
@@ -50,10 +50,10 @@ const Footer: FC = () => {
         rowGap={4}>
         <Box>
           <Box sx={svgResponsiveStyle}>
-            <QuintLogo />
+            <CustomLogo />
           </Box>
           <Box my={1}>
-            <Typography variant={'body2'}>Join the quintessential newsletter!</Typography>
+            <Typography variant={'body2'}>Join the Conduit newsletter!</Typography>
             <FormHelperText>Learn all of our news about products and updates.</FormHelperText>
           </Box>
           <form onSubmit={handleSubmit}>
@@ -103,7 +103,7 @@ const Footer: FC = () => {
         flexWrap={'wrap'}
         rowGap={3}>
         <Copyright />
-        <QuintContactLinks />
+        <ContactLinks />
       </Box>
     </Box>
   );

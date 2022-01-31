@@ -79,7 +79,7 @@ export default function Contribute() {
           <TypographyComponent display="flex" alignItems="center" variant="subtitle2">
             Also refer to our
             <div>&nbsp;</div>
-            <ATagComponent href="https://github.com/Quintessential-SFT/conduit#readme">
+            <ATagComponent href="https://github.com/ConduitPlatform/Conduit#readme">
               readme
             </ATagComponent>
             <Github />
