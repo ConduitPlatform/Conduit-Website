@@ -5,6 +5,9 @@ import Menu, { MenuProps } from '@mui/material/Menu';
 import * as React from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import CustomMenuItem from './CustomMenuItem';
+import CMS from '../../../public/moduleIcons/cms.svg';
+import Emails from '../../../public/moduleIcons/emails.svg';
+import Authentication from '../../../public/moduleIcons/authentication.svg';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -21,7 +24,7 @@ const StyledMenu = styled((props: MenuProps) => (
   />
 ))(({ theme }) => ({
   '& .MuiPaper-root': {
-    background: `linear-gradient(180deg, ${theme.palette.background.paper} 27%, ${theme.palette.background.default} 89%)`,
+    background: theme.palette.background.paper,
     width: '50%',
     maxWidth: 600,
     minWidth: 300,
@@ -60,10 +63,9 @@ const CustomModuleMenu: FC = () => {
         MODULES
       </Button>
       <StyledMenu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose}>
-        <CustomMenuItem>CMS</CustomMenuItem>
-        <CustomMenuItem>CMS</CustomMenuItem>
-        <CustomMenuItem>MAILS</CustomMenuItem>
-        <CustomMenuItem>STORAGE</CustomMenuItem>
+        <CustomMenuItem title="CMS" icon={<CMS />} />
+        <CustomMenuItem title="authentication" icon={<Authentication />} />
+        <CustomMenuItem title="email" icon={<Emails />} />
       </StyledMenu>
     </>
   );
