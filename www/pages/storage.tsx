@@ -11,10 +11,10 @@ const StoragePage = () => {
       docsLink="/docs/modules/storage"
       img={<Storage />}
       features={[
-        { name: 'The best', description: 'The best dasd asd', caption: 'the best', img: <Fast /> },
-        { name: 'The best', description: 'The best ds sd', caption: 'the best', img: <Fast /> },
-        { name: 'The best', description: 'The best ds we r', caption: 'the best', img: <Fast /> },
-        { name: 'The best', description: 'The best ds we r', caption: 'the best', img: <Fast /> },
+        { name: 'The best', description: 'The best dasd asd', url: '124', img: <Fast /> },
+        { name: 'The best', description: 'The best ds sd', url: '123', img: <Fast /> },
+        { name: 'The best', description: 'The best ds we r', url: '124', img: <Fast /> },
+        { name: 'The best', description: 'The best ds we r', url: '124', img: <Fast /> },
       ]}
     />
   );
