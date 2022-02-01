@@ -3,15 +3,12 @@ import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ArrowBack } from '@mui/icons-material';
 import Link from 'next/link';
+import ModuleFeatureCard from './ModuleFeatureCard';
+import StorageIcon from '../../../public/moduleIcons/storage-1.svg';
 
 const Heading = styled(Typography)(({ theme }) => ({
   fontWeight: 'bold',
   textShadow: `1px 2px ${theme.palette.secondary.main}`,
-}));
-
-const CustomDescriptionBox = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(2),
-  boxShadow: '2px 5px 5px 2px rgba(0,0,0,0.1)',
 }));
 
 interface Feature {
@@ -36,7 +33,7 @@ const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, im
         {moduleName}
       </Heading>
       <Link href={'/'} passHref>
-        <Button sx={{ marginLeft: [0, 0, 0, 6] }} color={'inherit'} startIcon={<ArrowBack />}>
+        <Button color={'inherit'} startIcon={<ArrowBack />}>
           GO BACK
         </Button>
       </Link>
@@ -51,28 +48,21 @@ const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, im
           {img}
         </Grid>
       </Grid>
-      <Grid mt={8} container justifyContent={'space-around'} gap={4} flexWrap={'wrap'}>
-        {features.map((feature) => {
+      <Box my={4} display={'grid'} gridTemplateColumns="repeat(auto-fit,minmax(300px,1fr))" gap={2}>
+        {features.map((feature, i) => {
           return (
-            <Grid key={feature.name} item>
-              <CustomDescriptionBox>
-                <Typography sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  {feature.img}
-                  <strong>{feature.name}</strong>
-                </Typography>
-                <ul>
-                  <li>
-                    <Typography>{feature.description}</Typography>
-                  </li>
-                  <li>
-                    <Typography>{feature.caption}</Typography>
-                  </li>
-                </ul>
-              </CustomDescriptionBox>
-            </Grid>
+            <ModuleFeatureCard
+              key={i}
+              title={'AZURA DBBF'}
+              icon={<StorageIcon />}
+              url={'/'}
+              description={
+                'hey me skriu dmei jfkier mdfirut jvfugrj rufgh djsfh dr gjderug hderig hrdu'
+              }
+            />
           );
         })}
-      </Grid>
+      </Box>
     </Container>
   );
 };
