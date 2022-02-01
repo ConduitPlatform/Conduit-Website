@@ -8,6 +8,7 @@ import CustomMenuItem from './CustomMenuItem';
 import CMS from '../../../public/moduleIcons/cms.svg';
 import Emails from '../../../public/moduleIcons/emails.svg';
 import Authentication from '../../../public/moduleIcons/authentication.svg';
+import Storage from '../../../public/moduleIcons/storage.svg';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -63,9 +64,10 @@ const CustomModuleMenu: FC = () => {
         MODULES
       </Button>
       <StyledMenu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose}>
-        <CustomMenuItem title="CMS" icon={<CMS />} />
+        {/* <CustomMenuItem title="CMS" icon={<CMS />}  />
         <CustomMenuItem title="authentication" icon={<Authentication />} />
-        <CustomMenuItem title="email" icon={<Emails />} />
+        <CustomMenuItem title="email" icon={<Emails />} /> */}
+        <CustomMenuItem title="storage" icon={<Storage />} link="/storage" />
       </StyledMenu>
     </>
   );

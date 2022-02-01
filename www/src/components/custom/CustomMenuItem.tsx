@@ -2,6 +2,7 @@ import React, { FC, ReactComponentElement } from 'react';
 import { styled } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
 import { Box, Grid, Typography } from '@mui/material';
+import Link from 'next/link';
 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   margin: '6px',
@@ -20,25 +21,28 @@ interface CustomMenuItemProps {
   title: string;
   icon?: ReactComponentElement<any>;
   description?: string;
+  link: string;
 }
 
-const CustomMenuItem: FC<CustomMenuItemProps> = ({ title, description, icon }) => {
+const CustomMenuItem: FC<CustomMenuItemProps> = ({ title, description, icon, link }) => {
   return (
-    <StyledMenuItem>
-      <Grid container>
-        <Grid item sm={12}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            {icon}
-            <Typography>{title}</Typography>
-          </Box>
+    <Link href={link} passHref>
+      <StyledMenuItem>
+        <Grid container>
+          <Grid item sm={12}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              {icon}
+              <Typography>{title}</Typography>
+            </Box>
+          </Grid>
+          <Grid item sm={12} wrap="wrap">
+            <Typography textOverflow={'wrap'} variant="caption">
+              Create custom Schemas, Queries and leverage automatically-created CRUD operations.
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item sm={12} wrap="wrap">
-          <Typography textOverflow={'wrap'} variant="caption">
-            Create custom Schemas, Queries and leverage automatically-created CRUD operations.
-          </Typography>
-        </Grid>
-      </Grid>
-    </StyledMenuItem>
+      </StyledMenuItem>
+    </Link>
   );
 };
 export default CustomMenuItem;
