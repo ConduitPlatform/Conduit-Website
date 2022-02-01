@@ -23,9 +23,14 @@ const StyledMenu = styled((props: MenuProps) => (
   '& .MuiPaper-root': {
     background: `linear-gradient(180deg, ${theme.palette.background.paper} 27%, ${theme.palette.background.default} 89%)`,
     width: '50%',
+    maxWidth: 600,
+    minWidth: 300,
+    boxShadow: `0px 12px 14px 1px rgba(0,0,0,0.2)`,
   },
   '& .MuiList-root': {
     display: 'grid',
+    gap: 8,
+    padding: 8,
     gridTemplateColumns: '1fr 1fr',
   },
 }));
@@ -43,7 +48,15 @@ const CustomModuleMenu: FC = () => {
 
   return (
     <>
-      <Button onClick={handleClick} endIcon={<KeyboardArrowDownIcon />}>
+      <Button
+        color={'secondary'}
+        variant={'outlined'}
+        onClick={handleClick}
+        endIcon={
+          <KeyboardArrowDownIcon
+            sx={{ transform: `rotate(${!!anchorEl ? '180deg' : '0deg'})`, transition: '0.2s' }}
+          />
+        }>
         MODULES
       </Button>
       <StyledMenu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose}>
