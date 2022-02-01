@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { Button, Grow } from '@mui/material';
+import { FC, useEffect } from 'react';
+import { Button, Grow, Theme, useMediaQuery } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import * as React from 'react';
@@ -39,6 +39,11 @@ const StyledMenu = styled((props: MenuProps) => (
 
 const CustomModuleMenu: FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const matches = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
+
+  useEffect(() => {
+    setAnchorEl(null);
+  }, [matches]);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
