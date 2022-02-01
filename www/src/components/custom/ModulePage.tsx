@@ -10,9 +10,8 @@ const Heading = styled(Typography)(({ theme }) => ({
 }));
 
 const CustomDescriptionBox = styled(Box)(({ theme }) => ({
-  border: `0.3px solid ${theme.palette.secondary.main}`,
-  borderRadius: '9px',
   marginTop: '50px',
+  padding: '10px',
 }));
 
 interface Feature {
@@ -53,11 +52,23 @@ const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, im
         </Grid>
         {features.map((feature) => {
           return (
-            <Grid key={feature.name} item sm={4}>
+            <Grid
+              key={feature.name}
+              item
+              sx={{ alignItems: 'center', justifyContent: 'center' }}
+              sm={4}>
               <CustomDescriptionBox>
-                <Typography>{feature.name}</Typography>
-                <Typography>{feature.description}</Typography>
-                <Typography>{feature.caption}</Typography>
+                <ul>
+                  <li>
+                    <Typography>{feature.name}</Typography>
+                  </li>
+                  <li>
+                    <Typography>{feature.description}</Typography>
+                  </li>
+                  <li>
+                    <Typography>{feature.caption}</Typography>
+                  </li>
+                </ul>
               </CustomDescriptionBox>
             </Grid>
           );
