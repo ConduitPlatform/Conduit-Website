@@ -1,7 +1,8 @@
 import React from 'react';
 import ModulePage from '../src/components/custom/ModulePage';
 import Storage from '../public/icons/storageModule.svg';
-import Fast from '../public/icons/fast.svg';
+import PuzzleIcon from '../public/icons/puzzle.svg';
+import DatabaseIcon from '../public/moduleIcons/database.svg';
 
 const Database = () => {
   return (
@@ -15,13 +16,13 @@ const Database = () => {
           title: 'Supports MongoDB and PostgreSQL',
           description: 'The best dasd asd',
           url: '123',
-          icon: <Fast />,
+          icon: <DatabaseIcon />,
         },
         {
           title: 'Conveniently query your data without the need of writing complex SQL queries.',
           description: 'The best ds sd',
           url: '123',
-          icon: <Fast />,
+          icon: <PuzzleIcon />,
         },
       ]}
     />

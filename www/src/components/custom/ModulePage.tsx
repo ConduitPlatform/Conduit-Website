@@ -3,12 +3,24 @@ import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ArrowBack } from '@mui/icons-material';
 import Link from 'next/link';
-import ModuleFeatureCard from './ModuleFeatureCard';
+import AboutCard from './AboutCard';
 
 const Heading = styled(Typography)(({ theme }) => ({
   fontWeight: 'bold',
   textShadow: `1px 2px ${theme.palette.secondary.main}`,
 }));
+
+const styles = {
+  cardLayout: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: 2,
+    '& > *': {
+      flex: '1 1 30%',
+      minWidth: 320,
+    },
+  },
+} as const;
 
 interface Feature {
   title: string;
@@ -47,16 +59,12 @@ const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, im
           {img}
         </Grid>
       </Grid>
-      <Box my={4} display={'grid'} gridTemplateColumns="repeat(auto-fit,minmax(300px,1fr))" gap={2}>
+      <Box sx={styles.cardLayout}>
         {features.map((feature, i) => {
           return (
-            <ModuleFeatureCard
-              key={i}
-              title={feature.title}
-              icon={feature.icon}
-              url={feature.url}
-              description={feature.description}
-            />
+            <Link key={i} href={feature.url} passHref>
+              <AboutCard title={feature.title} text={feature.description} icon={feature.icon} />
+            </Link>
           );
         })}
       </Box>

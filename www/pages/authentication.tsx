@@ -1,8 +1,9 @@
 import React from 'react';
 import ModulePage from '../src/components/custom/ModulePage';
-import Providers from '../public/icons/providers.svg';
+import Google from '../public/icons/google.svg';
 import Security from '../public/icons/security.svg';
-import Fast from '../public/icons/fast.svg';
+import LockIcon from '../public/icons/lock.svg';
+import TwoFA from '../public/icons/2fa.svg';
 
 const Authentication = () => {
   return (
@@ -13,25 +14,23 @@ const Authentication = () => {
       img={<Security />}
       features={[
         {
-          title:
-            'Local authentication with username/password or email/password (requires Email module)',
-          description: 'The best dasd asd',
+          title: 'Local authentication ',
+          description: '',
           url: '123',
-          icon: <Fast />,
+          icon: <LockIcon />,
         },
         {
-          title: 'Login with popular identity providers',
-          description: 'The best ds sd',
+          title: 'Popular identity providers',
+          description: '',
           url: '123',
-          icon: <Providers />,
+          icon: <Google />,
         },
         {
           title: 'TwoFactor authentication ',
-          description: 'The best ds we r',
+          description: '',
           url: '123',
-          icon: <Fast />,
+          icon: <TwoFA />,
         },
-        { title: 'The best', description: 'The best ds we r', url: '123', icon: <Fast /> },
       ]}
     />
   );
