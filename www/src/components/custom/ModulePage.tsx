@@ -58,10 +58,10 @@ const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, im
               sx={{ alignItems: 'center', justifyContent: 'center' }}
               sm={4}>
               <CustomDescriptionBox>
+                <Typography>
+                  {feature.name} {feature.img}
+                </Typography>
                 <ul>
-                  <li>
-                    <Typography>{feature.name}</Typography>
-                  </li>
                   <li>
                     <Typography>{feature.description}</Typography>
                   </li>
