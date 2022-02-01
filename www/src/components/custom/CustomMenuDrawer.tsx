@@ -5,11 +5,10 @@ import HeaderLinkButton from './HeaderLinkButton';
 import { FC, useContext } from 'react';
 import { ColorModeContext } from '../../../pages/_app';
 import CustomSwitch from './CustomSwitch';
-import DropdownMenu from './DropdownMenu';
 import { navigationLinks } from '../../fixedData/navigationLinks';
-import { SxObject } from '../../models/SxObjects';
 import Link from '../../Link';
 import CustomLogo from './CustomLogo';
+import ModuleAccordion from './ModuleAccordion';
 
 const CustomDrawer = styled((props: DrawerProps) => (
   <Drawer
@@ -28,20 +27,6 @@ const CustomDrawer = styled((props: DrawerProps) => (
   },
 }));
 
-const styles: SxObject = {
-  drawerBox: {
-    position: 'relative',
-  },
-  drawerTitle: {
-    position: 'absolute',
-    display: 'flex',
-    justifyContent: 'center',
-    top: 0,
-    right: 0,
-    left: 0,
-    padding: 2,
-  },
-};
 const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
@@ -50,18 +35,13 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
 
   return (
     <CustomDrawer {...props}>
-      <Box
-        sx={styles.drawerBox}
-        height={'100vh'}
-        display={'grid'}
-        alignItems={'center'}
-        justifyContent={'center'}>
-        <Box sx={styles.drawerTitle}>
+      <Box display={'grid'} alignItems={'center'} justifyContent={'center'}>
+        <Box mt={2}>
           <Button href={'/'} component={Link} color={'inherit'} onClick={onButtonClick}>
             <CustomLogo />
           </Button>
         </Box>
-        <Box display={'grid'} alignItems={'center'} gap={3}>
+        <Box mt={[8, 10]} display={'grid'} alignItems={'center'} gap={3}>
           {navigationLinks.map((item) => (
             <Box key={item.title} margin={'auto'}>
               <HeaderLinkButton
@@ -81,9 +61,9 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
             </HeaderLinkButton>
           </Box>
           <Box margin={'auto'}>
-            <DropdownMenu size={'large'} sx={{ fontWeight: 'bold' }} />
+            <ModuleAccordion />
           </Box>
-          <Box mt={4}>
+          <Box mt={4} mx={'auto'}>
             <a href="https://github.com/ConduitPlatform/Conduit">
               <img
                 alt="GitHub Repo stars"
