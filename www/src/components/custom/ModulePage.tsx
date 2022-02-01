@@ -4,7 +4,6 @@ import { styled } from '@mui/material/styles';
 import { ArrowBack } from '@mui/icons-material';
 import Link from 'next/link';
 import ModuleFeatureCard from './ModuleFeatureCard';
-import StorageIcon from '../../../public/moduleIcons/storage-1.svg';
 
 const Heading = styled(Typography)(({ theme }) => ({
   fontWeight: 'bold',
@@ -12,10 +11,10 @@ const Heading = styled(Typography)(({ theme }) => ({
 }));
 
 interface Feature {
-  name: string;
+  title: string;
   description: string;
-  caption: string;
-  img?: React.ReactComponentElement<any>;
+  url: string;
+  icon?: React.ReactComponentElement<any>;
 }
 
 interface ModulePageProps {
@@ -53,12 +52,10 @@ const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, im
           return (
             <ModuleFeatureCard
               key={i}
-              title={'AZURA DBBF'}
-              icon={<StorageIcon />}
-              url={'/'}
-              description={
-                'hey me skriu dmei jfkier mdfirut jvfugrj rufgh djsfh dr gjderug hderig hrdu'
-              }
+              title={feature.title}
+              icon={feature.icon}
+              url={feature.url}
+              description={feature.description}
             />
           );
         })}
