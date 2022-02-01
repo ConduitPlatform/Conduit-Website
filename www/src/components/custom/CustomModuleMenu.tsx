@@ -1,14 +1,11 @@
 import { FC } from 'react';
-import { Button } from '@mui/material';
+import { Button, Grow } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import * as React from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import CustomMenuItem from './CustomMenuItem';
-import CMS from '../../../public/moduleIcons/cms.svg';
-import Emails from '../../../public/moduleIcons/emails.svg';
-import Authentication from '../../../public/moduleIcons/authentication.svg';
-import Storage from '../../../public/moduleIcons/storage.svg';
+import moduleMenuItems from '../../fixedData/moduleMenuItems';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -21,12 +18,13 @@ const StyledMenu = styled((props: MenuProps) => (
       vertical: 'top',
       horizontal: 'center',
     }}
+    TransitionComponent={Grow}
     {...props}
   />
 ))(({ theme }) => ({
   '& .MuiPaper-root': {
     background: theme.palette.background.paper,
-    width: '50%',
+    width: '100%',
     maxWidth: 600,
     minWidth: 300,
     boxShadow: `0px 12px 14px 1px rgba(0,0,0,0.2)`,
@@ -63,11 +61,21 @@ const CustomModuleMenu: FC = () => {
         }>
         MODULES
       </Button>
-      <StyledMenu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose}>
-        {/* <CustomMenuItem title="CMS" icon={<CMS />}  />
-        <CustomMenuItem title="authentication" icon={<Authentication />} />
-        <CustomMenuItem title="email" icon={<Emails />} /> */}
-        <CustomMenuItem title="storage" icon={<Storage />} link="/storage" />
+      <StyledMenu
+        transitionDuration={500}
+        anchorEl={anchorEl}
+        open={!!anchorEl}
+        onClose={handleClose}
+        onClick={handleClose}>
+        {moduleMenuItems.map((item) => (
+          <CustomMenuItem
+            key={item.title}
+            description={item.description}
+            title={item.title}
+            icon={item.icon}
+            link={item.link}
+          />
+        ))}
       </StyledMenu>
     </>
   );

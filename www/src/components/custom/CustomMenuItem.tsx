@@ -37,7 +37,7 @@ const CustomMenuItem: FC<CustomMenuItemProps> = ({ title, description, icon, lin
           </Grid>
           <Grid item sm={12} wrap="wrap">
             <Typography textOverflow={'wrap'} variant="caption">
-              Create custom Schemas, Queries and leverage automatically-created CRUD operations.
+              {description}
             </Typography>
           </Grid>
         </Grid>
