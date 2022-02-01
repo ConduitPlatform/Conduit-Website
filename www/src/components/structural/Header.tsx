@@ -5,10 +5,10 @@ import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import CustomMenuDrawer from '../custom/CustomMenuDrawer';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
-import DropdownMenu from '../custom/DropdownMenu';
 import Link from '../../Link';
 import { navigationLinks } from '../../fixedData/navigationLinks';
 import CustomLogo from '../custom/CustomLogo';
+import CustomModuleMenu from '../custom/CustomModuleMenu';
 
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
   padding: theme.spacing(3, 4),
@@ -61,7 +61,7 @@ const Header: FC = () => {
                 </Box>
               ))}
               <Box sx={styles.lgMenu}>
-                <DropdownMenu />
+                <CustomModuleMenu />
               </Box>
             </Box>
 
