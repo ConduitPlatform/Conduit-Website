@@ -1,5 +1,5 @@
 import React, { FC, ReactComponentElement } from 'react';
-import { useTheme } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
 import { VerticalTimelineElement } from 'react-vertical-timeline-component';
 
 interface TimelineItemProps {
@@ -20,8 +20,15 @@ const TimelineElement: FC<TimelineItemProps> = ({ title, text, icon }) => {
       }}
       iconStyle={{ background: '#262840', color: '#5B44F2', transform: 'scale(0.8)' }}
       icon={icon}>
-      <h3 className="vertical-timeline-element-title">{title}</h3>
-      <p>{text}</p>
+      <Typography
+        variant="h5"
+        color={theme.palette.text.primary}
+        className="vertical-timeline-element-title">
+        {title}
+      </Typography>
+      <Typography variant="body2" color={theme.palette.text.secondary}>
+        {text}
+      </Typography>
     </VerticalTimelineElement>
   );
 };
