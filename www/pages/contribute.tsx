@@ -71,9 +71,14 @@ export default function Contribute() {
             source project, you can do just that. Open source helps people feel agency over their
             lives and how they experience the world, and that in itself is gratifying.
           </TypographyComponent>
-          <TypographyComponent style={{ marginBottom: '-30px' }} padding="20px" variant="h5">
-            <ATagComponent href="https://github.com/Quintessential-SFT/conduit/blob/master/CODE_OF_CONDUCT.md">
-              Read our code of conduct ✊🏼
+          <TypographyComponent style={{ marginBottom: '-30px' }} padding="20px" variant="h6">
+            <ATagComponent href="https://github.com/ConduitPlatform/Conduit/blob/master/.github/CONTRIBUTING.md">
+              Contribution guide for Conduit
+            </ATagComponent>
+          </TypographyComponent>
+          <TypographyComponent style={{ marginBottom: '-30px' }} padding="20px" variant="h6">
+            <ATagComponent href="https://github.com/ConduitPlatform/Conduit-UI/blob/master/.github/CONTRIBUTING.md">
+              Contribution guide for Conduit UI
             </ATagComponent>
           </TypographyComponent>
           <TypographyComponent display="flex" alignItems="center" variant="subtitle2">
