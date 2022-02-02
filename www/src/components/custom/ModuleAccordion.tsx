@@ -34,7 +34,7 @@ const ModuleAccordion: FC<ModuleAccordionProps> = ({ onClose }) => {
     <StyledAccordion expanded={isOpen} onClick={() => setIsOpen(!isOpen)}>
       <StyledAccordionSummary>
         <Typography align={'center'} color={'inherit'}>
-          <strong>Modules</strong>
+          <strong>MODULES</strong>
         </Typography>
       </StyledAccordionSummary>
       <AccordionDetails>
