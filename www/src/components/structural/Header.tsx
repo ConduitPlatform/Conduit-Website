@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { FC, useEffect, useState } from 'react';
-import { AppBar, Grid, Box, IconButton, useMediaQuery, Theme, Button } from '@mui/material';
+import { AppBar, Grid, Box, IconButton, useMediaQuery, Theme } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import CustomMenuDrawer from '../custom/CustomMenuDrawer';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
 import Link from '../../Link';
 import { navigationLinks } from '../../fixedData/navigationLinks';
-import CustomLogo from '../custom/CustomLogo';
+import ConduitLogo from '../../../public/conduitLogo.svg';
 import CustomModuleMenu from '../custom/CustomModuleMenu';
 
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
@@ -50,9 +50,9 @@ const Header: FC = () => {
             justifyContent={'space-between'}
             alignItems={'center'}>
             <Box display="flex" alignItems={'center'} columnGap={4}>
-              <Button color={'inherit'} href={'/'} component={Link}>
-                <CustomLogo />
-              </Button>
+              <Grid container href={'/'} component={Link}>
+                <ConduitLogo />
+              </Grid>
               {navigationLinks.map((item) => (
                 <Box key={item.title} sx={styles.lgMenu}>
                   <HeaderLinkButton ButtonProps={{ href: item.href, color: 'inherit' }}>
