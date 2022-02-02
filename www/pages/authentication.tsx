@@ -13,28 +13,28 @@ const Authentication = () => {
       title="This module offers user authentication.
 It supports logins with local credentials as well as popular identity providers.
 TwoFactor authentication is also provided."
-      docsLink="/docs/modules/storage"
+      docsLink="/docs/modules/authentication/"
       img={<Security />}
       features={[
         {
           title: 'Local authentication',
           description:
             'Local authentication with username/password or email/password, optional email verification, Forgot/Reset password and more!',
-          url: '123',
+          url: '/docs/modules/authentication/',
           icon: <KeyIcon />,
         },
         {
           title: 'Sign in methods',
           description:
             'Login with client credentials from Facebook, Google, Kakao, Twitch. There are more to come!',
-          url: '123',
+          url: '/docs/modules/authentication/',
           icon: <SignIcon />,
         },
         {
           title: '2FA',
           description:
             'Optional two factor authentication supported on all strategies (requires SMS module)',
-          url: '123',
+          url: '/docs/modules/authentication/',
           icon: <TwoFA />,
         },
       ]}

@@ -12,28 +12,28 @@ const CMS = () => {
       title="This module facilitates the management of content types through the generation of db level schemas,
       the creation and manipulation of schema document entries and the registration of fine-tuned custom endpoints.
 Content is delivered through REST and GraphQL."
-      docsLink="/docs/modules/storage"
+      docsLink="/docs/modules/cms/"
       img={<CMSIcon />}
       features={[
         {
           title: 'Schemas',
           description:
             'Create any content type (schema). Schemas can contain fields of different types.',
-          url: '123',
+          url: '/docs/modules/cms/get-started#schemas-example',
           icon: <Schema />,
         },
         {
           title: 'Schema data',
           description:
             'Create custom content types based on schemas! You can register individual entries in a schema to store your data.',
-          url: '123',
+          url: '/docs/modules/cms/get-started#documents-example',
           icon: <SchemaData />,
         },
         {
           title: 'Custom endpoints',
           description:
             'Create powerful custom endpoints, with pagination, sorting, population, authentication and more!',
-          url: '123',
+          url: '/docs/modules/cms/get-started#custom-endpoints-example',
           icon: <CustomEndpoint />,
         },
       ]}
