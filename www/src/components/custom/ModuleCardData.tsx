@@ -14,52 +14,52 @@ export const ModuleCardData = [
     title: 'CMS',
     href: '/docs/modules/cms/',
     subtitle:
-      'This module facilitates the management of content types through the generation of db level schemas.',
+      'Create custom Schemas, Queries and leverage automatically-created CRUD operations.',
     icon: <CMS />,
   },
   {
     title: 'MAILS',
     href: '/docs/modules/email/',
     subtitle:
-      'This module is used for sending e-mails base on templates or not via any plugin or code.',
+      'Connect with your favourite Email Provider to deliver transactional emails and manage templates.',
     icon: <Emails />,
   },
   {
     title: 'STORAGE',
     href: '/docs/modules/storage',
-    subtitle: 'Containers and folders make it so much easier to go through your files!!',
+    subtitle: 'Upload files using Azure, Google or Amazon Storage, with a consistent API',
     icon: <Storage />,
   },
   {
     title: 'AUTHENTICATION',
     href: '/docs/modules/authentication/',
-    subtitle: 'The authentication module is a module that offers authentication in multiple ways.',
+    subtitle: 'Authenticate Users with email/password or social logins. Did we mention it supports 2FA as well?',
     icon: <Authentication />,
   },
   {
     title: 'FORMS',
     href: '/docs/modules/forms/',
     subtitle:
-      'Simple form submission support. Mostly a glue for various Conduit modules since we dont have a workflow creation tool',
+      'Simple form submission support. Create your form and forward replies to an email.',
     icon: <Forms />,
   },
   {
     title: 'NOTIFICATIONS',
     href: '/docs/modules/push-notifications/',
-    subtitle: 'Handles sending push notifications to users.',
+    subtitle: 'Connect your push notification provider and send notifications easily.',
     icon: <Notifications />,
   },
   {
     title: 'CHAT',
     href: '/docs/modules/chat',
-    subtitle: 'Allows communication between many users with a simple to use UI.',
+    subtitle: 'Leverage web sockets to create realtime chat applications in 5 minutes or less.',
     icon: <Chat />,
   },
   {
     title: 'DATABASE',
     href: '/docs/modules/database',
     subtitle:
-      'This module allows for basic functionality on both SQL DBs through Sequelize and MongoDB through Mongoose.',
+      'Use eithe Mongo or SQL databases, with a consistent Query interface to power your app',
     icon: <Database />,
   },
   {

@@ -17,7 +17,7 @@ const CustomSnapBox = styled((props: BoxProps & ExtraProps) => <Box {...props} /
 
     scrollSnapType: 'x mandatory',
     '&::-webkit-scrollbar': {
-      height: 8,
+      height: 12,
     },
     '&::-webkit-scrollbar-thumb': {
       bgcolor: 'background.paper',

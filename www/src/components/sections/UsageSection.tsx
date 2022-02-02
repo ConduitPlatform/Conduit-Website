@@ -34,7 +34,7 @@ export default function UsageSection() {
           subText={
             'For developers that look for easy and fast api.' +
             ' Build your own server, create your own endpoints,' +
-            ' use authentication as fast as posible,' +
+            ' use authentication as fast as possible,' +
             ' with a click of a button'
           }
         />
@@ -43,17 +43,17 @@ export default function UsageSection() {
           imageComponent={<Edit />}
           title={'Comfortable design'}
           subText={
-            'Design easy enough to be used and understood by all kinds of developers.' +
-            ' Design easy enough to be used and understood by all kinds of developers.'
+            'Design simple enough, yet powerful, to be used and understood by all developers.' +
+            ' Design simple enough, yet powerful, to be used and understood by all developers.'
           }
         />
         <MiniInfoCard
           className={'fullGrow'}
           imageComponent={<Document />}
-          title={'Documentation'}
+          title={'Tons of Features'}
           subText={
-            'Well written documentation on how to use every single functionality of the CMS.' +
-            ' Endpoint documentation is automatically generated so as to further facilitate development.'
+            'Multiple modules that provide most of the functionality needed for most applications. ' +
+            ' Multiple modules that provide most of the functionality needed for most applications.'
           }
         />
       </Box>

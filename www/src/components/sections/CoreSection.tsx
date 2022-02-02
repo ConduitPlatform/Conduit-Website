@@ -34,7 +34,10 @@ const CoreSection: FC = () => {
         gap={4}>
         <Link href={'/docs/core/router'} passHref>
           <ImageSectionCard
-            subText={'Conduit router provides a way to register routes for REST and GraphQL APIs.'}
+            subText={
+              'Conduit router provides a way to register routes for REST ' +
+              'and GraphQL APIs, as well as Web Sockets.'
+            }
             title={'Router'}
             image={<ApiIcon />}
           />
@@ -43,7 +46,7 @@ const CoreSection: FC = () => {
           <ImageSectionCard
             flexDirection={'row-reverse'}
             subText={
-              'This will be added as a required middleware, configurable on how strict is should be'
+              'Rate limiting and Client Id/Secret authentication by default to keep you safe'
             }
             title={'Security'}
             image={<LockIcon />}
@@ -51,9 +54,7 @@ const CoreSection: FC = () => {
         </Link>
         <Link href={'/docs/core/config'} passHref>
           <ImageSectionCard
-            subText={
-              'This is the basic module used to add modules to Conduit and update configuration.'
-            }
+            subText={'Configuration management, liveliness checks and service discovery baked-in.'}
             title={'Config'}
             image={<ToolIcon />}
           />
