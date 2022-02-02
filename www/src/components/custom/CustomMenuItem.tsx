@@ -11,6 +11,8 @@ const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   overflowWrap: 'break-word',
   wordWrap: 'break-word',
   whiteSpace: 'normal',
+  display: 'flex',
+  alignItems: 'flex-start',
   transition: '0.5s',
   '& .MuiMenuItem-root:hover': {
     boxShadow: '3px 3px 12px 1px rgba(0,0,0,0.1)',
