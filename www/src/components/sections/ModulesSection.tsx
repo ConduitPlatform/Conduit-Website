@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import ModuleCard from '../custom/ModuleCard';
 import { ViewModuleTwoTone } from '@mui/icons-material';
 import { ModuleCardData } from '../custom/ModuleCardData';
 import CustomSnapBox from '../custom/CustomSnapBox';
+import Link from '../../Link';
 
 export default function ModulesSection() {
   return (
@@ -27,6 +28,19 @@ export default function ModulesSection() {
           </Box>
         ))}
       </CustomSnapBox>
+      <Typography mt={3} gutterBottom align={'center'} variant={'subtitle1'}>
+        <strong>What is next for Conduit? </strong>
+        <Button
+          href={'/roadmap'}
+          component={Link}
+          color={'secondary'}
+          variant={'text'}
+          size={'small'}>
+          <Typography align={'center'}>
+            <strong>Visit our roadmap</strong>
+          </Typography>
+        </Button>
+      </Typography>
     </Box>
   );
 }
