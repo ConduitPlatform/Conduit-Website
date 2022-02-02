@@ -9,26 +9,29 @@ const Database = () => {
   return (
     <ModulePage
       moduleName="Emails"
-      title="Makes sending emails and creating your own email templates an easy experience"
+      title="Most web applications typically require a way to send e-mails to users.
+      The Email module serves this very purpose."
       docsLink="/docs/modules/database"
       img={<EmailIcon />}
       features={[
         {
           title: 'Send emails',
           description: 'As fast as possible',
-          url: '123',
+          url: '/docs/modules/email/get_started#sending-emails',
           icon: <Send />,
         },
         {
-          title: 'Create your own email templates',
-          description: 'Add custom variables for easier customization',
-          url: '123',
+          title: 'Email templates',
+          description:
+            'Create and edit your own templates. Support for template variables using handlebars.',
+          url: '/docs/modules/email/get_started#templates',
           icon: <EmailTemplates />,
         },
         {
-          title: 'Upload your templates to your own provider ',
-          description: 'Mailgun, sendgrid, mandril, Smtp',
-          url: '123',
+          title: 'Email Providers',
+          description:
+            'Sync your emails with the provider of your choice. The available providers are Mailgun, Sendgrid, Mandril and Smtp.',
+          url: '/docs/modules/email/get_started#import-a-template',
           icon: <Upload />,
         },
       ]}
