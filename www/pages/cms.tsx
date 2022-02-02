@@ -1,9 +1,9 @@
 import React from 'react';
 import ModulePage from '../src/components/custom/ModulePage';
 import CMSIcon from '../public/icons/cms.svg';
-import Multiple from '../public/icons/multiple.svg';
-import Gear from '../public/icons/key.svg';
-import Authentication from '../public/moduleIcons/authentication.svg';
+import Schema from '../public/moduleIcons/Schema.svg';
+import SchemaData from '../public/moduleIcons/schemaData.svg';
+import CustomEndpoint from '../public/moduleIcons/customEndpoint.svg';
 
 const CMS = () => {
   return (
@@ -16,22 +16,25 @@ Content is delivered through REST and GraphQL."
       img={<CMSIcon />}
       features={[
         {
-          title: 'Built in authentication',
-          description: 'The best dasd asd',
+          title: 'Schemas',
+          description:
+            'Create any content type (schema). Schemas can contain fields of different types.',
           url: '123',
-          icon: <Authentication />,
+          icon: <Schema />,
         },
         {
-          title: 'MongoDb and SQL support',
-          description: 'The best ds sd',
+          title: 'Schema data',
+          description:
+            'Create custom content types based on schemas! You can register individual entries in a schema to store your data.',
           url: '123',
-          icon: <Multiple />,
+          icon: <SchemaData />,
         },
         {
-          title: 'Custom endpoint creation',
-          description: 'The best ds we r',
+          title: 'Custom endpoints',
+          description:
+            'Create powerful custom endpoints, with pagination, sorting, population, authentication and more!',
           url: '123',
-          icon: <Gear />,
+          icon: <CustomEndpoint />,
         },
       ]}
     />

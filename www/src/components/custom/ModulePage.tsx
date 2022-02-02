@@ -41,7 +41,7 @@ interface ModulePageProps {
 }
 const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, img, features }) => {
   return (
-    <Container maxWidth={'lg'} sx={{ pt: [2, 4, 8] }}>
+    <Container maxWidth={'lg'} sx={{ py: [2, 4, 8] }}>
       <Link href={'/'} passHref>
         <Button color={'inherit'} startIcon={<ArrowBack />}>
           GO BACK
