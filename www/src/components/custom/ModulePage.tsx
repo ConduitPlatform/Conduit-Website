@@ -14,6 +14,7 @@ const styles = {
   cardLayout: {
     display: 'flex',
     flexWrap: 'wrap',
+    marginTop: '100px',
     gap: 2,
     '& > *': {
       flex: '1 1 30%',
@@ -59,6 +60,7 @@ const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, im
           {img}
         </Grid>
       </Grid>
+
       <Box sx={styles.cardLayout}>
         {features.map((feature, i) => {
           return (
