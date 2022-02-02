@@ -20,7 +20,7 @@ const Database = () => {
           icon: <DatabaseIcon />,
         },
         {
-          title: 'Conveniently query your data without the need of writing complex SQL queries.',
+          title: 'Query your data without the need of writing complex SQL queries.',
           description: 'The best ds sd',
           url: '123',
           icon: <Query />,
