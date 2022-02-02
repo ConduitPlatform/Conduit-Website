@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Box, Button, Drawer, DrawerProps, Typography, useTheme } from '@mui/material';
+import { Box, Drawer, DrawerProps, Typography, useTheme } from '@mui/material';
 import * as React from 'react';
 import HeaderLinkButton from './HeaderLinkButton';
 import { FC, useContext } from 'react';
@@ -36,10 +36,14 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
   return (
     <CustomDrawer {...props}>
       <Box display={'grid'} alignItems={'center'} justifyContent={'center'}>
-        <Box mt={2}>
-          <Button href={'/'} component={Link} color={'inherit'} onClick={onButtonClick}>
-            <ConduitLogo />
-          </Button>
+        <Box
+          href={'/'}
+          component={Link}
+          mt={3}
+          sx={{ cursor: 'pointer' }}
+          mx={'auto'}
+          onClick={onButtonClick}>
+          <ConduitLogo />
         </Box>
         <Box mt={[8, 10]} display={'grid'} alignItems={'center'} gap={3}>
           {navigationLinks.map((item) => (
