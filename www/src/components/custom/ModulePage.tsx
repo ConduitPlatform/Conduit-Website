@@ -6,9 +6,8 @@ import Link from 'next/link';
 import AboutCard from './AboutCard';
 import { ReactElement } from 'react';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-const Heading = styled(Typography)(({ theme }) => ({
+const Heading = styled(Typography)(() => ({
   fontWeight: 'bold',
-  textShadow: `2px 1px ${theme.palette.secondary.main}`,
 }));
 
 const styles = {
