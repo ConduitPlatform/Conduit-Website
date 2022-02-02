@@ -16,7 +16,7 @@ const Database = () => {
       features={[
         {
           title: 'Send emails',
-          description: 'As fast as possible',
+          description: 'Lucky you! You may now start sending Emails!',
           url: '/docs/modules/email/get_started#sending-emails',
           icon: <Send />,
         },
