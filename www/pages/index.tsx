@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Box, Container } from '@mui/material';
-import Roadmap from '../src/components/sections/Roadmap';
+import { Container, Box } from '@mui/material';
 import FadeOnScrollSection from '../src/components/custom/FadeOnScrollSection';
 import IntroSection from '../src/components/sections/IntroSection';
 import ModulesSection from '../src/components/sections/ModulesSection';
@@ -33,17 +32,12 @@ export default function Index() {
       <FadeOnScrollSection>
         <ModulesSection />
       </FadeOnScrollSection>
-      <Box className={'sectionSpacing'}>
-        <FadeOnScrollSection>
-          <ContributeSection />
-        </FadeOnScrollSection>
-        <FadeOnScrollSection>
-          <Roadmap />
-        </FadeOnScrollSection>
-        <FadeOnScrollSection>
-          <AboutUsSection />
-        </FadeOnScrollSection>
-      </Box>
+      <FadeOnScrollSection>
+        <ContributeSection />
+      </FadeOnScrollSection>
+      <FadeOnScrollSection>
+        <AboutUsSection />
+      </FadeOnScrollSection>
     </Container>
   );
 }
