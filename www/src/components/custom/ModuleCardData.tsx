@@ -13,8 +13,7 @@ export const ModuleCardData = [
   {
     title: 'CMS',
     href: '/docs/modules/cms/',
-    subtitle:
-      'Create custom Schemas, Queries and leverage automatically-created CRUD operations.',
+    subtitle: 'Create custom Schemas, Queries and leverage automatically-created CRUD operations.',
     icon: <CMS />,
   },
   {
@@ -33,14 +32,14 @@ export const ModuleCardData = [
   {
     title: 'AUTHENTICATION',
     href: '/docs/modules/authentication/',
-    subtitle: 'Authenticate Users with email/password or social logins. Did we mention it supports 2FA as well?',
+    subtitle:
+      'Authenticate Users with email/password or social logins. Did we mention it supports 2FA as well?',
     icon: <Authentication />,
   },
   {
     title: 'FORMS',
     href: '/docs/modules/forms/',
-    subtitle:
-      'Simple form submission support. Create your form and forward replies to an email.',
+    subtitle: 'Simple form submission support. Create your form and forward replies to an email.',
     icon: <Forms />,
   },
   {
