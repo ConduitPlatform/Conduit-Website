@@ -15,9 +15,10 @@ const StyledAccordion = styled((props: AccordionProps) => (
 
 const StyledAccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary expandIcon={<KeyboardArrowDownIcon color={'inherit'} />} {...props} />
-))(({ theme }) => ({
-  boxShadow: `0 0 0 1px ${theme.palette.divider}`,
-  borderRadius: 8,
+))(() => ({
+  '& .MuiAccordionSummary-content': {
+    flexGrow: 0,
+  },
 }));
 
 type ModuleAccordionProps = {
