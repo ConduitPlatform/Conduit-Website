@@ -7,7 +7,7 @@ import { ColorModeContext } from '../../../pages/_app';
 import CustomSwitch from './CustomSwitch';
 import { navigationLinks } from '../../fixedData/navigationLinks';
 import Link from '../../Link';
-import CustomLogo from './CustomLogo';
+import ConduitLogo from '../../../public/conduitLogo.svg';
 import ModuleAccordion from './ModuleAccordion';
 
 const CustomDrawer = styled((props: DrawerProps) => (
@@ -38,7 +38,7 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
       <Box display={'grid'} alignItems={'center'} justifyContent={'center'}>
         <Box mt={2}>
           <Button href={'/'} component={Link} color={'inherit'} onClick={onButtonClick}>
-            <CustomLogo />
+            <ConduitLogo />
           </Button>
         </Box>
         <Box mt={[8, 10]} display={'grid'} alignItems={'center'} gap={3}>
