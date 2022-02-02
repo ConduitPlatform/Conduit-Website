@@ -41,14 +41,14 @@ interface ModulePageProps {
 const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, img, features }) => {
   return (
     <Container maxWidth={'lg'} sx={{ pt: [2, 4, 8] }}>
-      <Heading textAlign="center" variant="h4" paddingTop="25px">
-        {moduleName}
-      </Heading>
       <Link href={'/'} passHref>
         <Button color={'inherit'} startIcon={<ArrowBack />}>
           GO BACK
         </Button>
       </Link>
+      <Heading textAlign="center" variant="h4" paddingTop="25px">
+        {moduleName}
+      </Heading>
       <Grid
         container
         spacing={6}
