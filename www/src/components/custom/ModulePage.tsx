@@ -79,7 +79,12 @@ const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, im
         {features.map((feature, i) => {
           return (
             <Link key={i} href={feature.url} passHref>
-              <AboutCard title={feature.title} text={feature.description} icon={feature.icon} />
+              <AboutCard
+                cursor={'pointer'}
+                title={feature.title}
+                text={feature.description}
+                icon={feature.icon}
+              />
             </Link>
           );
         })}
