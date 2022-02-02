@@ -28,7 +28,7 @@ const moduleMenuItems = [
   {
     title: 'Database',
     icon: <Database />,
-    description: 'One module to rule them all',
+    description: 'The glue between the database engine and Conduit. Query your data with ease.',
     link: '/database',
   },
 ];
