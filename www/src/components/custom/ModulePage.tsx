@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ArrowBack } from '@mui/icons-material';
 import Link from 'next/link';
@@ -14,7 +14,7 @@ const styles = {
   cardLayout: {
     display: 'flex',
     flexWrap: 'wrap',
-    marginTop: '150px',
+    marginTop: '100px',
     gap: 2,
     '& > *': {
       flex: '1 1 30%',
@@ -47,11 +47,13 @@ const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, im
         </Button>
       </Link>
 
-      <Grid container mt={1} spacing={6}>
-        <Grid item sm={7}>
-          <Grid item xs={12}>
-            <Heading variant="h4">{moduleName}</Heading>
-          </Grid>
+      <Box
+        mt={[4, 6]}
+        display={'grid'}
+        gap={4}
+        gridTemplateColumns={'repeat(auto-fit,minmax(320px,1fr))'}>
+        <Box>
+          <Heading variant="h5">{moduleName}</Heading>
           <Typography mt={4}>{title}</Typography>
           <Box mt={4}>
             <a href={docsLink} style={{ textDecoration: 'none' }}>
@@ -63,12 +65,16 @@ const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, im
               </Button>
             </a>
           </Box>
-        </Grid>
-        <Grid item xs={12} sm={5}>
+        </Box>
+        <Box
+          sx={{
+            aspectRatio: '16/10',
+            my: 'auto',
+            textAlign: 'center',
+          }}>
           {img}
-        </Grid>
-      </Grid>
-
+        </Box>
+      </Box>
       <Box sx={styles.cardLayout}>
         {features.map((feature, i) => {
           return (
