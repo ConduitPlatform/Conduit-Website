@@ -5,13 +5,13 @@ import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import CustomMenuDrawer from '../custom/CustomMenuDrawer';
 import HeaderLinkButton from '../custom/HeaderLinkButton';
-import DropdownMenu from '../custom/DropdownMenu';
 import Link from '../../Link';
 import { navigationLinks } from '../../fixedData/navigationLinks';
 import ConduitLogo from '../../../public/conduitLogo.svg';
+import CustomModuleMenu from '../custom/CustomModuleMenu';
 
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
-  padding: theme.spacing(3, 4),
+  padding: theme.spacing(2.5, 4),
   top: -1,
 }));
 
@@ -61,7 +61,7 @@ const Header: FC = () => {
                 </Box>
               ))}
               <Box sx={styles.lgMenu}>
-                <DropdownMenu />
+                <CustomModuleMenu />
               </Box>
             </Box>
 

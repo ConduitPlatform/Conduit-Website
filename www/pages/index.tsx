@@ -35,9 +35,11 @@ export default function Index() {
       <FadeOnScrollSection>
         <ContributeSection />
       </FadeOnScrollSection>
-      <FadeOnScrollSection>
-        <AboutUsSection />
-      </FadeOnScrollSection>
+      <Box className={'sectionSpacing'}>
+        <FadeOnScrollSection>
+          <AboutUsSection />
+        </FadeOnScrollSection>
+      </Box>
     </Container>
   );
 }

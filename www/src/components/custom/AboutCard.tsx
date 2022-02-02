@@ -10,11 +10,18 @@ type AboutCardProps = {
   title: string;
   icon: ReactElement;
   text: string;
+  cursor?: string;
 };
 
-const AboutCard: FC<AboutCardProps & CardProps> = ({ title, icon, text, ...props }) => {
+const AboutCard: FC<AboutCardProps & CardProps> = ({
+  cursor = 'auto',
+  title,
+  icon,
+  text,
+  ...props
+}) => {
   return (
-    <Card sx={styles.card} elevation={0} {...props}>
+    <Card sx={{ ...styles.card, cursor: cursor }} elevation={0} {...props}>
       <Box>
         <Box mb={1} display={'flex'} alignItems={'center'} gap={2}>
           {icon}
