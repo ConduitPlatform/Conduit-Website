@@ -11,7 +11,7 @@ import ConduitLogo from '../../../public/conduitLogo.svg';
 import CustomModuleMenu from '../custom/CustomModuleMenu';
 
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
-  padding: theme.spacing(3, 4),
+  padding: theme.spacing(2.5, 4),
   top: -1,
 }));
 
