@@ -11,7 +11,7 @@ const Database = () => {
       moduleName="Emails"
       title="Most web applications typically require a way to send e-mails to users.
       The Email module serves this very purpose."
-      docsLink="/docs/modules/database"
+      docsLink="/docs/modules/emails"
       img={<EmailIcon />}
       features={[
         {
