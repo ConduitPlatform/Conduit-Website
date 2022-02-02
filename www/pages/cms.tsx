@@ -8,8 +8,10 @@ import Authentication from '../public/moduleIcons/authentication.svg';
 const CMS = () => {
   return (
     <ModulePage
-      moduleName="CMS"
-      title="Store your files with an easy to navigate UI"
+      moduleName="CMS (Content management system)"
+      title="This module facilitates the management of content types through the generation of db level schemas,
+      the creation and manipulation of schema document entries and the registration of fine-tuned custom endpoints.
+Content is delivered through REST and GraphQL."
       docsLink="/docs/modules/storage"
       img={<CMSIcon />}
       features={[

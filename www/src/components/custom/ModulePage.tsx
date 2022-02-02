@@ -4,10 +4,11 @@ import { styled } from '@mui/material/styles';
 import { ArrowBack } from '@mui/icons-material';
 import Link from 'next/link';
 import AboutCard from './AboutCard';
-
+import { ReactElement } from 'react';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 const Heading = styled(Typography)(({ theme }) => ({
   fontWeight: 'bold',
-  textShadow: `1px 2px ${theme.palette.secondary.main}`,
+  textShadow: `2px 1px ${theme.palette.secondary.main}`,
 }));
 
 const styles = {
@@ -27,7 +28,7 @@ interface Feature {
   title: string;
   description: string;
   url: string;
-  icon?: React.ReactComponentElement<any>;
+  icon: ReactElement;
 }
 
 interface ModulePageProps {
@@ -46,20 +47,25 @@ const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, im
           GO BACK
         </Button>
       </Link>
-      <Heading textAlign="center" variant="h4" paddingTop="25px">
-        {moduleName}
-      </Heading>
-      <Grid
-        container
-        spacing={6}
-        sx={{ pt: '40px', alignItems: 'center', justifyContent: 'center' }}>
+
+      <Grid container mt={1} spacing={6}>
         <Grid item sm={7}>
-          <Typography variant="h5">{title}</Typography>
-          <a href={docsLink} style={{ textDecoration: 'none' }}>
-            <Button>View the docs</Button>
-          </a>
+          <Grid item xs={12}>
+            <Heading variant="h4">{moduleName}</Heading>
+          </Grid>
+          <Typography mt={4}>{title}</Typography>
+          <Box mt={4}>
+            <a href={docsLink} style={{ textDecoration: 'none' }}>
+              <Button
+                color={'secondary'}
+                endIcon={<MenuBookIcon sx={{ mb: 0.5 }} color={'secondary'} />}
+                variant={'outlined'}>
+                View the docs
+              </Button>
+            </a>
+          </Box>
         </Grid>
-        <Grid item sm={5}>
+        <Grid item xs={12} sm={5}>
           {img}
         </Grid>
       </Grid>
