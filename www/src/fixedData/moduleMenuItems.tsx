@@ -13,20 +13,20 @@ const moduleMenuItems = [
     link: '/cms',
   },
   {
-    title: 'AUTHENTICATION',
+    title: 'Authentication',
     icon: <Authentication />,
     description: 'Authenticate users via multiple platforms',
     link: '/authentication',
   },
   {
-    title: 'MAILS',
+    title: 'Mails',
     icon: <Emails />,
     description:
       'Connect with your favourite Email Provider to deliver transactional emails and manage templates.',
     link: '/emails',
   },
   {
-    title: 'DATABASE',
+    title: 'Database',
     icon: <Database />,
     description: 'One module to rule them all',
     link: '/database',
