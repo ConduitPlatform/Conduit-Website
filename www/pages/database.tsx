@@ -1,8 +1,8 @@
 import React from 'react';
 import ModulePage from '../src/components/custom/ModulePage';
 import Storage from '../public/icons/storageModule.svg';
-import PuzzleIcon from '../public/icons/puzzle.svg';
-import DatabaseIcon from '../public/moduleIcons/database.svg';
+import Query from '../public/icons/query.svg';
+import DatabaseIcon from '../public/icons/database.svg';
 
 const Database = () => {
   return (
@@ -14,7 +14,8 @@ const Database = () => {
       features={[
         {
           title: 'Supports MongoDB and PostgreSQL',
-          description: 'The best dasd asd',
+          description:
+            'You can have both a document and a more traditional based database, options!',
           url: '123',
           icon: <DatabaseIcon />,
         },
@@ -22,7 +23,7 @@ const Database = () => {
           title: 'Conveniently query your data without the need of writing complex SQL queries.',
           description: 'The best ds sd',
           url: '123',
-          icon: <PuzzleIcon />,
+          icon: <Query />,
         },
       ]}
     />

@@ -1,8 +1,9 @@
 import React from 'react';
 import ModulePage from '../src/components/custom/ModulePage';
 import EmailIcon from '../public/icons/email.svg';
-import PuzzleIcon from '../public/icons/puzzle.svg';
-import DatabaseIcon from '../public/moduleIcons/database.svg';
+import Send from '../public/icons/send.svg';
+import EmailTemplates from '../public/icons/emailTemplates.svg';
+import Upload from '../public/icons/upload.svg';
 
 const Database = () => {
   return (
@@ -16,19 +17,19 @@ const Database = () => {
           title: 'Send emails',
           description: 'As fast as possible',
           url: '123',
-          icon: <DatabaseIcon />,
+          icon: <Send />,
         },
         {
           title: 'Create your own email templates',
           description: 'Add custom variables for easier customization',
           url: '123',
-          icon: <PuzzleIcon />,
+          icon: <EmailTemplates />,
         },
         {
           title: 'Upload your templates to your own provider ',
           description: 'Mailgun, sendgrid, mandril, Smtp',
           url: '123',
-          icon: <PuzzleIcon />,
+          icon: <Upload />,
         },
       ]}
     />
