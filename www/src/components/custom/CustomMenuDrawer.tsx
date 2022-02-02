@@ -61,7 +61,7 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
             </HeaderLinkButton>
           </Box>
           <Box margin={'auto'}>
-            <ModuleAccordion />
+            <ModuleAccordion onClose={onButtonClick} />
           </Box>
           <Box mt={4} mx={'auto'}>
             <a href="https://github.com/ConduitPlatform/Conduit">

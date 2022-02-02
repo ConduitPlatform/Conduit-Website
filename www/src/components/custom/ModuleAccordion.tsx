@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
@@ -20,9 +20,17 @@ const StyledAccordionSummary = styled((props: AccordionSummaryProps) => (
   borderRadius: 8,
 }));
 
-const ModuleAccordion: FC = () => {
+type ModuleAccordionProps = {
+  onClose: () => void;
+};
+const ModuleAccordion: FC<ModuleAccordionProps> = ({ onClose }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleClose = () => {
+    setIsOpen(false);
+    onClose();
+  };
   return (
-    <StyledAccordion>
+    <StyledAccordion expanded={isOpen} onClick={() => setIsOpen(!isOpen)}>
       <StyledAccordionSummary>
         <Typography align={'center'} color={'inherit'}>
           <strong>Modules</strong>
@@ -32,10 +40,12 @@ const ModuleAccordion: FC = () => {
         <Box display={'grid'} gap={1}>
           {moduleMenuItems.map((item) => (
             <Button
+              key={item.title}
               fullWidth
               color={'inherit'}
               sx={{ justifyContent: 'flex-start' }}
               component={Link}
+              onClick={handleClose}
               href={item.link}>
               <Box display={'flex'} gap={1} alignItems={'center'}>
                 {item.icon} <Typography variant={'subtitle2'}>{item.title}</Typography>
