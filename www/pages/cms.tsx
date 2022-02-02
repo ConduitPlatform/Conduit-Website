@@ -1,6 +1,8 @@
 import React from 'react';
 import ModulePage from '../src/components/custom/ModulePage';
 import CMSIcon from '../public/icons/cms.svg';
+import Multiple from '../public/icons/multiple.svg';
+import Gear from '../public/icons/key.svg';
 import Authentication from '../public/moduleIcons/authentication.svg';
 
 const CMS = () => {
@@ -21,13 +23,13 @@ const CMS = () => {
           title: 'MongoDb and SQL support',
           description: 'The best ds sd',
           url: '123',
-          icon: <Authentication />,
+          icon: <Multiple />,
         },
         {
           title: 'Custom endpoint creation',
           description: 'The best ds we r',
           url: '123',
-          icon: <Authentication />,
+          icon: <Gear />,
         },
       ]}
     />

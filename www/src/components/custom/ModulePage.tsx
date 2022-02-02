@@ -14,7 +14,7 @@ const styles = {
   cardLayout: {
     display: 'flex',
     flexWrap: 'wrap',
-    marginTop: '100px',
+    marginTop: '150px',
     gap: 2,
     '& > *': {
       flex: '1 1 30%',
@@ -49,9 +49,12 @@ const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, im
           GO BACK
         </Button>
       </Link>
-      <Grid container spacing={6} sx={{ pt: '40px' }}>
-        <Grid item sm={7} sx={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Typography>{title}</Typography>
+      <Grid
+        container
+        spacing={6}
+        sx={{ pt: '40px', alignItems: 'center', justifyContent: 'center' }}>
+        <Grid item sm={7}>
+          <Typography variant="h5">{title}</Typography>
           <a href={docsLink} style={{ textDecoration: 'none' }}>
             <Button>View the docs</Button>
           </a>

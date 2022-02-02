@@ -2,6 +2,7 @@ import CMS from '../../public/moduleIcons/cms.svg';
 import * as React from 'react';
 import Authentication from '../../public/moduleIcons/authentication.svg';
 import Emails from '../../public/moduleIcons/emails.svg';
+import Database from '../../public/moduleIcons/database.svg';
 
 const moduleMenuItems = [
   {
@@ -26,7 +27,7 @@ const moduleMenuItems = [
   },
   {
     title: 'DATABASE',
-    icon: <Authentication />,
+    icon: <Database />,
     description: 'One module to rule them all',
     link: '/database',
   },
