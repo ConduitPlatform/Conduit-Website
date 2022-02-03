@@ -78,7 +78,7 @@ const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, im
       <Box sx={styles.cardLayout}>
         {features.map((feature, i) => {
           return (
-            <Box component={Link} href={feature.url}>
+            <Box component={Link} key={feature.title + i} href={feature.url}>
               <AboutCard
                 cursor={'pointer'}
                 title={feature.title}
