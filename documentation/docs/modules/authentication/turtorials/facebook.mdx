@@ -1,0 +1,45 @@
+# Facebook
+
+## Overview
+In this tutorial , we'll see how the facebook authenticate works.<br />
+To get started with the facebook authenticate, you have to create a facebook web application.<br />
+See here for [more](https://developers.facebook.com/docs/development/create-an-app/).<br />
+
+------------------------------------------------------------------------------------------------
+
+## Login with Facebook
+Since you've created a facebook app, also you have to crate a nodeJS application in<br />
+order Login with facebook.By doing this, you will be able to take a token which is needed to<br />
+continue with the authentication.<br />
+You can either make your own application or downloading it from [here](https://www.github.com/toapp).<br />
+
+------------------------------------------------------------------------------------------------
+
+## Setting up the configuration
+***NOTE***<br />
+***Do not forget to configure the facebook provider through the Admin Panel. [Click here for more](../config#third-party).<br />***
+Open the app which you downloaded and navigate to the ```config.js``` file.<br />
+Replace the ```clientID```, ```clientSecret```  fields with your actual facebook app credentials.<br />
+
+------------------------------------------------------------------------------------------------
+
+## Getting the Access Token
+
+
+Now you are ready to login with facebook.
+Just hit:<br />
+
+```jsx
+cd PATH_TO_APP
+yarn
+yarn start
+```
+
+Look at your console. An access token will be printed.<br />
+In this step, you will be able to make a POST request to authenticate.<br />
+See the facebook authenticate route [here](../api_reference/User/facebook).
+
+------------------------------------------------------------------------------------------------
+
+
+
