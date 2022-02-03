@@ -22,7 +22,7 @@ const StyledMenu = styled((props: MenuProps) => (
     {...props}
   />
 ))(({ theme }) => ({
-  top: 19.5,
+  top: 23.5,
   '& .MuiPaper-root': {
     left: '0px !important',
     borderTop: `1px solid ${theme.palette.background.default}`,
@@ -74,6 +74,7 @@ const CustomModuleMenu: FC = () => {
         MODULES
       </Button>
       <StyledMenu
+        disableScrollLock
         transitionDuration={500}
         anchorEl={anchorEl}
         open={!!anchorEl}
@@ -85,7 +86,7 @@ const CustomModuleMenu: FC = () => {
             description={item.subtitle}
             title={item.title}
             icon={item.icon}
-            link={item.redirect}
+            link={item.href}
           />
         ))}
       </StyledMenu>

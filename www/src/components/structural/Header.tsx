@@ -13,6 +13,7 @@ import CustomSwitch from '../custom/CustomSwitch';
 import { ColorModeContext } from '../../../pages/_app';
 
 const CustomAppBar = styled(AppBar)(({ theme }) => ({
+  borderBottom: `1px solid ${theme.palette.divider}`,
   padding: theme.spacing(2.5, 4),
   top: -1,
 }));
