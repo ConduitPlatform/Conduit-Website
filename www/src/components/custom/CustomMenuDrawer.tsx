@@ -5,7 +5,7 @@ import HeaderLinkButton from './HeaderLinkButton';
 import { FC, useContext } from 'react';
 import { ColorModeContext } from '../../../pages/_app';
 import CustomSwitch from './CustomSwitch';
-import { navigationLinks } from '../../fixedData/navigationLinks';
+import { navigationLinks } from '../../utils/navigationLinks';
 import Link from '../../Link';
 import ConduitLogo from '../../../public/conduitLogo.svg';
 import ModuleAccordion from './ModuleAccordion';
@@ -33,6 +33,35 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
 
   const onButtonClick = () => (props?.onClose ? props.onClose({}, 'backdropClick') : undefined);
 
+  const menuNavigation = () => {
+    return navigationLinks.map((item) => {
+      switch (item.title.toLowerCase()) {
+        case 'modules':
+          return (
+            <Box key={item.title} margin={'auto'}>
+              <ModuleAccordion onClose={onButtonClick} />
+            </Box>
+          );
+        default:
+          return (
+            <Box key={item.title} margin={'auto'}>
+              <HeaderLinkButton
+                ButtonProps={{
+                  onClick: onButtonClick,
+                  href: item?.href,
+                  color: 'inherit',
+                  variant: 'text',
+                }}>
+                <Typography>
+                  <strong>{item.title}</strong>
+                </Typography>
+              </HeaderLinkButton>
+            </Box>
+          );
+      }
+    });
+  };
+
   return (
     <CustomDrawer {...props}>
       <Box display={'grid'} alignItems={'center'} justifyContent={'center'}>
@@ -45,17 +74,8 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
           onClick={onButtonClick}>
           <ConduitLogo />
         </Box>
-        <Box mt={[8, 10]} display={'grid'} alignItems={'center'} gap={3}>
-          {navigationLinks.map((item) => (
-            <Box key={item.title} margin={'auto'}>
-              <HeaderLinkButton
-                ButtonProps={{ onClick: onButtonClick, href: item.href, color: 'inherit' }}>
-                <Typography>
-                  <strong>{item.title}</strong>
-                </Typography>
-              </HeaderLinkButton>
-            </Box>
-          ))}
+        <Box mt={[8, 10]} display={'grid'} alignItems={'center'} gap={1}>
+          {menuNavigation()}
           <Box margin={'auto'}>
             <HeaderLinkButton
               ButtonProps={{ onClick: onButtonClick, href: '/docs', color: 'inherit' }}>
@@ -63,9 +83,6 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
                 <strong>GET STARTED</strong>
               </Typography>
             </HeaderLinkButton>
-          </Box>
-          <Box margin={'auto'}>
-            <ModuleAccordion onClose={onButtonClick} />
           </Box>
           <Box mt={4} mx={'auto'}>
             <a href="https://github.com/ConduitPlatform/Conduit">

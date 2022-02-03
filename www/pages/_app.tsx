@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from 'react';
+import React, { createContext, useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -12,17 +12,30 @@ import getDesignTokens from '../src/theme';
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-export const ColorModeContext = createContext({ toggleColorMode: () => {} });
+export const ColorModeContext = createContext({
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  toggleColorMode: () => {},
+});
 
 const ConduitApp = (props: any) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   const [mode, setMode] = useState<PaletteMode>('dark');
+
+  useEffect(() => {
+    const storedMode = localStorage?.getItem('theme');
+    if (storedMode) {
+      setMode(storedMode === 'dark' ? 'dark' : 'light');
+    }
+  }, []);
+
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode((prevMode: PaletteMode) => (prevMode === 'light' ? 'dark' : 'light'));
+        setMode((prevMode: PaletteMode) => {
+          localStorage?.setItem('theme', prevMode === 'light' ? 'dark' : 'light');
+          return prevMode === 'light' ? 'dark' : 'light';
+        });
       },
     }),
     []
