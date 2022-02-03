@@ -5,7 +5,7 @@ import Send from '../public/icons/send.svg';
 import EmailTemplates from '../public/icons/emailTemplates.svg';
 import Upload from '../public/icons/upload.svg';
 
-const Database = () => {
+const Emails = () => {
   return (
     <ModulePage
       moduleName="Emails"
@@ -39,4 +39,4 @@ const Database = () => {
   );
 };
 
-export default Database;
+export default Emails;
