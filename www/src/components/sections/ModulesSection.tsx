@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Box, Button, Typography } from '@mui/material';
-import ModuleCard from '../custom/ModuleCard';
 import { ViewModuleTwoTone } from '@mui/icons-material';
 import { ModuleCardData } from '../custom/ModuleCardData';
 import CustomSnapBox from '../custom/CustomSnapBox';
 import Link from '../../Link';
+import AboutCard from '../custom/AboutCard';
 
 export default function ModulesSection() {
   return (
@@ -18,11 +18,12 @@ export default function ModulesSection() {
       </Box>
       <CustomSnapBox gridColumnLength={ModuleCardData.length} pb={1} px={[0, 0, 3]} gap={3}>
         {ModuleCardData.map((item, index) => (
-          <Box key={index}>
-            <ModuleCard
+          <Box component={Link} href={item.href} key={index}>
+            <AboutCard
+              cursor={'pointer'}
+              hasButton
               title={item.title}
-              href={item.href}
-              subtitle={item.subtitle}
+              text={item.subtitle}
               icon={item.icon}
             />
           </Box>

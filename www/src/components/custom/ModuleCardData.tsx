@@ -17,45 +17,45 @@ export const ModuleCardData = [
     icon: <CMS />,
   },
   {
-    title: 'MAILS',
+    title: 'Mails',
     href: '/docs/modules/email/',
     subtitle:
       'Connect with your favourite Email Provider to deliver transactional emails and manage templates.',
     icon: <Emails />,
   },
   {
-    title: 'STORAGE',
+    title: 'Storage',
     href: '/docs/modules/storage',
     subtitle: 'Upload files using Azure, Google or Amazon Storage, with a consistent API',
     icon: <Storage />,
   },
   {
-    title: 'AUTHENTICATION',
+    title: 'Authentication',
     href: '/docs/modules/authentication/',
     subtitle:
       'Authenticate Users with email/password or social logins. Did we mention it supports 2FA as well?',
     icon: <Authentication />,
   },
   {
-    title: 'FORMS',
+    title: 'Forms',
     href: '/docs/modules/forms/',
     subtitle: 'Simple form submission support. Create your form and forward replies to an email.',
     icon: <Forms />,
   },
   {
-    title: 'NOTIFICATIONS',
+    title: 'Notifications',
     href: '/docs/modules/push-notifications/',
     subtitle: 'Connect your push notification provider and send notifications easily.',
     icon: <Notifications />,
   },
   {
-    title: 'CHAT',
+    title: 'Chat',
     href: '/docs/modules/chat',
     subtitle: 'Leverage web sockets to create realtime chat applications in 5 minutes or less.',
     icon: <Chat />,
   },
   {
-    title: 'DATABASE',
+    title: 'Database',
     href: '/docs/modules/database',
     subtitle:
       'Use eithe Mongo or SQL databases, with a consistent Query interface to power your app',
