@@ -22,10 +22,9 @@ const StyledMenu = styled((props: MenuProps) => (
     {...props}
   />
 ))(({ theme }) => ({
-  top: '22px',
+  top: '24px',
   '& .MuiPaper-root': {
     left: '0px !important',
-    borderTop: `1px solid ${theme.palette.background.default}`,
     background: theme.palette.background.paper,
     width: '100vw',
     maxWidth: '100%',
