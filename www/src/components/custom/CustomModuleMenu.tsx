@@ -61,8 +61,7 @@ const CustomModuleMenu: FC = () => {
   return (
     <>
       <Button
-        color={'secondary'}
-        variant={'outlined'}
+        color={'inherit'}
         onClick={handleClick}
         endIcon={
           <KeyboardArrowDownIcon
