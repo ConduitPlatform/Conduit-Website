@@ -1,41 +1,30 @@
 import React from 'react';
 import ModulePage from '../src/components/custom/ModulePage';
-import Security from '../public/icons/security.svg';
-import KeyIcon from '../public/moduleIcons/key.svg';
-import SignIcon from '../public/moduleIcons/signIn.svg';
 
-import TwoFA from '../public/moduleIcons/2fa.svg';
-
+import SmsPage from '../public/moduleIcons/smsPage.svg';
+import MessageIcon from '@mui/icons-material/Message';
+import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 const SMS = () => {
   return (
     <ModulePage
       moduleName="SMS"
-      title="This module offers user authentication.
-It supports logins with local credentials as well as popular identity providers.
-TwoFactor authentication is also provided."
-      docsLink="/docs/modules/authentication"
-      img={<Security />}
+      title="This module provides support for SMS messages.
+Messages are delivered using third party providers."
+      docsLink="/docs/modules/sms/"
+      img={<SmsPage width={'100%'} height={'auto'} />}
       features={[
         {
-          title: 'Local authentication',
+          title: 'Sending SMS',
           description:
-            'Local authentication with username/password or email/password, optional email verification, Forgot/Reset password and more!',
-          url: '/docs/modules/authentication/config',
-          icon: <KeyIcon />,
+            'Conduit allows you to send SMS by specifying your recievers phone number and sms body!',
+          url: '/docs/modules/sms/get-started#send-sms',
+          icon: <MarkEmailReadIcon sx={{ width: 48, height: 48 }} color={'success'} />,
         },
         {
-          title: 'Sign in methods',
-          description:
-            'Login with client credentials from Facebook, Google, Kakao, Twitch. There are more to come!',
-          url: '/docs/modules/authentication/config#third-party',
-          icon: <SignIcon />,
-        },
-        {
-          title: '2FA',
-          description:
-            'Optional two factor authentication supported on all strategies (requires SMS module)',
-          url: '/docs/modules/authentication/config#how-to-enable-2fa',
-          icon: <TwoFA />,
+          title: 'Twilio support',
+          description: 'Conduit offers twilio as the primary SMS service provider!',
+          url: '/docs/modules/sms/config#twilio',
+          icon: <MessageIcon sx={{ width: 48, height: 48 }} color={'info'} />,
         },
       ]}
     />
