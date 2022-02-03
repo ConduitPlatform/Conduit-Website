@@ -5,7 +5,7 @@ import Menu, { MenuProps } from '@mui/material/Menu';
 import * as React from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import CustomMenuItem from './CustomMenuItem';
-import moduleMenuItems from '../../utils/moduleMenuItems';
+import { ModuleCardData } from './ModuleCardData';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -24,11 +24,13 @@ const StyledMenu = styled((props: MenuProps) => (
 ))(({ theme }) => ({
   top: 19.5,
   '& .MuiPaper-root': {
+    left: '0px !important',
     borderTop: `1px solid ${theme.palette.background.default}`,
     background: theme.palette.background.paper,
-    width: '100%',
-    maxWidth: 600,
-    minWidth: 300,
+    width: '100vw',
+    maxWidth: '100%',
+    overflow: 'hidden',
+
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
 
@@ -38,7 +40,7 @@ const StyledMenu = styled((props: MenuProps) => (
     display: 'grid',
     gap: 8,
     padding: 8,
-    gridTemplateColumns: '1fr 1fr',
+    gridTemplateColumns: 'repeat(3, 1fr)',
   },
 }));
 
@@ -77,13 +79,13 @@ const CustomModuleMenu: FC = () => {
         open={!!anchorEl}
         onClose={handleClose}
         onClick={handleClose}>
-        {moduleMenuItems.map((item) => (
+        {ModuleCardData.map((item) => (
           <CustomMenuItem
             key={item.title}
-            description={item.description}
+            description={item.subtitle}
             title={item.title}
             icon={item.icon}
-            link={item.link}
+            link={item.redirect}
           />
         ))}
       </StyledMenu>
