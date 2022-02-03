@@ -63,7 +63,7 @@ export const ModuleCardData = [
   },
   {
     title: 'SMS',
-    href: '/email',
+    href: '/sms',
     subtitle: 'Provides sms delivery functionality in conduit, focused mainly in 2FA currently',
     icon: <SMS />,
   },
