@@ -42,7 +42,7 @@ const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, im
   return (
     <Container maxWidth={'lg'} sx={{ py: [2, 4, 8] }}>
       <Link href={'/'} passHref>
-        <Button color={'inherit'} startIcon={<ArrowBack />}>
+        <Button color={'secondary'} startIcon={<ArrowBack />}>
           GO BACK
         </Button>
       </Link>
