@@ -4,8 +4,8 @@ import { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Accordion, AccordionDetails, Box, Button, Typography } from '@mui/material';
-import moduleMenuItems from '../../utils/moduleMenuItems';
 import Link from '../../Link';
+import { ModuleCardData } from './ModuleCardData';
 
 const StyledAccordion = styled((props: AccordionProps) => (
   <Accordion disableGutters elevation={0} square {...props} />
@@ -39,17 +39,19 @@ const ModuleAccordion: FC<ModuleAccordionProps> = ({ onClose }) => {
       </StyledAccordionSummary>
       <AccordionDetails>
         <Box display={'grid'} gap={1}>
-          {moduleMenuItems.map((item) => (
+          {ModuleCardData.map((item) => (
             <Button
               key={item.title}
               fullWidth
+              size={'small'}
               color={'inherit'}
               sx={{ justifyContent: 'flex-start' }}
               component={Link}
               onClick={handleClose}
-              href={item.link}>
+              href={item.href}
+              startIcon={item.icon}>
               <Box display={'flex'} gap={1} alignItems={'center'}>
-                {item.icon} <Typography variant={'subtitle2'}>{item.title}</Typography>
+                <Typography variant={'caption'}>{item.title}</Typography>
               </Box>
             </Button>
           ))}
