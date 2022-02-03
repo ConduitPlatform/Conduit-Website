@@ -1,41 +1,37 @@
 import React from 'react';
 import ModulePage from '../src/components/custom/ModulePage';
-import Security from '../public/icons/security.svg';
-import KeyIcon from '../public/moduleIcons/key.svg';
-import SignIcon from '../public/moduleIcons/signIn.svg';
-
-import TwoFA from '../public/moduleIcons/2fa.svg';
+import Attachments from '../public/moduleIcons/attachments.svg';
+import FormsIcon from '../public/moduleIcons/formsLg.svg';
+import Spam from '../public/moduleIcons/spam.svg';
+import Auth from '../public/moduleIcons/localAuthentication.svg';
 
 const Forms = () => {
   return (
     <ModulePage
       moduleName="Forms"
-      title="This module offers user authentication.
-It supports logins with local credentials as well as popular identity providers.
-TwoFactor authentication is also provided."
-      docsLink="/docs/modules/authentication"
-      img={<Security />}
+      title="Simple form submission module. Create your form and forward replies to an email"
+      docsLink="/docs/modules/forms"
+      img={<FormsIcon />}
       features={[
         {
-          title: 'Local authentication',
-          description:
-            'Local authentication with username/password or email/password, optional email verification, Forgot/Reset password and more!',
+          title: 'Creation/submission',
+          description: '',
           url: '/docs/modules/authentication/config',
-          icon: <KeyIcon />,
+          icon: <Auth />,
         },
         {
-          title: 'Sign in methods',
+          title: 'File Attachments',
           description:
             'Login with client credentials from Facebook, Google, Kakao, Twitch. There are more to come!',
           url: '/docs/modules/authentication/config#third-party',
-          icon: <SignIcon />,
+          icon: <Attachments />,
         },
         {
-          title: '2FA',
+          title: 'Spam detection',
           description:
             'Optional two factor authentication supported on all strategies (requires SMS module)',
           url: '/docs/modules/authentication/config#how-to-enable-2fa',
-          icon: <TwoFA />,
+          icon: <Spam />,
         },
       ]}
     />
