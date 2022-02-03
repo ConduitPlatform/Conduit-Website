@@ -2,10 +2,10 @@ import * as React from 'react';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ArrowBack } from '@mui/icons-material';
-import Link from 'next/link';
 import AboutCard from './AboutCard';
 import { ReactElement } from 'react';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import Link from '../../Link';
 const Heading = styled(Typography)(() => ({
   fontWeight: 'bold',
 }));
@@ -78,14 +78,14 @@ const ModulePage: React.FC<ModulePageProps> = ({ moduleName, title, docsLink, im
       <Box sx={styles.cardLayout}>
         {features.map((feature, i) => {
           return (
-            <Link key={i} href={feature.url} passHref>
+            <Box component={Link} href={feature.url}>
               <AboutCard
                 cursor={'pointer'}
                 title={feature.title}
                 text={feature.description}
                 icon={feature.icon}
               />
-            </Link>
+            </Box>
           );
         })}
       </Box>
