@@ -64,7 +64,7 @@ export default function IntroSection() {
               component={Link}
               href={'/docs'}
               size="large"
-              variant="outlined"
+              variant="contained"
               color="secondary"
               endIcon={<ArrowForwardIos />}>
               GET STARTED
