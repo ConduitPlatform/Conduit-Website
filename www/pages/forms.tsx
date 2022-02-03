@@ -15,22 +15,21 @@ const Forms = () => {
       features={[
         {
           title: 'Creation/submission',
-          description: '',
-          url: '/docs/modules/authentication/config',
+          description:
+            'You may delete individual forms and view their submitted replies. You can also view a form specification and edit its fields.',
+          url: '/docs/modules/forms/get-started#using-the-admin-panel',
           icon: <Auth />,
         },
         {
           title: 'File Attachments',
-          description:
-            'Login with client credentials from Facebook, Google, Kakao, Twitch. There are more to come!',
-          url: '/docs/modules/authentication/config#third-party',
+          description: 'Enables support for attachment fields in forms.',
+          url: '/docs/modules/forms/config#use-attachments',
           icon: <Attachments />,
         },
         {
           title: 'Spam detection',
-          description:
-            'Optional two factor authentication supported on all strategies (requires SMS module)',
-          url: '/docs/modules/authentication/config#how-to-enable-2fa',
+          description: 'Blacklist certain senders to avoid spam.',
+          url: '/docs/modules/forms/#features',
           icon: <Spam />,
         },
       ]}

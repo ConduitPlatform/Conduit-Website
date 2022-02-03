@@ -7,7 +7,7 @@ import Check from '../public/moduleIcons/checkAll.svg';
 const Notifications = () => {
   return (
     <ModulePage
-      moduleName="Notifications"
+      moduleName="Push Notifications"
       title="This module handles sending push notifications to users."
       docsLink="/docs/modules/push-notifications/"
       img={<Push />}

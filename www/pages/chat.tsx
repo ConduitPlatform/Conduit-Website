@@ -1,41 +1,30 @@
 import React from 'react';
 import ModulePage from '../src/components/custom/ModulePage';
-import Security from '../public/icons/security.svg';
-import KeyIcon from '../public/moduleIcons/key.svg';
-import SignIcon from '../public/moduleIcons/signIn.svg';
-
-import TwoFA from '../public/moduleIcons/2fa.svg';
+import Rooms from '../public/moduleIcons/rooms.svg';
+import ChatIconAlt from '../public/moduleIcons/chat2.svg';
+import ChatIcon from '../public/moduleIcons/chatLg.svg';
 
 const Chat = () => {
   return (
     <ModulePage
       moduleName="Chat"
-      title="This module offers user authentication.
-It supports logins with local credentials as well as popular identity providers.
-TwoFactor authentication is also provided."
-      docsLink="/docs/modules/authentication"
-      img={<Security />}
+      title="This module provides support for creating chat rooms, adding participants and sending messages."
+      docsLink="/docs/modules/chat/"
+      img={<ChatIcon />}
       features={[
         {
-          title: 'Local authentication',
+          title: 'Rooms',
           description:
-            'Local authentication with username/password or email/password, optional email verification, Forgot/Reset password and more!',
-          url: '/docs/modules/authentication/config',
-          icon: <KeyIcon />,
+            'The admin panel lets you browse the available chat rooms, create new ones and preview their messages.',
+          url: '/docs/modules/chat/get-started#creating-rooms',
+          icon: <Rooms />,
         },
         {
-          title: 'Sign in methods',
+          title: 'Messages',
           description:
-            'Login with client credentials from Facebook, Google, Kakao, Twitch. There are more to come!',
-          url: '/docs/modules/authentication/config#third-party',
-          icon: <SignIcon />,
-        },
-        {
-          title: '2FA',
-          description:
-            'Optional two factor authentication supported on all strategies (requires SMS module)',
-          url: '/docs/modules/authentication/config#how-to-enable-2fa',
-          icon: <TwoFA />,
+            'Send messages, with read status from other participants on the room. Allow message deletion and editing according to your needs.',
+          url: '/docs/modules/chat/config#available-options',
+          icon: <ChatIconAlt />,
         },
       ]}
     />
