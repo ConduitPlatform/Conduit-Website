@@ -64,14 +64,16 @@ export default function IntroSection() {
               component={Link}
               href={'/docs'}
               size="large"
-              variant="outlined"
+              variant="contained"
               color="secondary"
               endIcon={<ArrowForwardIos />}>
               GET STARTED
             </Button>
 
             <Box style={{ flexGrow: '1' }}>
-              <SyntaxHighlighter style={duotoneLight}>
+              <SyntaxHighlighter
+                style={duotoneLight}
+                customStyle={{ borderRadius: '6px', padding: '0.86em' }}>
                 {'curl .... docker compose'}
               </SyntaxHighlighter>
             </Box>

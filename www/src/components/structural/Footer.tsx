@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import {
   Box,
   Button,
@@ -9,14 +9,9 @@ import {
   TextField,
   Theme,
   Typography,
-  useTheme,
 } from '@mui/material';
 import Copyright from '../../Copyright';
-import { ColorModeContext } from '../../../pages/_app';
-import CustomSwitch from '../custom/CustomSwitch';
-import HeaderLinkButton from '../custom/HeaderLinkButton';
 import ContactLinks from '../custom/ContactLinks';
-import { navigationLinks } from '../../fixedData/navigationLinks';
 import ConduitLogo from '../../../public/conduitLogo.svg';
 
 const svgResponsiveStyle: SxProps = {
@@ -26,9 +21,6 @@ const svgResponsiveStyle: SxProps = {
 };
 
 const Footer: FC = () => {
-  const muiTheme = useTheme();
-  const colorMode = useContext(ColorModeContext);
-
   const handleSubmit = (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
   };
@@ -42,12 +34,12 @@ const Footer: FC = () => {
       paddingX={[2, 4]}>
       <Box
         margin={'auto'}
-        maxWidth={'xl'}
+        maxWidth={'lg'}
         display={'flex'}
-        justifyContent={'space-around'}
+        justifyContent={'space-between'}
         alignItems={'center'}
         flexWrap={'wrap'}
-        rowGap={4}>
+        rowGap={3}>
         <Box>
           <Box sx={svgResponsiveStyle}>
             <ConduitLogo />
@@ -73,32 +65,16 @@ const Footer: FC = () => {
             </Box>
           </form>
         </Box>
-        <Box display={'flex'} gap={4} justifyContent={'center'}>
-          <Box margin={'auto'}>
-            <CustomSwitch
-              checked={muiTheme.palette.mode === 'dark'}
-              onClick={colorMode.toggleColorMode}
-            />
-          </Box>
-          <Box display={'flex'} flexWrap={'wrap'} gap={2}>
-            {navigationLinks.map((item) => (
-              <HeaderLinkButton
-                key={item.title}
-                ButtonProps={{ href: item.href, color: 'inherit' }}>
-                {item.title}
-              </HeaderLinkButton>
-            ))}
-          </Box>
-        </Box>
+        <Box display={'flex'} gap={4} justifyContent={'center'} />
       </Box>
-      <Box maxWidth={'xl'} margin={'auto'} mt={4} mb={3}>
+      <Box maxWidth={'lg'} margin={'auto'} mt={4} mb={3}>
         <Divider />
       </Box>
       <Box
         margin={'auto'}
-        maxWidth={'xl'}
+        maxWidth={'lg'}
         display={'flex'}
-        justifyContent={'space-around'}
+        justifyContent={'space-between'}
         alignItems={'center'}
         flexWrap={'wrap'}
         rowGap={3}>

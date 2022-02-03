@@ -1,5 +1,5 @@
 import React from 'react';
-import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
+import { VerticalTimeline } from 'react-vertical-timeline-component';
 import TypeScript from '../public/timelineIcons/ts.svg';
 import NewFeatures from '../public/timelineIcons/new.svg';
 import Documentation from '../public/timelineIcons/documentation.svg';
@@ -11,6 +11,7 @@ import { ArrowBack } from '@mui/icons-material';
 import { useTheme } from '@mui/system';
 import Link from 'next/link';
 import TimelineElement from '../src/components/custom/TimelineElement';
+import RoadmapIcon from '../public/icons/ideas.svg';
 import { NextSeo } from 'next-seo';
 
 const Heading = styled(Typography)(({ theme }) => ({
@@ -52,16 +53,8 @@ export default function Roadmap() {
           Conduit Roadmap
         </Heading>
         <Grid container spacing={1} sx={{ p: [3, 6, 9] }}>
-          <Grid
-            item
-            container
-            direction="column"
-            justifyContent="center"
-            md={6}
-            sm={12}
-            xs={12}
-            sx={{ pb: [2, 4, 8] }}>
-            <Grid item>
+          <Grid item container direction="column" md={6} sm={12} xs={12} sx={{ pb: [2, 4, 8] }}>
+            <Grid item sx={{ pt: [2, 4, 8] }}>
               <Typography variant="h4">
                 Strive to
                 <TypewriterComponent
@@ -82,8 +75,6 @@ export default function Roadmap() {
                   }
                 />
               </Typography>
-            </Grid>
-            <Grid item sx={{ pt: [2, 4, 8] }}>
               <Typography variant="subtitle2">
                 {`Even though Conduit is on its' early steps it strives to improve.
              Our vision is to help people build their backend as fast and with
@@ -94,6 +85,9 @@ export default function Roadmap() {
              work on requested changes/improvements and of course everyone is
              welcome to contribute.`}
               </Typography>
+            </Grid>
+            <Grid item sx={{ p: [13, 12, 8, 7, 6] }}>
+              <RoadmapIcon />
             </Grid>
           </Grid>
           <StyledGridItem item md={6} sm={12}>

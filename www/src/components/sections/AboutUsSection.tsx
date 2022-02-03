@@ -25,27 +25,33 @@ const AboutUsSection: FC = () => {
     <Box mb={16}>
       <CustomDivider>ABOUT US</CustomDivider>
       <Box sx={styles.cardLayout}>
-        <AboutCard
-          title={'Who powered conduit'}
-          icon={<FaceIcon />}
-          text={
-            'Conduit was created in Quintessential, and as a technology company that develops premium software solutions, we wanted to create a platform that will allows us to move quicker and deliver better quality software each time.'
-          }
-        />
-        <AboutCard
-          title={'What we strive for'}
-          icon={<Target />}
-          text={
-            'We want to deliver the most seamless backend experience possible. Even though Conduit is in a working state in the coming months we will work on requested changes/improvements and of course everyone is welcome to contribute.'
-          }
-        />
-        <AboutCard
-          title={'Going openSource'}
-          icon={<OpenSource />}
-          text={
-            'Our passion for open source, communities and knowledge sharing leads us into crafting services and solutions and hosting events which empower innovation and networking.'
-          }
-        />
+        <Box>
+          <AboutCard
+            title={'Who powered conduit'}
+            icon={<FaceIcon />}
+            text={
+              'Conduit was created in Quintessential, and as a technology company that develops premium software solutions, we wanted to create a platform that will allows us to move quicker and deliver better quality software each time.'
+            }
+          />
+        </Box>
+        <Box>
+          <AboutCard
+            title={'What we strive for'}
+            icon={<Target />}
+            text={
+              'We want to deliver the most seamless backend experience possible. Even though Conduit is in a working state in the coming months we will work on requested changes/improvements and of course everyone is welcome to contribute.'
+            }
+          />
+        </Box>
+        <Box>
+          <AboutCard
+            title={'Going openSource'}
+            icon={<OpenSource />}
+            text={
+              'Our passion for open source, communities and knowledge sharing leads us into crafting services and solutions and hosting events which empower innovation and networking.'
+            }
+          />
+        </Box>
       </Box>
     </Box>
   );
