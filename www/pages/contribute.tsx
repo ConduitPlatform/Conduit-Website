@@ -3,7 +3,6 @@ import { Box, Button, Container, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ArrowBack } from '@mui/icons-material';
 import Link from 'next/link';
-import Github from '../public/icons/github.svg';
 
 const ContributePaperComponent = styled(Paper)(({ theme }) => ({
   display: 'grid',
@@ -44,25 +43,24 @@ export default function Contribute() {
       </Heading>
       <ContributePaperComponent elevation={1} style={{ border: '1px solid black' }}>
         <Box>
-          <TypographyComponent variant="h5">Conduit + Community = 💖</TypographyComponent>
+          <TypographyComponent variant="h5" style={{ marginBottom: '-24px' }}>
+            Conduit + Community = 💖
+          </TypographyComponent>
           <TypographyComponent variant="subtitle2">
             We strongly believe that the community around Conduit can really make the difference. No
             matter how experienced you are, if you like the idea behind the project and would like
             express your ideas via your code, simplifying the backend process for you and other
             Conduit members, you are more than welcome to join us!
           </TypographyComponent>
-        </Box>
-        <Box
-          sx={{
-            borderLeft: (theme) => ['none', 'none', `1px solid ${theme.palette.secondary.main}`],
-          }}>
-          <TypographyComponent variant="h5">Welcoming environment</TypographyComponent>
+          <TypographyComponent variant="h5" style={{ marginBottom: '-24px' }}>
+            Welcoming environment
+          </TypographyComponent>
           <TypographyComponent variant="subtitle2">
             In the interest of fostering an open and welcoming environment, we as contributors and
             maintainers pledge to making participation in our project and our community a
             harassment-free experience for everyone.
           </TypographyComponent>
-          <TypographyComponent variant="h5">
+          <TypographyComponent variant="h5" style={{ marginBottom: '-24px' }}>
             It’s empowering to be able to make changes, even small ones
           </TypographyComponent>
           <TypographyComponent variant="subtitle2">
@@ -71,27 +69,59 @@ export default function Contribute() {
             source project, you can do just that. Open source helps people feel agency over their
             lives and how they experience the world, and that in itself is gratifying.
           </TypographyComponent>
-          <TypographyComponent style={{ marginBottom: '-30px' }} padding="20px" variant="h6">
-            <ATagComponent href="https://github.com/ConduitPlatform/Conduit/blob/master/.github/CONTRIBUTING.md">
-              Contribution guide for Conduit
-            </ATagComponent>
+        </Box>
+        <Box
+          sx={{
+            borderLeft: (theme) => ['none', 'none', `1px solid ${theme.palette.secondary.main}`],
+          }}>
+          <TypographyComponent variant="h5" style={{ marginBottom: '-24px' }}>
+            Code of Conduct
           </TypographyComponent>
-          <TypographyComponent style={{ marginBottom: '-30px' }} padding="20px" variant="h6">
-            <ATagComponent href="https://github.com/ConduitPlatform/Conduit-UI/blob/master/.github/CONTRIBUTING.md">
-              Contribution guide for Conduit UI
-            </ATagComponent>
+          <TypographyComponent variant="subtitle2" style={{ marginBottom: '-32px' }}>
+            Our serves as a guide to help all of us and the technical communities in which we engage
+            grow.
           </TypographyComponent>
-          <TypographyComponent display="flex" alignItems="center" variant="subtitle2">
-            Also refer to our
-            <div>&nbsp;</div>
-            <ATagComponent href="https://github.com/ConduitPlatform/Conduit#readme">
-              readme
-            </ATagComponent>
-            <Github />
-          </TypographyComponent>
-          <TypographyComponent variant="h5">Join us on social platforms!</TypographyComponent>
           <TypographyComponent variant="subtitle2">
-            <ul style={{ marginTop: '-10px' }}>
+            <ul style={{ margin: 0 }}>
+              <li>
+                <ATagComponent href="https://github.com/ConduitPlatform/Conduit/blob/master/.github/CODE_OF_CONDUCT.md">
+                  Conduit
+                </ATagComponent>
+              </li>
+              <li>
+                <ATagComponent href="https://github.com/ConduitPlatform/Conduit-UI/blob/master/.github/CODE_OF_CONDUCT.md">
+                  Conduit-UI
+                </ATagComponent>
+              </li>
+            </ul>
+          </TypographyComponent>
+          <TypographyComponent variant="h5" style={{ marginBottom: '-24px' }}>
+            Contribute Code
+          </TypographyComponent>
+          <TypographyComponent variant="subtitle2" style={{ marginBottom: '-32px' }}>
+            There are guidelines for contributing, just as there are for every project. Please read
+            the contributing guide to ensure that we are able to assist you or approve your pull
+            request as soon as possible.
+          </TypographyComponent>
+          <TypographyComponent variant="subtitle2">
+            <ul style={{ margin: 0 }}>
+              <li>
+                <ATagComponent href="https://github.com/ConduitPlatform/Conduit/blob/master/.github/CODE_OF_CONDUCT.md">
+                  Conduit
+                </ATagComponent>
+              </li>
+              <li>
+                <ATagComponent href="https://github.com/ConduitPlatform/Conduit-UI/blob/master/.github/CODE_OF_CONDUCT.md">
+                  Conduit-UI
+                </ATagComponent>
+              </li>
+            </ul>
+          </TypographyComponent>
+          <TypographyComponent variant="h5" style={{ marginBottom: '-24px' }}>
+            Join us on social platforms!
+          </TypographyComponent>
+          <TypographyComponent variant="subtitle2">
+            <ul style={{ margin: 0 }}>
               <li>Matrix</li>
               <li>Discord</li>
             </ul>
