@@ -4,7 +4,7 @@ import { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Accordion, AccordionDetails, Box, Button, Typography } from '@mui/material';
-import moduleMenuItems from '../../fixedData/moduleMenuItems';
+import moduleMenuItems from '../../utils/moduleMenuItems';
 import Link from '../../Link';
 
 const StyledAccordion = styled((props: AccordionProps) => (

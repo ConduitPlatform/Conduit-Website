@@ -5,7 +5,7 @@ import Menu, { MenuProps } from '@mui/material/Menu';
 import * as React from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import CustomMenuItem from './CustomMenuItem';
-import moduleMenuItems from '../../fixedData/moduleMenuItems';
+import moduleMenuItems from '../../utils/moduleMenuItems';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -63,6 +63,7 @@ const CustomModuleMenu: FC = () => {
       <Button
         color={'inherit'}
         onClick={handleClick}
+        sx={{ '& .MuiButton-endIcon': { marginLeft: 0 } }}
         endIcon={
           <KeyboardArrowDownIcon
             sx={{ transform: `rotate(${!!anchorEl ? '180deg' : '0deg'})`, transition: '0.2s' }}
