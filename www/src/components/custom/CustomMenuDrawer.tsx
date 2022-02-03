@@ -39,7 +39,7 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
         case 'modules':
           return (
             <Box key={item.title} margin={'auto'}>
-              <ModuleAccordion onClose={onButtonClick} />
+              <ModuleAccordion isDrawerOpen={props.open} onClose={onButtonClick} />
             </Box>
           );
         default:

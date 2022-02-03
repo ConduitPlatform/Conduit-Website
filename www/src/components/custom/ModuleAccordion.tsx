@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
@@ -23,13 +23,19 @@ const StyledAccordionSummary = styled((props: AccordionSummaryProps) => (
 
 type ModuleAccordionProps = {
   onClose: () => void;
+  isDrawerOpen?: boolean;
 };
-const ModuleAccordion: FC<ModuleAccordionProps> = ({ onClose }) => {
+const ModuleAccordion: FC<ModuleAccordionProps> = ({ isDrawerOpen, onClose }) => {
   const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => {
     setIsOpen(false);
     onClose();
   };
+
+  useEffect(() => {
+    if (!isDrawerOpen) setIsOpen(false);
+  }, [isDrawerOpen]);
+
   return (
     <StyledAccordion expanded={isOpen} onClick={() => setIsOpen(!isOpen)}>
       <StyledAccordionSummary>
