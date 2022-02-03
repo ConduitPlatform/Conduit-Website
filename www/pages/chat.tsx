@@ -9,7 +9,7 @@ import TwoFA from '../public/moduleIcons/2fa.svg';
 const Chat = () => {
   return (
     <ModulePage
-      moduleName="Authentication"
+      moduleName="Chat"
       title="This module offers user authentication.
 It supports logins with local credentials as well as popular identity providers.
 TwoFactor authentication is also provided."
