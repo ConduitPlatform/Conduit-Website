@@ -71,7 +71,9 @@ export default function IntroSection() {
             </Button>
 
             <Box style={{ flexGrow: '1' }}>
-              <SyntaxHighlighter style={duotoneLight}>
+              <SyntaxHighlighter
+                style={duotoneLight}
+                customStyle={{ borderRadius: '6px', padding: '0.86em' }}>
                 {'curl .... docker compose'}
               </SyntaxHighlighter>
             </Box>
