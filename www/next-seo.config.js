@@ -9,4 +9,10 @@ export default {
     url: 'https://www.getconduit.dev/',
     site_name: 'Conduit',
   },
+  additionalMetaTags: [
+    {
+      name: 'application-name',
+      content: 'Conduit',
+    },
+  ],
 };
