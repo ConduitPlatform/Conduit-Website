@@ -9,10 +9,20 @@ import BlogCard from '../../src/components/blog/BlogCard';
 import { Post } from '../../src/models/Post.interface';
 import { Tag, tagFilters } from '../../src/models/Tag';
 import CustomTabs from '../../src/components/custom/CustomTabs';
+import { NextSeo } from 'next-seo';
 
 const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [searchString, setSearchString] = useState('');
   const [tag, setTag] = useState<Tag | ''>('');
+
+  const SEO = {
+    title: 'Blog Page',
+    description: 'All blog posts',
+    openGraph: {
+      title: 'Blog Page',
+      description: 'All blog posts',
+    },
+  };
 
   const handleChange = (event: React.SyntheticEvent, newValue: Tag) => {
     setTag(newValue);
@@ -30,6 +40,7 @@ const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps
 
   return (
     <Container sx={{ pt: 4, pb: 12 }}>
+      <NextSeo {...SEO} />
       <Box
         sx={{
           padding: (theme) => theme.spacing(1, 0),

@@ -1,6 +1,5 @@
 import React, { createContext, useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Head from 'next/head';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider } from '@emotion/react';
@@ -8,6 +7,8 @@ import createEmotionCache from '../src/createEmotionCache';
 import Layout from '../src/components/structural/Layout';
 import { PaletteMode, responsiveFontSizes } from '@mui/material';
 import getDesignTokens from '../src/theme';
+import { DefaultSeo } from 'next-seo';
+import SEO from '../next-seo.config';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -49,10 +50,7 @@ const ConduitApp = (props: any) => {
 
   return (
     <CacheProvider value={emotionCache}>
-      <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <title>Conduit Website</title>
-      </Head>
+      <DefaultSeo {...SEO} />
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}

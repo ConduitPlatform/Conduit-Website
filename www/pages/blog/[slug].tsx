@@ -15,6 +15,7 @@ import { Box, Button, Container, Typography } from '@mui/material';
 import BlogImageContainer from '../../src/components/blog/BlogImageContainer';
 import BlogHighlighter from '../../src/components/blog/BlogHighlighter';
 import Link from 'next/link';
+import { NextSeo } from 'next-seo';
 
 hljs.registerLanguage('typescript', typescript);
 
@@ -32,17 +33,32 @@ export default function Article({ source }: InferGetStaticPropsType<typeof getSt
     hljs.highlightAll();
   }, []);
 
+  const SEO = {
+    title: `Conduit Blog | ${source.scope.title}`,
+    description: ` ${source.scope.excerpt}`,
+    openGraph: {
+      title: `Conduit Blog | ${source.scope.title}`,
+      description: ` ${source.scope.excerpt}`,
+      article: {
+        tags: source.scope.tags,
+      },
+    },
+  };
+
   return (
-    <Container sx={{ pt: 4, pb: 12 }} maxWidth={'xl'}>
-      <Link href="/blog" passHref>
-        <Button sx={{ marginLeft: [0, 0, 0, 6] }} color={'inherit'} startIcon={<ArrowBackIcon />}>
-          GO BACK
-        </Button>
-      </Link>
-      <Box maxWidth={'lg'} margin={'auto'} mt={1}>
-        <MDXRemote {...source} components={components} />
-      </Box>
-    </Container>
+    <>
+      <NextSeo {...SEO} />
+      <Container sx={{ pt: 4, pb: 12 }} maxWidth={'xl'}>
+        <Link href="/blog" passHref>
+          <Button sx={{ marginLeft: [0, 0, 0, 6] }} color={'inherit'} startIcon={<ArrowBackIcon />}>
+            GO BACK
+          </Button>
+        </Link>
+        <Box maxWidth={'lg'} margin={'auto'} mt={1}>
+          <MDXRemote {...source} components={components} />
+        </Box>
+      </Container>
+    </>
   );
 }
 
