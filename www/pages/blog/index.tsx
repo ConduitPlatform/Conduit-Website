@@ -17,10 +17,10 @@ const Blog: NextPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps
 
   const SEO = {
     title: 'Blog Page',
-    description: 'All blogs',
+    description: 'All blog posts',
     openGraph: {
       title: 'Blog Page',
-      description: 'All blogs',
+      description: 'All blog posts',
     },
   };
 
