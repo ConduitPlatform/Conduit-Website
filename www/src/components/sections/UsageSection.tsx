@@ -4,7 +4,7 @@ import MiniInfoCard from '../custom/MiniInfoCard';
 import { SxObject } from '../../models/SxObjects';
 import Document from '../../../public/icons/icons8-document.svg';
 import Edit from '../../../public/icons/icons8-edit.svg';
-import Database from '../../../public/icons/icons8-menu.svg';
+import Dev from '../../../public/icons/dev.svg';
 import RecommendIcon from '@mui/icons-material/Recommend';
 
 const styles: SxObject = {
@@ -29,7 +29,7 @@ export default function UsageSection() {
       <Box sx={styles.sectionLayout}>
         <MiniInfoCard
           className={'fullGrow'}
-          imageComponent={<Database />}
+          imageComponent={<Dev />}
           title={'For developers'}
           subText={
             'For developers that look for easy and fast api.' +
