@@ -30,7 +30,7 @@ const AboutUsSection: FC = () => {
             title={'Who powered conduit'}
             icon={<FaceIcon />}
             text={
-              'Conduit was created in Quintessential, and as a technology company that develops premium software solutions, we wanted to create a platform that will allows us to move quicker and deliver better quality software each time.'
+              'Conduit from a group of individuals loving tech, solving problems and providing solutions, we wanted to create a platform that will allows us to move quicker and deliver better quality software each time.'
             }
           />
         </Box>
@@ -39,7 +39,7 @@ const AboutUsSection: FC = () => {
             title={'What we strive for'}
             icon={<Target />}
             text={
-              'We want to deliver the most seamless backend experience possible. Even though Conduit is in a working state in the coming months we will work on requested changes/improvements and of course everyone is welcome to contribute.'
+              'We want to deliver the most seamless backend experience possible. We are committed in improving Conduit through community feedback and genuine software development.'
             }
           />
         </Box>

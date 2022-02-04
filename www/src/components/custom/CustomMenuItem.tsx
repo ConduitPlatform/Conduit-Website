@@ -5,8 +5,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
-  margin: '6px',
-  padding: theme.spacing(2, 1),
+  padding: theme.spacing(1),
   borderRadius: 8,
   overflowWrap: 'break-word',
   wordWrap: 'break-word',
