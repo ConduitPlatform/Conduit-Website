@@ -39,7 +39,7 @@ const AboutUsSection: FC = () => {
             title={'What we strive for'}
             icon={<Target />}
             text={
-              'We want to deliver the most seamless backend experience possible. Even though Conduit is in a working state in the coming months we will work on requested changes/improvements and of course everyone is welcome to contribute.'
+              'We want to deliver the most seamless backend experience possible. We are committed in improving conduit through community feedback and genuine software development.'
             }
           />
         </Box>

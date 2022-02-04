@@ -14,7 +14,9 @@ export default function ModulesSection() {
           <ViewModuleTwoTone sx={{ width: 40, height: 40, mr: 1 }} color={'secondary'} />
           <strong> Build a backend in minutes</strong>
         </Typography>
-        <Typography variant={'body1'}>with various modules Conduit has to offer!</Typography>
+        <Typography sx={{ paddingLeft: '50px' }} variant={'body2'}>
+          with various modules Conduit has to offer!
+        </Typography>
       </Box>
       <CustomSnapBox gridColumnLength={ModuleCardData.length} pb={1} px={[0, 0, 3]} gap={3}>
         {ModuleCardData.map((item, index) => (
