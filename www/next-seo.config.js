@@ -8,6 +8,12 @@ export default {
     locale: 'en_US',
     url: 'https://www.getconduit.dev/',
     site_name: 'Conduit',
+    images: {
+      url: 'https://getconduit.dev/og/branding.png',
+      width: 1193,
+      height: 630,
+      alt: 'Branding image',
+    },
   },
   additionalMetaTags: [
     {
