@@ -22,15 +22,13 @@ const StyledMenu = styled((props: MenuProps) => (
     {...props}
   />
 ))(({ theme }) => ({
-  top: '22px',
+  top: '23px',
   '& .MuiPaper-root': {
-    left: '0px !important',
     borderTop: `1px solid ${theme.palette.background.default}`,
     background: theme.palette.background.paper,
-    width: '100vw',
-    maxWidth: '100%',
+    width: '50%',
+    minWidth: '400px',
     overflow: 'hidden',
-
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
 
@@ -39,7 +37,7 @@ const StyledMenu = styled((props: MenuProps) => (
   '& .MuiList-root': {
     display: 'grid',
     gap: 8,
-    padding: 8,
+    padding: 12,
     gridTemplateColumns: 'repeat(3, 1fr)',
   },
 }));
