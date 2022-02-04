@@ -22,21 +22,21 @@ export default function Index() {
     <Container maxWidth={'xl'} sx={styles.root}>
       <Box className={'sectionSpacing'}>
         <IntroSection />
-        <FadeOnScrollSection>
+        <FadeOnScrollSection transformOrigin={'bottom'}>
           <UsageSection />
         </FadeOnScrollSection>
-        <FadeOnScrollSection>
+        <FadeOnScrollSection transformOrigin={'bottom'}>
           <CoreSection />
         </FadeOnScrollSection>
       </Box>
-      <FadeOnScrollSection>
+      <FadeOnScrollSection transformOrigin={'bottom'}>
         <ModulesSection />
       </FadeOnScrollSection>
-      <FadeOnScrollSection>
+      <FadeOnScrollSection transformOrigin={'center'}>
         <ContributeSection />
       </FadeOnScrollSection>
       <Box className={'sectionSpacing'}>
-        <FadeOnScrollSection>
+        <FadeOnScrollSection transformOrigin={'bottom'}>
           <AboutUsSection />
         </FadeOnScrollSection>
       </Box>
