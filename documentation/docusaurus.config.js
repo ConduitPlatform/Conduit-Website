@@ -75,6 +75,12 @@ const config = {
             position: "left",
           },
           {
+            to: "https://www.getconduit.dev/contribute",
+            target: "_self",
+            label: "Contribute",
+            position: "left",
+          },
+          {
             href: "https://github.com/ConduitPlatform/Conduit",
             label: "GitHub",
             position: "right",
@@ -128,6 +134,13 @@ const config = {
             ],
           },
         ],
+        logo: {
+          alt: 'Conduit Logo',
+          src: 'img/logo-white.svg',
+          href: 'https://www.getconduit.dev',
+          width: 160,
+          height: 51,
+        },
         copyright: `Copyright © Conduit ${new Date().getFullYear()}. Built with Docusaurus.`,
       },
       prism: {
