@@ -78,8 +78,8 @@ export default function Contribute() {
             Code of Conduct
           </TypographyComponent>
           <TypographyComponent variant="subtitle2" style={{ marginBottom: '-32px' }}>
-            Our serves as a guide to help all of us and the technical communities in which we engage
-            grow.
+            Our code of conduct serves as a guide to help all of us and the technical communities in
+            which we engage grow.
           </TypographyComponent>
           <TypographyComponent variant="subtitle2">
             <ul style={{ margin: 0 }}>
