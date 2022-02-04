@@ -27,7 +27,7 @@ const StyledMenu = styled((props: MenuProps) => (
     borderTop: `1px solid ${theme.palette.background.default}`,
     background: theme.palette.background.paper,
     width: '50%',
-    minWidth: '400px',
+    minWidth: '650px',
     overflow: 'hidden',
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
