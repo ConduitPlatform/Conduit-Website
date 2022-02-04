@@ -2,7 +2,15 @@ import * as React from 'react';
 import { FC, useEffect, useRef, useState } from 'react';
 import { Box, FadeProps, Grow } from '@mui/material';
 
-const FadeOnScrollSection: FC<FadeProps> = ({ children, ...props }) => {
+type extraProps = {
+  transformOrigin?: string;
+};
+
+const FadeOnScrollSection: FC<FadeProps & extraProps> = ({
+  transformOrigin = 'center',
+  children,
+  ...props
+}) => {
   const sectionRef = useRef<any | undefined>(undefined);
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
@@ -24,7 +32,7 @@ const FadeOnScrollSection: FC<FadeProps> = ({ children, ...props }) => {
       <Grow
         in={isVisible}
         timeout={{ enter: 1500 }}
-        style={{ transitionDelay: '250ms' }}
+        style={{ transitionDelay: '250ms', transformOrigin: transformOrigin }}
         {...props}>
         <Box>{children}</Box>
       </Grow>
