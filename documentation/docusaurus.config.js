@@ -43,7 +43,7 @@ const config = {
           name: "title",
           content: "Conduit | Documentation",
         },
-        { name: "canonical", content: "https://www.getconduit.dev" },
+        { name: "canonical", content: "https://www.getconduit.dev/docs" },
         { name: "image", content: "https://getconduit.dev/og/branding.png" },
         { name: "description", content: "Learn about Conduit" },
         { name: "og:title ", content: "Conduit | Documentation" },
