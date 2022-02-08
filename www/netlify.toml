@@ -5,3 +5,8 @@ from = "/docs/*"
 to = "https://mystifying-borg-373afd.netlify.app/:splat"
 status = 200
 force = true
+[[redirects]]
+from = "/bootstrap"
+to = "https://raw.githubusercontent.com/ConduitPlatform/Conduit/master/docker/get-conduit.sh"
+status = 200
+force = true
