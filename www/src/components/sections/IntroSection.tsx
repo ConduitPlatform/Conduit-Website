@@ -3,10 +3,9 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TypewriterComponent from 'typewriter-effect';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { duotoneLight, duotoneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { materialLight, materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Button, Grid, Grow, IconButton, Popover, useMediaQuery } from '@mui/material';
 import Illustration from '../../../public/icons/Illustration';
-import { styled } from '@mui/material/styles';
 import { ArrowForwardIos, ContentCopy } from '@mui/icons-material';
 import Link from '../../Link';
 import { SxObject } from '../../models/SxObjects';
@@ -16,33 +15,37 @@ const styles: SxObject = {
   basicText: {
     textAlign: ['center', 'center', 'left'],
   },
+  bottomContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: {
+      md: 'flex-start',
+      xs: 'center',
+    },
+  },
   highlighterContainer: {
     flexGrow: '1',
     flexShrink: '0',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: {
+      md: 'flex-start',
+      xs: 'center',
+    },
   },
   copyIcon: { marginLeft: 1 },
 };
 
 const highlighterCustomStyle = {
   borderRadius: '4px',
-  padding: '0.8em',
+  padding: '0.5em 1em 0.55em 1em',
   boxShadow:
     '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
 };
 
-const StyledBox = styled(Box)(() => ({
-  display: 'flex',
-  justifyContent: 'space-evenly',
-  flexWrap: 'wrap',
-  alignItems: 'center',
-  gap: 20,
-}));
-
-const bootstrapBash = 'source <(curl -L -s https://getconduit.dev/bootstrap)';
+const bootstrapBash = 'source <(curl -s https://getconduit.dev/bootstrap)';
 
 export default function IntroSection() {
   const theme = useTheme();
@@ -99,7 +102,7 @@ export default function IntroSection() {
             Conduit is a NodeJS-based Backend as a Service,
              that aims to cut down development times by providing ready-made modules that offer common functionality out of the box.`}
           </Typography>
-          <StyledBox my={8}>
+          <Box my={8} gap={1} sx={styles.bottomContainer}>
             <Button
               component={Link}
               href={'/docs'}
@@ -114,8 +117,9 @@ export default function IntroSection() {
               <Box sx={styles.highlighterContainer}>
                 <SyntaxHighlighter
                   language={'bash'}
-                  style={theme.palette.mode === 'light' ? duotoneDark : duotoneLight}
-                  customStyle={highlighterCustomStyle}>
+                  style={theme.palette.mode === 'dark' ? materialLight : materialDark}
+                  customStyle={highlighterCustomStyle}
+                  codeTagProps={{ style: { fontSize: '0.8em', fontFamily: 'monospace' } }}>
                   {bootstrapBash}
                 </SyntaxHighlighter>
                 <IconButton
@@ -142,7 +146,7 @@ export default function IntroSection() {
                 </Popover>
               </Box>
             ) : null}
-          </StyledBox>
+          </Box>
         </Grid>
         <Grid item md={6} sm={12} xs={12}>
           <Grow in={true} timeout={{ enter: 1000 }}>
