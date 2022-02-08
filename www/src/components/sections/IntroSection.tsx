@@ -2,7 +2,7 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TypewriterComponent from 'typewriter-effect';
-import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialLight, materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Button, Grid, Grow, IconButton, Popover, useMediaQuery } from '@mui/material';
 import Illustration from '../../../public/icons/Illustration';
