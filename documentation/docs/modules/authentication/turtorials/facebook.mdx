@@ -1,8 +1,10 @@
-# Token Strategy
+# Facebook
 
 ## Overview
 In this tutorial , we'll see how the facebook authenticate works.<br />
+Conduit authentication works using OAuth 2.0 protocol.<br />
 To get started with the facebook authenticate, you have to create a facebook web application.<br />
+Also,authentication module needs to be online.<br />
 
 ## Creating a Facebook Web App
 
@@ -32,14 +34,6 @@ See here for [more](https://developers.facebook.com/docs/development/create-an-a
 
 ------------------------------------------------------------------------------------------------
 
-## Login with Facebook
-Since you've created a facebook app, also you have to crate a nodeJS application in<br />
-order Login with facebook.By doing this, you will be able to take a token which is needed to<br />
-continue with the authentication.<br />
-You can either make your own application or downloading it from [here](https://www.github.com/toapp).<br />
-
-------------------------------------------------------------------------------------------------
-
 ## Setting up the configuration
 ***NOTE***<br />
 ***Do not forget to configure the facebook provider through the Admin Panel. [Click here for more](../config#third-party).<br />***
@@ -48,23 +42,22 @@ Replace the ```clientID```, ```clientSecret```  fields with your actual facebook
 
 ------------------------------------------------------------------------------------------------
 
-## Getting the Access Token
+## Authenticate with Facebook
+
+To begin authenticating with Facebook you have to ask Conduit for a redirect url with the proper **scopes**<br />
+So let's proceed to this using Postman!<br />
+
+![Postman facebook init](/img/modules/authentication/tutorials/postman_facebook_init.png)
+
+Open a browser and navigate to this url that conduit gave you!<br />
+Now [/hook/authentication](../api_reference/User/third_party#facebook) route has been triggered. Actually this route is responsible for the authentication.<br />
+If your browser has been redirected to the url which you configured everything went well and the authentication has been completed.<br />
 
 
-Now you are ready to login with facebook.
-Just hit:<br />
 
-```jsx
-cd PATH_TO_APP
-yarn
-yarn start
-```
-When the application is online, open a web browser and navigate to ```http://localhost:3003/auth/facebook```.<br />
-Look at your console. An access token will be printed.<br />
-In this step, you will be able to make a POST request to authenticate.<br />
-See the facebook authenticate route [here](../api_reference/User/facebook).
+
+
+
+
 
 ------------------------------------------------------------------------------------------------
-
-
-
