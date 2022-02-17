@@ -14,15 +14,28 @@ export default function UsedBySection() {
     },
   };
 
+  const svgResponsiveStyle: SxProps = {
+    '& *': {
+      fill: (theme: Theme) => theme.palette.text.primary,
+      backgroundColor: (theme: Theme) => theme.palette.background.paper,
+    },
+  };
+
   return (
     <Box mt={8}>
       <Grid container justifyContent="space-around" alignItems="center" gap={3} padding={3}>
-        <Paralos width={220} height={70} />
-        <Quint width={220} height={70} />
+        <Box sx={svgResponsiveStyle}>
+          <Paralos width={220} height={70} />
+        </Box>
+        <Box sx={svgResponsiveStyle}>
+          <Quint width={220} height={70} />
+        </Box>
         <Box sx={svgAgora}>
           <Agora width={70} height={70} />
         </Box>
-        <Sports width={220} height={70} viewBox="0 0 377 144" />
+        <Box>
+          <Sports width={220} height={70} viewBox="0 0 377 144" />
+        </Box>
       </Grid>
     </Box>
   );
