@@ -34,7 +34,7 @@ const Footer: FC = () => {
       paddingX={[2, 4]}>
       <Box
         margin={'auto'}
-        maxWidth={'lg'}
+        maxWidth={'xl'}
         display={'flex'}
         justifyContent={'space-between'}
         alignItems={'center'}
@@ -67,12 +67,12 @@ const Footer: FC = () => {
         </Box>
         <Box display={'flex'} gap={4} justifyContent={'center'} />
       </Box>
-      <Box maxWidth={'lg'} margin={'auto'} mt={4} mb={3}>
+      <Box maxWidth={'xl'} margin={'auto'} mt={4} mb={3}>
         <Divider />
       </Box>
       <Box
         margin={'auto'}
-        maxWidth={'lg'}
+        maxWidth={'xl'}
         display={'flex'}
         justifyContent={'space-between'}
         alignItems={'center'}
