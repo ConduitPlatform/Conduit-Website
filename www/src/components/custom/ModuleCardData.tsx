@@ -11,30 +11,38 @@ import Database from '../../../public/moduleIcons/database.svg';
 
 export const ModuleCardData = [
   {
-    title: 'CMS',
-    href: '/cms',
-    subtitle: 'Create custom Schemas, Queries and leverage automatically-created CRUD operations.',
-    icon: <CMS />,
-  },
-  {
-    title: 'Mails',
-    href: '/mails',
-    subtitle:
-      'Connect with your favourite Email Provider to deliver transactional emails and manage templates.',
-    icon: <Emails />,
-  },
-  {
-    title: 'Storage',
-    href: '/storage',
-    subtitle: 'Upload files using Azure, Google or Amazon Storage, with a consistent API',
-    icon: <Storage />,
-  },
-  {
     title: 'Authentication',
     href: '/authentication',
     subtitle:
       'Authenticate Users with email/password or social logins. Did we mention it supports 2FA as well?',
     icon: <Authentication />,
+  },
+  {
+    title: 'Chat',
+    href: '/chat',
+    subtitle: 'Leverage web sockets to create realtime chat applications in 5 minutes or less.',
+    icon: <Chat />,
+  },
+  {
+    title: 'CMS',
+    href: '/cms',
+    subtitle: 'Create custom Schemas, Queries and leverage automatically-created CRUD operations.',
+    icon: <CMS />,
+  },
+
+  {
+    title: 'Database',
+    href: '/database',
+    subtitle:
+      'Use either Mongo or SQL databases, with a consistent Query interface to power your app',
+    icon: <Database />,
+  },
+  {
+    title: 'Email',
+    href: '/mails',
+    subtitle:
+      'Connect with your favourite Email Provider to deliver transactional emails and manage templates.',
+    icon: <Emails />,
   },
   {
     title: 'Forms',
@@ -49,17 +57,10 @@ export const ModuleCardData = [
     icon: <Notifications />,
   },
   {
-    title: 'Chat',
-    href: '/chat',
-    subtitle: 'Leverage web sockets to create realtime chat applications in 5 minutes or less.',
-    icon: <Chat />,
-  },
-  {
-    title: 'Database',
-    href: '/database',
-    subtitle:
-      'Use eithe Mongo or SQL databases, with a consistent Query interface to power your app',
-    icon: <Database />,
+    title: 'Storage',
+    href: '/storage',
+    subtitle: 'Upload files using Azure, Google or Amazon Storage, with a consistent API',
+    icon: <Storage />,
   },
   {
     title: 'SMS',

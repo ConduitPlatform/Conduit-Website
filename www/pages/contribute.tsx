@@ -133,8 +133,14 @@ export default function Contribute() {
             </TypographyComponent>
             <TypographyComponent variant="subtitle2">
               <ul style={{ margin: 0 }}>
-                <li>Matrix</li>
-                <li>Discord</li>
+                <li>
+                  <ATagComponent
+                    href={'https://discord.gg/fBqUQ23M7g'}
+                    target={'_blank'}
+                    rel="noreferrer">
+                    Discord
+                  </ATagComponent>
+                </li>
               </ul>
             </TypographyComponent>
           </Box>

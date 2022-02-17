@@ -6,7 +6,7 @@ import Documentation from '../public/timelineIcons/documentation.svg';
 import Performance from '../public/timelineIcons/performance.svg';
 import TypewriterComponent from 'typewriter-effect';
 import 'react-vertical-timeline-component/style.min.css';
-import { Container, Grid, Typography, styled, Button } from '@mui/material';
+import { Button, Container, Grid, styled, Typography } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { useTheme } from '@mui/system';
 import Link from 'next/link';
@@ -53,7 +53,7 @@ export default function Roadmap() {
           Conduit Roadmap
         </Heading>
         <Grid container spacing={1} sx={{ p: [3, 6, 9] }}>
-          <Grid item container direction="column" md={6} sm={12} xs={12} sx={{ pb: [2, 4, 8] }}>
+          <Grid item container direction="column" md={6} sm={12} xs={12}>
             <Grid item sx={{ pt: [2, 4, 8] }}>
               <Typography variant="h4">
                 Strive to
@@ -86,15 +86,15 @@ export default function Roadmap() {
              welcome to contribute.`}
               </Typography>
             </Grid>
-            <Grid item sx={{ p: [13, 12, 8, 7, 6] }}>
-              <RoadmapIcon />
+            <Grid item container sx={{ p: [13, 12, 8, 7, 6], flex: 1 }}>
+              <RoadmapIcon preserveAspectRatio="xMidYMax meet" />
             </Grid>
           </Grid>
           <StyledGridItem item md={6} sm={12}>
             <VerticalTimeline lineColor={theme.palette.secondary.dark} layout="1-column">
               <TimelineElement
                 title="Typescript"
-                text=" Even though Conduit is mostly built on Typescript we want to make sure that
+                text=" Even though Conduit is mostly built on Typescript, it's dynamic nature leaves us with missing types. We want to make sure that
                 everything has a type!"
                 icon={<TypeScript />}
               />
@@ -104,10 +104,14 @@ export default function Roadmap() {
                 end user"
                 icon={<Documentation />}
               />
-              <TimelineElement title="New features" text="Lorem ipsum" icon={<NewFeatures />} />
+              <TimelineElement
+                title="New features"
+                text="We have new modules to publish like Payments, Workflow automations to write even less code, Functions and who knows what else."
+                icon={<NewFeatures />}
+              />
               <TimelineElement
                 title="Performance"
-                text=" Conduit is performant as-is. We'll make sure that stays true as the project grows"
+                text=" Conduit is performant as-is. We'll make sure that stays true as the project grows, and improve even more to get the best performance possible!"
                 icon={<Performance />}
               />
             </VerticalTimeline>

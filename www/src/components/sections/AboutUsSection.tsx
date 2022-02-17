@@ -1,6 +1,6 @@
+import * as React from 'react';
 import { FC } from 'react';
 import { Box } from '@mui/material';
-import * as React from 'react';
 import OpenSource from '../../../public/icons/check.svg';
 import Target from '../../../public/icons/wikimapia.svg';
 import FaceIcon from '../../../public/icons/futurama.svg';
@@ -27,19 +27,19 @@ const AboutUsSection: FC = () => {
       <Box sx={styles.cardLayout}>
         <Box>
           <AboutCard
-            title={'Who powered conduit'}
+            title={'Who'}
             icon={<FaceIcon />}
             text={
-              'Conduit from a group of individuals loving tech, solving problems and providing solutions, we wanted to create a platform that will allows us to move quicker and deliver better quality software each time.'
+              'Conduit was created from a group of individuals that love technology and always strive to create the best software possible. Having worked many years creating custom software, we realized there was room for improvement.'
             }
           />
         </Box>
         <Box>
           <AboutCard
-            title={'What we strive for'}
+            title={'Our Goal'}
             icon={<Target />}
             text={
-              'We want to deliver the most seamless backend experience possible. We are committed in improving Conduit through community feedback and genuine software development.'
+              'We want to provide the best BaaS system, without the limitations that similar solutions enforce. We want Conduit to fit in your workflow with ease without the requirement to re-learn everything or cut features from your software because your are limited by our tech. We are committed in improving Conduit through community feedback and genuine software development.'
             }
           />
         </Box>
@@ -48,7 +48,7 @@ const AboutUsSection: FC = () => {
             title={'Going openSource'}
             icon={<OpenSource />}
             text={
-              'Our passion for open source, communities and knowledge sharing leads us into crafting services and solutions and hosting events which empower innovation and networking.'
+              "Conduit wouldn't be possible without the awesome OSS libraries that power it. Thus, it was a simple decision for us to give back to the open-source community that has fundamentally changed software development."
             }
           />
         </Box>
