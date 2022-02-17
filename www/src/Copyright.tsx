@@ -8,8 +8,7 @@ export default function Copyright() {
       {'Copyright © '}
       <MuiLink color="inherit" href="https://github.com/ConduitPlatform/Conduit" target={'_blank'}>
         Conduit
-      </MuiLink>
-      {' '}
+      </MuiLink>{' '}
       {new Date().getFullYear()}.
     </Typography>
   );

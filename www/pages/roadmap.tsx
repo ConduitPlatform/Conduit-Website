@@ -53,7 +53,7 @@ export default function Roadmap() {
           Conduit Roadmap
         </Heading>
         <Grid container spacing={1} sx={{ p: [3, 6, 9] }}>
-          <Grid item container direction="column" md={6} sm={12} xs={12} >
+          <Grid item container direction="column" md={6} sm={12} xs={12}>
             <Grid item sx={{ pt: [2, 4, 8] }}>
               <Typography variant="h4">
                 Strive to
