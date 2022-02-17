@@ -39,8 +39,8 @@ const CoreSection: FC = () => {
             sx={{ cursor: 'pointer' }}
             title={'Router'}
             subText={
-              'Conduit router provides a way to register routes for REST ' +
-              'and GraphQL APIs, as well as Web Sockets.'
+              'Conduit router provides a simple way to register routes for REST ' +
+              'GraphQL APIs, as well as Web Sockets. '
             }
           />
         </Link>

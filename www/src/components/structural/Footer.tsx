@@ -44,26 +44,26 @@ const Footer: FC = () => {
           <Box sx={svgResponsiveStyle}>
             <ConduitLogo />
           </Box>
-          <Box my={1}>
-            <Typography variant={'body2'}>Join the Conduit newsletter!</Typography>
-            <FormHelperText>Learn all of our news about products and updates.</FormHelperText>
-          </Box>
-          <form onSubmit={handleSubmit}>
-            <Typography variant={'caption'}>Enter your email here:</Typography>
-            <Box display={'flex'} gap={2}>
-              <TextField
-                size={'small'}
-                type={'email'}
-                required
-                color={'secondary'}
-                id={'residence-type-radio'}
-                placeholder={'Email address'}
-              />
-              <Button type={'submit'} size={'small'} variant={'contained'} color={'secondary'}>
-                Subscribe
-              </Button>
-            </Box>
-          </form>
+          {/*<Box my={1}>*/}
+          {/*  <Typography variant={'body2'}>Join the Conduit newsletter!</Typography>*/}
+          {/*  <FormHelperText>Learn all of our news about products and updates.</FormHelperText>*/}
+          {/*</Box>*/}
+          {/*<form onSubmit={handleSubmit}>*/}
+          {/*  <Typography variant={'caption'}>Enter your email here:</Typography>*/}
+          {/*  <Box display={'flex'} gap={2}>*/}
+          {/*    <TextField*/}
+          {/*      size={'small'}*/}
+          {/*      type={'email'}*/}
+          {/*      required*/}
+          {/*      color={'secondary'}*/}
+          {/*      id={'residence-type-radio'}*/}
+          {/*      placeholder={'Email address'}*/}
+          {/*    />*/}
+          {/*    <Button type={'submit'} size={'small'} variant={'contained'} color={'secondary'}>*/}
+          {/*      Subscribe*/}
+          {/*    </Button>*/}
+          {/*  </Box>*/}
+          {/*</form>*/}
         </Box>
         <Box display={'flex'} gap={4} justifyContent={'center'} />
       </Box>

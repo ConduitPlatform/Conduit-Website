@@ -53,7 +53,7 @@ export default function UsageSection() {
           title={'Tons of Features'}
           subText={
             'Multiple modules that provide most of the functionality needed for most applications. ' +
-            ' Multiple modules that provide most of the functionality needed for most applications.'
+            ' A modern SDK to allow you to customize functionality as you see fit.'
           }
         />
       </Box>
