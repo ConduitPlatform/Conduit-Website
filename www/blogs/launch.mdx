@@ -1,0 +1,184 @@
+---
+title: 'Project Conduit: Hello World!'
+dateString: 'February 18, 2022'
+mainImageUrl: '/blogIcons/conduit_logo.png'
+excerpt: 'A “less-code” approach to backend development'
+publisher: 'kkopanidis'
+publisherPosition: 'Founder'
+publisherIcon: 'https://avatars.githubusercontent.com/u/9095396?v=4'
+tags: ['Updates', 'Development','Open source']
+---
+<BlogHeaderComponent
+  title={title}
+  dateString={dateString}
+  mainImageUrl={mainImageUrl}
+  publisher={publisher}
+  publisherIcon={publisherIcon}
+  publisherPosition={publisherPosition}
+/>
+
+Tldr; Checkout this: https://github.com/ConduitPlatform/Conduit
+<br></br>
+
+<SectionItemComponent topic='How it started' />
+  <p>
+  Backend development is a tricky sport, as is everything software oriented,
+  and like all software there are things that are repeatable in its process.
+  This is one of the first things that any software engineer learns, abstraction and reusability of code,
+  which should be always followed to create readable, maintainable, and stable codebases.
+  When you are a software house though, or when you have a massive API with multiple micro-services,
+  you start having to repeat the same processes again and again. There are solutions to this matter of course,
+  using platforms like Kong or more infrastructure-oriented ones like Istio (or any service mesh for that matter),
+  so that you can abstract things like authentication and API management.
+</p>
+  <p>
+  All possible solutions, as every solution to any known issue ever, have their drawbacks and mostly consist of lack
+  of flexibility,
+  high DevOps costs and, usually, getting you, at best, 70% of the way there. When I co-founded Quintessential,
+  we started noticing a repeating pattern to our work. Our backend team always had to implement an authentication
+  system,
+  they had to create various CRUD routes for different database models,
+  implement various security checks and write different APIs sometimes RESTful sometimes GraphQL.
+  Being a digital product development company though, meant that everything we do has to make sense for our client and
+  be in-budget.
+  Thus, implementing each single mechanic perfectly isn’t an option a lot of the time, since the client requires an
+  MVP,
+  and understands features delivered and not if the API has rate-limiting or is resilient to regex DDoS attacks,
+  or if it can easily support new changes.
+</p>
+  <p>
+  This weird deadlock we found ourselves into, meant that if we want to radically increase our deliverable quality and
+  stay in budget,
+  we needed to create a system or a platform rather, that can take care all of the typical stuff for the backend
+  systems,
+  while the backend developers focused on how to implement business logic and optimize processes.
+</p>
+  My answer to this problem is <strong>Conduit</strong>.
+
+<br></br>
+<br></br>
+<SectionItemComponent topic="How it's going" />
+Conduit was created with several goals in mind:
+
+  - It should provide out-of-the-box functionality on repeatable features: Authentication, Micro-service support, API
+documentation and validation, API Security etc.
+  - It should be flexible, allowing developers to create services with minimal overhead to their coding process
+  - It should be extendable and modular, so that we can add more features as it evolves.
+
+Oh, and I almost forgot the most important part, it should be <strong>Open Source</strong>.
+This is a big deal for me, since Quintessential
+has flourished due to OSS, and the least I could do is give back to this amazing community,
+that helped me and my engineering team deliver cutting-edge software.
+<br></br>
+<br></br>
+<SectionItemComponent topic='The basics' />
+So, what does it do you say? Well to begin with, Conduit consists of 2 basic elements, the core and the modules.
+The core contains the client and admin routers, the configuration service, the security service and a
+library to glue everything together, written in Node.JS with ExpressJS. The modules are the "Lego" bricks that make
+the Conduit magic, and as of now are all made with NodeJS as well. The most important module is the Database module, which
+is a requirement for the core itself to initialize, and after that you simply spin-up any module you want according to the
+functionality required. We’ll go through them in summary below:
+
+- 🔒 Authentication
+  * Contains request authorization middleware
+  * Supports login/register with email/password, username/password
+  * Support third-party providers like Facebook, Google, Twitch, Microsoft, Github, Figma and more coming
+  * Using API keys (service accounts) (for service-to-service communications)
+  * Supports 2FA through SMS
+  * Supports Email verifications, password resets and password change.
+- 📫 Email
+  * Can send emails through Mailgun, Mandrill(mailchimp), SendGrid and regular SMTP servers
+  * Provides tools for email template creation and management inside the platform
+  * Synchronizes email templates in a 2-way fashion between your external provider and Conduit itself
+- 📒 Database
+  * Connects either to MongoDB or SQL(MySQL, MSSQL, MariaDB, PostgreSQL)
+  * Provides a simple BSON-based API
+  * Handles schema management, registration etc
+- 📱 SMS
+  * Provides an API to send SMS messages through Twilio (more providers coming soon)
+  * (coming soon) manage sms templates
+- ✍️ CMS
+  * Creates and manages schemas that are registered through the admin panel
+  * Creates CRUD operations for all CMS-managed schemas
+  * Creates and manages custom operations on schemas with custom queries
+- 💬 Chat
+  * Creates and manages chat sessions using sockets
+  * Supports message reads and multi-user chats
+- 🧾 Forms
+  * Allow for basic form submission
+  * Forwards responses to specified email addresses
+  * Does basic checking for spam addresses
+- 📦 Storage
+  * Handles Blob storage, using Local storage (for development), Azure Storage or Google Cloud (S3 coming soon)
+
+As you can see we’ve added a fair bit of functionality already, and we continue to add more while
+also optimizing the platform’s processes.
+<br></br>
+<br></br>
+<SectionItemComponent topic='The details' />
+Let’s talk a bit more about how all of this works.
+
+The core and its modules are simple grpc micro-services. They are designed to be linearly scalable and flexible so
+that they can change their configuration and functionality on the fly. The core contains all functionality that stores
+module configuration, declared routes from the modules, is responsible to enforce security and constructs 4 different
+routers for clients to connect to. The 2 basic ones are the REST and the GraphQL APIs, both of which have full
+validations and type support, so that service developers only need to specify the correct type, and the core enforces
+it. The other 2 routers are the admin router, which handles routes for module administration and the authorization
+required for conduit admins and finally the socket router, which contains all the necessary functionality to expose
+sockets through which modules like Chat can work.
+
+One main differentiator of Conduit technology-wise compared to other modular/extensible platforms, is that the entirety
+of its overhead for configuration is handled on startup or on configuration changes. When a request comes through, each
+module already knows what it's supposed to do, without having to do greedy DB calls or calculations to figure it out.
+The result of this is nearly zero overhead on requests, which in turn means that it's behaviour is similar to what you
+expect for your own custom code.
+
+Being a grpc-based platform, means that conduit has very low latency for intra-module communications. At such a point
+where if you were to launch the entire platform in a single machine, the latency is comparable to simple function
+calls (give or take few ms). Of course, we’re not even at the final optimization stage. Currently, most Conduit requests take less
+than 100ms to complete (authentication included), and that’s by communicating with servers that are in different
+countries entirely. Since we believe that conduit is currently adding a 10-15ms overhead to requests (due to JSON
+parsing mostly), we're already making refines to take that down to 5ms or even less.
+
+<SectionItemComponent topic='First results' />
+That’s fine and all, but what’s so cool at the end of the day about this platform? We’ve seen already numerous
+examples of “low-code” platforms and we're surely not re-inventing the wheel.
+The first difference is that Conduit is not meant simply for citizen developers or for front-end devs that don't want to create their own backend server.
+It is a platform that wants to allow anyone to configure a robust and scalable backend system, while providing limitless
+possibilities to professional developers. If you are a front-end developer you can have an awesome backend solution with out-of-the-box
+functionality, and if you are a backend developer you can leave the "boring" stuff to Conduit and create the services required
+for your own business-logic. And even that you can do it quicker than before due to the tons of sugar that its SDK provides.
+And I wouldn't want you to just take my word for it so here are some numbers:
+
+  - 🏗️ Production software delivered so far with Conduit: 4
+  - 👩🏽‍💻 Backend developers required for delivery: 1
+  - 🛠 Number of projects worked in parallel for that developer: 3
+  - 🔥 Max number of requests handled by a conduit deployment, that we know of (3 instances per module): 200k (The database became the bottleneck after that)
+  - ⚡️ Mean time to respond to a request: &lt; 100ms
+  - 🔮 Production Uptime: 100%
+  - 🔬 Max instance scale attempted to far: 10 instances per module (core also)
+
+<br />
+<SectionItemComponent topic='Liftoff!' />
+I wouldn’t publish a project that I'm not comfortable with, so I decided to try Conduit on real production
+projects. Of course it wasn’t easy since there were a lot of tests that needed to be carried out, and bugs to be fixed
+as you always expect, but at the end of the day, we managed to deliver the projects, at Quintessential, with 80% less backend resources
+than otherwise required, faster response times and with increasingly more secure APIs.
+
+With Conduit the question isn’t when will the API be ready, but when do you want to use it, because it’s always ready.
+
+So, whether you’re a startup that wants to start moving quickly towards an MVP(that you won't have to rewrite once you want to scale your product),
+a software company that wants to decrease development costs or a just a developer wanting to play around with something,
+go ahead and give conduit a spin.
+
+We’re in an early stage still, so we consider Conduit to be in Alpha stage, and we plan on rolling out a SaaS
+offering so that you can deploy it without having to worry about servers or updates. As with any OSS project, it would
+mean the world to us if you gave us a star or even better if you joined the development process to see what awesome
+things, we can have Conduit do!
+
+  - 🌟 Give us a star here: https://github.com/ConduitPlatform/Conduit
+  - 👀 See our cool Development roadmap here: https://getconduit.dev/roadmap
+  - 📚 Read the docs here: https://getconduit.dev/docs
+  - 👋 Wanna say hi? Drop a mail here: hello@getconduit.dev
+  - ✨ Join our discord: https://discord.gg/fBqUQ23M7g
+
