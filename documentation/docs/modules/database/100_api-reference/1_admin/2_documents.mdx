@@ -7,11 +7,11 @@ sidebar_position: 2
 
 ## Get Document
 
-|   Route                                 | Method |
-| :-------------------------------------: | :----: |
-| /admin/cms/schemas/:schemaName/docs/:id |  GET   |
+|   Route                                      | Method |
+| :------------------------------------------: | :----: |
+| /admin/database/schemas/:schemaName/docs/:id |  GET   |
 
-Get a CMS schema document by id.
+Get a schema document by id.
 
 ### Url parameters
 
@@ -42,11 +42,11 @@ The document in JSON format.
 
 ## Get Documents
 
-|   Route                              | Method |
-| :----------------------------------: | :----: |
-| /admin/cms/schemas/:schemaName/query |  POST  |
+|   Route                                   | Method |
+| :---------------------------------------: | :----: |
+| /admin/database/schemas/:schemaName/query |  POST  |
 
-Get CMS schemas documents.
+Get schemas documents.
 
 ### Url parameters
 
@@ -75,11 +75,11 @@ Get CMS schemas documents.
 
 ## Create Document
 
-|   Route                             | Method |
-| :---------------------------------: | :----: |
-| /admin/cms/schemas/:schemaName/docs |  POST  |
+|   Route                                  | Method |
+| :--------------------------------------: | :----: |
+| /admin/database/schemas/:schemaName/docs |  POST  |
 
-Create a CMS schema document.
+Create a schema document.
 
 ### Url parameters
 
@@ -99,11 +99,11 @@ The document in JSON format.
 
 ## Create Documents
 
-|   Route                                  | Method |
-| :--------------------------------------: | :----: |
-| /admin/cms/schemas/:schemaName/docs/many |  POST  |
+|   Route                                       | Method |
+| :-------------------------------------------: | :----: |
+| /admin/database/schemas/:schemaName/docs/many |  POST  |
 
-Create multiple CMS schema documents.
+Create multiple schema documents.
 
 ### Url parameters
 
@@ -121,10 +121,10 @@ Create multiple CMS schema documents.
 
 ### Example {#create-documents-example}
 
-[Create](../../1_get-started.mdx/#schemas-example) a schema named `citizens` and 
+[Create](../../get-started.mdx/#schemas-example) a schema named `citizens` and 
 send a **POST** request, including the necessary [authorization headers for an admin request] (TODO).
 
-```json title="POST on /admin/cms/schemas/citizens/docs/many"
+```json title="POST on /admin/database/schemas/citizens/docs/many"
 {
   "inputDocuments": [
       {
@@ -162,11 +162,11 @@ send a **POST** request, including the necessary [authorization headers for an a
 
 ## Update Document
 
-|   Route                                 | Method  |
-| :-------------------------------------: | :-----: |
-| /admin/cms/schemas/:schemaName/docs/:id |  PUT    |
+|   Route                                      | Method  |
+| :------------------------------------------: | :-----: |
+| /admin/database/schemas/:schemaName/docs/:id |  PUT    |
 
-Update a CMS schema document by id.
+Update a schema document by id.
 The document is completely replaced and any missing optional fields are nulled.
 
 ### Url parameters
@@ -189,11 +189,11 @@ The document in JSON format.
 
 ## Update Documents
 
-|   Route                             | Method  |
-| :---------------------------------: | :-----: |
-| /admin/cms/schemas/:schemaName/docs |  PUT    |
+|   Route                                  | Method  |
+| :--------------------------------------: | :-----: |
+| /admin/database/schemas/:schemaName/docs |  PUT    |
 
-Update multiple CMS schema documents.
+Update multiple schema documents.
 The documents are completely replaced and any missing optional fields are nulled.
 
 ### Url parameters
@@ -215,11 +215,11 @@ The documents are completely replaced and any missing optional fields are nulled
 
 ## Delete Document
 
-|   Route                                 |  Method  |
-| :-------------------------------------: | :------: |
-| /admin/cms/schemas/:schemaName/docs/:id |  DELETE  |
+|   Route                                      |  Method  |
+| :------------------------------------------: | :------: |
+| /admin/database/schemas/:schemaName/docs/:id |  DELETE  |
 
-Delete a CMS schema document by id.
+Delete a schema document by id.
 
 ### Url parameters
 

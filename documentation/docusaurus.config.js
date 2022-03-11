@@ -95,7 +95,7 @@ const config = {
             items: [
               {
                 label: "Overview",
-                to: "/",
+                to: "/overview/intro",
               },
               {
                 label: "Modules",

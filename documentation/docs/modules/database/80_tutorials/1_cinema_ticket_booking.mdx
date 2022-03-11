@@ -12,8 +12,8 @@ This tutorial makes use of [Conduit's REST API] (TODO) for CRUD operations.
 
 ### Prerequisites
 
-Following this tutorial requires that you have already read the CMS module's 
-[Getting Started](../1_get-started.mdx) guide.<br />
+Following this tutorial requires that you have already read the Database module's 
+[Getting Started](../get-started.mdx) guide.<br />
 Please make sure you understand the basics before resuming.
 
 Make sure you don't disable CRUD operations or enable authentication while 
@@ -37,7 +37,7 @@ A hall needs a name, a number of seats and a class.<br />
 A projection has relation fields to a movie and a hall, as well as a datetime field and 
 a counter for the tickets sold for it.
 
-Head to the admin panel's CMS page so we can begin creating our schemas.<br />
+Head to the admin panel's Database page so we can begin creating our schemas.<br />
 
 -------------------------------------------------
 
@@ -53,7 +53,7 @@ Drag another text field, name it `director`, make it required and save that too.
 We are going to represent duration in minutes, so use a number field, name it `duration` and make that too required.<br />
 At last, drag a date field into the schema area, name it `releaseDate`. Yeap, that's also required.
 
-![Movies Schema Created](/img/modules/cms/tutorials/cinema_tickets_booking/movies_schema_created.png)
+![Movies Schema Created](/img/modules/database/tutorials/cinema_tickets_booking/movies_schema_created.png)
 
 Our schema looks solid. Hit that save button 💾.
 
@@ -68,7 +68,7 @@ Create a `Halls` schema, adding three required fields.<br />
 A `name` text field, a `seats` number field and a `class` enum field (of type text).<br />
 Enum options are separated via new lines.
 
-![Halls Class Enum](/img/modules/cms/tutorials/cinema_tickets_booking/halls_class_enum.png)
+![Halls Class Enum](/img/modules/database/tutorials/cinema_tickets_booking/halls_class_enum.png)
 
 Damn, you're getting good at this.
 
@@ -78,7 +78,7 @@ Last but not least, create a `Projections` schema to combine these two.<br />
 Add two required relation fields. Name the first one `movie` and select `Movies` from the relation type dropdown.<br />
 Now create a required `hall` field, setting its relation type to `Halls`.
 
-![Projections Movie Relation](/img/modules/cms/tutorials/cinema_tickets_booking/projections_movie_relation.png)
+![Projections Movie Relation](/img/modules/database/tutorials/cinema_tickets_booking/projections_movie_relation.png)
 
 Use a date field to represent the `startTime` and make it required.<br />
 At last, throw in a required `ticketsSold` number field with a default value of 0.
@@ -94,6 +94,7 @@ Almost. Remember that `Allow CRUD operations` checkbox you definitely didn't tog
 Yeap. Your schemas are already exposed through [Conduit's REST API] (TODO).<br />
 GraphQL is also supported out of the box, but we're focusing on REST for this tutorial.
 
+<!--
 **TODO**
 
 -------------------------------------------------
@@ -107,3 +108,4 @@ GraphQL is also supported out of the box, but we're focusing on REST for this tu
 ## Finishing Touches
 
 **TODO**
+-->

@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Custom Endpoint User Routes
 
-Custom endpoints are exposed under `/cms/function/:customEndpointName`.
+Custom endpoints are exposed under `/database/function/:customEndpointName`.
 
 <ins><strong>Notice:</strong> Routes are <strong>only</strong> generated for <strong>enabled</strong> custom endpoints, whose schema also <strong>enables <em>crudOperations</em></strong>.</ins>
 
@@ -22,19 +22,22 @@ Paginated **GET** routes enable support for the following url parameters:
 | sortObj    | String  | False    | Sort by fields            |   **TODO**      |
 | populate   | String  | False    | Relation fields to expand |   **TODO**      |
 
+<!--
+TODO
 ## Return Types
 
 **TODO**
+-->
 
 ### Example {#custom-endpoint-routes-example}
 
-[Create](../../1_get-started.mdx/#schemas-example) and 
-[populate](../../1_get-started.mdx/#documents-example) a schema named `citizens`, 
-then [register](../../1_get-started.mdx/#custom-endpoints-example) the `AdultSam` 
+[Create](../../get-started.mdx/#schemas-example) and 
+[populate](../../get-started.mdx/#documents-example) a schema named `citizens`, 
+then [register](../../get-started.mdx/#custom-endpoints-example) the `AdultSam` 
 custom endpoint, returning citizens with a first name of Sam, who have at least 18 years of age.<br />
 You may now send a **GET** request, including the necessary [authorization headers for a user request] (TODO).
 
-```json title="GET on /admin/cms/functions/AdultSam"
+```json title="GET on /admin/database/functions/AdultSam"
 [
     {
         "_id": "61e7debc5dadc501b101d167",

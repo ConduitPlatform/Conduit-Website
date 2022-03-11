@@ -7,11 +7,11 @@ sidebar_position: 1
 
 ## Get Schema
 
-|   Route                | Method |
-| :--------------------: | :----: |
-| /admin/cms/schemas/:id |  GET   |
+|   Route                     | Method |
+| :-------------------------: | :----: |
+| /admin/database/schemas/:id |  GET   |
 
-Get a CMS schema by id.
+Get a schema by id.
 
 ### Url parameters
 
@@ -68,7 +68,7 @@ A JSON object representation of the schema
             }
         }
     },
-    "ownerModule": "cms",
+    "ownerModule": "database",
     "createdAt": "2022-01-19T09:07:05.892Z",
     "updatedAt": "2022-01-19T09:07:05.892Z",
     "extensions": [],
@@ -80,11 +80,11 @@ A JSON object representation of the schema
 
 ## Get Schemas
 
-|   Route            | Method |
-| :----------------: | :----: |
-| /admin/cms/schemas |  GET   |
+|   Route                 | Method |
+| :---------------------: | :----: |
+| /admin/database/schemas |  GET   |
 
-Get CMS schemas.
+Get schemas.
 
 ### Query parameters
 
@@ -103,27 +103,13 @@ Get CMS schemas.
 
 -------------------------------------------------
 
-## Get Schemas From Other Modules
-
-|   Route                                    | Method |
-| :----------------------------------------: | :----: |
-| /admin/cms/schemas/schemasFromOtherModules |  GET   |
-
-Get foreign schemas.
-
-### Returns
-
-- externalSchemas (JSON)
-
--------------------------------------------------
-
 ## Create Schema
 
-|   Route            | Method |
-| :----------------: | :----: |
-| /admin/cms/schemas |  POST  |
+|   Route                 | Method |
+| :---------------------: | :----: |
+| /admin/database/schemas |  POST  |
 
-Create a CMS schema.
+Create a schema.
 Schema names are **unique**.
 
 ### Body parameters
@@ -152,7 +138,7 @@ A JSON object representation of the schema
 
 Send a **POST** request, including the necessary [authorization headers for an admin request] (TODO).
 
-```json title="POST on /admin/cms/schemas"
+```json title="POST on /admin/database/schemas"
 {
   "name": "citizens",
   "fields": {
@@ -221,11 +207,11 @@ Send a **POST** request, including the necessary [authorization headers for an a
 
 ## Patch Schema
 
-|   Route                | Method  |
-| :--------------------: | :-----: |
-| /admin/cms/schemas/:id |  PATCH  |
+|   Route                     | Method  |
+| :-------------------------: | :-----: |
+| /admin/database/schemas/:id |  PATCH  |
 
-Patch a CMS schema by id.
+Patch a schema by id.
 
 ### Url parameters
 
@@ -251,11 +237,11 @@ A JSON object representation of the schema
 
 ## Delete Schema
 
-|   Route                |  Method  |
-| :--------------------: | :------: |
-| /admin/cms/schemas/:id |  DELETE  |
+|   Route                     |  Method  |
+| :-------------------------: | :------: |
+| /admin/database/schemas/:id |  DELETE  |
 
-Delete a CMS schema by id.
+Delete a schema by id.
 
 ### Url parameters
 
@@ -275,11 +261,11 @@ Delete a CMS schema by id.
 
 ## Delete Schemas
 
-|   Route            | Method   |
-| :----------------: | :------: |
-| /admin/cms/schemas |  DELETE  |
+|   Route                 | Method   |
+| :---------------------: | :------: |
+| /admin/database/schemas |  DELETE  |
 
-Delete CMS schemas.
+Delete schemas.
 
 ### Url parameters
 
@@ -299,11 +285,11 @@ Delete CMS schemas.
 
 ## Toggle Schema
 
-|   Route                       | Method |
-| :---------------------------: | :----: |
-| /admin/cms/schemas/:id/toggle |  POST  |
+|   Route                            | Method |
+| :--------------------------------: | :----: |
+| /admin/database/schemas/:id/toggle |  POST  |
 
-Toggle the 'enabled' state of a CMS schema by id.
+Toggle the 'enabled' state of a schema by id.
 
 ### Url parameters
 
@@ -318,11 +304,11 @@ Toggle the 'enabled' state of a CMS schema by id.
 
 ## Toggle Schemas
 
-|   Route                   | Method |
-| :-----------------------: | :----: |
-| /admin/cms/schemas/toggle |  POST  |
+|   Route                        | Method |
+| :----------------------------: | :----: |
+| /admin/database/schemas/toggle |  POST  |
 
-Toggle the 'enabled' state of CMS schemas.
+Toggle the 'enabled' state of schemas.
 
 ### Body parameters
 
@@ -340,11 +326,11 @@ Toggle the 'enabled' state of CMS schemas.
 
 ## Set Schema Permissions
 
-|   Route                            | Method  |
-| :--------------------------------: | :-----: |
-| /admin/cms/schemas/:id/permissions |  PATCH  |
+|   Route                                 | Method  |
+| :-------------------------------------: | :-----: |
+| /admin/database/schemas/:id/permissions |  PATCH  |
 
-Set a CMS schema's permissions by id.
+Set a schema's permissions by id.
 
 ### Url parameters
 
