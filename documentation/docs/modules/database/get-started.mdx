@@ -1,5 +1,5 @@
 ---
-sidebar_label: Get Started
+sidebar_label: 'Get Started'
 sidebar_position: 1
 ---
 
@@ -7,12 +7,12 @@ sidebar_position: 1
 
 ## Prerequisites
 
-Using the CMS requires that you already have a basic understanding of how Conduit functions.<br />
+Using the Database module requires that you have a functional installation of MongoDB or PostgreSQL.<br />
+You will also need a basic understanding of how Conduit functions.<br />
 Please read the project's [main getting started guide] (TODO) before proceeding.
 
-## Execution
 
-**TODO**
+## Execution
 
 ##### Using Docker
 
@@ -23,20 +23,20 @@ docker run ...............
 ##### Using npm
 
 ```jsx
-CONDUIT_SERVER=0.0.0.0:55152 SERVICE_IP=0.0.0.0:56154 npx @conduit/cms start
+CONDUIT_SERVER=0.0.0.0:55152 databaseURL=<MONGODB CONNECTION STRING> SERVICE_IP=0.0.0.0:56159 npx @conduit/database start
 ```
 
-At this point, you should have a functional CMS instance.<br />
-You may now register and manipulate custom content through the [Admin Panel] (TODO).
+At this point, you should have a functional Database instance.<br />
+You may now use modules requiring database access or register and manipulate your own custom content through the [Admin Panel] (TODO).
 
 -------------------------------------------------
 
 ## Using the Admin Panel
 
-Lets walk you through some examples on how to utilize the CMS module through Conduit's admin panel.
-Start by, [launching the admin panel] (TODO) and navigating to the CMS page.
+Lets walk you through some examples on how to utilize the Database module through Conduit's admin panel.<br />
+Start by, [launching the admin panel] (TODO) and navigating to the Database page.
 
-![Schema View](/img/modules/cms/admin/schema_list_view.png)
+![Schema View](/img/modules/database/admin/schema_list_view.png)
 
 This module provides content through schemas, schema data and custom endpoints.<br />
 Each one of the above is capable of being manipulated through the corresponding tab.<br />
@@ -59,7 +59,7 @@ Enough of that intro, show me how I'd go about making one of these bad boys!<br 
 Okay, don't push, click on the `Create New` button in the `Schemas` tab and lets define our first schema.<br />
 A popup should name prompt should be brought up. Insert `Persons`.
 
-![Schema Edit View Empty](/img/modules/cms/admin/schema_edit_view_empty.png)
+![Schema Edit View Empty](/img/modules/database/admin/schema_edit_view_empty.png)
 
 This is the schema modification view. It allows you to create new schemas and edit existing ones.<br />
 You may also *archive* schemas, at which point they won't be available for use anymore.<br />
@@ -92,7 +92,7 @@ Name the field `firstName` and make it required. A person's name is not unique s
 Leave the `select` option on, as disabling that would result in the field not being returned from queries.<br />
 It's not an array either so leave that off too. Save the field.
 
-![Schema Field Edit Text](/img/modules/cms/admin/schema_field_edit_text.png)
+![Schema Field Edit Text](/img/modules/database/admin/schema_field_edit_text.png)
 
 Now do the same for a `lastName` text field.
 Lets make a text field for the person's social security number, call it `ssn`, but this time make it unique!
@@ -103,12 +103,12 @@ Drag an enum field for our `hairstyle` and select `Text` as the enum value type.
 Simply list all of the options you wish to support making sure to separate these with new lines.<br />
 No separator is required. We don't need make the field required either.
 
-![Schema Field Edit Enum](/img/modules/cms/admin/schema_field_edit_enum.png)
+![Schema Field Edit Enum](/img/modules/database/admin/schema_field_edit_enum.png)
 
 For the person's `languages`, we'll use another optional text field.<br />
 Simply enable the `Array` option so that our society can be multilingual 💭.
 
-![Schema Edit View Filled](/img/modules/cms/admin/schema_edit_view_filled.png)
+![Schema Edit View Filled](/img/modules/database/admin/schema_edit_view_filled.png)
 
 Our schema's fields are complete. If you changed your mind, you can always edit, remove and reorder 
 any of them in the schema field list on the left.
@@ -137,11 +137,8 @@ Their `lastName` is "Jones" and they may or may not rock a buzz cut `hairstyle` 
 Data entries are often referred to as "schema documents".
 
 We already have a schema to store our persons in. Lets use it to register James as an individual person.<br />
-Open the `Schema Data` tab in the CMS page of our admin panel.
 
-![Document Manipulation View Empty](/img/modules/cms/admin/document_manipulation_view.png)
-
-This is the document manipulation view, where you can create, update and delete data for any of your schemas.
+![Document Manipulation View Empty](/img/modules/database/admin/document_manipulation_view.png)
 
 On the left side, there's a list of registered schemas for us to manipulate the data of.<br />
 *Archived* schemas won't show up in the list, so make sure your schemas are enabled before attempting to modify their data.
@@ -153,25 +150,27 @@ Select `Persons` from the schema list and click on `Add Document`.<br />
 You'll get a popup window allowing you to enter the details for the new person.<br />
 Required fields are prefixed with an asterisk *.
 
-![Document Creation Popup](/img/modules/cms/admin/document_creation_popup.png)
+![Document Creation Popup](/img/modules/database/admin/document_creation_popup.png)
 
 I'm going to name that person James Jones, but you can use any values you like.<br />
 When you're done, click create and watch how our first person appears in the documents list.
 
-![Document Data Registered] (/img/modules/cms/admin/document_data_registered.png) **TODO**
+<!--![Document Data Registered] (/img/modules/cms/admin/document_data_registered.png) **TODO**-->
 
 Try hovering over the newly created document. You'll notice 2 buttons popping up on the right.<br />
 You can use these to edit and delete individual documents.
 
-![Document View Modes](/img/modules/cms/admin/document_view_modes.png)
+![Document View Modes](/img/modules/database/admin/document_view_modes.png)
 
 By now, you might have noticed the mode buttons below the document search bar.<br />
 Switching to the the _query_ view mode lets you browse and modify your data in JSON using an editor element.<br />
 
-![Document JSON Editor] (/img/modules/cms/admin/document_json_editor.png) **TODO**
+<!--![Document JSON Editor] (/img/modules/cms/admin/document_json_editor.png) **TODO**-->
 
 Pretty cool, right? No? Oh well, guess that's just me.
 
+<!--
+TODO
 -------------------------------------------------
 
 ### Custom Endpoints {#custom-endpoints-example}
@@ -179,6 +178,7 @@ Pretty cool, right? No? Oh well, guess that's just me.
 **TODO**
 
 -------------------------------------------------
+-->
 
 ## Data Access and Manipulation
 
@@ -204,5 +204,5 @@ If you haven't done so already, please consider reading any of the above before 
 
 ### Guided Examples
 
-Looking for additional examples on how to use the CMS module?<br />
+Looking for additional examples on how to use the Database module?<br />
 Check out the available [tutorials](80_tutorials/80_tutorials.mdx)!

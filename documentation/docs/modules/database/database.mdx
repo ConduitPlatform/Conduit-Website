@@ -1,70 +1,60 @@
-# Overview
+# Database
 
-Most modules need to store and retrieve persistent data, yet they shouldn't be talking to a db engine directly.<br />
-Database module comes to the rescue! Its responsibility is to communicate with the underlying database on behalf of Core and other Conduit modules.
+![Schema View](/img/modules/database/admin/overview.png)
 
-This module is capable of working with both SQL and NoSQL databases, through Sequelize and Mongoose respectively.<br />
-These ORMs were chosen due to their similar functions and architectures, allowing for the creation of a very consistent API.
+This module provides a consistent query language so that your modules can effortlessly store and retrieve persistent data.<br />
+It also acts as a CMS, facilitating the management of custom content types through the generation of db level schemas, 
+the creation and manipulation of schema document entries and the registration of fine-tuned custom endpoints.
 
-In order to maintain a compatibility layer between the two ORMS, certain operations may not be supported.<br />
-New features are being added on-demand and when they can be adapted to both systems.
+Content is delivered through REST and GraphQL APIs.
 
-The query language used is BSON, since it is easy to serialize into string and deserialize back into
-query objects that can be easily manipulated in JS.<br />
-This means that the database module will almost always have better support for Mongo operations than SQL ones, 
-since the latter need to go through parsers that are otherwise unnecessary for Mongo.
+We currently support MongoDB and PostgreSQL (default: MongoDB).
 
--------------------------------------------------
+## Features
 
-## Implemented Operations
+- Supports MongoDB
+- Supports PostgreSQL
+- Consistent Query Language (based on MongoDB)
+- CMS
+  - Creation of custom content types (schema)
+  - Create db collections based on said types
+  - Create db collection entries
+  - Create powerful custom endpoints
+  - Expose content through GraphQL
+  - Expose content through REST API
+  - Swagger UI (OpenAPI)
+  - Pagination
+  - Sorting
+  - GraphQL-style 'populate' field for REST APIs
 
-**TODO**
+## Installation
 
--------------------------------------------------
+##### Using Docker
 
-## Supported Operators
+```jsx
+docker pull ghcr.io/conduitplatform/database:latest
+```
 
-|  Operator                           | Description                                                                                                              |
-| :---------------------------------: | :----------------------------------------------------------------------------------------------------------------------- |
-| [**in**](./queries#in)              | Matches any of the values specified in an array                                                                          |
-| [**contains**](./queries#contains)  | Checks if a value is contained in an array or not.                                                                       |
-| [**nin**](./queries/#nin)           | Selects the documents where the value of a field is not equal any value in the specified array.                          |
-| [**eq**](./queries#eq)              | Matches documents where the value of a field equals the specified value.                                                 |
-| [**ne**](./queries#ne)              | Selects the documents where the value of the field is not equal to the specified value                                   |
-| [**lt**](./queries#lt)              | Selects the documents where the value of the field is less than (i.e. <) the specified value.                            |
-| [**gt**](./queries#gt)              | Selects the documents where the value of the field is greater than (i.e. >) the specified value.                         |
-| [**lte**](./queries#lte)            | Selects the documents where the value of the field is less or equal than (i.e. <=) the specified value.                  |
-| [**gte**](./queries#gte)            | Selects the documents where the value of the field is greater or equal than (i.e. >=) the specified value.               |
-| [**or**](./queries#or)              | Performs OR operation on an array of two or more expressions and selects the documents that satisfy at least one         |
-| [**and**](./queries#and)            | Performs AND operation on an array of two or more expressions and selects the documents that satisfy at least one        |
-| [**not**](./queries#not)            | Performs NOT operation on an array of two or more expressions and selects the documents that do not match the expression |
-| [**regex**](./queries#regex)        | Select the documents where the value of the field matches the regex.                                                     |
+##### Using npm
 
-These operators have been tested thoroughly in varying levels of complexity
+```jsx
+npm install @conduit/database
+```
 
--------------------------------------------------
+## Dependencies
 
-## Populations & Relations
+This module requires a functional installation of MongoDB or PostgreSQL.<br />
 
-Relations have been implemented with MongoDB in mind.<br />
-This means that they do not really exist inside the databases (for now).<br />
-Every relation is logical, and relation data is retrieved using Mongoose's population functionality.<br />
-The same reasoning has been carried over to Sequelize, but is not currently as efficient.
+## Minimum Configuration
 
-### Getting related fields
+This module requires no configuration.
 
-Each relation field can be filled (or populated) by supplying a relevant array, creating a join operation that gets all the objects.
+## Environmental Variables
 
-### Setting related fields
-
-While we advise creating each document seperately and setting the relation inside a model after the "child" document 
-has been created, the database module supports "create with population" operations, where if you supply an entire object 
-instead of an id in the place of the relation field, then the module will automatically create the associated document and 
-add its id in place of the data.
-
-## Sequelize Caveats
-
-Currently the Sequelize implementation has the following limitations:
-- No index creation
-- Update queries only update provided fields without the option to replace entire rows, unless all columns are provided.
-- Like operations do not work
+|  Name          | Required |  Description                                  |  Example      |
+| :------------: | :------: | :-------------------------------------------: | :-----------: |
+| CONDUIT_SERVER |  True    | Conduit Core's address and port               | 0.0.0.0:55152 |
+| SERVICE_IP     |  True    | Address and port to listen to for this module | 0.0.0.0:56154 |
+| REGISTER_NAME  |  False   |   **TODO**                                    | False         |
+| databaseType   |  False   | Database engine (mongodb/sql)                 | mongodb       |
+| databaseURL    |  False   | Database connection string                    | mongodb+srv://user:... |

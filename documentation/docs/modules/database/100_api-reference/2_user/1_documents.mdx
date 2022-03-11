@@ -7,11 +7,11 @@ sidebar_position: 1
 
 ## Get Document
 
-|   Route              | Method |
-| :------------------: | :----: |
-| /cms/:schemaName/:id |  GET   |
+|   Route                   | Method |
+| :-----------------------: | :----: |
+| /database/:schemaName/:id |  GET   |
 
-Get a CMS schema document by id.
+Get a schema document by id.
 
 ### Url parameters
 
@@ -42,11 +42,11 @@ The document in JSON format.
 
 ## Get Documents
 
-|   Route          | Method |
-| :--------------: | :----: |
-| /cms/:schemaName |  GET   |
+|   Route               | Method |
+| :-------------------: | :----: |
+| /database/:schemaName |  GET   |
 
-Get CMS schemas documents.
+Get schemas documents.
 
 ### Url parameters
 
@@ -69,11 +69,11 @@ Get CMS schemas documents.
 
 ## Create Document
 
-|   Route          | Method |
-| :--------------: | :----: |
-| /cms/:schemaName |  POST  |
+|   Route               | Method |
+| :-------------------: | :----: |
+| /database/:schemaName |  POST  |
 
-Create a CMS schema document.
+Create a schema document.
 
 ### Url parameters
 
@@ -81,7 +81,7 @@ Create a CMS schema document.
 
 ### Body parameters
 
-Accepts any fields available in the CMS schema.
+Accepts any fields available in the schema.
 Required schema fields are required.
 
 ### Returns
@@ -92,11 +92,11 @@ The document in JSON format.
 
 ## Create Documents
 
-|   Rout e              | Method |
-| :-------------------: | :----: |
-| /cms/:schemaName/many |  POST  |
+|   Route                    | Method |
+| :------------------------: | :----: |
+| /database/:schemaName/many |  POST  |
 
-Create multiple CMS schema documents.
+Create multiple schema documents.
 
 ### Url parameters
 
@@ -116,11 +116,11 @@ Create multiple CMS schema documents.
 
 ## Update Document (PUT)
 
-|   Route              | Method |
-| :------------------: | :----: |
-| /cms/:schemaName/:id |  PUT   |
+|   Route                   | Method |
+| :-----------------------: | :----: |
+| /database/:schemaName/:id |  PUT   |
 
-Update a CMS schema document by id.
+Update a schema document by id.
 The document is completely replaced and any missing optional fields are nulled.
 
 ### Url parameters
@@ -130,7 +130,7 @@ The document is completely replaced and any missing optional fields are nulled.
 
 ### Body parameters
 
-Accepts any fields available in the CMS schema.
+Accepts any fields available in the schema.
 Required schema fields are required.
 
 ### Returns
@@ -141,11 +141,11 @@ The document in JSON format.
 
 ## Update Documents (PUT)
 
-|   Route               | Method |
-| :-------------------: | :----: |
-| /cms/:schemaName/many |  PUT   |
+|   Route                    | Method |
+| :------------------------: | :----: |
+| /database/:schemaName/many |  PUT   |
 
-Update multiple CMS schema documents.
+Update multiple schema documents.
 The documents are completely replaced and any missing optional fields are nulled.
 
 ### Url parameters
@@ -167,11 +167,11 @@ The documents are completely replaced and any missing optional fields are nulled
 
 ## Update Document (PATCH)
 
-|   Rout e             | Method |
-| :------------------: | :----: |
-| /cms/:schemaName/:id | PATCH  |
+|   Rout e                  | Method |
+| :-----------------------: | :----: |
+| /database/:schemaName/:id | PATCH  |
 
-Update a CMS schema document by id, modifying only the fields being provided.
+Update a schema document by id, modifying only the fields being provided.
 
 ### Url parameters
 
@@ -180,7 +180,7 @@ Update a CMS schema document by id, modifying only the fields being provided.
 
 ### Body parameters
 
-Accepts any fields available in the CMS schema.
+Accepts any fields available in the schema.
 Everything is optional.
 
 ### Returns
@@ -191,11 +191,11 @@ The document in JSON format.
 
 ## Update Documents (PATCH)
 
-|   Route               | Method |
-| :-------------------: | :----: |
-| /cms/:schemaName/many |  GET   |
+|   Route                    | Method |
+| :------------------------: | :----: |
+| /database/:schemaName/many |  GET   |
 
-Update multiple CMS schema documents, modifying only the fields being provided.
+Update multiple schema documents, modifying only the fields being provided.
 
 ### Url parameters
 
@@ -215,11 +215,11 @@ Update multiple CMS schema documents, modifying only the fields being provided.
 
 ## Delete Document
 
-|   Route              | Method |
-| :------------------: | :----: |
-| /cms/:schemaName/:id | DELETE |
+|   Route                   | Method |
+| :-----------------------: | :----: |
+| /database/:schemaName/:id | DELETE |
 
-Delete a CMS schema document by id.
+Delete a schema document by id.
 
 ### Url parameters
 

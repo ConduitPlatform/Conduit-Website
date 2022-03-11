@@ -1,0 +1,89 @@
+---
+sidebar_label: 'Quick Start'
+sidebar_position: 3
+title: 'Lets get down to business'
+---
+
+## Getting Conduit
+
+9 out of 10 successful backend engineers agree downloading software drastically increases the chances of running it!<br />
+The odd one is renting their backend from a megacorp, but we are not here to judge anyone, are we?<br />
+
+There are multiple ways to get started with Conduit.<br />
+You could build it yourself... or you could use our prebuilt container images.<br />
+We'll pick the latter in this case, but feel free to [build and configure Conduit yourself](https://github.com/ConduitPlatform/Conduit#running-from-source-).
+
+Conduit should solve every single one of your problems, including your carpal tunnel syndrome, no matter how you install it.<br />
+Unless it won't... at this point you might wanna open a [feature request](https://github.com/ConduitPlatform/Conduit/issues/new/choose) 
+or shoot us a message over on our [community platforms](https://getconduit.dev/contribute) and let us know about it.
+
+## Bootstrapping using Containers
+
+Conduit and all of our official modules are available as container images on the Github Container Registry.<br />
+You can pull and configure them yourself however you see fit, but you don't wanna do that just to test things locally do you?<br />
+Yeah, thought so. Thankfully, it just so happens we've built a handy little script to automate everything for you!
+
+You're going to need Docker and Make before proceeding.<br />
+Make sure your user can execute docker commands without *sudo* (by adding it to the docker group).
+
+``` bash
+source <(curl -s https://getconduit.dev/bootstrap)
+```
+
+The script is also compatible with Podman 🦦.<br />
+Just prepend the above with `export DOCKER=podman;` and you'll be set!
+
+Upon completion, the above should bring up Conduit's core, a Database instance using MongoDB, the Authentication module, as well as the Administration Panel.
+
+![Makefile](/img/overview/makefile.png)
+
+
+At this point, you should already have a working Conduit deployment.<br />
+Check out your Admin Panel running at [localhost:8080](http://localhost:8080) or try out the [REST](../router/1_rest.mdx) and [GraphQL](../router/2_graphql.mdx) APIs.
+ 
+Our script is also going to download a *Makefile* to your current directory.<br />
+Feel free to move it around, just keep it secret and keep it safe, for it's going to aid you in controlling your Conduit containers.
+
+You may effortlessly start and stop additional modules, recreate and remove containers or just clean everything up in case you get bored of us 😢.<br />
+Here's a little cheat sheet to get you started:
+
+|  Targets          |  Description                     |
+| :---------------: | :------------------------------: |
+| `zero-to-hero`    | Runs `setup` and `start-conduit` |
+| `setup`           | Creates container network and pulls critical images   |
+| `start-conduit`   | Starts Conduit, Database, Authentication, Admin Panel |
+| `start-all`       | It starts Coundit, Admin Panel and every module       |
+| `stop-all`        | Stop all running containers      |
+| `clean`           | Remove all containers            |
+| `mrproper`        | Remove all container images and container network     |
+
+Here's a list of all the unit targets you can individually operate on:<br />
+
+- core
+- authentication
+- chat
+- database (defaults to MongoDB)
+- email
+- forms
+- push-notifications
+- sms
+- redis
+- mongo
+- postgres 
+
+And there's the unit target modifiers available for you to start, stop and remove containers and images:
+
+|  Target Modifier  |  Description                    |
+| :---------------: | :-----------------------------: |
+| `start-target`    | Start target unit               |
+| `stop-target`     | Stop target unit                |
+| `rm-target`       | Remove target's container       |
+| `rmi-target`      | Remove target's container image |
+
+*Example: Starting the Email module's container*
+
+``` bash
+make start-email
+```
+
+## Now what

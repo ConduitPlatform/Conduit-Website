@@ -7,9 +7,9 @@ sidebar_position: 3
 
 ## Get Custom Endpoints
 
-|   Route                    | Method |
-| :------------------------: | :----: |
-| /admin/cms/customEndpoints |  GET   |
+|   Route                         | Method |
+| :-----------------------------: | :----: |
+| /admin/database/customEndpoints |  GET   |
 
 Get a custom endpoint.
 
@@ -29,9 +29,9 @@ Get a custom endpoint.
 
 ## Create Custom Endpoint
 
-|   Route                    | Method |
-| :------------------------: | :----: |
-| /admin/cms/customEndpoints |  POST  |
+|   Route                         | Method |
+| :-----------------------------: | :----: |
+| /admin/database/customEndpoints |  POST  |
 
 Create a custom endpoint.
 
@@ -56,10 +56,10 @@ The custom endpoint in JSON format.
 
 ### Example {#create-custom-endpoint-example}
 
-[Create](../../1_get-started.mdx/#schemas-example) and [populate](../../1_get-started.mdx/#documents-example)
+[Create](../../get-started.mdx/#schemas-example) and [populate](../../get-started.mdx/#documents-example)
 a schema named `citizens`, then send a **POST** request, including the necessary [authorization headers for an admin request] (TODO).
 
-```json title="POST on /admin/cms/customEndpoints"
+```json title="POST on /admin/database/customEndpoints"
 {
   "name": "AdultSam",
   "operation": 0,
@@ -92,15 +92,15 @@ a schema named `citizens`, then send a **POST** request, including the necessary
 ```
 
 This custom endpoint returns any citizens with a first name of "Sam", who are at least 18 years old.
-It can be accessed through a GET request on *"/cms/function/AdultSam"*.
+It can be accessed through a GET request on *"/database/function/AdultSam"*.
 
 -------------------------------------------------
 
 ## Patch Custom Endpoint
 
-|   Route                        | Method  |
-| :----------------------------: | :-----: |
-| /admin/cms/customEndpoints/:id |  PATCH  |
+|   Route                             | Method  |
+| :---------------------------------: | :-----: |
+| /admin/database/customEndpoints/:id |  PATCH  |
 
 Update a custom endpoint by id, modifying only the fields being provided.
 
@@ -130,9 +130,9 @@ The document in JSON format.
 
 ## Delete Custom Endpoint
 
-|   Route                                 |  Method  |
-| :-------------------------------------: | :------: |
-| /admin/cms/schemas/:schemaName/docs/:id |  DELETE  |
+|   Route                                      |  Method  |
+| :------------------------------------------: | :------: |
+| /admin/database/schemas/:schemaName/docs/:id |  DELETE  |
 
 Delete a custom endpoint by id.
 
