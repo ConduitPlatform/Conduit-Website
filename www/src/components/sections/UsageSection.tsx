@@ -43,8 +43,7 @@ export default function UsageSection() {
           imageComponent={<Edit />}
           title={'Comfortable design'}
           subText={
-            'Design simple enough, yet powerful, to be used and understood by all developers.' +
-            ' Design simple enough, yet powerful, to be used and understood by all developers.'
+            'Design simple enough, yet powerful, to be used and understood by all developers.'
           }
         />
         <MiniInfoCard
