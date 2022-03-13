@@ -1,5 +1,5 @@
 export const navigationLinks = [
-  { title: 'Docs', href: '/docs' },
+  { title: 'Docs', href: '/docs/overview/intro' },
   { title: 'Modules' },
   { title: 'Roadmap', href: '/roadmap' },
   { title: 'Blog', href: '/blog' },
