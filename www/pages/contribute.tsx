@@ -117,12 +117,12 @@ export default function Contribute() {
             <TypographyComponent variant="subtitle2">
               <ul style={{ margin: 0 }}>
                 <li>
-                  <ATagComponent href="https://github.com/ConduitPlatform/Conduit/blob/master/.github/CODE_OF_CONDUCT.md">
+                  <ATagComponent href="https://github.com/ConduitPlatform/Conduit/blob/main/.github/CONTRIBUTING.md">
                     Conduit
                   </ATagComponent>
                 </li>
                 <li>
-                  <ATagComponent href="https://github.com/ConduitPlatform/Conduit-UI/blob/master/.github/CODE_OF_CONDUCT.md">
+                  <ATagComponent href="https://github.com/ConduitPlatform/Conduit-UI/blob/main/.github/CONTRIBUTING.md">
                     Conduit-UI
                   </ATagComponent>
                 </li>
