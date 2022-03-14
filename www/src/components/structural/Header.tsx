@@ -101,7 +101,7 @@ const Header: FC = () => {
                 <HeaderLinkButton
                   variantActive={'outlined'}
                   variantInactive={'contained'}
-                  ButtonProps={{ href: '/docs', color: 'secondary' }}>
+                  ButtonProps={{ href: '/docs/overview/intro', color: 'secondary' }}>
                   GET STARTED
                 </HeaderLinkButton>
               </Box>

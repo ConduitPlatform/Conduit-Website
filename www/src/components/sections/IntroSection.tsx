@@ -105,7 +105,7 @@ export default function IntroSection() {
           <Box my={8} gap={1} sx={styles.bottomContainer}>
             <Button
               component={Link}
-              href={'/docs'}
+              href={'/docs/overview/intro'}
               size="large"
               variant="contained"
               color="secondary"
