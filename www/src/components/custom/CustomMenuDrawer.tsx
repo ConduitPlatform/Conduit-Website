@@ -78,7 +78,11 @@ const CustomMenuDrawer: FC<DrawerProps> = ({ ...props }) => {
           {menuNavigation()}
           <Box margin={'auto'}>
             <HeaderLinkButton
-              ButtonProps={{ onClick: onButtonClick, href: '/docs', color: 'inherit' }}>
+              ButtonProps={{
+                onClick: onButtonClick,
+                href: '/docs/overview/intro',
+                color: 'inherit',
+              }}>
               <Typography>
                 <strong>GET STARTED</strong>
               </Typography>
