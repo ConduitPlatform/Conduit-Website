@@ -98,12 +98,12 @@ const config = {
                 to: "/overview/intro",
               },
               {
-                label: "Modules",
-                to: "/modules",
+                label: "Get Started",
+                to: "/get-started",
               },
               {
-                label: "Admin Panel",
-                to: "/admin-panel",
+                label: "Modules",
+                to: "/modules",
               },
             ],
           },

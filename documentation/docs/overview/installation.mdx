@@ -1,7 +1,7 @@
 ---
-sidebar_label: 'Quick Start'
-sidebar_position: 3
-title: 'Lets get down to business'
+sidebar_label: 'Installation'
+sidebar_position: 4
+title: 'Installation'
 ---
 
 ## Getting Conduit
@@ -10,36 +10,40 @@ title: 'Lets get down to business'
 The odd one is renting their backend from a megacorp, but we are not here to judge anyone, are we?<br />
 
 There are multiple ways to get started with Conduit.<br />
-You could build it yourself... or you could use our prebuilt container images.<br />
-We'll pick the latter in this case, but feel free to [build and configure Conduit yourself](https://github.com/ConduitPlatform/Conduit#running-from-source-).
+You could [build it from source](https://github.com/ConduitPlatform/Conduit#running-from-source-) 
+or you could use our [prebuilt container images](https://github.com/orgs/ConduitPlatform/packages?sort_by=downloads_desc&visibility=public).<br />
+We'll pick the latter in this case, but feel free to choose any installation method you prefer.
+
+If you're not going to use the automated approach listed below, make sure you're not mix and matching different major versions of 
+Conduit, modules or Conduit-UI (Admin Panel), otherwise you face incompatibilities!
 
 Conduit should solve every single one of your problems, including your carpal tunnel syndrome, no matter how you install it.<br />
 Unless it won't... at this point you might wanna open a [feature request](https://github.com/ConduitPlatform/Conduit/issues/new/choose) 
 or shoot us a message over on our [community platforms](https://getconduit.dev/contribute) and let us know about it.
 
-## Bootstrapping using Containers
+## Bootstrapping using Containers {#container-makefile}
 
 Conduit and all of our official modules are available as container images on the Github Container Registry.<br />
 You can pull and configure them yourself however you see fit, but you don't wanna do that just to test things locally do you?<br />
 Yeah, thought so. Thankfully, it just so happens we've built a handy little script to automate everything for you!
 
-You're going to need Docker and Make before proceeding.<br />
+You're going to need Docker (or Podman 🦦) and Make before proceeding.<br />
 Make sure your user can execute docker commands without *sudo* (by adding it to the docker group).
 
 ``` bash
 source <(curl -s https://getconduit.dev/bootstrap)
 ```
 
-The script is also compatible with Podman 🦦.<br />
-Just prepend the above with `export DOCKER=podman;` and you'll be set!
+If you're going to use Podman, make sure you prepend the above with `export DOCKER=podman;`.
 
 Upon completion, the above should bring up Conduit's core, a Database instance using MongoDB, the Authentication module, as well as the Administration Panel.
 
 ![Makefile](/img/overview/makefile.png)
 
+*Notice: This section assumes Conduit's gRPC server is running on port 3000. The Admin Panel runs on port 8080.*
 
 At this point, you should already have a working Conduit deployment.<br />
-Check out your Admin Panel running at [localhost:8080](http://localhost:8080) or try out the [REST](../router/1_rest.mdx) and [GraphQL](../router/2_graphql.mdx) APIs.
+Check out your [Admin Panel](../get-started/admin-panel.mdx) or try out the [REST](../router/rest.mdx) and [GraphQL](../router/graphql.mdx) APIs.
  
 Our script is also going to download a *Makefile* to your current directory.<br />
 Feel free to move it around, just keep it secret and keep it safe, for it's going to aid you in controlling your Conduit containers.
@@ -86,4 +90,14 @@ And there's the unit target modifiers available for you to start, stop and remov
 make start-email
 ```
 
-## Now what
+-------------------------------------------------
+
+## Does this actually work?
+
+Sure, we printed out a bunch of catchy stuff in a terminal and would you look at that? we even used emojis too!<br />
+But how do you know this is actually the real deal?<br />
+I mean... the panel has a dark mode! And that login page had a cool SVG... Surely that's enough to convince you?<br />
+No? People are too suspicious these days 😢.
+
+Why don't you have a look at our [Getting Started](../get-started) guide?<br />
+It should help reassure you this is all actually legit stuff 👌.
