@@ -1,26 +1,56 @@
 # Conduit Router
 
-Conduit's router provides a way to register routes for REST and GraphQL APIs.<br />
+Conduit's router provides a way for modules to register routes for REST and GraphQL APIs.<br />
 Endpoint documentation is automatically generated so as to further facilitate development.
+
+Just like mostly every other router out there, it does so by relying on three key concepts:
+
+- Input Types
+- Return Types
+- Functional Handlers
 
 ## Features
 
-- REST endpoints
-- GraphQL endpoints
+- REST API (based on Express)
+- GraphQL API
 - WebSockets
 - Generated documentation for REST with OpenAPI & Swagger
 - Generated documentation for GraphQL with built-in "description" functionality
 - Parameter validation
 - Custom middlewares
 
-<!--
-**TODO**
-**Update Below**
--->
+-------------------------------------------------
 
-## Usage
+## Registering Routes
 
-The router, as all module in conduit, communicates through the grpc sdk.
+So how does one register their routes?<br />
+Before we elaborate on that, you need to consider the following question:
+
+### Do I really need custom routes?
+
+Modules automatically handle registering their routes for you.<br />
+Therefore, as long as you don't need additional functionality, you don't really need to worry about doing any of that yourself.<br />
+Routes are automatically registered or recovered upon bringing up a module, 
+so make sure you start any of the modules you wish to experiment with before checking out Swagger or sending out any requests to these modules.
+
+If you're simply trying to create CRUD endpoints for your database schemas, the answer is most likely "No".<br />
+The [Database module](../modules/database) already covers that use case as custom schemas enabling CRUD operations already come with auto-generated CRUD routes.<br />
+It also supports the creation of code-free custom endpoints for your schemas.<br />
+You can even accomplish that graphically through the Database page of the [Admin Panel](../get-started/admin-panel) too!
+
+### I'm fairly sure I do
+
+If you really need to write your own routes from the ground up, you're going to have to build your own [custom modules](../modules#custom-modules).
+
+Not a fan of REST APIs? We've got you covered. GraphQL is also [available](http://localhost:3000/graphql).<br />
+
+By default, your local user routes are going to be exposed under `http://localhost:3000`, whereas your admin ones would use `http://localhost:3000/admin` instead.
+ 
+-------------------------------------------------
+
+## Technical Details
+
+The router, as all modules in Conduit, communicates through the gRPC SDK.
 
 For every route that you declare you have the following parameters:
 
@@ -71,3 +101,12 @@ If you sent any other string that those provided conduit will not utilize cachin
 The number that you specify also sets the expiry time of conduit's cache. All caching takes place,
 AFTER middleware execution
 - cacheControl?: string;
+
+<!--
+
+TODO:
+- Clean this^ up
+- Types
+- Handlers
+
+-->

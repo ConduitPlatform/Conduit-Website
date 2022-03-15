@@ -4,7 +4,8 @@
 
 This module provides a consistent query language so that your modules can effortlessly store and retrieve persistent data.<br />
 It also acts as a CMS, facilitating the management of custom content types through the generation of db level schemas, 
-the creation and manipulation of schema document entries and the registration of fine-tuned custom endpoints.
+the creation and manipulation of schema document entries and the registration of fine-tuned custom endpoints.<br />
+You even get (optional) auto-generated CRUD endpoints for your custom schemas!
 
 Content is delivered through REST and GraphQL APIs.
 
@@ -19,6 +20,7 @@ We currently support MongoDB and PostgreSQL (default: MongoDB).
   - Creation of custom content types (schema)
   - Create db collections based on said types
   - Create db collection entries
+  - Auto-generated CRUD routes
   - Create powerful custom endpoints
   - Expose content through GraphQL
   - Expose content through REST API
