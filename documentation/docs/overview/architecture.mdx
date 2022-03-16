@@ -4,6 +4,8 @@ sidebar_position: 3
 title: 'Weird Drawings'
 ---
 
+import ImageSwitcher from '/src/components/ImageSwitcher.js';
+
 <i>Note: The following drawings were made by talented chipmunks, implanted with highly advanced neural chips. You may
     notice
     some misalignment due to them having too small hands and couldn't hold the pencils properly.
@@ -25,9 +27,13 @@ Conduit to only handle User authentication for you. Don't want the admin panel? 
 ## Core Structure
 For our next magic trick we're going to render a png, observe:
 
-![Core Architecture View](/img/overview/architecture/core_architecture.png)
+<ImageSwitcher 
+lightImageSrc="/img/overview/architecture/core_architecture.light.png"
+darkImageSrc="/img/overview/architecture/core_architecture.dark.png"
+altText="Core Architecture View"
+/>
 
-*magic*
+<center><em>magic</em></center>
 
 So what you can see here, is that the Conduit Core, consists of Router, Admin, Config, Security and of course the core
 packages. The core package is simply a glue, that along with the commons package you'll see in our repo,
@@ -49,11 +55,15 @@ and enforces rate-limiting checks.
 
 Enter magic rendering number 2:
 
-*wooosh*
+<center><em>woosh</em></center>
 
-![General Architecture View](/img/overview/architecture/general_architecture.png)
+<ImageSwitcher 
+lightImageSrc="/img/overview/architecture/general_architecture.light.png"
+darkImageSrc="/img/overview/architecture/general_architecture.dark.png"
+altText="General Architecture View"
+/>
 
-*tada*
+<center><em>tada</em></center>
 
 The rest of Conduit's architecture is rather straightforward. All modules communicate with the core AAAAND with each other.
 Modules generally follow these lifecycle steps:
