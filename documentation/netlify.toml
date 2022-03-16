@@ -1,4 +1,9 @@
 [[redirects]]
+from = "/docs/"
+to = "/overview/intro"
+status = 200
+force = true
+[[redirects]]
 from = "/docs/*"
 to = "/:splat"
 status = 200
