@@ -1,0 +1,72 @@
+---
+sidebar_label: 'Architecture'
+sidebar_position: 3
+title: 'Weird Drawings'
+---
+
+<i>Note: The following drawings were made by talented chipmunks, implanted with highly advanced neural chips. You may
+    notice
+    some misalignment due to them having too small hands and couldn't hold the pencils properly.
+    <br/>
+    <br/>
+    <br/>
+    Also...our lawyers wanted us to mention this statement is a work of fiction and no chipmunks were harmed while
+    making architectural diagrams
+</i>
+
+## Conduit's Architecture
+
+As we've mentioned Conduit runs on a micro-service architecture. This is done to accomplish 2 things:
+- To allow for individual scaling of each service so that you can account for different traffic patterns in your application.
+- So that you can spin-up and down the services you actually need without having to host all of Conduit's features
+if they are not required for your use-case. For example, you could use only Authentication, Database and the Core if you want
+Conduit to only handle User authentication for you. Don't want the admin panel? Just don't spin it up.
+
+## Core Structure
+For our next magic trick we're going to render a png, observe:
+
+![Core Architecture View](/img/overview/architecture/core_architecture.png)
+
+*magic*
+
+So what you can see here, is that the Conduit Core, consists of Router, Admin, Config, Security and of course the core
+packages. The core package is simply a glue, that along with the commons package you'll see in our repo,
+make sure that the Admin, the Config and the Router start successfully and are ready to handle requests.
+Depending on the request,it will get forwarded to the module responsible for handling it (ex. Authentication) or
+to the Admin package if it's an admin endpoint, which again will forward it to the appropriate package.
+
+The config package handles configuration storage and serves as the service registry of every Conduit cluster. It knows where
+everyone is, if they are online etc.
+
+Both the Router and the Admin, have separate gRPC functions that handle route registration from modules. At the end of the
+registration process all routes are declared to the Router and in the case of admin routes they are pre-pended with a specific
+path that does additional checks for admin routes.
+
+Every request, once received from the Router, goes through the security package which checks ClientId/Secret combinations,
+and enforces rate-limiting checks.
+
+## General Architecture
+
+Enter magic rendering number 2:
+
+*wooosh*
+
+![General Architecture View](/img/overview/architecture/general_architecture.png)
+
+*tada*
+
+The rest of Conduit's architecture is rather straightforward. All modules communicate with the core AAAAND with each other.
+Modules generally follow these lifecycle steps:
+- Connect to the Core gRPC server
+- Get your configuration from the Config service
+- Spin up your own gRPC server to handle requests (optional)
+- Register as a module giving the module's name and exposed address (IP:PORT or URL)
+
+After that each module can register Routes either to the Router (for client-facing endpoints) or to the Admin (for admin-facing endpoints).
+
+Modules communicate with each other through gRPC without needing to go through the Core module. The Core module publishes
+module changes as they happen, so if for instance one module is de-activated, all other are informed about this instantly.
+
+The Grpc-SDK JS library we've created handles all of that automatically, by listening for these updates an initializing
+connections to other modules you need as they become available.
+
