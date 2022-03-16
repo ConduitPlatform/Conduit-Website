@@ -3,28 +3,84 @@ sidebar_label: 'Get Started'
 sidebar_position: 1
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Getting Started
-
-## Prerequisites
-
-Using the Storage module requires that you already have a basic understanding of how Conduit functions.<br />
-Please read the project's [main getting started guide] (TODO) before proceeding.
 
 ## Execution
 
-**TODO**
+<Tabs>
+<TabItem value="makefile" label="Makefile">
+<details><summary>Prerequisites</summary>
 
-##### Using Docker
-
-```jsx
-docker run ...............
+``` bash
+curl -L https://raw.githubusercontent.com/ConduitPlatform/Conduit/latest/docker/Makefile > Makefile
+make create-network
+make start-core
+make start-database
 ```
+</details>
 
-##### Using npm
-
-```jsx
-CONDUIT_SERVER=0.0.0.0:55152 SERVICE_IP=0.0.0.0:56154 npx @conduit/storage start
+``` bash
+make start-storage
 ```
+</TabItem>
+
+<TabItem value="docker" label="Docker">
+<details><summary>Prerequisites</summary>
+
+``` bash
+# Set up the Container Network
+docker network create conduit
+
+# Start Redis
+docker run -d --name conduit-redis \
+              --network-alias redis \
+              --network "conduit" \
+              -h conduit-redis \
+              -p 6379:6379 \
+              docker.io/library/redis:latest
+
+# Start Conduit
+docker run -d --name conduit-core \
+              --network-alias conduit \
+              --network "conduit" \
+              -h conduit-core \
+              -p 55152:55152 -p 3000:3000 -p 3001:3001 \
+              -e REDIS_HOST="conduit-redis" -e REDIS_PORT="6379" \
+              ghcr.io/conduitplatform/conduit:latest
+
+# Start MongoDB
+docker run -d --name conduit-mongo \
+              --network-alias mongo \
+              --network "conduit" \
+              -h conduit-mongo \
+              -p 27017:27017 \
+              docker.io/library/mongo:latest
+
+# Start Database
+docker run -d --name conduit-database \
+              --network-alias database \
+              --network "conduit" \
+              -h conduit-database \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              -e databaseType="mongodb" \
+              -e databaseURL="mongodb://conduit-mongo:27017" \
+              ghcr.io/conduitplatform/database:latest
+```
+</details>
+
+``` bash
+docker run -d --name conduit-storage \
+              --network-alias storage \
+              --network "conduit" \
+              -h conduit-storage \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              ghcr.io/conduitplatform/storage:latest
+```
+</TabItem>
+</Tabs>
 
 <ins><strong>Notice:</strong> This module is disabled by default as it requires initial configuration.</ins>
 
