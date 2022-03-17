@@ -6,8 +6,6 @@ Headers are divided in two types. The **Admin** and the **Client** headers.<br /
 ## Admin Headers
 
 Admin headers are required for operations that only admin can do.
-### Master Key
-This key acts as a secondary authorization header. So each request should contain this key.
 
 ### Authorization
 Admin authorization uses the JSON Web Token Strategy. Each Admin request should contain this token.<br />
@@ -30,6 +28,9 @@ curl --location --request POST 'http://localhost:3000/admin/login' \
 }
 ```
 
+### Master Key
+This key acts as a secondary authorization header. So each request should contain this key.
+
 ### Usage
 Let's send an admin request in order to see how the Admin Header mechanism works in Conduit.<br />
 
@@ -49,6 +50,11 @@ curl --location --request POST 'http://localhost:3000/admin/authentication/users
 Let's proceed with the client headers.As you can observe, the name says it all.<br />
 Client headers are required for client requests.<br />
 There are three client headers.**Client Id, Client Secret, Master Key**.<br />
+
+### Authorization
+
+Actually the Authorization Header is a Bearer Token. It is mandatory to include it in each request.<br />
+So as to fetch the token you need to make a POST request to [/authentication/local](../modules/authentication/api_reference/user/local#login).
 
 ### Client Credentials
 
@@ -80,13 +86,10 @@ In the same way ,Master Key acts as a secondary authorization. Its usage is the 
 Now we are ready to proceed to an example of how a client request is made.<br />
 
 ``` bash title="GET on /authentication/init/facebook"
-curl --location --request GET 'CONDUIT_URL/authentication/init/facebook' \
+curl --location --request GET 'CONDUIT_URL/chat/rooms' \
 --header 'masterkey: M4ST3RK3Y' \
 --header 'Content-Type: application/json' \
 --header 'clientid: someclientid' \
 --header 'clientsecret: someclientsecret' \
---data-raw '{
-    "scopes": ["email","public_profile","user_gender","user_friends"]
-}'
+--header 'Authorization: Bearer sometoken' \
 ```
-
