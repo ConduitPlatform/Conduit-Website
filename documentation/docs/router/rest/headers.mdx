@@ -44,3 +44,49 @@ curl --location --request POST 'http://localhost:3000/admin/authentication/users
 }'
 ```
 
+## Client Headers
+
+Let's proceed with the client headers.As you can observe, the name says it all.<br />
+Client headers are required for client requests.<br />
+There are three client headers.**Client Id, Client Secret, Master Key**.<br />
+
+### Client Credentials
+
+In order to fetch the client credentials you have to create a client first.<br />
+Only an administrator can create a client. So, let's see an example of how a client is created.<br />
+A client can be created by making a POST request to ***/admin/security/client*** route.<br />
+We will use **ANDROID** in this example as a platform.
+
+``` bash title="POST on /admin/security/client"
+curl --location --request POST 'CONDUIT_URL/admin/security/client' \
+--header 'masterkey: M4ST3RK3Y' \
+---header 'Authorization: JWT  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI '
+--header 'Content-Type: application/json' \
+--data-raw '{
+"platform": "ANDROID"
+}'
+```
+
+```json title="Response"
+{
+  "clientid": "someclientid",
+  "clientsecret": "someclientsecret"
+}
+```
+### Master Key
+In the same way ,Master Key acts as a secondary authorization. Its usage is the same as it is mentioned before.
+
+### Usage
+Now we are ready to proceed to an example of how a client request is made.<br />
+
+``` bash title="GET on /authentication/init/facebook"
+curl --location --request GET 'CONDUIT_URL/authentication/init/facebook' \
+--header 'masterkey: M4ST3RK3Y' \
+--header 'Content-Type: application/json' \
+--header 'clientid: someclientid' \
+--header 'clientsecret: someclientsecret' \
+--data-raw '{
+    "scopes": ["email","public_profile","user_gender","user_friends"]
+}'
+```
+
