@@ -3,31 +3,138 @@ sidebar_label: 'Get Started'
 sidebar_position: 1
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Getting Started
-
-## Prerequisites
-
-Using the Database module requires that you have a functional installation of MongoDB or PostgreSQL.<br />
-You will also need a basic understanding of how Conduit functions.<br />
-Please read the project's [main getting started guide] (TODO) before proceeding.
-
 
 ## Execution
 
-##### Using Docker
+<Tabs>
+  <TabItem value="makefile" label="Makefile">
+  <details><summary>Prerequisites</summary>
 
-```jsx
-docker run ...............
-```
+  ``` bash
+  curl -L https://raw.githubusercontent.com/ConduitPlatform/Conduit/latest/docker/Makefile > Makefile
+  make create-network
+  make start-core
+  ```
+  </details>
+  <Tabs>
+  <TabItem value="mongo" label="MongoDB">
 
-##### Using npm
+  ``` bash
+  make start-database
 
-```jsx
-CONDUIT_SERVER=0.0.0.0:55152 databaseURL=<MONGODB CONNECTION STRING> SERVICE_IP=0.0.0.0:56159 npx @conduit/database start
-```
+  # Specifying a custom connection string
+  DB_URL="mongodb://conduit-mongo:27017" make start-database
+  ```
+  </TabItem>
+  <TabItem value="postgres" label="PostgreSQL">
+
+:::caution
+
+**PosgreSQL** is fully supported, but not yet recommended.<br />
+If you're deploying to production, we recommend sticking with **MongoDB**.
+
+:::
+
+  ``` bash
+  DB_TYPE="sql" -e DB_URL="postgres://conduit:pass@localhost:5432/conduit" \
+  make start-database
+  ```
+  </TabItem>
+  </Tabs>
+  </TabItem>
+
+
+  <TabItem value="docker" label="Docker">
+  <details><summary>Prerequisites</summary>
+
+  ``` bash
+  # Set up the Container Network
+  docker network create conduit
+
+  # Start Redis
+  docker run -d --name conduit-redis \
+                --network-alias redis \
+                --network "conduit" \
+                -h conduit-redis \
+                -p 6379:6379 \
+                docker.io/library/redis:latest
+
+  # Start Conduit
+  docker run -d --name conduit-core \
+                --network-alias conduit \
+                --network "conduit" \
+                -h conduit-core \
+                -p 55152:55152 -p 3000:3000 -p 3001:3001 \
+                -e REDIS_HOST="conduit-redis" -e REDIS_PORT="6379" \
+                ghcr.io/conduitplatform/conduit:latest
+  ```
+  </details>
+  <Tabs>
+  <TabItem value="mongo" label="MongoDB">
+
+  ``` bash
+  # Start MongoDB
+  docker run -d --name conduit-mongo \
+                --network-alias mongo \
+                --network "conduit" \
+                -h conduit-mongo \
+                -p 27017:27017 \
+                docker.io/library/mongo:latest
+
+  # Start Database
+  docker run -d --name conduit-database \
+                --network-alias database \
+                --network "conduit" \
+                -h conduit-database \
+                -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+                -e databaseType="mongodb" \
+                -e databaseURL="mongodb://conduit-mongo:27017" \
+                ghcr.io/conduitplatform/database:latest
+  ```
+  </TabItem>
+  <TabItem value="postgres" label="PostgreSQL">
+
+:::caution
+
+**PosgreSQL** is fully supported, but not yet recommended.<br />
+If you're deploying to production, we recommend sticking with **MongoDB**.
+
+:::
+
+
+  ``` bash
+  # Start PostgreSQL
+  docker run -d --name conduit-postgres \
+                --network-alias postgres \
+                --network "conduit" \
+                -h conduit-postgres \
+                -p 5432:5432 \
+                -e POSTGRES_USER="conduit" \
+                -e POSTGRES_PASSWORD="pass" \
+                -e POSTGRES_DB="conduit" \
+                docker.io/library/postgres:latest
+
+  # Start Database
+  docker run -d --name conduit-database \
+                --network-alias database \
+                --network "conduit" \
+                -h conduit-database \
+                -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+                -e databaseType="sql" \
+                -e databaseURL="postgres://conduit:pass@localhost:5432/conduit" \
+                ghcr.io/conduitplatform/database:latest
+  ```
+  </TabItem>
+  </Tabs>
+  </TabItem>
+</Tabs>
 
 At this point, you should have a functional Database instance.<br />
-You may now use modules requiring database access or register and manipulate your own custom content through the [Admin Panel] (TODO).
+You may now use modules requiring database access or register and manipulate your own custom content through the [Admin Panel](../../get-started/admin-panel).
 
 -------------------------------------------------
 
