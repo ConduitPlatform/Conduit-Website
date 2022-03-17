@@ -36,7 +36,7 @@ Let's send an admin request in order to see how the Admin Header mechanism works
 ``` bash title="POST on /admin/authentication/users"
 curl --location --request POST 'http://localhost:3000/admin/authentication/users' \
 --header 'masterkey: M4ST3RK3Y' \
----header 'Authorization: JWT  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI '
+---header 'Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI'
 --header 'Content-Type: application/json' \
 --data-raw '{
 "identification": "someemail@mail.com",
@@ -60,7 +60,7 @@ We will use **ANDROID** in this example as a platform.
 ``` bash title="POST on /admin/security/client"
 curl --location --request POST 'CONDUIT_URL/admin/security/client' \
 --header 'masterkey: M4ST3RK3Y' \
----header 'Authorization: JWT  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI '
+---header 'Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI'
 --header 'Content-Type: application/json' \
 --data-raw '{
 "platform": "ANDROID"
