@@ -1,0 +1,46 @@
+# Headers
+
+It's important to understand how the Conduit headers are working. There is a distinction between the headers.<br />
+Headers are divided in two types. The **Admin** and the **Client** headers.<br />
+
+## Admin Headers
+
+Admin headers are required for operations that only admin can do.
+### Master Key
+This key acts as a secondary authorization header. So each request should contain this key.
+
+### Authorization
+Admin authorization uses the JSON Web Token Strategy. Each Admin request should contain this token.<br />
+So,in order to fetch this token you must Login as an Admin.<br />
+Make sure you pass the `masterkey` header along with your administrator credentials and send your data as raw JSON.<br />
+The default value is 'M4ST3RK3Y', but you change that by setting the `masterkey` env var before starting Conduit.
+
+``` bash title="POST on /admin/login"
+curl --location --request POST 'http://localhost:3000/admin/login' \
+     --header 'masterkey: M4ST3RK3Y' \
+     --header 'Content-Type: application/json' \
+     --data-raw '{
+        "username": "admin",
+        "password": "admin"
+     }'
+```
+```json title="Response"
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI"
+}
+```
+
+### Usage
+Let's send an admin request in order to see how the Admin Header mechanism works in Conduit.<br />
+
+``` bash title="POST on /admin/authentication/users"
+curl --location --request POST 'http://localhost:3000/admin/authentication/users' \
+--header 'masterkey: M4ST3RK3Y' \
+---header 'Authorization: JWT  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI '
+--header 'Content-Type: application/json' \
+--data-raw '{
+"identification": "someemail@mail.com",
+"password": "admin"
+}'
+```
+
