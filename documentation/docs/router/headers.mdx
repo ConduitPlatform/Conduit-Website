@@ -7,6 +7,9 @@ Headers are divided in two types. The **Admin** and the **Client** headers.<br /
 
 Admin headers are required for operations that only admin can do.
 
+### Master Key
+This key acts as a secondary authorization header. So each request should contain this key.
+
 ### Authorization
 Admin authorization uses the JSON Web Token Strategy. Each Admin request should contain this token.<br />
 So,in order to fetch this token you must Login as an Admin.<br />
@@ -27,9 +30,8 @@ curl --location --request POST 'http://localhost:3000/admin/login' \
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI"
 }
 ```
-
-### Master Key
-This key acts as a secondary authorization header. So each request should contain this key.
+***It's important to say that the JSON Admin Token could be retrieved only by making the request to the REST API.<br />
+And that's because the Admin GraphQL API is not implemented yet.<br />***
 
 ### Usage
 Let's send an admin request in order to see how the Admin Header mechanism works in Conduit.<br />
@@ -50,6 +52,9 @@ curl --location --request POST 'http://localhost:3000/admin/authentication/users
 Let's proceed with the client headers.As you can observe, the name says it all.<br />
 Client headers are required for client requests.<br />
 There are three client headers.**Client Id, Client Secret, Master Key**.<br />
+
+### Master Key
+In the same way ,Master Key acts as a secondary authorization. Its usage is the same as it is mentioned before.
 
 ### Authorization
 
@@ -79,8 +84,6 @@ curl --location --request POST 'CONDUIT_URL/admin/security/client' \
   "clientsecret": "someclientsecret"
 }
 ```
-### Master Key
-In the same way ,Master Key acts as a secondary authorization. Its usage is the same as it is mentioned before.
 
 ### Usage
 Now we are ready to proceed to an example of how a client request is made.<br />
