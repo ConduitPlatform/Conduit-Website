@@ -5,4 +5,53 @@ sidebar_position: 3
 
 # GraphQL API
 
-**TODO**
+### Getting Started
+
+Conduit provides an interface which you can use to make GraphQL requests.<br />
+This interface can be accessed from ``` CONDUIT_URL/graphql ``` endpoint. <br />
+Be careful! GraphQL API can be used only in client-based requests.You can not use graphQL to make operations
+if admin privileges are  required.
+
+### Setting up the Headers
+
+So let's navigate to this url.<br />
+This interface should be displayed to you.<br />
+
+In order to make the docs section displayed to you, you must synchronize the interface with the server.<br />
+That will happen by setting the proper headers in the headers section.<br />
+See what [client headers](./headers#client-headers) are required.<br />
+Let's proceed with an example of how to set properly the headers.<br />
+
+```tsx
+{
+"clientid":"19f0b8f9ec03570f75d9d28c904fd5",
+"clientsecret": "187c30c6323bcc4ada9390ac93e939422686d35fe5607c319b914728d2074b229db71a82ebdcfc5edcca818202236900517e81c02e4b270dfe4569ef8f8b3c04",
+"masterkey":"M4ST3RK3Y",
+"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzQ3MjMzYTQ5ODg4MGNkOWI4MDY5ZSIsImlhdCI6MTY0NzYwNDk5OCwiZXhwIjoxNzM0MDA0OTk4fQ.D_TsIaQlMimft4CXhCo_aOs0vk6opnClxM3aFtFF4Qc"
+}
+```
+Since the headers are set you are ready to make graphQL request.
+
+## Usage
+
+Let's make a graphQL query to find out how many chat rooms are registered in our database!<br />
+This query will return an array which includes the ids of the registered chat rooms.<br />
+Make sure that the chat module is online.<br />
+
+``` bash title="GET Chat Rooms"
+query getRooms($skip: Number,$limit:Number) {
+	getChatRooms(skip: $skip, limit:$limit) {
+		rooms {
+			_id
+		}
+	}
+}
+```
+
+``` bash title="Query Variables"
+{
+  "skip":0,
+  "limit":0
+}
+```
+
