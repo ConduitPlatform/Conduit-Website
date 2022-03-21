@@ -65,8 +65,8 @@ docker run -d --name conduit-database \
               --network "conduit" \
               -h conduit-database \
               -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
-              -e databaseType="mongodb" \
-              -e databaseURL="mongodb://conduit-mongo:27017" \
+              -e DB_TYPE="mongodb" \
+              -e DB_CONN_URI="mongodb://conduit-mongo:27017" \
               ghcr.io/conduitplatform/database:latest
 ```
 </details>
