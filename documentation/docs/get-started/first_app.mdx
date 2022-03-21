@@ -1,0 +1,227 @@
+# My First App
+
+For understanding purposes, in this section I will try to show you how the Conduit App works.
+By the end of this tutorial you will be able to understand how Conduit communicates with a Front-End framework.<br />
+Let's start to create an application with the help of the ReactJs framework. You can use whatever framework you want. But in this tutorial
+React will be used.
+
+## App Initialization
+
+Let's create a directory called `conduit_app` and create a react-app in this folder.<br />
+Make sure that the npm package manager is installed in your machine.<br />
+```bash title="App Initialization"
+npx create-react-app my-app
+cd my-app
+npm start
+```
+
+## Admin Login
+The first thing you need to know is how an admin is logged in.So, let's make a react-component mapped to `/login` path.<br />
+To start, install the React Router package. There are two different versions: a web version and a native version for use with React Native. You will install the web version.
+In your terminal, use npm to install the package:
+```
+npm install react-router-dom
+```
+
+### Login Component
+Once you installed the react-router you will need to make a Login Component.So, create a folder named `components` in the path `/my-app/src/components`.<br />
+In this folder create a file named `Login.js`.<br />
+```bash title="Login Component creation"
+mkdir /src/components
+cd /src/components
+nano Login.js
+```
+Copy this in your `Login.js` file and save it:
+```tsx title="Login Component"
+import React, { useState } from "react";
+import '../css/Login.css'
+
+async function loginUser(credentials) {
+  return fetch('http://localhost:3000/admin/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'masterkey': 'M4ST3RK3Y'
+    },
+    body: JSON.stringify(credentials)
+  })
+    .then(data => data.json())
+ }
+
+export default function Login() {
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const token = await loginUser({
+      username,
+      password
+    });
+    console.log(token);
+  }
+
+  return(
+    <div className="login-wrapper">
+      <form onSubmit={handleSubmit}>
+      <label>
+        <p>Username</p>
+        <input type="text" onChange={e => setUsername(e.target.value)}/>
+      </label>
+      <label>
+        <p>Password</p>
+        <input type="password" onChange={e => setPassword(e.target.value)}/>
+      </label>
+      <div>
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+    </div>
+  )
+}
+```
+As you can see, when you are submitting the credentials a POST request to `/admin/login` occurs.<br />
+The response is the JSON Web Token that is used in every admin request.<br />
+See [here](../router/get-started) for more.<br />
+
+Navigate to the `/my-app/src/App.js` file.Paste this code in the `App.js` file:
+```tsx title="React Routing"
+import './App.css';
+import Login from './components/Login';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  Outlet
+} from "react-router-dom";
+
+function App() {
+  return (
+    <div className="wrapper">
+      <h1>Admin Login</h1>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login/>} />
+
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+}
+export default App;
+```
+Open the browser and navigate `http://localhost:PORT/login`.
+The following screenshot shows what it should be displayed if you navigate to the above url.<br />
+
+![Login Component](/img/first_app/login_component.png)
+
+As you can see,the JWT token is logged in the console.
+
+## Making Admin Requests
+
+Once you have taken the JSON Admin Token you are ready to make Admin requests.In order to understand how to make admin requests using a React
+I will give an example of how to do this.<br />
+Let's make a React component which is responsible for User creation.<br />
+The route which is responsible for User Creation is mapped to `CONDUIT_URL/admin/authentication/users` path.<br />
+See more about User Creation [here](../modules/authentication/api_reference/admin/#create-user). <br />
+
+### Create User Component
+
+We will make a component which will be used to create a User.<br />
+Navigate to the `src/components` folder.
+```bash title="Create User Component"
+nano CreateUser.js
+```
+Paste this code in the file<br />
+
+```tsx title="Create User Component"
+import React, { useState } from "react";
+import '../css/Login.css'
+
+async function createUser(credentials) {
+  return fetch('http://localhost:3000/admin/authentication/users', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'masterkey': 'M4ST3RK3Y',
+      'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzg0ZGJjYWM2ZmU5MGE4NjQyM2Y1YyIsImlhdCI6MTY0Nzg2OTEyMywiZXhwIjoxNjQ3OTQxMTIzfQ.yBgONdAaeTp-8X7o16wyOlJZUm8Nwgk69-tg4bfBjw4'
+    },
+    body: JSON.stringify(credentials)
+  })
+    .then(data => data.json())
+ }
+
+export default function CreateUser() {
+  const [identification, setIdentification] = useState();
+  const [password, setPassword] = useState();
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const response = await createUser({
+      identification,
+      password
+    });
+    console.log(response);
+  }
+
+  return(
+    <div className="login-wrapper">
+      <form onSubmit={handleSubmit}>
+      <label>
+        <p>Identification</p>
+        <input type="text" onChange={e => setIdentification(e.target.value)}/>
+      </label>
+      <label>
+        <p>Password</p>
+        <input type="password" onChange={e => setPassword(e.target.value)}/>
+      </label>
+      <div>
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+    </div>
+  )
+}
+```
+
+Also, you need to map the component to a route using the react-router.<br />
+Just add a route to the App.js file.The new App.js now is this:
+
+```tsx title="App.js"
+import './App.css';
+import Login from './components/Login';
+import CreateUser from './components/CreateUser';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  Outlet
+} from "react-router-dom";
+
+function App() {
+  return (
+    <div className="wrapper">
+      <h1>Admin Login</h1>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login/>} />
+          <Route path="/user" element={<CreateUser/>} />
+
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+}
+export default App;
+```
+Now we are ready to make a `POST` request to our database in order to create a  user.<br />
+Navigate to `http://localhost:PORT/user` and fill the displayed inputs and press the submit button.<br />
+
+![Create User](/img/first_app/create_user.png)
+
+As you can observe,a message will be print that indicates that the user registration was successfully done.
+
+
+
+
+
