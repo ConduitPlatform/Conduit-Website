@@ -1,0 +1,111 @@
+---
+title: 'CMS + Database = <3'
+dateString: 'March 21, 2022'
+mainImageUrl: '/blogIcons/conduit_logo.png'
+excerpt: 'These two seem to get along nicely'
+publisher: 'kkopanidis'
+publisherPosition: 'Founder'
+publisherIcon: 'https://avatars.githubusercontent.com/u/9095396?v=4'
+tags: ['Updates', 'Development','Open source']
+---
+<BlogHeaderComponent
+    title={title}
+    dateString={dateString}
+    mainImageUrl={mainImageUrl}
+    publisher={publisher}
+    publisherIcon={publisherIcon}
+    publisherPosition={publisherPosition}
+/>
+
+Tldr; Since 0.12 you don't need to spin up 2 containers for the basic stuff, just get the Database up as you would.
+Half the containers twice the features, or the same features w/e.
+<br></br>
+
+<SectionItemComponent topic='The Database'/>
+  <p>
+    If you played around with Conduit a little, and when I see a little I mean even just running our handy
+    "getting started" script, you'll know that the Database is an absolutely important module of the platform.
+    You can't do anything(pretty much) without the Database module being online and connected to either MongoDB or
+    one of the supported SQL databases.
+</p>
+  <p>
+    That's for good reason of course. We don't think that any kind of backend(or at least one with an API) can exist
+    without a datasource and the most prominent datasources are databases. So Conduit uses its database to manage
+    the state of the platform, the configuration, the schemas you create and obviously your data. Once it's up and
+    running, you're in business.
+</p>
+  <p>
+    The Database handles a lot of stuff, since it's the single point where all data is retrieved from or updated. It
+    keeps
+    track of all the schemas you create (either through code or the admin UI), it fetches and updates data for those
+    schemas,
+    handles permissions (on a module level) and provides a handy adapter layer so that you can write the same queries
+    both for MongoDB and SQL (which was tough to do so we hope you like it).
+</p>
+<br></br>
+<br></br>
+<SectionItemComponent topic="And then we have the CMS"/>
+
+As you're probably aware, the CMS is another important part of a backend, yes not <strong>every</strong> backend, but it
+tends to be very useful when you have an API serving an application or maybe using it as a headless CMS for your website.
+In the context of Conduit, it definitely fills that role, but also does a bunch of other cool stuff.
+
+For example, you create new schemas through it so that you can store any data you want, you add and manipulate data (duh),
+it automatically creates CRUD endpoints for you so that you don't have to, and lastly it provides you with the ability
+to write custom logic (up to a point of course) which again is exposed through automatically generated endpoints.
+
+So yeah, it's not actually <strong>just</strong> a CMS, it does a bunch of stuff.
+
+<br></br>
+<br></br>
+<SectionItemComponent topic='Sudden moment of wisdom'/>
+Since you probably didn't go around looking at our entire version history, Conduit was originally developed as a
+monolith. A single chunk of code, that was of course broken up in different node modules, which we quickly realized that
+it wasn't going to work. We'd be losing the ability to pick and choose which code we're actually running, linear scaling
+of services and of course the maintenance cost would be somewhat bigger. I say somewhat since node modules provide a nice
+enough separation that helps a bit.
+
+So we decided to break the thing apart into separate modules, for a bunch of reasons that it'd probably be best to read
+the architecture section of the docs than me claiming more of your time to discuss it. We were perhaps a bit too greedy,
+in this break-up process, as we all know break-ups are never easy (come back Maria I still miss you). We wrote CMS and
+Database as separate modules, for the sake of linear scaling and blah blah.
+
+Until we realized, that there wasn't any reason whatsoever for them to actually be separate modules. The CMS does 99.9%
+of its work on the database, it "just" constructs queries. The only other logic that it has, is centered around configuration
+and modification of schemas which is minimal, unless your use-case is to have a monke army modifying schemas every 100ms,
+where yes, you would need a separate module to handle the load.
+
+<img src="/blogIcons/patrick-move.jpeg" alt="patrick meme"/>
+<br></br>
+<br></br>
+<SectionItemComponent topic='The Merging'/>
+While the section title seems to derive from part 3 of an unnamed sci-fi book, it was a fairly trivial process.
+    We pretty much took the code and started copy/pasting in the Database.....aaaaand it broke. We had to make various
+    changes here and there, and *pooof* magic happened and they are now one module.
+    All urls that were "/content" or "/cms" have now been changed to "/database", but you don't have to take my word for
+    it. Spin up Conduit and check your trusted Swagger file.
+
+<br/>
+<br/>
+
+<SectionItemComponent topic='The Future'/>
+This was a big change for Conduit, since it simplified the state of affairs that concerned the Database and the CMS, while
+    also reducing the number of running containers you need to get the job done. We're also considering to merge sms, email
+    and push into a single module, so that we can provide more awesome features. But these ones are actually different modules
+    with no interconnection whatsoever. You can provide your opinion [here](https://github.com/ConduitPlatform/Conduit/issues/23)
+    for that matter.
+
+Looking forward though we have more awesome stuff planned for the Database like:
+
+  - Migration support for schemas
+  - Access control mechanics
+  - Index support and management
+  - Database introspection so that you can use existing dbs (see [issue](https://github.com/ConduitPlatform/Conduit/issues/77))
+
+<br/>
+
+If you've managed to get this far, thanks! And check out the links below:
+
+  - 🌟 Give us a star here: https://github.com/ConduitPlatform/Conduit
+  - 👋 Wanna say hi? Drop a mail here: hello@getconduit.dev
+  - ✨ Join our discord: https://discord.gg/fBqUQ23M7g
