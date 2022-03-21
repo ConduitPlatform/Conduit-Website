@@ -15,6 +15,8 @@ cd my-app
 npm start
 ```
 
+**Note**: ***CORE AND DATABASE MODULE SHOULD BE ONLINE***
+
 ## Admin Login
 The first thing you need to know is how an admin is logged in.So, let's make a react-component mapped to `/login` path.<br />
 To start, install the React Router package. There are two different versions: a web version and a native version for use with React Native. You will install the web version.
@@ -26,6 +28,9 @@ npm install react-router-dom
 ### Login Component
 Once you installed the react-router you will need to make a Login Component.So, create a folder named `components` in the path `/my-app/src/components`.<br />
 In this folder create a file named `Login.js`.<br />
+Open a terminal and start the authentication module.If the authentication module isn't online then we can't proceed to any request.
+See how to do this [here](../modules/authentication/get_started).
+
 ```bash title="Login Component creation"
 mkdir /src/components
 cd /src/components
