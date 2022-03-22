@@ -1,9 +1,34 @@
 # My First App
 
-For understanding purposes, in this section I will try to show you how the Conduit App works.
+For understanding purposes, in this section I will try to show you how the Conduit App works using the **REST API**.
 By the end of this tutorial you will be able to understand how Conduit communicates with a Front-End framework.<br />
 Let's start to create an application with the help of the ReactJs framework. You can use whatever framework you want. But in this tutorial
 React will be used.
+
+## Prerequisites
+To start this tutorial it is required to have some modules running. All you need to do is to install Conduit on your local machine<br />
+and have some modules online.
+The required modules which are needed to be online are: ***Core,Database,Email,Authentication***.<br />
+:::caution
+You need to configure Authentication and Email module.<br />
+Do not forget to enable **local Authentication** while configuring Authentication module.<br />
+:::
+
+<Tabs>
+<TabItem value="makefile" label="Makefile">
+<details><summary>Prerequisites</summary>
+
+``` bash
+curl -L https://raw.githubusercontent.com/ConduitPlatform/Conduit/latest/docker/Makefile > Makefile
+make create-network
+make start-core
+make start-database
+make start-email
+make start-authentication
+```
+</details>
+</TabItem>
+</Tabs>
 
 ## App Initialization
 
