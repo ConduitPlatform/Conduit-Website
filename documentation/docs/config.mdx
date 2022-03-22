@@ -1,23 +1,23 @@
 ---
 sidebar_label: 'Configuration'
-sidebar_position: 5
+sidebar_position: 6
 ---
 
 # Configuration
 
 Conduit is a backend platform composed of multiple service modules interacting with one another.<br />
-Some of them are simple enough to require no configuration whatsoever, while 
+Some of them are simple enough to require no configuration whatsoever, while
 others provide just enough default values to get their service started, with additional options modifying their behaviour further.<br />
 Certain modules depend heavily on third party service credentials, making it impossible for them to function without initial configuration.<br />
 The latter actually rely on the administrators providing configuration values before these modules can be activated for the first time.<br />
 
-Some configuration option examples could include the choice of an underlying db engine and credentials in a database module or 
+Some configuration option examples could include the choice of an underlying db engine and credentials in a database module or
 choosing between email and username login identifiers in an authentication module.
 
 By now, we have established how most modules provide some form of configuration, whether they rely on it or not.<br />
 But how does one actually configure all of these distributed service modules?
 
-Conduit provides a centralized form of module configuration, meaning administrators are capable of 
+Conduit provides a centralized form of module configuration, meaning administrators are capable of
 specifying their desired config options for any individual module through Conduit itself.
 
 Modules can be configured through the [Admin Panel](get-started/admin-panel) or using [Conduit's REST API](router/rest).<br />

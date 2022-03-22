@@ -1,6 +1,6 @@
 ---
 sidebar_label: 'Installation'
-sidebar_position: 4
+sidebar_position: 2
 title: 'Installation'
 ---
 
@@ -10,15 +10,15 @@ title: 'Installation'
 The odd one is renting their backend from a megacorp, but we are not here to judge anyone, are we?<br />
 
 There are multiple ways to get started with Conduit.<br />
-You could [build it from source](https://github.com/ConduitPlatform/Conduit#running-from-source-) 
+You could [build it from source](https://github.com/ConduitPlatform/Conduit#running-from-source-)
 or you could use our [prebuilt container images](https://github.com/orgs/ConduitPlatform/packages?sort_by=downloads_desc&visibility=public).<br />
 We'll pick the latter in this case, but feel free to choose any installation method you prefer.
 
-If you're not going to use the automated approach listed below, make sure you're not mix and matching different major versions of 
+If you're not going to use the automated approach listed below, make sure you're not mix and matching different major versions of
 Conduit, modules or Conduit-UI (Admin Panel), otherwise you face incompatibilities!
 
 Conduit should solve every single one of your problems, including your carpal tunnel syndrome, no matter how you install it.<br />
-Unless it won't... at this point you might wanna open a [feature request](https://github.com/ConduitPlatform/Conduit/issues/new/choose) 
+Unless it won't... at this point you might wanna open a [feature request](https://github.com/ConduitPlatform/Conduit/issues/new/choose)
 or shoot us a message over on our [community platforms](https://getconduit.dev/contribute) and let us know about it.
 
 ## Bootstrapping using Containers {#container-makefile}
@@ -43,8 +43,8 @@ Upon completion, the above should bring up Conduit's core, a Database instance u
 *Notice: This section assumes Conduit's gRPC server is running on port 3000. The Admin Panel runs on port 8080.*
 
 At this point, you should already have a working Conduit deployment.<br />
-Check out your [Admin Panel](../get-started/admin-panel.mdx) or try out the [REST](../router/rest.mdx) and [GraphQL](../router/graphql.mdx) APIs.
- 
+Check out your [Admin Panel](./get-started/admin-panel.mdx) or try out the [REST](./router/rest.mdx) and [GraphQL](./router/graphql.mdx) APIs.
+
 Our script is also going to download a *Makefile* to your current directory.<br />
 Feel free to move it around, just keep it secret and keep it safe, for it's going to aid you in controlling your Conduit containers.
 
@@ -73,7 +73,7 @@ Here's a list of all the unit targets you can individually operate on:<br />
 - sms
 - redis
 - mongo
-- postgres 
+- postgres
 
 And there's the unit target modifiers available for you to start, stop and remove containers and images:
 
@@ -99,5 +99,5 @@ But how do you know this is actually the real deal?<br />
 I mean... the panel has a dark mode! And that login page had a cool SVG... Surely that's enough to convince you?<br />
 No? People are too suspicious these days 😢.
 
-Why don't you have a look at our [Getting Started](../get-started) guide?<br />
+Why don't you have a look at our [Getting Started](./get-started) guide?<br />
 It should help reassure you this is all actually legit stuff 👌.
