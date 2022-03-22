@@ -117,7 +117,7 @@ function App() {
 }
 export default App;
 ```
-Open the browser and navigate `http://localhost:PORT/login`.
+Open the browser and navigate to `/login`.
 The following screenshot shows what it should be displayed if you navigate to the above url.<br />
 
 ![Login Component](/img/first_app/login_component.png)
@@ -126,11 +126,10 @@ As you can see,the JWT token is logged in the console.
 
 ## Making Client Requests
 
-Once you have taken the Bearer Token you are ready to make requests.In order to understand how to make requests using a React
+Once you have taken the Bearer Token you are ready to make requests. In order to understand how to make requests using React.<br />
 I will give an example of how to do this.<br />
-Let's make a React component which is responsible for Schema creation.<br />
-The route which is responsible for Chat Creation is mapped to `CONDUIT_URL/chat/new` path.<br />
-See more about Chat Room creation [here](../modules/chat/api-reference/user)
+Let's make a React component which is responsible for Document creation.<br />
+The route which is responsible for Schema Creation is mapped to `/database/schemaName` path.<br />
 
 ### Create Movie Schema
 
@@ -241,7 +240,7 @@ function App() {
 export default App;
 ```
 Now we are ready to make a `POST` request to our database in order to create a movie.<br />
-Navigate to `http://localhost:PORT/movie` and fill the displayed inputs and press the submit button.<br />
+Navigate to `/movie` and fill the displayed inputs and press the submit button.<br />
 
 ![Create User](/img/first_app/create_movie.png)
 
@@ -354,7 +353,7 @@ function App() {
 export default App;
 ```
 
-Now you are ready to retrieve the movies.Navigate to the `localhost:PORT/movies` and click the **GET MOVIES** button.<br />
+Now you are ready to retrieve the movies.Navigate to the `/movies` and click the **GET MOVIES** button.<br />
 The registered movie documents should be displayed to you.<br />
 
 ![Get Movies](/img/first_app/get_movies.png)
