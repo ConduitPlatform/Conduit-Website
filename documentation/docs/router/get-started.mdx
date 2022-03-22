@@ -15,7 +15,7 @@ We'll be using curl for this in order to make sure everyone can follow along, bu
 
 We'll start by sending an administrator login request.<br />
 Make sure you pass the `masterkey` header along with your administrator credentials and send your data as raw JSON.<br />
-The default value is 'M4ST3RK3Y', but you change that by setting the `masterkey` env var before starting Conduit.
+The default value is 'M4ST3RK3Y', but you change that by setting the `MASTER_KEY` env var before starting Conduit.
 
 ``` bash title="POST on /admin/login"
 curl --location --request POST 'http://localhost:3000/admin/login' \
