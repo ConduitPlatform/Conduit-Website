@@ -17,7 +17,7 @@ npm start
 
 **Note**: ***CORE AND DATABASE MODULE SHOULD BE ONLINE***
 
-## Admin Login
+## Client Login
 The first thing you need to know is how an admin is logged in.So, let's make a react-component mapped to `/login` path.<br />
 To start, install the React Router package. There are two different versions: a web version and a native version for use with React Native. You will install the web version.
 In your terminal, use npm to install the package:
@@ -38,15 +38,17 @@ nano Login.js
 ```
 Copy this in your `Login.js` file and save it:
 ```tsx title="Login Component"
-import React, { useState } from "react";
+import React, {useState } from "react";
 import '../css/Login.css'
 
 async function loginUser(credentials) {
-  return fetch('http://localhost:3000/admin/login', {
+  return fetch('http://localhost:PORT/authentication/local', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'masterkey': 'M4ST3RK3Y'
+      'masterkey': 'somekey',
+      'clientid': 'someclientid',
+      'clientsecret': 'someclientsecret'
     },
     body: JSON.stringify(credentials)
   })
@@ -54,12 +56,12 @@ async function loginUser(credentials) {
  }
 
 export default function Login() {
-  const [username, setUsername] = useState();
+  const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const handleSubmit = async e => {
     e.preventDefault();
     const token = await loginUser({
-      username,
+      email,
       password
     });
     console.log(token);
@@ -69,8 +71,8 @@ export default function Login() {
     <div className="login-wrapper">
       <form onSubmit={handleSubmit}>
       <label>
-        <p>Username</p>
-        <input type="text" onChange={e => setUsername(e.target.value)}/>
+        <p>Email</p>
+        <input type="text" onChange={e => setEmail(e.target.value)}/>
       </label>
       <label>
         <p>Password</p>
@@ -122,48 +124,59 @@ The following screenshot shows what it should be displayed if you navigate to th
 
 As you can see,the JWT token is logged in the console.
 
-## Making Admin Requests
+## Making Client Requests
 
-Once you have taken the JSON Admin Token you are ready to make Admin requests.In order to understand how to make admin requests using a React
+Once you have taken the Bearer Token you are ready to make requests.In order to understand how to make requests using a React
 I will give an example of how to do this.<br />
-Let's make a React component which is responsible for User creation.<br />
-The route which is responsible for User Creation is mapped to `CONDUIT_URL/admin/authentication/users` path.<br />
-See more about User Creation [here](../modules/authentication/api_reference/admin/#create-user). <br />
+Let's make a React component which is responsible for Schema creation.<br />
+The route which is responsible for Chat Creation is mapped to `CONDUIT_URL/chat/new` path.<br />
+See more about Chat Room creation [here](../modules/chat/api-reference/user)
 
-### Create User Component
+### Create Movie Schema
 
-We will make a component which will be used to create a User.<br />
-Navigate to the `src/components` folder.
-```bash title="Create User Component"
-nano CreateUser.js
-```
+In order to create a schema you should have admin privileges.<br />
+Checkout this [tutorial](../modules/database/tutorials/cinema_ticket_booking#movies_schema) to see how to create a schema by using the Admin Panel.<br />
+Reading this tutorial you will understand that the idea is simple.There is a Movie Schema already created.<br />
+So, we are going to operate on this schema doing some CRUD operations.
+
+### Create Movie Document
+To start understanding how a client uses the Conduit Service we are going to create a Movie Document!<br />
+Let's start by creating a React Component that will be used to make a POST request to our database.<br />
+
+Navigate to `/src/components` folder and create a file named `CreateMovie.js`.<br />
 Paste this code in the file<br />
 
-```tsx title="Create User Component"
-import React, { useState } from "react";
+```tsx title="Create Movie Component"
+import React, { useEffect, useState } from "react";
 import '../css/Login.css'
 
-async function createUser(credentials) {
-  return fetch('http://localhost:3000/admin/authentication/users', {
+async function createMovie(movie) {
+  return fetch('http://localhost:PORT/database/Movies', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'masterkey': 'M4ST3RK3Y',
-      'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzg0ZGJjYWM2ZmU5MGE4NjQyM2Y1YyIsImlhdCI6MTY0Nzg2OTEyMywiZXhwIjoxNjQ3OTQxMTIzfQ.yBgONdAaeTp-8X7o16wyOlJZUm8Nwgk69-tg4bfBjw4'
+      'clientid': 'someclientid',
+      'clientsecret':'someclientsecret',
+      'Authorization': 'Bearer sometoken'
     },
-    body: JSON.stringify(credentials)
+    body: JSON.stringify(movie)
   })
     .then(data => data.json())
  }
 
-export default function CreateUser() {
-  const [identification, setIdentification] = useState();
-  const [password, setPassword] = useState();
+export default function CreateMovie() {
+  const [name, setName] = useState();
+  const [director, setDirector] = useState();
+  const [releaseDate, setRelaseDate] = useState();
+  const [duration, setDuration] = useState();
+
   const handleSubmit = async e => {
     e.preventDefault();
-    const response = await createUser({
-      identification,
-      password
+    const response = await createMovie({
+      name,
+      director,
+      releaseDate,
+      duration,
     });
     console.log(response);
   }
@@ -172,13 +185,22 @@ export default function CreateUser() {
     <div className="login-wrapper">
       <form onSubmit={handleSubmit}>
       <label>
-        <p>Identification</p>
-        <input type="text" onChange={e => setIdentification(e.target.value)}/>
+        <p>Name</p>
+        <input type="text" onChange={e => setName(e.target.value)}/>
       </label>
       <label>
-        <p>Password</p>
-        <input type="password" onChange={e => setPassword(e.target.value)}/>
+        <p>Director</p>
+        <input type="text" onChange={e => setDirector(e.target.value)}/>
       </label>
+      <label>
+        <p>Duration</p>
+        <input type="number" onChange={e => setDuration(e.target.value)}/>
+      </label>
+      <label>
+        <p>Release Date</p>
+        <input type="date" onChange={e => setRelaseDate(e.target.value)}/>
+      </label>
+
       <div>
         <button type="submit">Submit</button>
       </div>
@@ -187,14 +209,13 @@ export default function CreateUser() {
   )
 }
 ```
-
 Also, you need to map the component to a route using the react-router.<br />
 Just add a route to the App.js file.The new App.js now is this:
 
 ```tsx title="App.js"
 import './App.css';
 import Login from './components/Login';
-import CreateUser from './components/CreateUser';
+import CreateUser from './components/CreateMovie';
 import {
   BrowserRouter,
   Routes,
@@ -210,7 +231,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login/>} />
-          <Route path="/user" element={<CreateUser/>} />
+          <Route path="/movie" element={<CreateMovie/>} />
 
         </Routes>
       </BrowserRouter>
@@ -219,14 +240,124 @@ function App() {
 }
 export default App;
 ```
-Now we are ready to make a `POST` request to our database in order to create a  user.<br />
-Navigate to `http://localhost:PORT/user` and fill the displayed inputs and press the submit button.<br />
+Now we are ready to make a `POST` request to our database in order to create a movie.<br />
+Navigate to `http://localhost:PORT/movie` and fill the displayed inputs and press the submit button.<br />
 
-![Create User](/img/first_app/create_user.png)
+![Create User](/img/first_app/create_movie.png)
 
-As you can observe,a message will be print that indicates that the user registration was successfully done.
+As you can observe,the information of the created movie will be returned to you.<br />
+
+### Get Movies
+
+We've seen how to make a POST request to our database.Now, let's see how to make a GET request.<br />
+For understanding purposes we will make a GET request to list all the registered movie documents.<br />
+Let's make a Movie Component that will render the movie document information.<br />
+Make a file named `GetMovies.js` and paste the following code:<br />
+
+```tsx title="GetMovies Component"
+import React, { useEffect, useState } from "react";
+import '../css/Login.css'
+
+async function getMovies() {
+
+  return fetch('http://localhost:PORT/database/Movies', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'clientid': 'someclientid',
+      'clientsecret': 'someclientsecret',
+      'Authorization': 'Bearer sometoken'
+    },
+  })
+    .then(data => data.json())
+ }
+
+export default function GetMovies() {
+
+  const [movies,setMovies] = useState([]);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const response = await getMovies();
+    console.log(response)
+    setMovies(response.documents);
+  }
+  console.log(movies)
+  return(
+    <div className="login-wrapper">
+      <form onSubmit={handleSubmit}>
+        <button type="submit">GET MOVIES</button>
+    </form>
+    <div>
+    <ul>
+        {
+          movies &&
+          movies.map((movie) =>
+            <li style={{
+              display: "flex",
+              gap: 2,
+              flexDirection: "column",
+              padding: 10
+
+            }}>
+              <div style= {{ fontWeight:"bold"}}>
+                Name: {movie.name}
+              </div>
+              <div>
+                Director: {movie.director}
+              </div>
+              <div>
+                ReleaseDate: {movie.releaseDate}
+              </div>
 
 
+            </li>
+          )
+        }
+        </ul>
+    </div>
+    </div>
+  )
+}
+```
+
+Also do not forget to map the component with a route.<br />
+So, go to the `App.js` file and paste the following<br />
+
+```tsx title="App.js"
+import './App.css';
+import Login from './components/Login';
+import CreateMovie from './components/CreateMovie';
+import GetMovies from './components/GetMovies';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  Outlet
+} from "react-router-dom";
+
+function App() {
+  return (
+    <div className="wrapper">
+      <h1>My App</h1>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login/>} />
+          <Route path="/movie" element={<CreateMovie/>} />
+          <Route path="/movies" element={<GetMovies/>} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+}
+export default App;
+```
+
+Now you are ready to retrieve the movies.Navigate to the `localhost:PORT/movies` and click the **GET MOVIES** button.<br />
+The registered movie documents should be displayed to you.<br />
+
+![Get Movies](/img/first_app/get_movies.png)
 
 
 
