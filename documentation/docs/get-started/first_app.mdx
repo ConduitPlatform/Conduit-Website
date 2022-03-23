@@ -1,6 +1,6 @@
 # My First App
 
-For understanding purposes, in this section I will try to show you how the Conduit App works using the **REST API**.
+For understanding purposes,this section focuses on how the Conduit App works using the **REST API**.
 By the end of this tutorial you will be able to understand how Conduit communicates with a Front-End framework.<br />
 Let's start to create an application with the help of the ReactJs framework. You can use whatever framework you want. But in this tutorial
 React will be used.
@@ -152,19 +152,19 @@ As you can see,the JWT token is logged in the console.
 ## Making Client Requests
 
 Once you have taken the Bearer Token you are ready to make requests. In order to understand how to make requests using React.<br />
-I will give an example of how to do this.<br />
+An example of how to do this will be given.<br />
 Let's make a React component which is responsible for Document creation.<br />
 The route which is responsible for Schema Creation is mapped to `/database/schemaName` path.<br />
 
 ### Create Movie Schema
 
-In order to create a schema you should have admin privileges.<br />
+To create a schema you should have admin privileges.<br />
 Checkout this [tutorial](../modules/database/tutorials/cinema_ticket_booking#movies_schema) to see how to create a schema by using the Admin Panel.<br />
 Reading this tutorial you will understand that the idea is simple.There is a Movie Schema already created.<br />
 So, we are going to operate on this schema doing some CRUD operations.
 
 ### Create Movie Document
-To start understanding how a client uses the Conduit Service we are going to create a Movie Document!<br />
+In order to understand how a client uses the Conduit Service we are going to create a Movie Document!<br />
 Let's start by creating a React Component that will be used to make a POST request to our database.<br />
 
 Navigate to `/src/components` folder and create a file named `CreateMovie.js`.<br />
