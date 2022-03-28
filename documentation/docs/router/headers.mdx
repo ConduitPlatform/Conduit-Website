@@ -1,95 +1,114 @@
+---
+sidebar_label: 'Headers'
+sidebar_position: 1
+---
+
 # Headers
 
-It's important to understand how the Conduit headers are working. There is a distinction between the headers.<br />
-Headers are divided in two types. The **Admin** and the **Client** headers.<br />
+Conduit distungishes between Application and Administrative routes.<br />
+As such, there are two sets of headers that are typically required for each respective request type.
 
-## Admin Headers
+-------------------------------------------------
 
-Admin headers are required for operations that only admin can do.
+## Administration Headers {#headers-admin}
+
+Administrative requests operate on your backend on an administration level.<br />
+The [Admin Panel](../get-started/admin-panel) uses administrative requests to update your modules configurations, create CMS schemas, send SMS etc.
+
+<ins><strong>Notice:</strong> Administrative requests are <strong>only exposed</strong> through the <strong>REST API</strong>.</ins>
+
+Said requests require the following headers:
 
 ### Master Key
-This key acts as a secondary authorization header. So each request should contain this key.
+
+A secret key specified as an environmental variable (`MASTER_KEY`) to Conduit's Core.<br />
+This header is required by every single administrative route.
+
+``` json title="Example"
+{ "masterkey": "M4ST3RKEY" }
+```
 
 ### Authorization
-Admin authorization uses the JSON Web Token Strategy. Each Admin request should contain this token.<br />
-So,in order to fetch this token you must Login as an Admin.<br />
-Make sure you pass the `masterkey` header along with your administrator credentials and send your data as raw JSON.<br />
-The default value is 'M4ST3RK3Y', but you change that by setting the `masterkey` env var before starting Conduit.
 
-``` bash title="POST on /admin/login"
-curl --location --request POST 'http://localhost:3000/admin/login' \
-     --header 'masterkey: M4ST3RK3Y' \
-     --header 'Content-Type: application/json' \
-     --data-raw '{
+A bearer token used for administrator authentication.<br />
+This header is required by most administative routes, with the exception of:
+
+- Admin Login (`POST: /admin/login`)
+- Online Modules (`GET: /admin/modules`)
+
+``` json title="Example"
+{ "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI" }
+```
+
+<details>
+  <summary>Getting an Admin Authentication Token</summary>
+
+  ``` bash title="Request"
+  curl --location --request POST 'http://localhost:3000/admin/login' \
+      --header 'masterkey: M4ST3RK3Y' \
+      --header 'Content-Type: application/json' \
+      --data-raw '{
         "username": "admin",
         "password": "admin"
-     }'
-```
-```json title="Response"
+      }'
+  ```
+  ``` json title="Response"
+  {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI"
+  }
+  ```
+</details>
+
+-------------------------------------------------
+
+## Application Headers {#headers-app}
+
+Application routes are the ones you would normally make use of in your end-user applications.<br />
+These are the ones providing module-based functionality such as user authentication and querying of public or user-authenticated resources.
+
+### Security Client Id & Secret
+
+A client id and secret header pair related to a Conduit Security client.<br />
+These headers are required by every single application route.<br />
+As such, you'll need to generate a security client before making use of any application routes.
+
+<!-- TODO: Link to Security post-merge (links) -->
+
+``` json title="Example"
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI"
+  "clientid": "7cc71118441b3a9a45a6d667b198c5",
+  "clientsecret": "745a3d40515abe7ca9cd5a0a4bf1e0ab1734403099cde1790cf8776cd8d50b654a5c419ad7b6fa380cc6b3f945a426465c80a2673667e669922f4fbf88489a99"
 }
 ```
-***It's important to say that the JSON Admin Token could be retrieved only by making the request to the REST API.<br />
-And that's because the Admin GraphQL API is not implemented yet.<br />***
 
-### Usage
-Let's send an admin request in order to see how the Admin Header mechanism works in Conduit.<br />
+<details>
+  <summary>Generating a Security Client</summary>
 
-``` bash title="POST on /admin/authentication/users"
-curl --location --request POST 'http://localhost:3000/admin/authentication/users' \
---header 'masterkey: M4ST3RK3Y' \
----header 'Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI'
---header 'Content-Type: application/json' \
---data-raw '{
-"identification": "someemail@mail.com",
-"password": "admin"
-}'
-```
-
-## Client Headers
-
-Let's proceed with the client headers.As you can observe, the name says it all.<br />
-Client headers are required for client requests.<br />
-There are three client headers.**Client Id, Client Secret, Authorization**.<br />
+  ``` bash title="POST on /admin/login"
+  curl --location --request POST 'http://localhost:3000/admin/security/client/' \
+       --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
+       --header 'masterkey: M4ST3RK3Y' \
+       --header 'Content-Type: application/json' \
+       --data-raw '{
+           "platform": "ANDROID"
+       }'
+  ```
+  ``` json title="Response"
+  TODO ------------------------------------------------------- ????????????
+  ```
+</details>
 
 ### Authorization
 
-Actually the Authorization Header is a Bearer Token. It is mandatory to include it in each request.<br />
-So as to fetch the token you need to make a POST request to [/authentication/local](../modules/authentication/api_reference/user/local#login).
+A bearer token used for user authentication.<br />
+This header is only required by user-authenticated routes.
 
-### Client Credentials
-
-In order to fetch the client credentials you have to create a client first.<br />
-Only an administrator can create a client. So, let's see an example of how a client is created.<br />
-A client can be created by making a POST request to ***/admin/security/client*** route.<br />
-We will use **ANDROID** in this example as a platform.
-
-``` bash title="POST on /admin/security/client"
-curl --location --request POST 'CONDUIT_URL/admin/security/client' \
---header 'masterkey: M4ST3RK3Y' \
----header 'Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI'
---header 'Content-Type: application/json' \
---data-raw '{
-"platform": "ANDROID"
-}'
+``` json title="Example"
+{ "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDE5ODM0ZmMwZGFiMGVhZjA1ZjVjZSIsImlhdCI6MTY0ODQ2NjA3OSwiZXhwIjoxNzM0ODY2MDc5fQ.mDlETjM2y0hahbhJy_cKRmNM5X4wFigqoWw9j7QzO6E" }
 ```
 
-```json title="Response"
-{
-  "clientid": "someclientid",
-  "clientsecret": "someclientsecret"
-}
-```
+Your authentication strategy affects how you register users and obtain user authentication tokens.
 
-### Usage
-Now we are ready to proceed to an example of how a client request is made.<br />
+<!-- TODO: Link to an Authentication Strategy page -->
 
-``` bash title="GET on /authentication/init/facebook"
-curl --location --request GET 'CONDUIT_URL/chat/rooms' \
---header 'masterkey: M4ST3RK3Y' \
---header 'Content-Type: application/json' \
---header 'clientid: someclientid' \
---header 'clientsecret: someclientsecret' \
---header 'Authorization: Bearer sometoken' \
-```
+<!-- TODO: Hidden "Getting a User Authentication Token" example for Local Auth -->

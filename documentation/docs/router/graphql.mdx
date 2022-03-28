@@ -3,41 +3,51 @@ sidebar_label: 'GraphQL'
 sidebar_position: 3
 ---
 
-# GraphQL API
+# GraphQL
 
-### Getting Started
+## Getting Started
 
-Conduit provides an interface which you can use to make GraphQL requests.<br />
-This interface can be accessed from ``` CONDUIT_URL/graphql ``` endpoint. <br />
-Be careful! GraphQL API can be used only in client-based requests.You can not use graphQL to make operations
-if admin privileges are  required.
+Conduit exposes a GraphQL server for you to perform GraphQL requests.<br />
+You can access it through `CONDUIT_URL/graphql`.
 
-### Setting up the Headers
+Navigating to the above URL through your web browser should bring up GraphQL Playground.<br />
+You can use that to test out your requests.
 
-So let's navigate to this url.<br />
-This interface should be displayed to you.<br />
-In order to make the docs section displayed to you, you must synchronize the interface with the server.<br />
-That will happen by setting the proper headers in the headers section.<br />
-See what [client headers](./headers#client-headers) are required.<br />
-Let's proceed with an example of how to set properly the headers.<br />
+Conduit's GraphQL API is used exclusively for user-level application requests.<br />
+Meaning it won't let you perform administrative actions on the backend.
 
-```tsx
+## Performing Requests
+
+Making GraphQL queries requires that you pass in the required [application request headers](./headers#headers-app).<br />
+Typically, you'll need a security client id (`clientid`) as well as a security client secret (`clientsecret`).
+
+``` json title="Basic Application Headers Example"
 {
-"clientid":"19f0b8f9ec03570f75d9d28c904fd5",
-"clientsecret": "187c30c6323bcc4ada9390ac93e939422686d35fe5607c319b914728d2074b229db71a82ebdcfc5edcca818202236900517e81c02e4b270dfe4569ef8f8b3c04",
-"masterkey":"M4ST3RK3Y",
-"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzQ3MjMzYTQ5ODg4MGNkOWI4MDY5ZSIsImlhdCI6MTY0NzYwNDk5OCwiZXhwIjoxNzM0MDA0OTk4fQ.D_TsIaQlMimft4CXhCo_aOs0vk6opnClxM3aFtFF4Qc"
+	"clientid": "19f0b8f9ec03570f75d9d28c904fd5",
+	"clientsecret": "187c30c6323bcc4ada9390ac93e939422686d35fe5607c319b914728d2074b229db71a82ebdcfc5edcca818202236900517e81c02e4b270dfe4569ef8f8b3c04"
 }
 ```
-Since the headers are set you are ready to make graphQL request.
 
-## Usage
+Any requests requiring user authentication additionally require that you specify an `Authorization` header containing a user authentication bearer token.<br />
 
-Let's make a graphQL query to find out how many chat rooms are registered in our database!<br />
-This query will return an array which includes the ids of the registered chat rooms.<br />
-Make sure that the chat module is online.<br />
+``` json title="User Authentication Headers Example"
+{
+	"clientid": "19f0b8f9ec03570f75d9d28c904fd5",
+	"clientsecret": "187c30c6323bcc4ada9390ac93e939422686d35fe5607c319b914728d2074b229db71a82ebdcfc5edcca818202236900517e81c02e4b270dfe4569ef8f8b3c04",
+	"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzQ3MjMzYTQ5ODg4MGNkOWI4MDY5ZSIsImlhdCI6MTY0NzYwNDk5OCwiZXhwIjoxNzM0MDA0OTk4fQ.D_TsIaQlMimft4CXhCo_aOs0vk6opnClxM3aFtFF4Qc"
+}
+```
 
-``` bash title="GET Chat Rooms"
+Upon specifying your headers in the GraphQL Playground page, your route documentation should become available to you.<br />
+Lets perform our first query, shall we?
+
+<!-- TODO CHANGE EXAMPLE, CHAT HAS AUTH DEP WHICH REQUIRES EMAIL ETC -->
+
+Let's make a query to find out which chat rooms are currently registered in our database!<br />
+This should return an array containing the ids of the registered chat rooms.<br />
+Make sure the [Chat module](../modules/chat) is currently online.
+
+``` bash title="Example Request"
 query getRooms($skip: Number,$limit:Number) {
 	getChatRooms(skip: $skip, limit:$limit) {
 		rooms {
@@ -47,10 +57,11 @@ query getRooms($skip: Number,$limit:Number) {
 }
 ```
 
-``` bash title="Query Variables"
+``` json title="Example Query Variables"
 {
-  "skip":0,
-  "limit":0
+  "skip": 0,
+  "limit": 0
 }
 ```
 
+<!-- TODO EXAMPLE RESULT -->

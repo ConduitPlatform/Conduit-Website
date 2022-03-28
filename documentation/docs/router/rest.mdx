@@ -1,18 +1,50 @@
+---
+sidebar_label: 'REST'
+sidebar_position: 2
+---
+
 # REST API
 
-**TODO**
+## Getting Started
 
-## Headers {#headers}
+Conduit exposes an HTTP server for you to perform REST requests.<br />
+Said REST API is used for both user-level application requests and administrative requests.
 
-**TODO**
+### Performing Requests
+
+Application routes are exposed under `CONDUIT_URL/moduleName/`.<br />
+Example:<br />
+The Database module accepts `GET` requests to `CONDUIT_URL/database/documents`.<br />
+That's how your end-user applications would query for custom (CMS) schema documents.
+
+Application routes make use of [Application Headers](./headers#headers-app).
+
+Administrative routes are exposed under `CONDUIT_URL/moduleName/`<br />
+Example:<br />
+The Database module accepts `POST` requests to `CONDUIT_URL/admin/database/schemas`<br />
+That's how Conduit's Admin Panel creates custom (CMS) schemas.
+
+Administrative routes make use of [Administration Headers](./headers#headers-admin).
+
+-------------------------------------------------
 
 ## Swagger
 
-Conduit's Router automatically generates OpenAPI schemas for your routes to be by Swagger.<br />
-This means your REST API is fully documented and even exposed through Swagger UI.<br />
-Check out your own [User](http://localhost:3000/swagger/) and [Admin](http://localhost:3000/admin/swagger/) Swagger UI pages.
+Conduit's Router automatically generates OpenAPI schemas for all of your routes to be used by Swagger.<br />
+This means your REST API is fully documented and even available for interaction through Swagger UI.<br />
+You may always find locate your Swagger UI pages and grab the exported JSON files through the Admin Panel's home or module pages.<br />
+<ins><strong>Notice:</strong> Make sure you grab the exported files <strong>after</strong> bringing up and configuring all of your target modules 
+so that they include all the relevant routes and updated params.</ins>
 
-Oh, and you can grab your own [User](http://localhost:3000/swagger.json) and [Admin](http://localhost:3000/admin/swagger.json) *swagger.json* files 
-and import them directly in any API testing app of your choice<br />
+<br /><br />
+<div style={{textAlign: 'center'}}>
 
-Just make sure you set up all of the [required headers](#headers) and point your `baseUrl` variable to the right path.<br />
+![Swagger Button from Home](/img/overview/home_topright_buttons.png)
+
+</div>
+
+Swagger UI pages are exposed under [/swagger](http://localhost:3000/swagger) and [/admin/swagger](http://localhost:3000/admin/swagger) by default.<br />
+Oh, and you can grab your own *swagger.json* files from [/swagger.json](http://localhost:3000/swagger.json) and [/admin/swagger.json](http://localhost:3000/admin/swagger.json).<br />
+You may import these directly in any API testing app of your choice to automatically generate your personalized request collection.
+
+Just make sure you set up all of the required h[eaders](./headers) and point your `baseUrl` variable to your http server's path (eg `http://localhost:3000`).<br />

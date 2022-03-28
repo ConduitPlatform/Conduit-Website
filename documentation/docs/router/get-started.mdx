@@ -1,21 +1,19 @@
----
-sidebar_label: 'Get Started'
-sidebar_position: 1
----
+///////////////////////////////////////////////////////////////////////////////
+
+  THIS IS ALL REST-SPECIFIC
+
+  MOVE IT AND REMOVE THIS PAGE, REORDERING THE REST
+
+///////////////////////////////////////////////////////////////////////////////
 
 # Getting Started
-
-This section is currently Under Development.<br />
-We'll do our best to improve on it as soon as possible.<br />
-
--------------------------------------------------
 
 Lets go through a couple examples, shall we?<br />
 We'll be using curl for this in order to make sure everyone can follow along, but you can send your requests in any way you like.
 
-We'll start by sending an administrator login request.<br />
+We'll start by sending an administrative login request.<br />
 Make sure you pass the `masterkey` header along with your administrator credentials and send your data as raw JSON.<br />
-The default value is 'M4ST3RK3Y', but you change that by setting the `masterkey` env var before starting Conduit.
+The default value is `M4ST3RK3Y`, but you change that by setting the `masterkey` env var before starting Conduit.
 
 ``` bash title="POST on /admin/login"
 curl --location --request POST 'http://localhost:3000/admin/login' \
@@ -131,8 +129,3 @@ curl --location --request POST 'http://localhost:3000/admin/security/client/' \
 
 Alright, stick with me now. We're almost there.<br />
 Lets send our user request.
-
-
-### Basic headers {#basic-headers}
-
-**TODO**
