@@ -1,20 +1,28 @@
 ---
 sidebar_label: 'Security'
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 # Conduit Security
 
-<!--
-**TODO**
--->
-
 ## Features
 
-- Proper header settings
-- Rate limiting
-- Authentication Requirements
-- DDoS protection (?)
-- Bot detection
-- Anomaly detection in requests
-- Nuclear War prevention
+- Proper header settings (through [Helmet](https://helmetjs.github.io/))
+- Rate limiting (currently set to 50 req/s per IP)
+- Client ID / Secret required by default
+- Huge body size prevention (50mb max)
+- Nuclear War prevention (not really but we thought it was cool if it did)
+
+## The Goal
+Conduit isn't really an "opinionated" platform, but there are some parts that it forces you to use. For example,
+the security module is baked into Conduit with no option to remove it. It works in a way though that you don't have
+any reason to want to remove it. If you do, then we've done something wrong.
+
+As most developers are too excited with their projects to remember that there are malicious actors in the internet,
+Conduit takes it upon itself to provide you with some handy pre-configure utilities, that aim to keep you a bit safer.
+
+## Configuration
+While currently it is not configurable, in the coming versions you'll be able to configure it just as any other feature.
+So that you can increase rate limiting thresholds, change CORS settings, increase/decrease max body size and configure
+the client id / secret mechanism to fit your needs. We're still considering allowing you to disable the mechanism altogether,
+but it's an "eat your vegetables" kind of thing, it may seem tiresome at some points but it's good for you.
