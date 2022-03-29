@@ -54,69 +54,24 @@ Not gonna lie, they had us on the first half.
 
 Any administrator can retrieve and update a module's configuration using REST API requests to that module's configuration endpoint.
 
-<ins><strong>Notice:</strong> Make sure you provide <strong>[adminstrative headers](router/headers#headers-admin)</strong> with your configuration requests.</ins>
+<ins><strong>Notice:</strong> Make sure your configuration requests contain the appropriate <strong><a href="router/headers/#headers-admin">administration headers</a></strong>.</ins>
 
-### Get Configuration {#manual-config-get}
+### Listing Available Modules
 
-Getting a module's active configuration is a simple as sending a `GET` request to `/admin/config/$moduleName`.
+You may list all the available modules by sending a `GET` request to `/admin/config/modules`.<br />
+This should return a list of all the configurable modules that are currently online, as well as their addresses.
 
-**Example:** Getting the Chat module's configuration.
+You may use these exact module names to retrieve and update their configuration.
 
-```json title="GET on /admin/config/chat"
-{}
+``` bash title="Listing Configurable Modules"
+curl --location --request GET 'http://localhost:3000/admin/config/modules' \
+     // highlight-start
+     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
+     --header 'masterkey: M4ST3RK3Y'
+     // highlight-end
 ```
 
-```json title="Response"
-{
-  "config": {
-    "active": true,
-    "allowMessageDelete": true,
-    "allowMessageEdit": true
-  }
-}
-```
-
--------------------------------------------------
-
-### Update Configuration {#manual-config-update}
-
-In order to update a module's configuration, send a `PUT` request to `/admin/config/$moduleName`, containing your desired configuration.
-
-**Example:** Updating the Chat module's configuration so as to disable message deletion and modification.
-
-```json title="PUT on /admin/config/chat"
-{
-  "config": {
-    "active": true,
-    "allowMessageDelete": false,
-    "allowMessageEdit": false
-  }
-}
-```
-
-```json title="Response"
-{
-  "config": {
-    "active": true,
-    "allowMessageDelete": false,
-    "allowMessageEdit": false
-  }
-}
-```
-
-<ins><strong>Notice:</strong> Request bodies should contain a <strong>complete</strong> configuration, <strong>not</strong> just the fields to be modified.</ins>
-
--------------------------------------------------
-
-### Finding out a Module's Name
-
-You may list available modules by sending a `GET` request to `/admin/config/modules`.
-
-```json title="GET on /admin/config/modules"
-{}
-```
-
-```json title="Example Response"
+``` json title="Example Response"
 {
   "modules": [
     {
@@ -134,3 +89,62 @@ You may list available modules by sending a `GET` request to `/admin/config/modu
   ]
 }
 ```
+
+### Getting a Module's Configuration {#manual-config-get}
+
+Retrieving a module's active configuration is a simple as sending a `GET` request to `/admin/config/$moduleName`.
+
+Let's find out how Chat's currently active configuration looks like.
+
+``` bash title="Getting a Module's Configuration"
+curl --location --request GET 'http://localhost:3000/admin/config/chat' \
+     // highlight-start
+     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
+     --header 'masterkey: M4ST3RK3Y'
+     // highlight-end
+```
+
+``` json title="Response"
+{
+  "config": {
+    "active": true,
+    "allowMessageDelete": true,
+    "allowMessageEdit": true
+  }
+}
+```
+
+### Updating a Module's Configuration {#manual-config-update}
+
+In order to update a module's configuration, send a `PUT` request to `/admin/config/$moduleName`, containing your desired configuration.
+
+Suppose we no longer wish for our users to be capable of modifying or deleting their own messages.<br />
+Let's see how we'd go about disabling these options.
+
+``` bash title="Updating a Module's Configuration"
+curl --location --request PUT 'http://localhost:3000/admin/config/chat' \
+     // highlight-start
+     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
+     --header 'masterkey: M4ST3RK3Y'
+     // highlight-end
+     --header 'Content-Type: application/json' \
+     --data-raw '{
+       "config": {
+        "active": true,
+         "allowMessageDelete": false,
+         "allowMessageEdit": false
+       }
+     }'
+```
+
+``` json title="Response"
+{
+  "config": {
+    "active": true,
+    "allowMessageDelete": false,
+    "allowMessageEdit": false
+  }
+}
+```
+
+<ins><strong>Notice:</strong> Request bodies should contain a <strong>complete</strong> configuration, <strong>not</strong> just the fields to be modified.</ins>
