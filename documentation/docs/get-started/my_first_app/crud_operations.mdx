@@ -1,46 +1,8 @@
-# My First App
-
-For understanding purposes,this section focuses on how the Conduit App works using the **REST API**.
-By the end of this tutorial you will be able to understand how Conduit communicates with a Front-End framework.<br />
-Let's start to create an application with the help of the ReactJs framework. You can use whatever framework you want. But in this tutorial
-React will be used.
-
-## Prerequisites
-To start this tutorial it is required to have some modules running. All you need to do is to install Conduit on your local machine<br />
-and have some modules online.
-The required modules which are needed to be online are: ***Core,Database,Email,Authentication***.<br />
-:::caution
-You need to configure Authentication and Email module.<br />
-Do not forget to enable **local Authentication** while configuring Authentication module.<br />
-:::
-
-<Tabs>
-<TabItem value="makefile" label="Makefile">
-<details><summary>Prerequisites</summary>
-
-``` bash
-curl -L https://raw.githubusercontent.com/ConduitPlatform/Conduit/latest/docker/Makefile > Makefile
-make create-network
-make start-core
-make start-database
-make start-email
-make start-authentication
-```
-</details>
-</TabItem>
-</Tabs>
-
-## App Initialization
-
-Let's create a directory called `conduit_app` and create a react-app in this folder.<br />
-Make sure that the npm package manager is installed in your machine.<br />
-```bash title="App Initialization"
-npx create-react-app my-app
-cd my-app
-npm start
-```
-
-**Note**: ***CORE AND DATABASE MODULE SHOULD BE ONLINE***
+---
+sidebar_label: 'CRUD Operations'
+sidebar_position: 2
+---
+# CRUD Operations
 
 ## Client Login
 The first thing you need to know is how an admin is logged in.So, let's make a react-component mapped to `/login` path.<br />
@@ -54,7 +16,7 @@ npm install react-router-dom
 Once you installed the react-router you will need to make a Login Component.So, create a folder named `components` in the path `/my-app/src/components`.<br />
 In this folder create a file named `Login.js`.<br />
 Open a terminal and start the authentication module.If the authentication module isn't online then we can't proceed to any request.
-See how to do this [here](../modules/authentication/get_started).
+See how to do this [here](../../modules/authentication/get_started).
 
 ```bash title="Login Component creation"
 mkdir /src/components
@@ -113,7 +75,7 @@ export default function Login() {
 ```
 As you can see, when you are submitting the credentials a POST request to `/admin/login` occurs.<br />
 The response is the JSON Web Token that is used in every admin request.<br />
-See [here](../router/get-started) for more.<br />
+See [here](../../router/get-started) for more.<br />
 
 Navigate to the `/my-app/src/App.js` file.Paste this code in the `App.js` file:
 ```tsx title="React Routing"
@@ -159,7 +121,7 @@ The route which is responsible for Schema Creation is mapped to `/database/schem
 ### Create Movie Schema
 
 To create a schema you should have admin privileges.<br />
-Checkout this [tutorial](../modules/database/tutorials/cinema_ticket_booking#movies_schema) to see how to create a schema by using the Admin Panel.<br />
+Checkout this [tutorial](../../modules/database/tutorials/cinema_ticket_booking#movies_schema) to see how to create a schema by using the Admin Panel.<br />
 Reading this tutorial you will understand that the idea is simple.There is a Movie Schema already created.<br />
 So, we are going to operate on this schema doing some CRUD operations.
 
@@ -382,6 +344,3 @@ Now you are ready to retrieve the movies.Navigate to the `/movies` and click the
 The registered movie documents should be displayed to you.<br />
 
 ![Get Movies](/img/first_app/get_movies.png)
-
-
-
