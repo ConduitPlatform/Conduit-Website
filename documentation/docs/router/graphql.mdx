@@ -3,6 +3,65 @@ sidebar_label: 'GraphQL'
 sidebar_position: 3
 ---
 
-# GraphQL API
+# GraphQL
 
-**TODO**
+## Getting Started
+
+Conduit exposes a GraphQL server for you to perform GraphQL requests.<br />
+You can access it through `CONDUIT_URL/graphql`.
+
+Navigating to the above URL through your web browser should bring up GraphQL Playground.<br />
+You can use that to test out your requests.
+
+Conduit's GraphQL API is used exclusively for user-level [application requests](router/router.mdx#request-types-app).<br />
+Meaning it won't let you perform administrative actions on the backend.
+
+## Performing Requests
+
+Making GraphQL queries requires that you pass in the required [application request headers](./headers#headers-app).<br />
+Typically, you'll need a security client id (`clientid`) as well as a security client secret (`clientsecret`).
+
+``` json title="Basic Application Headers Example"
+{
+	"clientid": "1c0d06679f837c3958fba2724b51dc",
+	"clientsecret": "9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902"
+}
+```
+
+Any requests requiring user authentication additionally require that you specify an `Authorization` header containing a user authentication bearer token.<br />
+
+``` json title="User Authentication Headers Example"
+{
+	"clientid": "1c0d06679f837c3958fba2724b51dc",
+	"clientsecret": "9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902",
+	"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzQ3MjMzYTQ5ODg4MGNkOWI4MDY5ZSIsImlhdCI6MTY0NzYwNDk5OCwiZXhwIjoxNzM0MDA0OTk4fQ.D_TsIaQlMimft4CXhCo_aOs0vk6opnClxM3aFtFF4Qc"
+}
+```
+
+Upon specifying your headers in the GraphQL Playground page, your route documentation should become available to you.<br />
+Lets perform our first query, shall we?
+
+<!-- TODO CHANGE EXAMPLE, CHAT HAS AUTH DEP WHICH REQUIRES EMAIL ETC -->
+
+Let's make a query to find out which chat rooms are currently registered in our database!<br />
+This should return an array containing the ids of the registered chat rooms.<br />
+Make sure the [Chat module](../modules/chat) is currently online.
+
+``` bash title="Example Request"
+query getRooms($skip: Number,$limit:Number) {
+	getChatRooms(skip: $skip, limit:$limit) {
+		rooms {
+			_id
+		}
+	}
+}
+```
+
+``` json title="Example Query Variables"
+{
+  "skip": 0,
+  "limit": 0
+}
+```
+
+<!-- TODO EXAMPLE RESULT -->
