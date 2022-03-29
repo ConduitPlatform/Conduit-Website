@@ -11,20 +11,40 @@ Just like mostly every other router out there, it does so by relying on three ke
 
 ## Features
 
-- REST API (based on Express)
-- GraphQL API
-- WebSockets
-- Generated documentation for REST with OpenAPI & Swagger
-- Generated documentation for GraphQL with built-in "description" functionality
-- Parameter validation
-- Custom middlewares
+- [REST API](rest) (based on Express)
+- [GraphQL API](graphql)
+- [WebSockets](sockets)
+- Generated Documentation for REST with OpenAPI & Swagger
+- Generated Documentation for GraphQL with built-in "description" functionality
+- Parameter Validation
+- Custom Middleware
+
+-------------------------------------------------
+
+## Request Types {#request-types}
+
+### Administration Requests {#request-types-admin}
+
+Administrative requests operate on your backend on an administration level.<br />
+The [Admin Panel](../get-started/admin-panel) uses administrative requests to update your modules configurations, create CMS schemas, send SMS etc.
+
+<ins><strong>Notice:</strong> Administrative requests are <strong>only exposed</strong> through the <strong>REST API</strong>.</ins>
+
+Administrative requests require [Administration Headers](headers#headers-admin).
+
+### Application Requests {#request-types-app}
+
+Application requests are the ones you would normally make use of in your end-user applications.<br />
+These are the ones providing module-based functionality such as user authentication and querying of public or user-authenticated resources.
+
+Application requests require [Application Headers](headers#headers-app).
 
 -------------------------------------------------
 
 ## Registering Routes
 
 So how does one register their routes?<br />
-Before we elaborate on that, you need to consider the following question:
+Before we elaborate on that, you shoulf first consider the following:
 
 ### Do I really need custom routes?
 
@@ -36,77 +56,8 @@ so make sure you start any of the modules you wish to experiment with before che
 If you're simply trying to create CRUD endpoints for your database schemas, the answer is most likely "No".<br />
 The [Database module](../modules/database) already covers that use case as custom schemas enabling CRUD operations already come with auto-generated CRUD routes.<br />
 It also supports the creation of code-free custom endpoints for your schemas.<br />
-You can even accomplish that graphically through the Database page of the [Admin Panel](../get-started/admin-panel) too!
+You can even accomplish that graphically through the Database section of the [Admin Panel](../get-started/admin-panel) too!
 
 ### I'm fairly sure I do
 
 If you really need to write your own routes from the ground up, you're going to have to build your own [custom modules](../modules#custom-modules).
-
-Not a fan of REST APIs? We've got you covered. GraphQL is also [available](http://localhost:3000/graphql).<br />
-
-By default, your local user routes are going to be exposed under `http://localhost:3000`, whereas your admin ones would use `http://localhost:3000/admin` instead.
- 
--------------------------------------------------
-
-## Technical Details
-
-The router, as all modules in Conduit, communicates through the gRPC SDK.
-
-For every route that you declare you have the following parameters:
-
-- input: ConduitRouteOptions,
-- type: ConduitRouteReturnDefinition,
-- handler: (request: ConduitRouteParameters) => Promise
-
-Let's break them down to see what they do
-
-### Input
-
-These options specify the parameters that Conduit should extract
-from the requests of the clients. Each field represents a different
-position in the request. It mainly effects REST requests, since GraphQL
-only has one type of parameter. Parameters default to optional if the required
-field is missing.
-
-- queryParams?: ConduitRouteOption;
-- bodyParams?: ConduitModel;
-- urlParams?: ConduitRouteOption;
-
-Actions are GET, PUT, POST, DELETE. While these verbs are more obvious in REST,
-on GraphQL they are used to distinct between queries(GET) and mutations(the rest). Also,
-they are used to provide more descriptive naming when query names are not provided by the user
-or if the endpoints are auto-generated like in the case of the CMS.
-
-- action:ConduitRouteActions;
-
-The path field is used for REST urls and for the auto-generated names of GraphQL.
-
-- path: string;
-
-The name for the route is optional and only used in GraphQL currently. If you
-do not wish for conduit to generate the GraphQL names then you can specify your name here.
-- name?: string;
-
-Description isn't currently used, but will be added in Swagger and GraphQL to provide more info on the specific route
-- description?: string;
-
-Middlewares specify each middleware that should be run before the actual handler that you provide.
-The middlewares array should contain names of handlers that conduit knows about.
-In the future this may also include external urls.
-- middlewares?: string[];
-
-The cacheControl field works almost the same as the relevant HTTP header.
-It expects either public,max-age=number or private,max-age=number or nothing.
-If you sent any other string that those provided conduit will not utilize caching for the request.
-The number that you specify also sets the expiry time of conduit's cache. All caching takes place,
-AFTER middleware execution
-- cacheControl?: string;
-
-<!--
-
-TODO:
-- Clean this^ up
-- Types
-- Handlers
-
--->

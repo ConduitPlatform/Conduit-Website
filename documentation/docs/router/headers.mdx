@@ -1,0 +1,115 @@
+---
+sidebar_label: 'Headers'
+sidebar_position: 1
+---
+
+# Headers
+
+Conduit distungishes between Application and Administrative routes.<br />
+As such, there are two sets of headers that are typically required for each respective request type.
+
+-------------------------------------------------
+
+## Administration Headers {#headers-admin}
+
+These are headers used for [Administration Requests](router/router.mdx#request-types-admin).<br />
+
+### Master Key {#headers-admin-masterkey}
+
+A secret key specified as an environmental variable (`MASTER_KEY`) to Conduit's Core.<br />
+This header is required by every single administrative route.
+
+``` json title="Example"
+{ "masterkey": "M4ST3RKEY" }
+```
+
+The default value is `M4ST3RK3Y`, but you change that by setting the `masterkey` env var before starting Conduit.
+
+### Authorization {#headers-admin-auth}
+
+A bearer token used for administrator authentication.<br />
+This header is required by most administative routes, with the exception of:
+
+- Admin Login (`POST: /admin/login`)
+- Online Modules (`GET: /admin/modules`)
+
+``` json title="Example"
+{ "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI" }
+```
+
+<details>
+  <summary>Getting an Admin Authentication Token</summary>
+
+  ``` bash title="Request"
+  curl --location --request POST 'http://localhost:3000/admin/login' \
+      --header 'masterkey: M4ST3RK3Y' \
+      --header 'Content-Type: application/json' \
+      --data-raw '{
+        "username": "admin",
+        "password": "admin"
+      }'
+  ```
+  ``` json title="Response"
+  {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI"
+  }
+  ```
+</details>
+
+-------------------------------------------------
+
+## Application Headers {#headers-app}
+
+These are headers used for [Application Requests](router/router.mdx#request-types-app).<br />
+
+### Security Client Id & Secret {#headers-app-security}
+
+A client id and secret header pair related to a Conduit Security client.<br />
+These headers are required by every single application route.<br />
+As such, you'll need to generate a security client before making use of any application routes.
+
+<!-- TODO: Link to Security post-merge (links) -->
+
+``` json title="Example"
+{
+  "clientid": "7cc71118441b3a9a45a6d667b198c5",
+  "clientsecret": "745a3d40515abe7ca9cd5a0a4bf1e0ab1734403099cde1790cf8776cd8d50b654a5c419ad7b6fa380cc6b3f945a426465c80a2673667e669922f4fbf88489a99"
+}
+```
+
+<details>
+  <summary>Generating a Security Client</summary>
+
+  ``` bash title="POST on /admin/login"
+  curl --location --request POST 'http://localhost:3000/admin/security/client/' \
+       --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
+       --header 'masterkey: M4ST3RK3Y' \
+       --header 'Content-Type: application/json' \
+       --data-raw '{
+           "platform": "ANDROID"
+       }'
+  ```
+  ``` json title="Response"
+  {
+    "id": "6242b88a10a0990182773840",
+    "clientId": "1c0d06679f837c3958fba2724b51dc",
+    "clientSecret": "9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902",
+    "platform": "ANDROID"
+  }
+  ```
+</details>
+
+### Authorization {#headers-app-auth}
+
+A bearer token used for user authentication.<br />
+This header is only required by user-authenticated routes.
+
+``` json title="Example"
+{ "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDE5ODM0ZmMwZGFiMGVhZjA1ZjVjZSIsImlhdCI6MTY0ODQ2NjA3OSwiZXhwIjoxNzM0ODY2MDc5fQ.mDlETjM2y0hahbhJy_cKRmNM5X4wFigqoWw9j7QzO6E" }
+```
+
+Your authentication strategy affects how you register users and obtain user authentication tokens.
+
+<!-- TODO: Link to an Authentication Strategy page -->
+
+<!-- TODO: Hidden "Getting a User Authentication Token" example for Local Auth -->
