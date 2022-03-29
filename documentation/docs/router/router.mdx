@@ -21,6 +21,26 @@ Just like mostly every other router out there, it does so by relying on three ke
 
 -------------------------------------------------
 
+## Request Types {#request-types}
+
+### Administration Requests {#request-types-admin}
+
+Administrative requests operate on your backend on an administration level.<br />
+The [Admin Panel](../get-started/admin-panel) uses administrative requests to update your modules configurations, create CMS schemas, send SMS etc.
+
+<ins><strong>Notice:</strong> Administrative requests are <strong>only exposed</strong> through the <strong>REST API</strong>.</ins>
+
+Administrative requests require [Administration Headers](headers#headers-admin).
+
+### Application Requests {#request-types-app}
+
+Application requests are the ones you would normally make use of in your end-user applications.<br />
+These are the ones providing module-based functionality such as user authentication and querying of public or user-authenticated resources.
+
+Application requests require [Application Headers](headers#headers-app).
+
+-------------------------------------------------
+
 ## Registering Routes
 
 So how does one register their routes?<br />

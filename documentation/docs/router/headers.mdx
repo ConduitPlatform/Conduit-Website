@@ -12,14 +12,9 @@ As such, there are two sets of headers that are typically required for each resp
 
 ## Administration Headers {#headers-admin}
 
-Administrative requests operate on your backend on an administration level.<br />
-The [Admin Panel](../get-started/admin-panel) uses administrative requests to update your modules configurations, create CMS schemas, send SMS etc.
+These are headers used for [Administration Requests](router/router.mdx#request-types-admin).<br />
 
-<ins><strong>Notice:</strong> Administrative requests are <strong>only exposed</strong> through the <strong>REST API</strong>.</ins>
-
-Said requests require the following headers:
-
-### Master Key
+### Master Key {#headers-admin-masterkey}
 
 A secret key specified as an environmental variable (`MASTER_KEY`) to Conduit's Core.<br />
 This header is required by every single administrative route.
@@ -28,7 +23,9 @@ This header is required by every single administrative route.
 { "masterkey": "M4ST3RKEY" }
 ```
 
-### Authorization
+The default value is `M4ST3RK3Y`, but you change that by setting the `masterkey` env var before starting Conduit.
+
+### Authorization {#headers-admin-auth}
 
 A bearer token used for administrator authentication.<br />
 This header is required by most administative routes, with the exception of:
@@ -63,10 +60,9 @@ This header is required by most administative routes, with the exception of:
 
 ## Application Headers {#headers-app}
 
-Application routes are the ones you would normally make use of in your end-user applications.<br />
-These are the ones providing module-based functionality such as user authentication and querying of public or user-authenticated resources.
+These are headers used for [Application Requests](router/router.mdx#request-types-app).<br />
 
-### Security Client Id & Secret
+### Security Client Id & Secret {#headers-app-security}
 
 A client id and secret header pair related to a Conduit Security client.<br />
 These headers are required by every single application route.<br />
@@ -94,11 +90,16 @@ As such, you'll need to generate a security client before making use of any appl
        }'
   ```
   ``` json title="Response"
-  TODO ------------------------------------------------------- ????????????
+  {
+    "id": "6242b88a10a0990182773840",
+    "clientId": "1c0d06679f837c3958fba2724b51dc",
+    "clientSecret": "9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902",
+    "platform": "ANDROID"
+  }
   ```
 </details>
 
-### Authorization
+### Authorization {#headers-app-auth}
 
 A bearer token used for user authentication.<br />
 This header is only required by user-authenticated routes.
