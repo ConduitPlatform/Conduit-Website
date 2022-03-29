@@ -40,10 +40,10 @@ If you're deploying to production, we recommend sticking with **MongoDB**.
 :::
 
   ``` bash
-  DB_TYPE="postgres" make start-database
+  DB_TYPE="postgres" DB_PORT="5432" make start-database
 
   # Optional Customizations
-  DB_TYPE="postgres" DB_USER="conduit" DB_PASS="pass" DB_PORT="27017" make start-database
+  DB_TYPE="postgres" DB_USER="conduit" DB_PASS="pass" DB_PORT="5432" make start-database
   ```
   </TabItem>
   </Tabs>
