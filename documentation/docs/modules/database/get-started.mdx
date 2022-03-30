@@ -26,8 +26,8 @@ import TabItem from '@theme/TabItem';
   ``` bash
   make start-database
 
-  # Specifying a custom connection string
-  DB_URL="mongodb://conduit-mongo:27017" make start-database
+  # Optional Customizations
+  DB_USER="conduit" DB_PASS="pass" DB_PORT="27017" make start-database
   ```
   </TabItem>
   <TabItem value="postgres" label="PostgreSQL">
@@ -40,8 +40,10 @@ If you're deploying to production, we recommend sticking with **MongoDB**.
 :::
 
   ``` bash
-  DB_TYPE="sql" -e DB_URL="postgres://conduit:pass@localhost:5432/conduit" \
-  make start-database
+  DB_TYPE="postgres" DB_PORT="5432" make start-database
+
+  # Optional Customizations
+  DB_TYPE="postgres" DB_USER="conduit" DB_PASS="pass" DB_PORT="5432" make start-database
   ```
   </TabItem>
   </Tabs>
@@ -91,8 +93,8 @@ If you're deploying to production, we recommend sticking with **MongoDB**.
                 --network "conduit" \
                 -h conduit-database \
                 -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
-                -e databaseType="mongodb" \
-                -e databaseURL="mongodb://conduit-mongo:27017" \
+                -e DB_TYPE="mongodb" \
+                -e DB_CONN_URI="mongodb://conduit-mongo:27017" \
                 ghcr.io/conduitplatform/database:latest
   ```
   </TabItem>
@@ -124,8 +126,8 @@ If you're deploying to production, we recommend sticking with **MongoDB**.
                 --network "conduit" \
                 -h conduit-database \
                 -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
-                -e databaseType="sql" \
-                -e databaseURL="postgres://conduit:pass@localhost:5432/conduit" \
+                -e DB_TYPE="postgres" \
+                -e DB_CONN_URI="postgres://conduit:pass@localhost:5432/conduit" \
                 ghcr.io/conduitplatform/database:latest
   ```
   </TabItem>
@@ -224,7 +226,7 @@ Alright, that wasn't too bad, now how does one fill that schema with data?
 
 There are mulitple ways to go about this.<br />
 If your schemas enable CRUD endpoints, you can simply use our automatically generated 
-[REST](../../router/rest.mdx) and [GraphQL](../../router/graphql.mdx) API endpoints 
+[REST](../../router/rest) and [GraphQL](../../router/graphql) API endpoints 
 to retrieve and manipulate data from your application.<br />
 This is how you'd register data based on user input and third party APIs.
 
@@ -289,8 +291,8 @@ TODO
 
 ## Data Access and Manipulation
 
-This section requires a fundamental understanding of how to use Conduit's [REST](../../router/rest.mdx) 
-or [GraphQL](../../router/graphql.mdx) powered APIs.<br />
+This section requires a fundamental understanding of how to use Conduit's [REST](../../router/rest) 
+or [GraphQL](../../router/graphql) powered APIs.<br />
 If you haven't done so already, please consider reading any of the above before proceeding.
 
 ### Using REST {#rest-example}
