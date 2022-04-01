@@ -27,7 +27,7 @@ The default value is `M4ST3RK3Y`, but you change that by setting the `masterkey`
 
 ### Authorization {#headers-admin-auth}
 
-A bearer token used for administrator authentication.<br />
+A bearer formatted access token used for administrator authentication.<br />
 This header is required by most administative routes, with the exception of:
 
 - Admin Login (`POST: /admin/login`)
@@ -36,6 +36,8 @@ This header is required by most administative routes, with the exception of:
 ``` json title="Example"
 { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI" }
 ```
+
+**Admin access tokens cannot be used interchangeably with [user access tokens](#headers-app-auth)!**
 
 <details>
   <summary>Getting an Admin Authentication Token</summary>
@@ -90,7 +92,10 @@ Supported Platforms: <!-- TODO: Move list to Security docs once they're actually
 <details>
   <summary>Generating a Security Client</summary>
 
-  ``` bash title="POST on /admin/login"
+  **Security clients are generated using an administrative request.**<br />
+  As such, your request's `Authorization` header should contain an admin access token.
+
+  ``` bash title="Request"
   curl --location --request POST 'http://localhost:3000/admin/security/client/' \
        --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
        --header 'masterkey: M4ST3RK3Y' \
@@ -111,15 +116,26 @@ Supported Platforms: <!-- TODO: Move list to Security docs once they're actually
 
 ### Authorization {#headers-app-auth}
 
-A bearer token used for user authentication.<br />
+A bearer formatted access token used for user authentication.<br />
 This header is only required by user-authenticated routes.
 
 ``` json title="Example"
 { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDE5ODM0ZmMwZGFiMGVhZjA1ZjVjZSIsImlhdCI6MTY0ODQ2NjA3OSwiZXhwIjoxNzM0ODY2MDc5fQ.mDlETjM2y0hahbhJy_cKRmNM5X4wFigqoWw9j7QzO6E" }
 ```
 
+**User access tokens cannot be used interchangeably with [adminstrator access tokens](#headers-admin-auth)!**
+
+The [Authentication](../modules/authentication) module provides multiple [authentication strategies](../modules/authentication/strategies) for you to choose from.<br />
 Your authentication strategy affects how you register users and obtain user authentication tokens.
 
-<!-- TODO: Link to an Authentication Strategy page -->
+<!-- TODO: Elaborate on Access/Refresh tokens, expiry, security client coupleing etc ??? -->
 
-<!-- TODO: Hidden "Getting a User Authentication Token" example for Local Auth -->
+<details>
+  <summary>Obtaining User Access and Refresh Tokens</summary>
+
+  Out of the box, Conduit's Authentication module utilizes <a href="../modules/authentication/strategies#local">Local Authentication</a> in order to provide you with a simple, 
+  yet extendable, strategy that's capable of functioning without further configuration.
+
+  <a href="../modules/authentication/tutorials/local">Read up on how to make use of the Local Authentication strategy in order to create your users and generate authentication tokens.</a>
+
+</details>

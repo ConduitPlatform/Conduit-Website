@@ -19,7 +19,7 @@ Meaning it won't let you perform administrative actions on the backend.
 Making GraphQL queries requires that you pass in the required [application request headers](./headers#headers-app).<br />
 Typically, you'll need a security client id (`clientid`) as well as a security client secret (`clientsecret`).
 
-``` json title="Basic Application Headers Example"
+``` json title="Basic Request Headers Example"
 {
 	"clientid": "1c0d06679f837c3958fba2724b51dc",
 	"clientsecret": "9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902"
@@ -28,7 +28,7 @@ Typically, you'll need a security client id (`clientid`) as well as a security c
 
 Any requests requiring user authentication additionally require that you specify an `Authorization` header containing a user authentication bearer token.<br />
 
-``` json title="User Authentication Headers Example"
+``` json title="User Authenticated Request Headers Example"
 {
 	"clientid": "1c0d06679f837c3958fba2724b51dc",
 	"clientsecret": "9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902",

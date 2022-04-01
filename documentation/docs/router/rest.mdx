@@ -51,10 +51,10 @@ Does that mean I've got my very own NFT now?
 
 Nah, but on the bright side, it should let you access your very own set of administrative routes!<br />
 Let's put that token to use and send an authenticated admin request to the Database module.<br />
-We pass it along as the Authentication header, prefixed by `Bearer `.<br />
+We pass it along as the `Authorization` header, prefixed by `Bearer `.<br />
 That one should return all of the schemas owned by Database or Authentication.
 
-``` bash title="GET on /admin/database/schemas"
+``` bash title="Retrieving Database Schemas"
 curl --location --request GET 'http://localhost:3000/admin/database/schemas/?enabled=true&owner=database,authentication' \
      --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
      --header 'masterkey: M4ST3RK3Y'
@@ -111,27 +111,6 @@ curl --location --request GET 'http://localhost:3000/admin/database/schemas/?ena
   "count": 5
 }
 ```
-
-Lets send one last admin request to create an Android security client.<br />
-You're going to need one of these in order to perform your application requests.
-
-``` bash title="POST on /admin/security/client"
-curl --location --request POST 'http://localhost:3000/admin/security/client/' \
-     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
-     --header 'masterkey: M4ST3RK3Y' \
-     --header 'Content-Type: application/json' \
-     --data-raw '{
-         "platform": "ANDROID"
-     }'
-```
-```json title="Response"
-{
-  "id": "623080eddbacba00172cd4f6",
-  "clientId": "1c0d06679f837c3958fba2724b51dc",
-  "clientSecret": "9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902",
-  "platform": "ANDROID"
-}
-```
 </details>
 
 ### Performing Application Requests
@@ -148,19 +127,36 @@ That's how your end-user applications would query for custom (CMS) schema docume
 Application routes make use of [Application Headers](./headers#headers-app).
 
 <details>
-<summary>Request Examples</summary>
-For most of your typical non-admin requests performed by your apps, you would perform an application request.<br />
-These ones require a set of <a href="./headers/#headers-app-security">application headers</a> to be passed along.<br /><br />
+  <summary>Request Examples</summary>
+  For most of your typical non-admin requests performed by your apps, you would perform an application request.<br />
+  These ones require a set of <a href="./headers/#headers-app-security">application headers</a> to be passed along.<br /><br />
 
-A <a href="./headers/#headers-app">security client id and secret pair</a> to be precise.<br />
-User authenticated routes additionally require an <a href="./headers/#headers-app-auth">Authorization header</a> containing a user authentication bearer token.<br />
+  A <a href="./headers/#headers-app">security client id and secret pair</a> to be precise.<br />
+  User authenticated routes additionally require an <a href="./headers/#headers-app-auth">Authorization header</a> containing a user authentication bearer token.<br />
 
-<!-- TODO:
-Alright, stick with me now. Small talk is over.<br />
-Lets send our user request.
+  In fact, for anyone making use of [Local Authentication](../modules/authentication/strategies#local) (enabled by default), 
+  retrieving that very same user access token is also accomplished through an application request.
 
-INSERT EXAMPLE HERE
--->
+<!-- Ideally we'd be importing shared examples so as to facilitate keeping them consistent and up to date. -->
+
+  ``` bash title="Request"
+  curl --location --request POST 'http://localhost:3000/authentication/local' \
+        --header 'masterkey: M4ST3RK3Y' \
+        --header 'clientid: 1c0d06679f837c3958fba2724b51dc' \
+        --header 'clientsecret: 9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{
+          "email": "example@mail.com",
+          "password": "I_h4t3_p4ss_r3qu1r3m3nts"
+        } '
+  ```
+  ``` json title="Response"
+  {
+    "userId": "6242f1bb10a09901827738fe",
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDJmMWJiMTBhMDk5MDE4Mjc3MzhmZSIsImlhdCI6MTY0ODU1NDUyNywiZXhwIjoxNzM0OTU0NTI3fQ.Fjqa7ORBBF2giwG7OgiWr2HMgHDL7R6ddFq2E730Djc",
+    "refreshToken": "BsKhe3ARhL/FfDfK1REphKkkqQaxRCj/LvvRHOg5wCXCBaUSOwafRHyFYIttaORY/NmHS7NAuT6+knBQegVOwQ=="
+  }
+  ```
 </details>
 
 -------------------------------------------------
