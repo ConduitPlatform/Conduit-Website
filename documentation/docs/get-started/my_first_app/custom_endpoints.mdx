@@ -5,43 +5,20 @@ sidebar_position: 3
 
 # Using Custom Endpoints
 
-A unique feature that Conduit supports is Custom Endpoints.Given a custom created schema, this feature enables you<br />
+A unique feature that Conduit supports is Custom Endpoints. Given a custom created schema, this feature enables you<br />
 to create custom endpoints for that schema.<br />
 In this section a tutorial of how to manipulate data with custom endpoints using a Front-End framework.<br />
 
-## Prerequisites
-:::caution
-You need to configure Authentication and Email module.<br />
-Do not forget to enable **local Authentication** while configuring Authentication module.<br />
-:::
-
-<Tabs>
-<TabItem value="makefile" label="Makefile">
-<details><summary>Prerequisites</summary>
-
-``` bash
-curl -L https://raw.githubusercontent.com/ConduitPlatform/Conduit/latest/docker/Makefile > Makefile
-make create-network
-make start-core
-make start-database
-make start-email
-make start-authentication
-```
-</details>
-</TabItem>
-</Tabs>
-
-
 For understanding purposes we will use the [Movie Schema](../../modules/database/tutorials/cinema_ticket_booking#movies_schema) which had been created in previous tutorial.<br />
-Also, some documents should be stored in the database.See the [My First React App](./first_app#creating-movies) tutorial to see how to do this.<br />
+Also, some documents should be stored in the database. See the [My First React App](./first_app#creating-movies) tutorial to see how to do this.<br />
 After doing the above, you will be ready to start this tutorial.<br />
 
 ## Using Custom Endpoints
 
 ### Default Endpoints
 In order to use the Custom Endpoints be sure that the endpoints are created and ready for use.<br />
-A meaningful question will be ***'How to be sure for this'*** ? <br />
-Do not worry.Conduit provides a way to see the exposed API in any time using Swagger.<br />
+A meaningful question will be ***'How to be sure for this'*** ?<br />
+Do not worry. Conduit provides a way to see the exposed API in any time using Swagger.<br />
 To open Swagger navigate to `CONDUIT_URL/swagger`<br />
 Let's see which routes are attached to Movies Schema.<br />
 
@@ -50,8 +27,8 @@ Let's see which routes are attached to Movies Schema.<br />
 As you can see,some defaults Endpoints are created simultaneously with the Custom Schema creation.<br />
 
 ### Custom Endpoints
-The time that you were waiting for has come.We will continue this tutorial by creating a React Component using our Created Custom Endpoints.<br />
-The first thing you need to do is to Sign in as Admin and create a Custom Endpoint.See [here](../../modules/database/tutorials/custom_endpoints) for more.<br />
+The time that you were waiting for has come. We will continue this tutorial by creating a React Component using our Created Custom Endpoints.<br />
+The first thing you need to do is to Sign in as Admin and create a Custom Endpoint. See [here](../../modules/database/tutorials/custom_endpoints) for more.<br />
 Once again we have to be sure that our custom endpoint is ready for use. Let's see again the Swagger.<br />
 
 ![Swagger Custom Endpoint](/img/first_app/swagger_custom_endpoint.png)
