@@ -1,0 +1,47 @@
+---
+sidebar_label: 'Google'
+sidebar_position: 3
+---
+
+# Google
+
+In this tutorial, we'll be setting up Google authentication for Conduit.<br />
+Before we begin, we'll need to create a Google Application.
+
+## Configure Google
+
+To begin the Google Authentication you need to get some credentials.<br />
+Go to your [Google Console](https://console.developers.google.com/apis/library) and create a new project.<br />
+Once you have a new project, you have to request your app credentials.
+
+![Google Credentials](/img/modules/authentication/tutorials/google_credentials.png)
+
+Click the `CREATE CREDENTIALS` button at the top of the page.
+
+![Google Type Credentials](/img/modules/authentication/tutorials/google_credentials_type.png)
+
+Choose **OAuth Client ID**.<br />
+You will also be asked for an application type. Choose `Web App`.<br />
+Your application credentials have been generated.<br />
+You will only need the client id and client secret.<br />
+
+You need to add an **Authorized redirect URI**.<br />
+Hit **http://localhost:<CONDUIT_PORT>/hook/authentication/google.**<br />
+
+![Google Authorized Uri](/img/modules/authentication/tutorials/google_redirect_uri.png)
+
+A pop-up window will be displayed to you which contain your client id and client secret.<br />
+
+![Google Secrets](/img/modules/authentication/tutorials/google_secrets.png)
+
+------------------------------------------------------------------------------------------------------------------------
+
+## Authenticate with Google
+
+At this step you need to begin authorize with Google by calling the [/authentication/init/google](../api_reference/User/third_party#google) route.<br />
+Open postman and make a GET request to this route.By doing this you will get a link.<br />
+
+![Google Postman](/img/modules/authentication/tutorials/google_postman.png)
+
+Open a browser and navigate to this link.<br />
+If your browser has been redirected to the url which you configured everything went well and the authentication has been completed.

@@ -1,0 +1,52 @@
+---
+sidebar_label: 'Strategies'
+sidebar_position: 2
+---
+
+# Authentication Strategies
+
+The Authentication module supports multiple user authentication strategies.<br />
+It supports local credential-based logins, while also providing integration for a plethora of third party providers through 0Auth2.<br />
+Two-Factor cellular authentication is supported across any strategy.
+
+Local Authentication is enabled out of the box.
+
+## Local Authentication {#local}
+
+Makes use of an email address based identifier for user accounts.<br />
+Supports optional user verification.<br />
+Delivery of verification emails for user self-verification depends on the [Email](../email/email.mdx) module.
+
+<strong>Initial configuration does not enable automatic delivery of verification emails</strong> so that the module's default strategy can be utilized without a dependency on email service.
+
+Check out our [simple tutorial](./tutorials/local) on how to make use of Local Authentication to create users and generate authentication tokens.
+
+-------------------------------------------------
+
+## Third Party Providers
+
+:::note
+
+This section is a work in progress. 👷
+
+:::
+
+<!--
+### Facebook {#facebook}
+
+### Google {#google}
+
+### Microsoft {#microsoft}
+
+### GitHub {#github}
+
+### Twitch {#twitch}
+
+### Slack {#slack}
+
+### Figma {#figma}
+
+### Kakao {#kakao}
+-->
+
+<!-- TODO: Phone Authentication / 2FA -->
