@@ -1,6 +1,6 @@
 ---
 sidebar_label: 'Get Started'
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 import Tabs from '@theme/Tabs';
@@ -82,13 +82,6 @@ docker run -d --name conduit-authentication \
 </TabItem>
 </Tabs>
 
-:::caution
-
-Using the **Local** authentication strategy with an `email` identifier requires a running instance of the **[Email](../email/email.mdx)** module.<br />
-This module won't activate fully until **Email** becomes available.
-
-:::
-
 At this point, you should have a functional Authentication instance.<br />
 You can now, create and manipulate users through the [Admin Panel](../../get-started/admin-panel).
 
@@ -96,7 +89,7 @@ You can now, create and manipulate users through the [Admin Panel](../../get-sta
 
 ## Using the Admin Panel
 
-The Users tab is where manipulating takes place. From Users tab you can do CRUD operations.
+The Users tab is where User manipulation takes place.
 
 ![authentication overview](/img/modules/authentication/admin/authentication_overview.png)
 
@@ -104,28 +97,27 @@ The Users tab is where manipulating takes place. From Users tab you can do CRUD 
 
 ## User
 
-So, lets talk about creating, editing and deleting users.
+Let's talk about creating, editing and deleting users.
 
 ### Create
 
-A basic operation you may want to do, is creating a User.<br />
-So, use your email and a desired password to do this.
+A basic operation you may want to perform is creating a user.<br />
+
 ![create user](/img/modules/authentication/admin/add_user.png)
 
 -------------------------------------------------
 
 ### Edit
 
-By clicking the corresponding edit button ,you'll see the edit pop-up window.
+By clicking the corresponding edit button, you'll see the edit pop-up window.
 
 ![Edit user](/img/modules/authentication/admin/edit_user.png)
 
 You can either change your email or add you phone number.<br/>
-In case that you want to enable the 2FA, fill the phone field and tick the corresponding box.<br/>
+In case that you want to enable 2FA, fill-in the phone field and tick the corresponding box.<br/>
 
 -------------------------------------------------
 
 ### Delete
 
-Also, you may want to delete multiple users at once.<br />
-Just select the users that you want to delete and click the corresponding button.
+In order to delete multiple users at once, select the users that you want to delete and click the corresponding button.

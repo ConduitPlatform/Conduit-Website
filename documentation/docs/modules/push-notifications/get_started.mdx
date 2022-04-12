@@ -87,25 +87,23 @@ docker run -d --name conduit-push-notifications \
 ## Where do I start?
 
 To start sending notifications you need to create a Firebase project.<br />
-Also, you have to configure the module through the admin panel.<br />
-See how to configure [here](./config).<br />
-Once you have the module configured,you are ready to start sending.So lets see an example.
+Make sure you've [configured the module](./config).
 
 ## Send notifications
 
 ### Client App
 
-The first thing that you have to keep in your mind is that each token is related to notification token.<br />
-Actually, the notification token is the Firebase Cloud Messaging registration token.<br />
-Your first job is to set up a client application
-and retrieve its registration token.<br />
-See how to set up client [here](https://firebase.google.com/docs/cloud-messaging/js/client).
+The first thing you have to keep in your mind is that each token is related to notification token.<br />
+In fact, the notification token is the Firebase Cloud Messaging registration token.<br />
+Your first job is to set up a client application and retrieve its registration token.<br />
+See how to set up your client [here](https://firebase.google.com/docs/cloud-messaging/js/client).
 
 ### Set notification token
 
 After receiving the FCM registration token, you are ready to proceed.<br />
 As mentioned above, each user is related to a token. In a way I lied.
-You, the user, are the one to connect it through the [SetNotificationToken] (TODO) route.
+You are the one to link these Firebase tokens to your user accounts through an [application request](../../router#request-types-app).<br />
+For details on how to do that, check out your generated [Swagger](../../router/rest#swagger) or [GraphQL](../../router/graphql) route documentation. 
 
 ### Send a message
 
