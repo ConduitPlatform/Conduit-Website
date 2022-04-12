@@ -4,7 +4,7 @@ sidebar_position: 2
 title: 'My First React App'
 ---
 
-<!-- TODO: Route paths should ideally be altered (currently: login, movie, movies -> login, submit-movie, retrieve-movies or sth -->
+<!-- TODO: Route paths should ideall be altered (currently: login, movie, movies -> login, submit-movie, retrieve-movies or sth -->
 <!-- TODO: Explicitly specify a port for our React app. Defaults to 3000, but falls back to 3002 as Conduit occupies 3000 and 30001 -->
 
 It's about time we showed you how to make use of all this, wouldn't you think?
@@ -18,51 +18,149 @@ In this tutorial, we are going to build a simple frontend app capable of:
 <!-- TODO: List additional requirements here? eg Movie schema creation (currently done below) -->
 
 Your backend is capable of working with any stack of your choice.<br />
-Yet, for the purpose of keeping things simple, this guide is going to focus solely on building a React app using [Conduit's REST API](../router/rest).
+Yet, for the purpose of keeping things simple, this guide is going to focus solely on building a React app using [Conduit's REST API](../../router/rest).
 
 ## Prerequisites
 
-Before you start this tutorial, make sure you've read our [Getting Started Guide](./get-started.mdx).
+Before you start this tutorial, make sure you've read our [Getting Started Guide](../get-started.mdx).
 
-Our app is going to make use of the following modules:
+Our app is going to make use the following modules:
 
-- [Database](../modules/database)
-- [Authentication](../modules/authentication)
+- [Database](../../modules/database)
+- [Authentication](../../modules/authentication)
 
 Let's bootstrap our Conduit installation using the automated container-based installation option.<br />
-You can read more on that as well as alternative installation methods [here](../installation).
+You can read more on that as well as alternative installation methods [here](../../installation).
 
 ``` bash
 source <(curl -s https://getconduit.dev/bootstrap)
 ```
 
-Our application is going to be sending application requests to our backend.<br />
-Said requests are going to require [Application Headers](../router/headers#headers-app).<br />
-Make sure you've [generated a Security Client](../router/headers#headers-app-security) and obtained the relevant client id and secret to be used in our requests.
+<details><summary>Configuring the Authentication Module</summary>
 
-<!-- TODO: Example application should handle user creation too -->
+    We are going to specify a local authentication strategy using a username identifier.<br />
+    This choice is going to simplify our initial configuration process.
+
+    <!-- TODO: We really ought to remove or at the very least workaround Authentication's initial dependency on Email -->
+
+    ``` bash title="Getting an Admin Authentication Token"
+    curl --location --request POST 'http://localhost:3000/admin/login' \
+    --header 'masterkey: M4ST3RK3Y' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "username": "admin",
+        "password": "admin"
+    }'
+    ```
+    ``` json title="Result"
+    { "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI" }
+    ```
+
+    You're going to need your admin token for the following configuration request.
+
+    ``` bash title="Configuring the Authentication Module"
+    curl --location --request PUT 'http://localhost:3000/admin/config/authentication' \
+    // highlight-next-line
+    --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
+    --header 'masterkey: M4ST3RK3Y' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "config": {
+        "active": true,
+        "local": {
+        // highlight-next-line
+        "identifier": "username",
+        "enabled": true,
+        "sendVerificationEmail": false,
+        "verificationRequired": false,
+        "verification_redirect_uri": "",
+        "forgot_password_redirect_uri": "",
+        "phone_authentication": true
+    },
+        "google": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "redirect_uri": "",
+        "accountLinking": true
+    },
+        "facebook": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "redirect_uri": "",
+        "accountLinking": true
+    },
+        "github": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "redirect_uri": "",
+        "accountLinking": true
+    },
+        "slack": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "redirect_uri": "",
+        "accountLinking": true
+    },
+        "figma": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "redirect_uri": "",
+        "accountLinking": true
+    },
+        "microsoft": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "redirect_uri": "",
+        "accountLinking": true
+    },
+        "twitch": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "redirect_uri": "",
+        "accountLinking": true
+    },
+        "service": {
+        "enabled": true
+    },
+        "twofa": {
+        "enabled": false
+    },
+        "generateRefreshToken": false,
+        "rateLimit": 3,
+        "tokenInvalidationPeriod": 86400000,
+        "refreshTokenInvalidationPeriod": 604800000,
+        "jwtSecret": "S3CR3T"
+    }
+    }'
+    ```
+</details>
+
+<!-- TODO: User logins require an existing user. Our backend seriously needs self-registration for this tutorial to work out. -->
 
 <details><summary>Creating our first User</summary>
 
-We'll create a new user specifying their `email` address and `password`.
+    Conduit does not yet support user self-registration.<br />
+    This limitation is going away soon, but in the meantime, we'll be creating a user through an administrative request.<br />
+    We'll create a new user with a username of `user` and a password of `pass`.
 
-``` bash title="Request"
-curl --location --request POST 'http://localhost:3000/authentication/local' \
-      --header 'clientid: 1c0d06679f837c3958fba2724b51dc' \
-      --header 'clientsecret: 9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902' \
-      --header 'Content-Type: application/json' \
-      --data-raw '{
-        "email": "example@mail.com",
-        "password": "I_h4t3_p4ss_r3qu1r3m3nts"
-      } '
-```
-``` json title="Response"
-{
-  "userId": "6242f1bb10a09901827738fe",
-  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDJmMWJiMTBhMDk5MDE4Mjc3MzhmZSIsImlhdCI6MTY0ODU1NDUyNywiZXhwIjoxNzM0OTU0NTI3fQ.Fjqa7ORBBF2giwG7OgiWr2HMgHDL7R6ddFq2E730Djc",
-  "refreshToken": "BsKhe3ARhL/FfDfK1REphKkkqQaxRCj/LvvRHOg5wCXCBaUSOwafRHyFYIttaORY/NmHS7NAuT6+knBQegVOwQ=="
-}
-```
+    ``` bash title="Creating a User"
+    curl --location --request POST 'http://localhost:3000/admin/authentication/users/' \
+    // highlight-next-line
+    --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
+    --header 'masterkey: M4ST3RK3Y' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "identification": "user",
+        "password": "pass"
+    } '
+    ```
 </details>
 
 ## App Initialization
@@ -104,10 +202,9 @@ async function loginUser(credentials) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      // highlight-start
-      'clientid': 'YOUR_SECURITY_CLIENT_ID',          // eg: 1c0d06679f837c3958fba2724b51dc
-      'clientsecret': 'YOUR_SECURITY_CLIENT_SECRET',  // eg: 9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902
-      // highlight-end
+      'masterkey': 'somekey',
+      'clientid': 'someclientid',
+      'clientsecret': 'someclientsecret'
     },
     body: JSON.stringify(credentials)
   })
@@ -147,7 +244,7 @@ export default function Login() {
 ```
 
 Our component submits a POST request to `/authentication/local` containing our user-specifid `email` and `password` fields.<br />
-The server's response contains our user's id, as well as a pair of access and refresh tokens to be used in our user authenticated application routes.<br />
+The server's response contains our user's id, as well as a pair of access and refresh tokens to be used for our user authenticated application routes.<br />
 
 ``` json title="Example Response"
 {
@@ -205,11 +302,11 @@ Let's introduce another React component responsible for schema document creation
 
 <details><summary>Creating a Movie Schema</summary>
 
-<!-- TODO: Extremely ugly, we shouldn't be sending the reader back and forth -->
+    <!-- TODO: Extremely ugly, we shouldn't be sending the reader back and forth -->
 
-Check out this [tutorial](../modules/database/tutorials/cinema_ticket_booking#movies_schema) on how to create a schema through the Admin Panel.<br />
-Create the Movie schema from the example so that we can make use of it in our end-user application.<br />
-We are going to operate on this schema using CRUD operations.
+    Checkout this [tutorial](../modules/database/tutorials/cinema_ticket_booking#movies_schema) on how to create a schema through the Admin Panel.<br />
+    Create the Movie schema from the example so that we can make use of it in our end-user application.<br />
+    We are going to operate on this schema using CRUD operations.
 
 </details>
 
