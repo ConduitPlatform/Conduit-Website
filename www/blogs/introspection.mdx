@@ -1,0 +1,99 @@
+---
+title: 'Database Introspection'
+dateString: 'June 21, 2022'
+mainImageUrl: ''
+excerpt: 'Bulk schema imports right from your database'
+publisher: 'Michael-Vol'
+publisherPosition: 'Back-End Developer'
+publisherIcon: 'https://avatars.githubusercontent.com/u/31630174?v=4'
+tags: ['Updates', 'Development','Open source']
+---
+<BlogHeaderComponent
+    title={title}
+    dateString={dateString}
+    mainImageUrl={mainImageUrl}
+    publisher={publisher}
+    publisherIcon={publisherIcon}
+    publisherPosition={publisherPosition}
+/>
+
+Tldr; Since 0.13, instead of importing all database schemas one by one, you can now introspect
+your existing database and import all its schemas automatically into Conduit.
+<br></br>
+
+<SectionItemComponent topic={'Schema Chaos'}/>
+    <p>
+    You might have noticed that in versions earlier than 0.13, if you needed let's say, to import a large number of
+    schemas into Conduit from another existing database of your own, there was a great chance that you would run
+    into some errors (validation etc.). Moreover if your database included 100 or more schemas for example, the mere
+    process of migrating them all manually by creating and checking their fields and options for each one would be
+    tedious and tiresome.
+</p>
+<p>
+    You see, the main problem remains that most users that will want to use Conduit, will also want to store actual test
+    or production data that are already persisted in another database. That means that forcing them to do all the hard
+    work manually by creating the
+    schemas themselves will not only drive them away from the actual purpose of customizing their backend, but would
+    also make the
+    whole process a lot more unpleasant.
+</p>
+
+<br></br>
+<br></br>
+<SectionItemComponent topic={'The Idea'}/>
+
+The aforementioned problems made us rethink the whole process of importing data into Conduit. We realized that, in order to prevent the user for doing all
+the manual work we needed a way to automate the whole procedure.
+
+<br/>
+Enter Database Introspection.
+<br/>
+
+The main idea here is simple: the user would provide a connection URL for the database that wants to import all its schemas from (either SQL or MongoDB) and Conduit
+will automatically infer all the schemas that it contains along with their options and fields. Therefore, the user will only have to confirm the schemas that were
+imported before persisting them into the Conduit DB. The neat part in this process is that not only you save a lot of time, but the same database that stores all
+the previous data will also be used for Conduit.
+
+<br></br>
+<br></br>
+<SectionItemComponent topic={'A Two-stage Process'}/>
+
+To implement such a feature we needed to split the introspection procedure into two phases regarding the schemas: Pending and Declared. Pending are all the schemas
+that have been introspected from Conduit but are yet to be confirmed from the user and Declared are all the confirmed schemas (including ones that Conduit already
+uses itself internally). This need for separation is practical as it distinguishes schemas that we know we can use and ones that are to be used in the future but
+have not been confirmed yet. The Admin Panel contains a handy page for checking all the pending schemas that Conduit has found and validating the options for each
+field in case some of them are incorrect.
+
+<br></br>
+<br></br>
+<SectionItemComponent topic={'The Issues that Came Along'}/>
+
+The process of introspecting for SQL Databases was relatively straightforward as the majority, if not all, of SQL DBs keep an internal registry of all the tables, fields and options.
+That made it easy as we just needed to get the existing schemas and convert them into Conduit schemas before storing them as pending.
+<br/>
+However this wasn't the case for Mongo Databases. Since MongoDB is a No-SQL Database the concept of schema differs: there is not a schema definition stored somewhere where we
+can access it since the database consists of collections of documents that are loosely defined. This meant that we had to read each one of the documents in order to understand
+its schema (ie fields and options) and then convert them into Conduit Schemas.
+
+<br></br>
+<br></br>
+<SectionItemComponent topic={'The Limitations'}/>
+
+Even though the introspection procedure eliminates the need for manual schema creation, there is still a small number of limitations that come along wih it:
+- SQL primary keys are not based on indexes, but rather specified on the fields (composite primary keys specify multiple primary keys).
+- Multiple Postgres search path "Schemas" are not supported (specify SQL_SCHEMA env, defaults to public).
+
+<br/>
+
+<br/>
+<br/>
+<SectionItemComponent topic={'Summary'}/>
+This was a big feature for Conduit since it reduced dramatically the time needed for a user that has existing data to get started and not bother
+creating another clean database for that matter. We are also looking into addressing the limitations mentioned above in the future, so that we can provide a more
+seamless experience. You can always provide your opinion on what else we can add to make schema imports even better [here](https://github.com/ConduitPlatform/Conduit/issues/77).
+
+If you've managed to get this far, thanks! And check out the links below:
+
+  - 🌟 Give us a star here: https://github.com/ConduitPlatform/Conduit
+  - 👋 Wanna say hi? Drop a mail here: hello@getconduit.dev
+  - ✨ Join our discord: https://discord.gg/fBqUQ23M7g
