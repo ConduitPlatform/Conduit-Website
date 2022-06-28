@@ -36,7 +36,7 @@ In case you want to see for yourself how introspection works with detailed examp
     tedious and tiresome.
 </p>
 <p>
-    You see, the main problem remains that most users that will want to use Conduit, will also want to store actual test
+    You see, the main problem remains that many users that want to use Conduit, may want to use actual test
     or production data that are already persisted in another database. That means that forcing them to do all the hard
     work manually by creating the
     schemas themselves will not only drive them away from the actual purpose of customizing their backend, but would
@@ -57,7 +57,7 @@ Enter Database Introspection.
 
 The main idea here is simple: the user would provide a connection URL for the database that wants to import all its schemas from (either SQL or MongoDB) and Conduit
 will automatically infer all the schemas that it contains along with their options and fields. Therefore, the user will only have to confirm the schemas that were
-imported before persisting them into the Conduit DB. The neat part in this process is that not only you save a lot of time, but the same database that stores all
+imported before persisting them as "Conduit schemas". The neat part in this process is that not only you save a lot of time, but the same database that stores all
 the previous data will also be used for Conduit.
 
 <br></br>
@@ -77,7 +77,7 @@ field in case some of them are incorrect.
 The process of introspecting for SQL Databases was relatively straightforward as the majority, if not all, of SQL DBs keep an internal registry of all the tables, fields and options.
 That made it easy as we just needed to get the existing schemas and convert them into Conduit schemas before storing them as pending.
 <br/>
-However this wasn't the case for Mongo Databases. Since MongoDB is a No-SQL Database the concept of schema differs: there is not a schema definition stored somewhere where we
+However this wasn't the case for MongoDB, since it is a No-SQL Database the concept of schema differs: there is not a schema definition stored somewhere where we
 can access it since the database consists of collections of documents that are loosely defined. This meant that we had to read each one of the documents in order to understand
 its schema (ie fields and options) and then convert them into Conduit Schemas.
 
