@@ -17,7 +17,7 @@ tags: ['Updates', 'Development','Open source', 'Release']
     publisherPosition={publisherPosition}
 />
 
-Tldr; We added support for database introspection and API client library generation, revamped service discovery, 
+Tldr; We added support for database introspection and API client library generation, built a CLI, revamped service discovery, 
 implemented the [gRPC health check protocol](https://github.com/grpc/grpc/blob/master/doc/health-checking.md), 
 introduced new configuration options, pimped up the admin panel and fixed a lot of bugs among other things.
 
@@ -31,18 +31,27 @@ introduced new configuration options, pimped up the admin panel and fixed a lot 
 </p>
 
 <br></br>
+<SectionItemComponent topic='We got a CLI'/>
+<p>
+  We built a <a href="https://github.com/ConduitPlatform/CLI">cli utility</a> to help people interested in using, or even developing, Conduit stay efficient.
+</p>
+<p>
+  We intend to natively package and release it on multiple repos down the line, but for the time being you can 
+  <a href="https://www.npmjs.com/package/@conduitplatform/cli">grab it from npm</a> or 
+  <a href="https://github.com/ConduitPlatform/CLI">build it yourself</a>.
+</p>
+
+<br></br>
 <br></br>
 <SectionItemComponent topic="Module Communication"/>
 <p>
-  We took a first step towards revamping our service discovery for modules. This is just a first step with way more stability improvements already in queue for upcoming versions.
+  We took a first step towards revamping our service discovery for modules. This is just a the beginning, with way more stability improvements already in queue for upcoming versions.
 </p>
 <p>
   All modules may now be started in any random order and they'll just work as long as their dependencies are eventually brought up.
 </p>
 <p>
-  There's now an additional layer of protection available for administrative requests performed through gRPC, where a common private key string is required for said requests to go through.
-</p>
-<p>
+  There's now an additional layer of protection available for administrative requests performed through gRPC, where a common private key string is required for said requests to go through. 
   gRPC request protection is entirely optional. To enable it, provide a private key using the`GRPC_KEY` env var value across all of your modules.
 </p>
 <p>
@@ -53,7 +62,7 @@ introduced new configuration options, pimped up the admin panel and fixed a lot 
 <br></br>
 <SectionItemComponent topic='API Clients & Documentation'/>
 <p>
-  This release introduces REST/GraphQL API client library generation through our CLI (releasing soon).
+  This release introduces REST/GraphQL API client library generation through the CLI.
 </p>
 <p>
   Swagger route documentation generation for REST APIs has been greatly improved.
@@ -69,7 +78,7 @@ introduced new configuration options, pimped up the admin panel and fixed a lot 
   We still recommend turning this on for production environments, but having it off by default should allow for smoother experimentation.
 </p>
 <p>
-  Security clients may now include aliases and notes.
+  Security clients may now also include aliases and notes.
 </p>
 <p>
   Domain origins are now properly validated for web client types.
@@ -80,7 +89,7 @@ introduced new configuration options, pimped up the admin panel and fixed a lot 
 
 <SectionItemComponent topic='Moar Features'/>
 <p>
-  We implemented the [gRPC health check protocol](https://github.com/grpc/grpc/blob/master/doc/health-checking.md), meaning you may now find out a module's serving status and even subscribe to updates regarding its health state.
+  We implemented the <a href="https://github.com/grpc/grpc/blob/master/doc/health-checking.md">gRPC health check protocol</a>, meaning you may now find out a module's serving status and even subscribe to updates regarding its health state.
 </p>
 <p>
   Alibaba Cloud (Aliyun) is now supported as a storage provider.
