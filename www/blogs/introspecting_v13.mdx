@@ -1,0 +1,118 @@
+---
+title: 'Introspecting Conduit v13.0'
+dateString: 'June 21, 2022'
+mainImageUrl: '/blogIcons/conduit_logo.png'
+excerpt: 'Unlimited config power'
+publisher: 'kon14'
+publisherPosition: 'Backend Developer'
+publisherIcon: 'https://avatars.githubusercontent.com/u/1786609?v=4'
+tags: ['Updates', 'Development','Open source', 'Release']
+---
+<BlogHeaderComponent
+    title={title}
+    dateString={dateString}
+    mainImageUrl={mainImageUrl}
+    publisher={publisher}
+    publisherIcon={publisherIcon}
+    publisherPosition={publisherPosition}
+/>
+
+Tldr; We added support for database introspection and API client library generation, built a CLI, revamped service discovery, 
+implemented the [gRPC health check protocol](https://github.com/grpc/grpc/blob/master/doc/health-checking.md), 
+introduced new configuration options, pimped up the admin panel and fixed a lot of bugs among other things.
+
+<br></br>
+<SectionItemComponent topic='Database Introspection'/>
+<p>
+  This release introduces database introspection across both MongoDB and PostgreSQL databases
+</p>
+<p>
+  Got an existing project you wish to migrate over? All you gotta do is have Conduit connect to your existing database, bring up the administration panel, head to the Database section and let Conduit take care of it.
+</p>
+
+<br></br>
+<SectionItemComponent topic='We got a CLI'/>
+<p>
+  We built a <a href="https://github.com/ConduitPlatform/CLI">cli utility</a> to help people interested in using, or even developing, Conduit stay efficient.
+</p>
+<p>
+  We intend to natively package and release it on multiple repos down the line, but for the time being you can <a href="https://www.npmjs.com/package/@conduitplatform/cli">grab it from npm</a> or <a href="https://github.com/ConduitPlatform/CLI">build it yourself</a>.
+</p>
+
+<br></br>
+<br></br>
+<SectionItemComponent topic="Module Communication"/>
+<p>
+  We took a first step towards revamping our service discovery for modules. This is just a the beginning, with way more stability improvements already in queue for upcoming versions.
+</p>
+<p>
+  All modules may now be started in any random order and they'll just work as long as their dependencies are eventually brought up.
+</p>
+<p>
+  There's now an additional layer of protection available for administrative requests performed through gRPC, where a common private key string is required for said requests to go through. 
+  gRPC request protection is entirely optional. To enable it, provide a private key using the`GRPC_KEY` env var value across all of your modules.
+</p>
+<p>
+  We also implemented better checks for module availability so that optional features depending on unavailable modules are simply turned off, until their dependencies are online and serving, instead of blocking the entire module from starting.
+</p>
+
+<br></br>
+<br></br>
+<SectionItemComponent topic='API Clients & Documentation'/>
+<p>
+  This release introduces REST/GraphQL API client library generation through the CLI.
+</p>
+<p>
+  Swagger route documentation generation for REST APIs has been greatly improved.
+</p>
+
+<br></br>
+<br></br>
+<SectionItemComponent topic='Security Changes'/>
+<p>
+  Security client id/secret pair validation is now optional and disabled out of the box.
+</p>
+<p>
+  We still recommend turning this on for production environments, but having it off by default should allow for smoother experimentation.
+</p>
+<p>
+  Security clients may now also include aliases and notes.
+</p>
+<p>
+  Domain origins are now properly validated for web client types.
+</p>
+
+<br/>
+<br/>
+
+<SectionItemComponent topic='Moar Features'/>
+<p>
+  We implemented the <a href="https://github.com/grpc/grpc/blob/master/doc/health-checking.md">gRPC health check protocol</a>, meaning you may now find out a module's serving status and even subscribe to updates regarding its health state.
+</p>
+<p>
+  Alibaba Cloud (Aliyun) is now supported as a storage provider.
+Cookie support has been added so that you can authenticate without Authorization headers.
+</p>
+<p>
+  Chat invitation notifications have been added, with email and push-notifications support so that users are no longer automatically added to rooms against their will
+</p>
+<p>
+  You may now specify on the Authentication module if a user can have multiple active sessions either in general or per client.
+</p>
+<p>
+  CRUD operations for custom schemas may now be enabled and configured individually.
+</p>
+<p>
+  Admin panel is now approximately 404% sleeker 😎.
+</p>
+
+<br/>
+Got this far? Well then, YOU are awesome!<br />
+Feel free to let us know if there's anything you love or hate about Conduit.<br />
+Either way, thanks for sticking around.
+
+  - 🌟 Give us a star here: https://github.com/ConduitPlatform/Conduit
+  - 👀 See our cool Development roadmap here: https://getconduit.dev/roadmap
+  - 📚 Read the docs here: https://getconduit.dev/docs
+  - 👋 Wanna say hi? Drop a mail here: hello@getconduit.dev
+  - ✨ Join our discord: https://discord.gg/fBqUQ23M7g
