@@ -1,0 +1,155 @@
+---
+sidebar_label: 'Get Started'
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Getting Started
+
+## Execution
+
+<Tabs>
+<TabItem value="makefile" label="Makefile">
+<details><summary>Prerequisites</summary>
+
+``` bash
+curl -L https://raw.githubusercontent.com/ConduitPlatform/Conduit/latest/docker/Makefile > Makefile
+make create-network
+make start-core
+make start-database
+```
+</details>
+
+``` bash
+make start-authentication
+```
+</TabItem>
+
+<TabItem value="docker" label="Docker">
+<details><summary>Prerequisites</summary>
+
+``` bash
+# Set up the Container Network
+docker network create conduit
+
+# Start Redis
+docker run -d --name conduit-redis \
+              --network-alias redis \
+              --network "conduit" \
+              -h conduit-redis \
+              -p 6379:6379 \
+              docker.io/library/redis:latest
+
+# Start Conduit
+docker run -d --name conduit-core \
+              --network-alias conduit \
+              --network "conduit" \
+              -h conduit-core \
+              -p 55152:55152 -p 3000:3000 -p 3001:3001 \
+              -e REDIS_HOST="conduit-redis" -e REDIS_PORT="6379" \
+              ghcr.io/conduitplatform/conduit:latest
+
+# Start MongoDB
+docker run -d --name conduit-mongo \
+              --network-alias mongo \
+              --network "conduit" \
+              -h conduit-mongo \
+              -p 27017:27017 \
+              docker.io/library/mongo:latest
+
+# Start Database
+docker run -d --name conduit-database \
+              --network-alias database \
+              --network "conduit" \
+              -h conduit-database \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              -e DB_TYPE="mongodb" \
+              -e DB_CONN_URI="mongodb://conduit-mongo:27017" \
+              ghcr.io/conduitplatform/database:latest
+```
+</details>
+
+``` bash
+docker run -d --name conduit-authentication \
+              --network-alias authentication \
+              --network "conduit" \
+              -h conduit-authentication \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              ghcr.io/conduitplatform/authentication:latest
+```
+</TabItem>
+</Tabs>
+
+At this point, you should have a functional Router instance.<br />
+Your modules may now register application routes for your users.
+
+-------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Using the Admin Panel
+
+The Users tab is where User manipulation takes place.
+
+![authentication overview](/img/modules/authentication/admin/authentication_overview.png)
+
+-------------------------------------------------
+
+## User
+
+Let's talk about creating, editing and deleting users.
+
+### Create
+
+A basic operation you may want to perform is creating a user.<br />
+
+![create user](/img/modules/authentication/admin/add_user.png)
+
+-------------------------------------------------
+
+### Edit
+
+By clicking the corresponding edit button, you'll see the edit pop-up window.
+
+![Edit user](/img/modules/authentication/admin/edit_user.png)
+
+You can either change your email or add you phone number.<br/>
+In case that you want to enable 2FA, fill-in the phone field and tick the corresponding box.<br/>
+
+-------------------------------------------------
+
+### Delete
+
+In order to delete multiple users at once, select the users that you want to delete and click the corresponding button.
