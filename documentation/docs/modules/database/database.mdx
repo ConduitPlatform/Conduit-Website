@@ -37,7 +37,7 @@ This module requires a functional installation of MongoDB or PostgreSQL.<br />
 
 This module requires no configuration.
 
-## Environmental Variables
+## Environmental Variables {#env-variables}
 
 |  Name          | Required |  Description                                  |  Example      |
 | :------------: | :------: | :-------------------------------------------: | :-----------: |
@@ -45,4 +45,5 @@ This module requires no configuration.
 | SERVICE_IP     |  True    | Address and port to listen to for this module | 0.0.0.0:56154 |
 | REGISTER_NAME  |  False   | Name-based network registration (containers)  | False         |
 | DB_TYPE        |  False   | Database engine (mongodb/sql)                 | mongodb       |
-| DB_CONN_URI    |  False   | Database connection string                    | mongodb+srv://user:... |
+| DB_CONN_URI    |  False   | Database connection string                    | mongodb+srv://user:pass@host/db |
+| GRCP_KEY       |  False   | Specifying a secret enables [gRPC signed request protection](../../core#grpc-request-protection) | someRandomSecret |

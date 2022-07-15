@@ -1,7 +1,17 @@
-# Conduit Router
+---
+hide_title: true
+---
 
-Conduit's router provides a way for modules to register routes for REST and GraphQL APIs.<br />
-Endpoint documentation is automatically generated so as to further facilitate development.
+:::info
+This module is responsible for exposing **application-level** APIs.<br />
+Check out the [Administrative APIs](../../administration) section for information on administration-level requests.
+:::
+
+# Router
+
+This module provides a way for modules to register application routes for REST and GraphQL APIs.<br />
+Endpoint documentation is automatically generated so as to further facilitate development.<br />
+It also provides support for application-level WebSockets.
 
 Just like mostly every other router out there, it does so by relying on three key concepts:
 
@@ -19,6 +29,21 @@ Just like mostly every other router out there, it does so by relying on three ke
 - Parameter Validation
 - Custom Middleware
 
+## Minimum Configuration
+
+This module requires no configuration.
+
+## Environmental Variables {#env-variables}
+
+|  Name          | Required  |  Description                           |  Example      |
+| :------------: | :-------: | :------------------------------------: | :-----------: |
+| CONDUIT_SERVER |   True    | Conduit Core's address and port               | 0.0.0.0:55152 |
+| SERVICE_IP     |   True    | Address and port to listen to for this module | 0.0.0.0:56154 |
+| REGISTER_NAME  |   False   | Name-based network registration (containers)  | False         |
+| CLIENT_HTTP_PORT   | False | Port to be used by admin REST and GraphQL APIs | 3000  |
+| CLIENT_SOCKET_PORT | False | Port to be used by admin WebSocket API         | 3001  |
+| GRCP_KEY       |   False   | Specifying a secret enables [gRPC signed request protection](../../core#grpc-request-protection) | someRandomSecret |
+
 -------------------------------------------------
 
 ## Request Types {#request-types}
@@ -26,14 +51,6 @@ Just like mostly every other router out there, it does so by relying on three ke
 ### Administration Requests {#request-types-admin}
 
 Administrative requests operate on your backend on an administration level.<br />
-Most of them expose or modify critical parts of your backend like listing private data and configuring your user authentication strategies.<br />
-As such, their routes require authorization to prevent non-administrators from being capable of performing them.
-
-The [Admin Panel](../../get-started/admin-panel) uses administrative requests to update your modules configurations, create CMS schemas, send SMS etc.
-
-<ins><strong>Notice:</strong> Administrative requests are <strong>only exposed</strong> through the <strong>REST API</strong>.</ins><br /><br />
-
-Administrative requests require [Administration Headers](headers#headers-admin).
 
 ### Application Requests {#request-types-app}
 
