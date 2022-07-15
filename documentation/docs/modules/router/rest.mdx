@@ -10,10 +10,10 @@ The REST API is used for both user-level application requests and administrative
 
 ### Performing Administrative Requests
 
-[Administrative routes](./router.mdx#request-types-admin) are exposed under `CONDUIT_URL/moduleName/`
+[Administrative routes](./router.mdx#request-types-admin) are exposed under `/moduleName/`
 
-Example:<br />
-The Database module accepts `POST` requests to `CONDUIT_URL/admin/database/schemas`<br />
+Example:<br /> <!-- TODO: This is an Admin example -->
+The Database module accepts `POST` requests to `/database/schemas`<br />
 That's how Conduit's Admin Panel creates custom (CMS) schemas.
 
 <!-- TODO: What about non-configurable module names? -->
@@ -31,7 +31,7 @@ We'll start by sending an administrative login request.<br />
 Make sure you pass in the [`masterkey` header](headers#headers-admin-masterkey) along with your administrator credentials and send your data as raw JSON.<br />
 
 ``` bash title="Admin Login"
-curl --location --request POST 'http://localhost:3000/admin/login' \
+curl --location --request POST 'http://localhost:3030/login' \
      --header 'masterkey: M4ST3RK3Y' \
      --header 'Content-Type: application/json' \
      --data-raw '{
@@ -55,7 +55,7 @@ We pass it along as the `Authorization` header, prefixed by `Bearer `.<br />
 That one should return all of the schemas owned by Database or Authentication.
 
 ``` bash title="Retrieving Database Schemas"
-curl --location --request GET 'http://localhost:3000/admin/database/schemas/?enabled=true&owner=database,authentication' \
+curl --location --request GET 'http://localhost:3030/database/schemas/?enabled=true&owner=database,authentication' \
      --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
      --header 'masterkey: M4ST3RK3Y'
 ```
@@ -115,10 +115,10 @@ curl --location --request GET 'http://localhost:3000/admin/database/schemas/?ena
 
 ### Performing Application Requests
 
-[Application routes](./router.mdx#request-types-app) are exposed under `CONDUIT_URL/moduleName/`.
+[Application routes](./router.mdx#request-types-app) are exposed under `/moduleName/`.
 
 Example:<br />
-The Database module accepts `GET` requests to `CONDUIT_URL/database/documents`.<br />
+The Database module accepts `GET` requests to `/database/documents`.<br />
 That's how your end-user applications would query for custom (CMS) schema documents.
 
 <!-- TODO: What about non-configurable module names? -->
@@ -176,8 +176,9 @@ so that they include all the relevant routes and updated params.</ins>
 
 </div>
 
-Swagger UI pages are exposed under [/swagger](http://localhost:3000/swagger) and [/admin/swagger](http://localhost:3000/admin/swagger) by default.<br />
-Oh, and you can grab your own *swagger.json* files from [/swagger.json](http://localhost:3000/swagger.json) and [/admin/swagger.json](http://localhost:3000/admin/swagger.json).<br />
+<!-- TODO: Move Admin stuff out... -->
+Swagger UI pages are exposed under [/swagger](http://localhost:3000/swagger) and [/swagger](http://localhost:3030/swagger) by default.<br />
+Oh, and you can grab your own *swagger.json* files from [/swagger.json](http://localhost:3000/swagger.json) and [/swagger.json](http://localhost:3030/swagger.json).<br />
 You may import these directly in any API testing app of your choice to automatically generate your personalized request collection.
 
-Just make sure you set up all of the required h[eaders](./headers) and point your `baseUrl` variable to your http server's path (eg `http://localhost:3000`).<br />
+Just make sure you set up all of the required [headers](./headers) and point your `baseUrl` variable to your http server's path (eg `http://localhost:3000`).<br />

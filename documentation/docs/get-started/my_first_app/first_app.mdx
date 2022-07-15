@@ -44,7 +44,7 @@ source <(curl -s https://getconduit.dev/bootstrap)
     <!-- TODO: We really ought to remove or at the very least workaround Authentication's initial dependency on Email -->
 
     ``` bash title="Getting an Admin Authentication Token"
-    curl --location --request POST 'http://localhost:3000/admin/login' \
+    curl --location --request POST 'http://localhost:3030/login' \
     --header 'masterkey: M4ST3RK3Y' \
     --header 'Content-Type: application/json' \
     --data-raw '{
@@ -59,7 +59,7 @@ source <(curl -s https://getconduit.dev/bootstrap)
     You're going to need your admin token for the following configuration request.
 
     ``` bash title="Configuring the Authentication Module"
-    curl --location --request PUT 'http://localhost:3000/admin/config/authentication' \
+    curl --location --request PATCH 'http://localhost:3030/config/authentication' \
     // highlight-next-line
     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
     --header 'masterkey: M4ST3RK3Y' \
@@ -151,7 +151,7 @@ source <(curl -s https://getconduit.dev/bootstrap)
     We'll create a new user with a username of `user` and a password of `pass`.
 
     ``` bash title="Creating a User"
-    curl --location --request POST 'http://localhost:3000/admin/authentication/users/' \
+    curl --location --request POST 'http://localhost:3030/authentication/users/' \
     // highlight-next-line
     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
     --header 'masterkey: M4ST3RK3Y' \

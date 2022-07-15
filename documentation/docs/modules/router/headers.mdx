@@ -30,8 +30,8 @@ The default value is `M4ST3RK3Y`, but you change that by setting the `masterkey`
 A bearer formatted access token used for administrator authentication.<br />
 This header is required by most administative routes, with the exception of:
 
-- Admin Login (`POST: /admin/login`)
-- Online Modules (`GET: /admin/modules`)
+- Admin Login (`POST: /login`)
+- Online Modules (`GET: /modules`)
 
 ``` json title="Example"
 { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI" }
@@ -43,7 +43,7 @@ This header is required by most administative routes, with the exception of:
   <summary>Getting an Admin Authentication Token</summary>
 
   ``` bash title="Request"
-  curl --location --request POST 'http://localhost:3000/admin/login' \
+  curl --location --request POST 'http://localhost:3030/login' \
       --header 'masterkey: M4ST3RK3Y' \
       --header 'Content-Type: application/json' \
       --data-raw '{
@@ -109,7 +109,7 @@ Just head to the main `Settings` page and select the `Secrets` tab.
   As such, your request's `Authorization` header should contain an admin access token.
 
   ``` bash title="Request"
-  curl --location --request POST 'http://localhost:3000/admin/security/client/' \
+  curl --location --request POST 'http://localhost:3030/security/client/' \
        --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
        --header 'masterkey: M4ST3RK3Y' \
        --header 'Content-Type: application/json' \

@@ -52,19 +52,20 @@ Not gonna lie, they had us on the first half.
 
 ## Manual Configuration {#manual-config}
 
-Any administrator can retrieve and update a module's configuration using REST API requests to that module's configuration endpoint.
+Any administrator can retrieve and update a module's configuration using Conduit's [administrative APIs](./administration).<br />
+In the examples listed below, we'll be making of REST endpoints, but you could also make use of GraphQL instead.<br />
 
 <ins><strong>Notice:</strong> Make sure your configuration requests contain the appropriate <strong><a href="router/headers/#headers-admin">administration headers</a></strong>.</ins>
 
 ### Listing Available Modules
 
-You may list all the available modules by sending a `GET` request to `/admin/config/modules`.<br />
+You may list all the available modules by sending a `GET` request to `/config/modules`.<br />
 This should return a list of all the configurable modules that are currently online, as well as their addresses.
 
 You may use these exact module names to retrieve and update their configuration.
 
 ``` bash title="Listing Configurable Modules"
-curl --location --request GET 'http://localhost:3000/admin/config/modules' \
+curl --location --request GET 'http://localhost:3030/config/modules' \
      // highlight-start
      --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
      --header 'masterkey: M4ST3RK3Y'
@@ -92,12 +93,12 @@ curl --location --request GET 'http://localhost:3000/admin/config/modules' \
 
 ### Getting a Module's Configuration {#manual-config-get}
 
-Retrieving a module's active configuration is a simple as sending a `GET` request to `/admin/config/$moduleName`.
+Retrieving a module's active configuration is a simple as sending a `GET` request to `/config/$moduleName`.
 
 Let's find out how Chat's currently active configuration looks like.
 
 ``` bash title="Getting a Module's Configuration"
-curl --location --request GET 'http://localhost:3000/admin/config/chat' \
+curl --location --request GET 'http://localhost:3030/config/chat' \
      // highlight-start
      --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
      --header 'masterkey: M4ST3RK3Y'
@@ -116,13 +117,13 @@ curl --location --request GET 'http://localhost:3000/admin/config/chat' \
 
 ### Updating a Module's Configuration {#manual-config-update}
 
-In order to update a module's configuration, send a `PUT` request to `/admin/config/$moduleName`, containing your desired configuration.
+In order to update a module's configuration, send a `PATCH` request to `/config/$moduleName`, containing your desired configuration.
 
 Suppose we no longer wish for our users to be capable of modifying or deleting their own messages.<br />
 Let's see how we'd go about disabling these options.
 
 ``` bash title="Updating a Module's Configuration"
-curl --location --request PUT 'http://localhost:3000/admin/config/chat' \
+curl --location --request PATCH 'http://localhost:3030/config/chat' \
      // highlight-start
      --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
      --header 'masterkey: M4ST3RK3Y'
@@ -146,5 +147,3 @@ curl --location --request PUT 'http://localhost:3000/admin/config/chat' \
   }
 }
 ```
-
-<ins><strong>Notice:</strong> Request bodies should contain a <strong>complete</strong> configuration, <strong>not</strong> just the fields to be modified.</ins>
