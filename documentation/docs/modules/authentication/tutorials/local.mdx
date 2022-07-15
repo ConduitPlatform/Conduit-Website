@@ -61,7 +61,10 @@ Now, what about that `refreshToken` then?
 User access tokens are only valid for a fairly short amount of time. <!-- TODO: Just how short though? Configurable? -->
 Refresh tokens take longer to expire, therefore you may conveniently generate new authentication tokens without storing sensitive user credentials in your end-user applications.
 
-**User access and refresh tokens are tied to the security client they were generated with, meaning you can't use or refresh them using a different security client id/secret pair**.
+:::caution
+While [Router's security client validation](../../router/security#client-validation) feature is enabled, **tokens are tied to the security client** they were generated with.
+Meaning you can't reuse or refresh tokens across different clients.
+:::
 
 **Requesting a token refresh invalidates your existing access and refresh tokens**, returning you a new pair to be used in subsequent requests.
 Let's finish off with an example on how to do just that.

@@ -3,7 +3,7 @@ sidebar_label: 'Security'
 sidebar_position: 5
 ---
 
-# Conduit Security
+# Security
 
 <div style={{textAlign: 'center'}}>
 
@@ -11,24 +11,55 @@ sidebar_position: 5
 
 </div>
 
-## Features
 
-- Proper header settings (through [Helmet](https://helmetjs.github.io/))
-- Rate limiting (currently set to 50 req/s per IP)
-- Client ID / Secret (disabled by default)
-- Huge body size prevention (50mb max)
-- Nuclear War prevention (not really but we thought it was cool if it did)
+## Client Validation {#client-validation}
 
-<!-- TODO
-v13:
-- Add a configuration section
-- Update all security client related examples and mentions
--  a) now optional
--  b) new fields
-v14:
-- Move into Router
--->
+[//]: # (TODO: Description)
 
-## Configuration
+[//]: # (TODO: When are they used? - check headers page)
 
-In upcoming versions you'll be able to further configure it so that you may increase rate limiting thresholds, change CORS settings and increase/decrease max body size to fit your needs.
+### Supported Platforms:
+
+<!-- TODO: Screenshots + explanation on how to create these from UI -->
+
+- `WEB`
+- `ANDROID`
+- `IOS`
+- `IPADOS`
+- `WINDOWS`
+- `MACOS`
+- `LINUX`
+- `CLI` (used exclusively by Conduit's CLI)
+
+You may conveniently generate your own security clients through the Router section of Conduit's Admin Panel.
+
+<div style={{textAlign: 'center'}}>
+
+![Create Security Client](/img/security/generate_security_client_popup.png)
+
+</div>
+
+<details>
+    <summary>Generating a Security Client</summary>
+
+    **Security clients are generated using an administrative request.**<br />
+    As such, your request's `Authorization` header should contain an admin access token.
+
+    ``` bash title="Request"
+    curl --location --request POST 'http://localhost:3030/security/client/' \
+    --header 'Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
+    --header 'masterkey: M4ST3RK3Y' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+    "platform": "ANDROID"
+}'
+    ```
+    ``` json title="Response"
+    {
+        "id": "6242b88a10a0990182773840",
+        "clientId": "1c0d06679f837c3958fba2724b51dc",
+        "clientSecret": "9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902",
+        "platform": "ANDROID"
+    }
+    ```
+</details>
