@@ -55,7 +55,7 @@ curl --location --request POST 'http://localhost:3000/authentication/local' \
 
 Nice, we got more of these weird sequences of seemingly random characters.
 
-In order for your users to perform user authenticated application requests you'll need to pass their `accessToken` as an [authorization header](../../router/headers#headers-app-auth).<br />
+In order for your users to perform user authenticated application requests you'll need to pass their `accessToken` as an [authorization header](../../router/headers#headers-auth).<br />
 
 Now, what about that `refreshToken` then?
 User access tokens are only valid for a fairly short amount of time. <!-- TODO: Just how short though? Configurable? -->

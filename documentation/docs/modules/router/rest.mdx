@@ -28,7 +28,7 @@ Lets go through a couple examples, shall we?<br />
 We'll be using curl for this in order to make sure everyone can follow along, but you can send your requests any way you like.
 
 We'll start by sending an administrative login request.<br />
-Make sure you pass in the [`masterkey` header](headers#headers-admin-masterkey) along with your administrator credentials and send your data as raw JSON.<br />
+Make sure you pass in the [`masterkey` header](headers#headers-masterkey) along with your administrator credentials and send your data as raw JSON.<br />
 
 ``` bash title="Admin Login"
 curl --location --request POST 'http://localhost:3030/login' \
@@ -37,7 +37,7 @@ curl --location --request POST 'http://localhost:3030/login' \
      --data-raw '{
         "username": "admin",
         "password": "admin"
-     }'
+    }'
 ```
 ```json title="Response"
 {
@@ -129,10 +129,10 @@ Application routes make use of [Application Headers](./headers#headers-app).
 <details>
   <summary>Request Examples</summary>
   For most of your typical non-admin requests performed by your apps, you would perform an application request.<br />
-  These ones require a set of <a href="./headers/#headers-app-security">application headers</a> to be passed along.<br /><br />
+  These ones require a set of <a href="./headers/#headers-security">application headers</a> to be passed along.<br /><br />
 
   A <a href="./headers/#headers-app">security client id and secret pair</a> to be precise.<br />
-  User authenticated routes additionally require an <a href="./headers/#headers-app-auth">Authorization header</a> containing a user authentication bearer token.<br />
+  User authenticated routes additionally require an <a href="./headers/#headers-auth">Authorization header</a> containing a user authentication bearer token.<br />
 
   In fact, for anyone making use of [Local Authentication](../authentication/strategies#local) (enabled by default),
   retrieving that very same user access token is also accomplished through an application request.
