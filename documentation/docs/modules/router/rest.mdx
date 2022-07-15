@@ -17,7 +17,7 @@ The Database module accepts `POST` requests to `/database/schemas`<br />
 That's how Conduit's Admin Panel creates custom (CMS) schemas.
 
 <!-- TODO: What about non-configurable module names? -->
-[Reminder on how to list available module names.](../config#listing-available-modules)
+[Reminder on how to list available module names.](../../config#listing-available-modules)
 
 Administrative routes make use of [Administration Headers](./headers#headers-admin).
 
@@ -122,7 +122,7 @@ The Database module accepts `GET` requests to `/database/documents`.<br />
 That's how your end-user applications would query for custom (CMS) schema documents.
 
 <!-- TODO: What about non-configurable module names? -->
-[Reminder on how to list available module names.](../config#listing-available-modules)
+[Reminder on how to list available module names.](../../config#listing-available-modules)
 
 Application routes make use of [Application Headers](./headers#headers-app).
 
@@ -134,7 +134,7 @@ Application routes make use of [Application Headers](./headers#headers-app).
   A <a href="./headers/#headers-app">security client id and secret pair</a> to be precise.<br />
   User authenticated routes additionally require an <a href="./headers/#headers-app-auth">Authorization header</a> containing a user authentication bearer token.<br />
 
-  In fact, for anyone making use of [Local Authentication](../modules/authentication/strategies#local) (enabled by default), 
+  In fact, for anyone making use of [Local Authentication](../authentication/strategies#local) (enabled by default),
   retrieving that very same user access token is also accomplished through an application request.
 
 <!-- Ideally we'd be importing shared examples so as to facilitate keeping them consistent and up to date. -->

@@ -29,7 +29,7 @@ Administrative requests operate on your backend on an administration level.<br /
 Most of them expose or modify critical parts of your backend like listing private data and configuring your user authentication strategies.<br />
 As such, their routes require authorization to prevent non-administrators from being capable of performing them.
 
-The [Admin Panel](../get-started/admin-panel) uses administrative requests to update your modules configurations, create CMS schemas, send SMS etc.
+The [Admin Panel](../../get-started/admin-panel) uses administrative requests to update your modules configurations, create CMS schemas, send SMS etc.
 
 <ins><strong>Notice:</strong> Administrative requests are <strong>only exposed</strong> through the <strong>REST API</strong>.</ins><br /><br />
 
@@ -59,10 +59,10 @@ Routes are automatically registered or recovered upon bringing up a module,
 so make sure you start any of the modules you wish to experiment with before checking out Swagger or sending out any requests to these modules.
 
 If you're simply trying to create CRUD endpoints for your database schemas, the answer is most likely "No".<br />
-The [Database module](../modules/database) already covers that use case as custom schemas enabling CRUD operations already come with auto-generated CRUD routes.<br />
+The [Database module](../database) already covers that use case as custom schemas enabling CRUD operations already come with auto-generated CRUD routes.<br />
 It also supports the creation of code-free custom endpoints for your schemas.<br />
-You can even accomplish that graphically through the Database section of the [Admin Panel](../get-started/admin-panel) too!
+You can even accomplish that graphically through the Database section of the [Admin Panel](../../get-started/admin-panel) too!
 
 ### I'm fairly sure I do
 
-If you really need to write your own routes from the ground up, you're going to have to build your own [custom modules](../modules#custom-modules).
+If you really need to write your own routes from the ground up, you're going to have to build your own [custom modules](../#custom-modules).

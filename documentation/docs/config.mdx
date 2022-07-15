@@ -20,7 +20,7 @@ But how does one actually configure all of these distributed service modules?
 Conduit provides a centralized form of module configuration, meaning administrators are capable of
 specifying their desired config options for any individual module through Conduit itself.
 
-Modules can be configured through the [Admin Panel](get-started/admin-panel) or using [Conduit's REST API](router/rest).<br />
+Modules can be configured through the [Admin Panel](get-started/admin-panel) or using [Conduit's Administration APIs](administration).<br />
 
 <ins><strong>Notice:</strong> Modules need to be <strong>online</strong> in order for them to be configurable and for their configuration to be retrievable.</ins>
 
@@ -55,7 +55,7 @@ Not gonna lie, they had us on the first half.
 Any administrator can retrieve and update a module's configuration using Conduit's [administrative APIs](./administration).<br />
 In the examples listed below, we'll be making of REST endpoints, but you could also make use of GraphQL instead.<br />
 
-<ins><strong>Notice:</strong> Make sure your configuration requests contain the appropriate <strong><a href="router/headers/#headers-admin">administration headers</a></strong>.</ins>
+<ins><strong>Notice:</strong> Make sure your configuration requests contain the appropriate <strong><a href="administration/headers">administration headers</a></strong>.</ins>
 
 ### Listing Available Modules
 

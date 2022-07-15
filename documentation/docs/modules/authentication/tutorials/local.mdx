@@ -8,7 +8,7 @@ sidebar_position: 1
 The Authentication module offers a local email address based authentication strategy available for users to register with right out of the box.<br />
 Making use of it does not require any administrative intervention other than simply bringing up the Authentication module.
 
-In this tutorial, we'll be utilizing Conduit's [REST API](../../../router/rest) to create and authenticate our users.<br
+In this tutorial, we'll be utilizing Conduit's [REST API](../../router/rest) to create and authenticate our users.<br
 
 ## User Creation
 
@@ -55,7 +55,7 @@ curl --location --request POST 'http://localhost:3000/authentication/local' \
 
 Nice, we got more of these weird sequences of seemingly random characters.
 
-In order for your users to perform user authenticated application requests you'll need to pass their `accessToken` as an [authorization header](../../../router/headers#headers-app-auth).<br />
+In order for your users to perform user authenticated application requests you'll need to pass their `accessToken` as an [authorization header](../../router/headers#headers-app-auth).<br />
 
 Now, what about that `refreshToken` then?
 User access tokens are only valid for a fairly short amount of time. <!-- TODO: Just how short though? Configurable? -->

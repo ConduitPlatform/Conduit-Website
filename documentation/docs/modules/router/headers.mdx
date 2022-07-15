@@ -136,9 +136,9 @@ This header is only required by user-authenticated routes.
 { "Authorization": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDE5ODM0ZmMwZGFiMGVhZjA1ZjVjZSIsImlhdCI6MTY0ODQ2NjA3OSwiZXhwIjoxNzM0ODY2MDc5fQ.mDlETjM2y0hahbhJy_cKRmNM5X4wFigqoWw9j7QzO6E" }
 ```
 
-**User access tokens cannot be used interchangeably with [adminstrator access tokens](#headers-admin-auth)!**
+**User access tokens cannot be used interchangeably with [administrator access tokens](#headers-admin-auth)!**
 
-The [Authentication](../modules/authentication) module provides multiple [authentication strategies](../modules/authentication/strategies) for you to choose from.<br />
+The [Authentication](../authentication) module provides multiple [authentication strategies](../authentication/strategies) for you to choose from.<br />
 Your authentication strategy affects how you register users and obtain user authentication tokens.
 
 <!-- TODO: Elaborate on Access/Refresh tokens, expiry, security client coupleing etc ??? -->
@@ -146,9 +146,9 @@ Your authentication strategy affects how you register users and obtain user auth
 <details>
   <summary>Obtaining User Access and Refresh Tokens</summary>
 
-  Out of the box, Conduit's Authentication module utilizes <a href="../modules/authentication/strategies#local">Local Authentication</a> in order to provide you with a simple, 
+  Out of the box, Conduit's Authentication module utilizes <a href="../authentication/strategies#local">Local Authentication</a> in order to provide you with a simple,
   yet extendable, strategy that's capable of functioning without further configuration.
 
-  <a href="../modules/authentication/tutorials/local">Read up on how to make use of the Local Authentication strategy in order to create your users and generate authentication tokens.</a>
+  <a href="../authentication/tutorials/local">Read up on how to make use of the Local Authentication strategy in order to create your users and generate authentication tokens.</a>
 
 </details>
