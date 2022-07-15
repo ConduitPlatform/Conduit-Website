@@ -34,7 +34,7 @@ This header is required by most administative routes, with the exception of:
 - Online Modules (`GET: /modules`)
 
 ``` json title="Example"
-{ "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI" }
+{ "Authorization": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI" }
 ```
 
 **Admin access tokens cannot be used interchangeably with [user access tokens](#headers-app-auth)!**
@@ -110,7 +110,7 @@ Just head to the main `Settings` page and select the `Secrets` tab.
 
   ``` bash title="Request"
   curl --location --request POST 'http://localhost:3030/security/client/' \
-       --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
+       --header 'Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
        --header 'masterkey: M4ST3RK3Y' \
        --header 'Content-Type: application/json' \
        --data-raw '{
@@ -133,7 +133,7 @@ A bearer formatted access token used for user authentication.<br />
 This header is only required by user-authenticated routes.
 
 ``` json title="Example"
-{ "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDE5ODM0ZmMwZGFiMGVhZjA1ZjVjZSIsImlhdCI6MTY0ODQ2NjA3OSwiZXhwIjoxNzM0ODY2MDc5fQ.mDlETjM2y0hahbhJy_cKRmNM5X4wFigqoWw9j7QzO6E" }
+{ "Authorization": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDE5ODM0ZmMwZGFiMGVhZjA1ZjVjZSIsImlhdCI6MTY0ODQ2NjA3OSwiZXhwIjoxNzM0ODY2MDc5fQ.mDlETjM2y0hahbhJy_cKRmNM5X4wFigqoWw9j7QzO6E" }
 ```
 
 **User access tokens cannot be used interchangeably with [adminstrator access tokens](#headers-admin-auth)!**

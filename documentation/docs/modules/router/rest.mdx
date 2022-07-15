@@ -51,12 +51,12 @@ Does that mean I've got my very own NFT now?
 
 Nah, but on the bright side, it should let you access your very own set of administrative routes!<br />
 Let's put that token to use and send an authenticated admin request to the Database module.<br />
-We pass it along as the `Authorization` header, prefixed by `Bearer `.<br />
+We pass it along as the `Authorization` header, prefixed by `JWT `.<br />
 That one should return all of the schemas owned by Database or Authentication.
 
 ``` bash title="Retrieving Database Schemas"
 curl --location --request GET 'http://localhost:3030/database/schemas/?enabled=true&owner=database,authentication' \
-     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
+     --header 'Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
      --header 'masterkey: M4ST3RK3Y'
 ```
 ```json title="Response"
