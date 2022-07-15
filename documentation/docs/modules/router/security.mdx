@@ -47,7 +47,7 @@ You may conveniently generate your own security clients through the Router secti
 
     ``` bash title="Request"
     curl --location --request POST 'http://localhost:3030/security/client/' \
-    --header 'Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
+    --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
     --header 'masterkey: M4ST3RK3Y' \
     --header 'Content-Type: application/json' \
     --data-raw '{

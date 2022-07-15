@@ -50,7 +50,7 @@ async function getMovies(director) {
       'Content-Type': 'application/json',
       'clientid': 'someclientid',
       'clientsecret':'someclientsecret',
-      'Authorization': 'JWT sometoken'
+      'Authorization': 'Bearer sometoken'
     },
   })
     .then(data => data.json())
