@@ -4,6 +4,9 @@ sidebar_position: 2
 title: 'Installation'
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## Getting Conduit
 
 9 out of 10 successful backend engineers agree downloading software drastically increases the chances of running it!<br />
@@ -26,12 +29,14 @@ Yeah, thought so. Thankfully, it just so happens we've built a handy little some
 First things first, make sure [Docker is installed](https://docs.docker.com/get-docker/) and
 configured so that you are capable of executing docker commands without *sudo* (by adding your user to the docker group).
 
-<!-- TODO: Add platform/repo tabs once we add more installation options -->
-To keep this section concise and cross-platform, we're going to install Conduit's CLI through npm, but you may make use of the [supported installation methods](./cli.mdx) you deem preferable.
+<Tabs>
+<TabItem value="npm" label="npm">
 
-Bootstrapping a local deployment
+``` bash title="Installation"
+sudo npm install -g @conduitplatform/cli
+```
 
-``` bash
+``` bash title="Bootstrapping a local deployment"
 sudo npm install -g @conduitplatform/cli
 # Option A: Just give me a barebones setup of the latest Conduit release
 npx @conduitplatform/cli deploy
@@ -39,9 +44,13 @@ npx @conduitplatform/cli deploy
 # Option B: I wish to bring up extra modules and perform some basic configuration
 npx @conduitplatform/cli deploy --config
 ```
+</TabItem>
+</Tabs>
 
 Upon completion, the above should bring up Conduit's admin panel in your browser.<br />
 Default administration credentials are `admin`/`admin`.
+
+[Tell me more about this CLI of yours](./cli)
 
 -------------------------------------------------
 

@@ -2,29 +2,94 @@
 slug: cli
 sidebar_label: 'CLI'
 sidebar_position: 9
+hide_title: true
 ---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+:::caution
+
+Some of the following commands may not be supported on outdated Conduit deployments.<br />
+To guarantee ideal compatibility, try and stick to the latest versions of Conduit and Conduit CLI.
+
+[//]: # (TODO: CLI should be aware of these limitations and throw on unsupported deployments)
+
+:::
 
 # Conduit CLI
 
-The CLI to help you when developing conduit.
+[//]: # (TODO: Screenshots)
+
+Conduit's CLI is a multipurpose tool that's meant to facilitate your development experience and speed up your work
+regardless of whether you're deploying a Conduit instance for your project, developing custom modules or even
+contributing to the upstream project in your spare time.
+
+If you treat it right, it's gonna deploy local instances of Conduit for you, provide API client library generation for
+your frontend team, generate some TypeScript code for your custom modules and even handle your laundry... nah, wait I
+thought we were not actually releasing this one until the next release, right?
+
+Anyway, point is, you're most likely going to want to use this, so stick around if you wish to find out how to go about it.
+
+## Requirements
+
+While the use of Docker is not required for every single piece of functionality provided, for most typical use cases
+you're going to [need Docker installed](https://docs.docker.com/get-docker) and configured so that your user is capable
+of utilizing it without superuser privileges.
+
+For Linux users, this usually means adding your user to the `docker` group.
+
+[//]: # (TODO: Mention docker-compose, podman ?)
 
 ## Installation {#installation-methods}
-<!-- TODO: Tabs per option -->
 
-<div style={{textAlign: 'center'}}>
+[//]: # (TODO: Once we add more installation options, tabs should wrap everything below, componentize and import text)
+<Tabs>
+<TabItem value="npm" label="npm">
 
-Documentation in progress...
+``` bash
+sudo npm install -g @conduitplatform/cli
+```
+</TabItem>
+</Tabs>
 
-![Waiting](/img/memes/stand_by.png)
+## Bootstrapping Local Deployments {#cmd-deploy}
 
-</div>
+Deploys a local instance of Conduit using Docker.<br />
+By default, it's going to pick the latest stable release, select MongoDB as your database engine and
+bring up any modules deemed essential for a barebones configuration.
 
-## Functionality
+If you wish to explicitly select your target Conduit version, db type or pick and configure your module selection you
+should make sure to specify `--configure` while invoking this.
 
-### Bootstrapping Local Deployments {#cmd-deploy}
+``` bash title="Find out more"
+npx @conduitplatform/cli deploy --help
+```
 
-### Selecting Active Deployment {#cmd-init}
+## Selecting Active Deployment {#cmd-init}
 
-### API Client Library Generation ${cmd-generateClient}
+Select the deployment to be used for operations such as schema and API client library generation.
+You may specify any local or remote deployment regardless of how it was deployed.
 
-### Schema Generation {#cmd-generateSchema}
+``` bash title="Find out more"
+npx @conduitplatform/cli init --help
+```
+
+## API Client Library Generation ${cmd-generateClient}
+
+Generates an API client library for Conduit.<br />
+Supports both REST and GraphQL APIs.<br />
+
+``` bash title="Find out more"
+npx @conduitplatform/cli generateClient --help
+```
+
+## Schema Generation {#cmd-generateSchema}
+
+Generates a compatible Conduit schema TypeScript file based on your deployment's schemas.<br />
+This command is extremely useful if you're trying to build your own custom module.<br />
+Make use of Database module's CMS functionality to create a custom schema, then use this command to generate a schema file for it.
+
+``` bash title="Find out more"
+npx @conduitplatform/cli generateSchema --help
+```
