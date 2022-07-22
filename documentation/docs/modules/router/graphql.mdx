@@ -6,13 +6,17 @@ sidebar_position: 3
 # GraphQL API
 
 Conduit exposes a GraphQL server for you to perform GraphQL requests.<br />
-You can access it through `/graphql`.
+Your application-level GraphQL path is `/graphql`.<br />
+You may always retrieve the exact url through the Admin Panel.
+
+<div style={{textAlign: 'center'}}>
+
+![GraphQL Button](/img/overview/home_topright_buttons.png)
+
+</div>
 
 Navigating to the above URL through your web browser should bring up GraphQL Playground.<br />
 You can use that to test out your requests.
-
-Conduit's GraphQL API is used exclusively for user-level [application requests](./router.mdx#request-types-app).<br />
-Meaning it won't let you perform administrative actions on the backend.
 
 ## Performing Requests
 

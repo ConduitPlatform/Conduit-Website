@@ -66,10 +66,8 @@ You may use these exact module names to retrieve and update their configuration.
 
 ``` bash title="Listing Configurable Modules"
 curl --location --request GET 'http://localhost:3030/config/modules' \
-     // highlight-start
      --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
      --header 'masterkey: M4ST3RK3Y'
-     // highlight-end
 ```
 
 ``` json title="Example Response"
