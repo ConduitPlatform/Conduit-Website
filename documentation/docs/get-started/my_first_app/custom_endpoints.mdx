@@ -1,142 +1,272 @@
 ---
 sidebar_label: 'Using Custom Endpoints'
-sidebar_position: 3
+sidebar_position: 2
+title: 'Custom Endpoints'
 ---
 
 # Using Custom Endpoints
 
-A unique feature that Conduit supports is Custom Endpoints. Given a custom created schema, this feature enables you<br />
-to create custom endpoints for that schema.<br />
-In this section a tutorial of how to manipulate data with custom endpoints using a Front-End framework.<br />
+<div style={{textAlign: 'center'}}>
 
-For understanding purposes we will use the [Movie Schema](../../modules/database/tutorials/cinema_ticket_booking#movies_schema) which had been created in previous tutorial.<br />
-Also, some documents should be stored in the database. See the [My First React App](./first_app#creating-movies) tutorial to see how to do this.<br />
-After doing the above, you will be ready to start this tutorial.<br />
+Documentation in progress...
 
-## Using Custom Endpoints
+![Waiting](/img/memes/stand_by.png)
 
-### Default Endpoints
-In order to use the Custom Endpoints be sure that the endpoints are created and ready for use.<br />
-A meaningful question will be ***'How to be sure for this'*** ?<br />
-Do not worry. Conduit provides a way to see the exposed API in any time using Swagger.<br />
-To open Swagger navigate to `/swagger`<br />
-Let's see which routes are attached to Movies Schema.<br />
+</div>
 
-![Movies Endpoints](/img/first_app/movies_endpoints.png)
+[//]: # (A unique feature that Conduit provides is Custom Endpoints.<br />)
 
-As you can see,some defaults Endpoints are created simultaneously with the Custom Schema creation.<br />
+[//]: # (Given any custom schema created through its CMS or imported from a foreign database,)
 
-### Custom Endpoints
-The time that you were waiting for has come. We will continue this tutorial by creating a React Component using our Created Custom Endpoints.<br />
-The first thing you need to do is to Sign in as Admin and create a Custom Endpoint. See [here](../../modules/database/tutorials/custom_endpoints) for more.<br />
-Once again we have to be sure that our custom endpoint is ready for use. Let's see again the Swagger.<br />
+[//]: # (Conduit allows you to create custom endpoints for your application APIs.)
 
-![Swagger Custom Endpoint](/img/first_app/swagger_custom_endpoint.png)
+[//]: # ()
+[//]: # (This is an introduction on how to manipulate data through custom endpoints.<br />)
 
-## Create Endpoint Component
+[//]: # (We highly suggest read through the [My First React App]&#40;./first_app#creating-movies&#41; tutorial before moving on.<br />)
 
-Let's create a component which help us to use this route. Do not forget that this route helps us<br />
-to retrieve movies whose director is the same with the given director name.<br />
+[//]: # (Alternatively, you may follow along on your own as long as you remember how to)
 
-```tsx title="GetMoviesDirector Component"
-import React, { useEffect, useState } from "react";
-import '../css/Login.css'
+[//]: # ([create custom schemas]&#40;../../modules/database/tutorials/cinema_ticket_booking#movies_schema&#41;.)
 
-async function getMovies(director) {
+[//]: # (TODO: Anything below this point)
 
-  return fetch(`http://localhost:3000/database/function/getMoviesDirector?director=${director}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'clientid': 'someclientid',
-      'clientsecret':'someclientsecret',
-      'Authorization': 'Bearer sometoken'
-    },
-  })
-    .then(data => data.json())
- }
+[//]: # ()
+[//]: # (## Using Custom Endpoints)
 
-export default function GetMovies() {
+[//]: # ()
+[//]: # (### Default Endpoints)
 
-  const [movies,setMovies] = useState([]);
-  const [director,setDirector] = useState([]);
+[//]: # (In order to use the Custom Endpoints be sure that the endpoints are created and ready for use.<br />)
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    const response = await getMovies(director);
-    setMovies(response);
-    console.log(movies)
-  }
-  return(
-    <div className="login-wrapper">
-            <label>
-        <p>Director</p>
-        <input type="text" onChange={e => setDirector(e.target.value)}/>
-      </label>
-      <form onSubmit={handleSubmit}>
-        <button type="submit">GET MOVIES</button>
-    </form>
-    <div>
-    <ul>
-        {
-          movies &&
-          movies.map((movie) =>
-            <li style={{
-              display: "flex",
-              gap: 2,
-              flexDirection: "column",
-              padding: 10
+[//]: # (A meaningful question will be ***'How to be sure for this'*** ?<br />)
 
-            }}>
-              <div style= {{ fontWeight:"bold"}}>
-                Name: {movie.name}
-              </div>
-              <div>
-                Director: {movie.director}
-              </div>
-              <div>
-                ReleaseDate: {movie.releaseDate}
-              </div>
-            </li>
-          )
-        }
-        </ul>
-    </div>
-    </div>
-  )
-}
-```
-You need also to change your `App.js` file in order to map the given component with a route.<br />
-```tsx title="App.js"
-import './App.css';
-import Login from './components/Login';
-import CreateMovie from './components/CreateMovie';
-import GetMovies from './components/GetMovies';
-import GetMoviesDirector from './components/GetMoviesDirector';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link,
-  Outlet
-} from "react-router-dom";
+[//]: # (Do not worry. Conduit provides a way to see the exposed API in any time using Swagger.<br />)
 
-function App() {
-  return (
-    <div className="wrapper">
-      <h1>My App</h1>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login/>} />
-          <Route path="/movie" element={<CreateMovie/>} />
-          <Route path="/movies" element={<GetMovies/>} />
-            <Route path="/getMoviesDirector" element={<GetMoviesDirector/>} />
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
-}
-export default App;
-```
-As you can see the movies whose director's name is 'Quint' are displayed to you.
-![Quint Movies](/img/first_app/Quint_movies.png)
+[//]: # (To open Swagger navigate to `/swagger`<br />)
+
+[//]: # (Let's see which routes are attached to Movies Schema.<br />)
+
+[//]: # ()
+[//]: # (![Movies Endpoints]&#40;/img/first_app/movies_endpoints.png&#41;)
+
+[//]: # ()
+[//]: # (As you can see,some defaults Endpoints are created simultaneously with the Custom Schema creation.<br />)
+
+[//]: # ()
+[//]: # (### Custom Endpoints)
+
+[//]: # (The time that you were waiting for has come. We will continue this tutorial by creating a React Component using our Created Custom Endpoints.<br />)
+
+[//]: # (The first thing you need to do is to Sign in as Admin and create a Custom Endpoint. See [here]&#40;../../modules/database/tutorials/custom_endpoints&#41; for more.<br />)
+
+[//]: # (Once again we have to be sure that our custom endpoint is ready for use. Let's see again the Swagger.<br />)
+
+[//]: # ()
+[//]: # (![Swagger Custom Endpoint]&#40;/img/first_app/swagger_custom_endpoint.png&#41;)
+
+[//]: # ()
+[//]: # (## Create Endpoint Component)
+
+[//]: # ()
+[//]: # (Let's create a component which help us to use this route. Do not forget that this route helps us<br />)
+
+[//]: # (to retrieve movies whose director is the same with the given director name.<br />)
+
+[//]: # ()
+[//]: # (```tsx title="GetMoviesDirector Component")
+
+[//]: # (import React, { useEffect, useState } from "react";)
+
+[//]: # (import '../css/Login.css')
+
+[//]: # ()
+[//]: # (async function getMovies&#40;director&#41; {)
+
+[//]: # ()
+[//]: # (  return fetch&#40;`http://localhost:3000/database/function/getMoviesDirector?director=${director}`, {)
+
+[//]: # (    method: 'GET',)
+
+[//]: # (    headers: {)
+
+[//]: # (      'Content-Type': 'application/json',)
+
+[//]: # (      'clientid': 'someclientid',)
+
+[//]: # (      'clientsecret':'someclientsecret',)
+
+[//]: # (      'Authorization': 'Bearer sometoken')
+
+[//]: # (    },)
+
+[//]: # (  }&#41;)
+
+[//]: # (    .then&#40;data => data.json&#40;&#41;&#41;)
+
+[//]: # ( })
+
+[//]: # ()
+[//]: # (export default function GetMovies&#40;&#41; {)
+
+[//]: # ()
+[//]: # (  const [movies,setMovies] = useState&#40;[]&#41;;)
+
+[//]: # (  const [director,setDirector] = useState&#40;[]&#41;;)
+
+[//]: # ()
+[//]: # (  const handleSubmit = async e => {)
+
+[//]: # (    e.preventDefault&#40;&#41;;)
+
+[//]: # (    const response = await getMovies&#40;director&#41;;)
+
+[//]: # (    setMovies&#40;response&#41;;)
+
+[//]: # (    console.log&#40;movies&#41;)
+
+[//]: # (  })
+
+[//]: # (  return&#40;)
+
+[//]: # (    <div className="login-wrapper">)
+
+[//]: # (            <label>)
+
+[//]: # (        <p>Director</p>)
+
+[//]: # (        <input type="text" onChange={e => setDirector&#40;e.target.value&#41;}/>)
+
+[//]: # (      </label>)
+
+[//]: # (      <form onSubmit={handleSubmit}>)
+
+[//]: # (        <button type="submit">GET MOVIES</button>)
+
+[//]: # (    </form>)
+
+[//]: # (    <div>)
+
+[//]: # (    <ul>)
+
+[//]: # (        {)
+
+[//]: # (          movies &&)
+
+[//]: # (          movies.map&#40;&#40;movie&#41; =>)
+
+[//]: # (            <li style={{)
+
+[//]: # (              display: "flex",)
+
+[//]: # (              gap: 2,)
+
+[//]: # (              flexDirection: "column",)
+
+[//]: # (              padding: 10)
+
+[//]: # ()
+[//]: # (            }}>)
+
+[//]: # (              <div style= {{ fontWeight:"bold"}}>)
+
+[//]: # (                Name: {movie.name})
+
+[//]: # (              </div>)
+
+[//]: # (              <div>)
+
+[//]: # (                Director: {movie.director})
+
+[//]: # (              </div>)
+
+[//]: # (              <div>)
+
+[//]: # (                ReleaseDate: {movie.releaseDate})
+
+[//]: # (              </div>)
+
+[//]: # (            </li>)
+
+[//]: # (          &#41;)
+
+[//]: # (        })
+
+[//]: # (        </ul>)
+
+[//]: # (    </div>)
+
+[//]: # (    </div>)
+
+[//]: # (  &#41;)
+
+[//]: # (})
+
+[//]: # (```)
+
+[//]: # (You need also to change your `App.js` file in order to map the given component with a route.<br />)
+
+[//]: # (```tsx title="App.js")
+
+[//]: # (import './App.css';)
+
+[//]: # (import Login from './components/Login';)
+
+[//]: # (import CreateMovie from './components/CreateMovie';)
+
+[//]: # (import GetMovies from './components/GetMovies';)
+
+[//]: # (import GetMoviesDirector from './components/GetMoviesDirector';)
+
+[//]: # (import {)
+
+[//]: # (  BrowserRouter,)
+
+[//]: # (  Routes,)
+
+[//]: # (  Route,)
+
+[//]: # (  Link,)
+
+[//]: # (  Outlet)
+
+[//]: # (} from "react-router-dom";)
+
+[//]: # ()
+[//]: # (function App&#40;&#41; {)
+
+[//]: # (  return &#40;)
+
+[//]: # (    <div className="wrapper">)
+
+[//]: # (      <h1>My App</h1>)
+
+[//]: # (      <BrowserRouter>)
+
+[//]: # (        <Routes>)
+
+[//]: # (          <Route path="/login" element={<Login/>} />)
+
+[//]: # (          <Route path="/movie" element={<CreateMovie/>} />)
+
+[//]: # (          <Route path="/movies" element={<GetMovies/>} />)
+
+[//]: # (            <Route path="/getMoviesDirector" element={<GetMoviesDirector/>} />)
+
+[//]: # (        </Routes>)
+
+[//]: # (      </BrowserRouter>)
+
+[//]: # (    </div>)
+
+[//]: # (  &#41;;)
+
+[//]: # (})
+
+[//]: # (export default App;)
+
+[//]: # (```)
+
+[//]: # (As you can see the movies whose director's name is 'Quint' are displayed to you.)
+
+[//]: # (![Quint Movies]&#40;/img/first_app/Quint_movies.png&#41;)
