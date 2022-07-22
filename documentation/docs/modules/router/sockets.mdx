@@ -3,7 +3,7 @@ sidebar_label: 'WebSockets'
 sidebar_position: 4
 ---
 
-# WebSockets
+# WebSockets API
 
 Conduit provides support for WebSocket connections through [Socket.io](https://socket.io/).<br />
 This allows for fast and reliable bidirectional data flows through a persistent connection.
@@ -12,11 +12,11 @@ This allows for fast and reliable bidirectional data flows through a persistent 
 
 Making WebSocket requests requires that you specify a socket server connection path as well as a handshake path.
 
-Conduit modules make use of `CONDUIT_URL/moduleName/` as their server connection path.<br />
+Conduit modules make use of `/moduleName/` as their server connection path.<br />
 The handshake path is `/realtime`.
 
 <!-- TODO: What about non-configurable module names? -->
-[Reminder on how to list available module names.](../config#listing-available-modules)
+[Reminder on how to list available module names.](../../config#listing-available-modules)
 
 Make sure you also pass along your [application headers](./headers#headers-app).
 
@@ -34,7 +34,7 @@ make start-database
 make start-chat
 ```
 
-[Find out more ways to bootstrap the Chat module.](../modules/chat/get-started)
+[Find out more ways to bootstrap the Chat module.](../chat/get-started)
 </details>
 
 Uh, oh, looks like this section is currently Under Development.<br />

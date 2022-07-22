@@ -20,13 +20,18 @@ sudo npm install -g @conduitplatform/cli
 </details>
 
 ``` bash
-# Select Chat while configuring your modules
+# Option A: Just give me a barebones setup of the latest Conduit release (includes Router)
+npx @conduitplatform/cli deploy
+
+# Option B: I wish to bring up extra modules and perform some basic configuration
 npx @conduitplatform/cli deploy --config
 ```
 </TabItem>
 
 <TabItem value="docker" label="Docker">
 <details><summary>Prerequisites</summary>
+
+[//]: # (TODO: Update these)
 
 ``` bash
 # Set up the Container Network
@@ -66,43 +71,24 @@ docker run -d --name conduit-database \
               -e DB_TYPE="mongodb" \
               -e DB_CONN_URI="mongodb://conduit-mongo:27017" \
               ghcr.io/conduitplatform/database:latest
-# Start Router
+```
+</details>
+
+``` bash
 docker run -d --name conduit-router \
               --network-alias router \
               --network "conduit" \
               -h conduit-router \
               -p 3000:3000 -p 3001:3001 \
               -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
-              ghcr.io/conduitplatform/authentication:latest
-```
-</details>
-
-``` bash
-docker run -d --name conduit-chat \
-              --network-alias chat \
-              --network "conduit" \
-              -h conduit-chat \
-              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
-              ghcr.io/conduitplatform/chat:latest
+              ghcr.io/conduitplatform/router:latest
 ```
 </TabItem>
 </Tabs>
 
-At this point, you should have a functional Chat instance.<br />
-Your users are now capable of creating, joing and utilizing chat rooms to communicate with each other.<br />
-You may also create chat rooms and populate them with participants yourself using the [Admin Panel](../../get-started/admin-panel).
+At this point, you should have a functional Router instance.<br />
+Your modules may now register application routes for your users.
 
 -------------------------------------------------
 
-## Using the Admin Panel
-
-![Chat Room View](/img/modules/chat/admin/room_view.png)
-
-The admin panel lets you browse the available chat rooms, create new ones and preview their messages.
-
-### Creating Rooms
-
-While in the "Rooms" tab of the Chat administration page, click on the "Create Chat Room" button.<br />
-A side pane should be brought up on your right, where you can specify your room's details. 
-
-![Create Chat Room](/img/modules/chat/admin/create_room_pane.png)
+[//]: # (TODO)

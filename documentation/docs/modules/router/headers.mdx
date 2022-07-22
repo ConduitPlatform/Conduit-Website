@@ -1,0 +1,56 @@
+---
+sidebar_label: 'Headers'
+sidebar_position: 1
+---
+
+# Headers
+
+
+These are headers used for [Application Requests](./router.mdx#request-types-app).<br />
+
+## Authorization {#headers-auth}
+
+A bearer formatted access token used for user authentication.<br />
+This header is only required by user-authenticated routes.
+
+``` json title="Example"
+{ "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDE5ODM0ZmMwZGFiMGVhZjA1ZjVjZSIsImlhdCI6MTY0ODQ2NjA3OSwiZXhwIjoxNzM0ODY2MDc5fQ.mDlETjM2y0hahbhJy_cKRmNM5X4wFigqoWw9j7QzO6E" }
+```
+
+[//]: # (TODO: Fix this docusaurus indexing mess where browser url determines level of path, hitting same link from /some/doc/page and /some/doc/page/ produces different results)
+**User access tokens cannot be used interchangeably with [administrator access tokens](../../administration/#headers-auth)!**
+
+The [Authentication](../authentication) module provides multiple [authentication strategies](../authentication/strategies) for you to choose from.<br />
+Your authentication strategy affects how you register users and obtain user authentication tokens.
+
+<!-- TODO: Elaborate on Access/Refresh tokens, expiry, security client coupleing etc ??? -->
+
+<details>
+  <summary>Obtaining User Access and Refresh Tokens</summary>
+
+  Out of the box, Conduit's Authentication module utilizes <a href="../authentication/strategies#local">Local Authentication</a> in order to provide you with a simple,
+  yet extendable, strategy that's capable of functioning without further configuration.
+
+  <a href="../authentication/tutorials/local">Read up on how to make use of the Local Authentication strategy in order to create your users and generate authentication tokens.</a>
+
+</details>
+
+## Security Client Id & Secret {#headers-security}
+
+A client id and secret header pair related to a Conduit Security client.<br />
+These headers are not required by default, unless you configure Router with client validation turned on.<br />
+If you choose to do so you'll need to provide them for most administrative routes, with the exception of:
+
+- REST API Ping Endpoints (`/` and `/health`)
+- Hook Routes (`/hook/*`)
+- GraphQL (`GET: /graphql`)
+- Swagger (`GET: /swagger & /swagger.json` whenever Core is in development mode)
+
+``` json title="Example"
+{
+  "clientid": "7cc71118441b3a9a45a6d667b198c5",
+  "clientsecret": "745a3d40515abe7ca9cd5a0a4bf1e0ab1734403099cde1790cf8776cd8d50b654a5c419ad7b6fa380cc6b3f945a426465c80a2673667e669922f4fbf88489a99"
+}
+```
+
+Find out more about security clients in the [Security](./security) section.

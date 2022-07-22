@@ -7,38 +7,36 @@ title: 'The Good Stuff'
 ## Ok what can you do?
 
 Nice of you to ask! (ignore the conversations we are having with ourselves)<br />
-We actually have a bunch of Features per module, so let us give you an overview
+We actually have a bunch of features per module, so let us give you an overview
 
 ## Core Features ✔️
 
-- [Router](/docs/router/)
-    - REST with automatic input validation, middleware support and caching
-    - GraphQL
-    - WebSockets (via Socket.io)
-- Auto-Doc (not the Fallout kind, don't sue us pliz)
-    - Automatic Swagger generation
-    - GraphQL too
-- In-memory database through Redis
-- Auto generate routes for both REST and GraphQL (no configuration needed)
-- Basic [Security](/docs/security/) built-in
-    - Client id/secret required for all requests
+- Routing
+    - [Application](/docs/modules/router) & [Administration](/docs/administration) APIs with automatic input validation, middleware support and caching
+    - REST API support
+    - GraphQL API support
+    - WebSockets support (via Socket.io)
+    - Auto-Doc for REST (Swagger) & GraphQL (not the Fallout kind, don't sue us pliz)
+- Basic [Security](/docs/modules/router/security) built-in for Application APIs
+    - Optional client id/secret for all application requests
     - Built-in rate limiting
     - Basic security headers through [Helmet](https://github.com/helmetjs/helmet)
+- In-memory database through Redis
 - [Configuration](/docs/config/) management for all modules (even your custom ones)
-- All communication done through gRPC (check out our protofile [here](https://github.com/ConduitPlatform/Conduit/blob/main/packages/core/src/core.proto))
-- All routes have required input and return definitions
-
-## The rest of the modules
-
+- [gRPC]
+    - All internal communication done through gRPC
+    - Support for [gRPC Health Checking Protocol](https://github.com/grpc/grpc/blob/master/doc/health-checking.md)
+    - Optional rpc protection using a signed key
 - [Authentication](/docs/modules/authentication/)
     - Auth middleware exposure to protect routes
     - Email/password authentication
-    - Social logins (Facebook, Figma, GitHub, Google, Microsoft, Slack, Twitch)
+    - Social logins (Google, Microsoft, Facebook, Figma, GitHub, Slack, Twitch etc)
     - Two Factor Authentication
 - [Database](/docs/modules/database/)
     - Works with Mongo & SQL (PostgreSQL)
     - Provides consistent API for both technologies
     - CMS capabilities for the Admin Panel
+    - Support for importing established databases through introspection
     - Schema extension for Conduit Schemas (allows you to store data inside system schemas without breaking anything)
 - [Email](/docs/modules/email/)
     - Send transactional emails with you favourite provider
@@ -54,6 +52,7 @@ We actually have a bunch of Features per module, so let us give you an overview
     - Google Cloud Storage
     - Azure
     - Amazon S3
+    - Alibaba Cloud (Aliyun)
     - Store blobs to your favourite provider
     - Manage access to blobs (can be public or authenticated)
 - [Chat](/docs/modules/chat/)

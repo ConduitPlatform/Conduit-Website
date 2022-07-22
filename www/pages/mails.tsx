@@ -31,21 +31,21 @@ const Emails = () => {
           {
             title: 'Send emails',
             description: 'Lucky you! You may now start sending Emails!',
-            url: '/docs/modules/email/get_started#sending-emails',
+            url: '/docs/modules/email/get-started#sending-emails',
             icon: <Send />,
           },
           {
             title: 'Email templates',
             description:
               'Create and edit your own templates. Support for template variables using handlebars.',
-            url: '/docs/modules/email/get_started#templates',
+            url: '/docs/modules/email/get-started#templates',
             icon: <EmailTemplates />,
           },
           {
             title: 'Email Providers',
             description:
               'Sync your emails with the provider of your choice. The available providers are Mailgun, Sendgrid, Mandril and Smtp.',
-            url: '/docs/modules/email/get_started#import-a-template',
+            url: '/docs/modules/email/get-started#import-a-template',
             icon: <Upload />,
           },
         ]}

@@ -1,35 +1,47 @@
 # Getting Started
 
-This section assumes that Conduit is already installed and running locally.<br />
+This section assumes that Conduit is [already installed](../installation) and running locally.<br />
 If you haven't done so already, please follow the [relevant instructions](../installation) on how to bootstrap Conduit from the Overview section.
 
-Building a backend using Conduit requires that you get accustomed with a few key aspects of the project.<br />
+Building a backend using Conduit requires that you familiarize yourself with a few key aspects of the project.<br />
 We're going to brief you on the essentials here and help you navigate the sections of the documentation that are actually most relevant to your needs.
 
 ## Configuration
 
-Conduit is a microservice based backend where services can function in a distributed environment.<br />
+Conduit is a microservice-based backend where services can function in a distributed environment.<br />
 Most of these services provide optional configuration. Some of them even require that you provide their configuration before they can be of use.<br />
 You can configure each and every one of them in a consistent and streamlined fashion in the following ways:
 
 - Using the Admin Panel
-- Through admin requests to Conduit's REST API
+- Using Conduit's administration-level REST & GraphQL APIs
 
 [Find out more about Configuration](../config)
 
 ## Routing
 
-Condit offers a plethora of options when it comes to routing.<br />
-You get a REST and a GraphQL API without duplicating any of your code, as well as support for WebSockets.<br />
+Conduit offers a plethora of options when it comes to routing.<br />
+You get support for both REST and GraphQL without duplicating any of your code, as well as WebSockets,
+all of which are available as API transports for both application and administration level requests.<br />
 You even get GraphQL-style populates on your REST endpoints ootb, plus auto-generated Swagger and whatnot.
 
-Most modules usually come with a bunch of routes for you to make use of.<br />
-Some of them are administrative routes to be used only by you and your project's staff, while others are meant to be used by your clients.
+Most modules usually expose a bunch of routes for you to make use of.<br />
+Some of them are administrative routes to be used only by you and your project's staff, while others are meant to be used by your clients.<br />
+You may choose to make use of either REST or GraphQL for both application and administration level requests alike.<br />
+WebSockets are also supported across the board, but due to their use is naturally restricted to specific operations.
 
-<u>Admin routes are only exposed through the REST API.</u>
+You may find out more about [application routing](../modules/router) and [administration routing](../administration) in their respective sections.
 
-<br /><br />
-<a href="../router">Find out more about Routing</a>
+## Modules
+
+Conduit is built around microservices and, as such, modules are where most of its functionality comes from.<br />
+Modules are more or less the bread and butter of Conduit and what would ultimately allow your projects to incorporate additional functionality
+without you needing to worry about implementing it yourself over and over again for each and every single one of them.<br />
+
+Official modules are built to be extremely versatile and configurable, but they are also entirely optional and replaceable.<br />
+If there's any reason why you'd wish to swap out our database our application router implementations you could just go ahead and do that and
+everything else would continue to function as expected, as long as you replace them with something that reimplements all of the expected service functions.
+
+Check out the [documentation on our officially provided modules](../modules).
 
 ## Admin Panel
 

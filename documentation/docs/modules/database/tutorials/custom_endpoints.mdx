@@ -5,14 +5,19 @@ sidebar_position: 2
 
 # Custom Endpoints
 
-In the previous tutorial we learned how to create a schema.It is important also to learn<br />
-how to create a custom CRUD operation and attach it to a custom endpoint.<br />
+[//]: # (TODO: v0.14.0 UI is currently broken, update this section + screens once fixed)
+
+Creating a custom schema allows up to optionally make use of auto-generated CRUD operations.<br />
+These are simple operations that may be enabled individually. They may also be protected by user authentication.
+
+In this tutorial, we'll learn how to create powerful functional endpoints without having to code them yourself.
 
 ## Create an Endpoint
 
-Let's navigate to the Admin Panel in the `database/custom` section.
+Bring up the Admin Panel and open the `Database` section.<br />
+Then head to the `Custom Endpoints` tab.
 
-![custom enpoints panel](/img/first_app/custom_endpoints_panel.png)
+![Custom Endpoints Panel](/img/first_app/custom_endpoints_panel.png)
 
 - `Name` field should be filled with the name of your choice.This name will be the name of the created endpoint.
 - `Authenticated` checkbox stands for authenticated routes.If it is checked then the route can accessed only from authenticated users.
@@ -21,7 +26,7 @@ Let's navigate to the Admin Panel in the `database/custom` section.
 
 For the purposes of this tutorial we will create an endpoint which retrieves all the movies with a given director.<br />
 
-![custom enpoints panel](/img/first_app/SomeEndpoint.png)
+![Custom Endpoints Panel](/img/first_app/SomeEndpoint.png)
 
 As you can see because we chose a `GET` request two extra checkboxes displayed.<br />
 
@@ -55,5 +60,3 @@ After click the `Condition` button.
 Choose the `Schema Field` you wish to compare against.<br />
 Then select the `Operator` and the `Value` you wish to compare against.<br />
 You may also to enable the [SQL-style Like operator](https://www.w3schools.com/sql/sql_like.asp).
-
-

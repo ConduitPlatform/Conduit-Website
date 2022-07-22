@@ -1,9 +1,9 @@
 import React from 'react';
-import useThemeContext from '@theme/hooks/useThemeContext';
+import { useColorMode } from '@docusaurus/theme-common';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 const ImageSwitcher = ({lightImageSrc, darkImageSrc, altText}) => {
-  const { isDarkTheme } = useThemeContext();
+  const { isDarkTheme } = useColorMode();
   lightImageSrc = useBaseUrl(lightImageSrc)
   darkImageSrc = useBaseUrl(darkImageSrc)
   

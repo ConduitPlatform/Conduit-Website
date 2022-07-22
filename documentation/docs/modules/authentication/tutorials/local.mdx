@@ -8,14 +8,12 @@ sidebar_position: 1
 The Authentication module offers a local email address based authentication strategy available for users to register with right out of the box.<br />
 Making use of it does not require any administrative intervention other than simply bringing up the Authentication module.
 
-In this tutorial, we'll be utilizing Conduit's [REST API](../../../router/rest) to create and authenticate our users.<br
+In this tutorial, we'll be utilizing Conduit's [REST API](../../router/rest) to create and authenticate our users.<br
 
 ## User Creation
 
 ``` bash title="Request"
 curl --location --request POST 'http://localhost:3000/authentication/local' \
-      --header 'clientid: 1c0d06679f837c3958fba2724b51dc' \
-      --header 'clientsecret: 9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902' \
       --header 'Content-Type: application/json' \
       --data-raw '{
         "email": "example@mail.com",
@@ -37,13 +35,11 @@ Send a `POST` request to `/authentication/local`, passing in your user credentia
 
 ``` bash title="Request"
 curl --location --request POST 'http://localhost:3000/authentication/local' \
-      --header 'clientid: 1c0d06679f837c3958fba2724b51dc' \
-      --header 'clientsecret: 9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902' \
       --header 'Content-Type: application/json' \
       --data-raw '{
         "email": "example@mail.com",
         "password": "I_h4t3_p4ss_r3qu1r3m3nts"
-      } '
+      }'
 ```
 ``` json title="Response"
 {
@@ -55,21 +51,22 @@ curl --location --request POST 'http://localhost:3000/authentication/local' \
 
 Nice, we got more of these weird sequences of seemingly random characters.
 
-In order for your users to perform user authenticated application requests you'll need to pass their `accessToken` as an [authorization header](../../../router/headers#headers-app-auth).<br />
+In order for your users to perform user authenticated application requests you'll need to pass their `accessToken` as an [authorization header](../../router/headers#headers-auth).<br />
 
 Now, what about that `refreshToken` then?
 User access tokens are only valid for a fairly short amount of time. <!-- TODO: Just how short though? Configurable? -->
 Refresh tokens take longer to expire, therefore you may conveniently generate new authentication tokens without storing sensitive user credentials in your end-user applications.
 
-**User access and refresh tokens are tied to the security client they were generated with, meaning you can't use or refresh them using a different security client id/secret pair**.
+:::caution
+While [Router's security client validation](../../router/security#client-validation) feature is enabled, **tokens are tied to the security client** they were generated with.
+Meaning you can't reuse or refresh tokens across different clients.
+:::
 
 **Requesting a token refresh invalidates your existing access and refresh tokens**, returning you a new pair to be used in subsequent requests.
 Let's finish off with an example on how to do just that.
 
 ``` bash title="Request"
 curl --location --request POST 'http://localhost:3000/authentication/renew' \
-      --header 'clientid: 1c0d06679f837c3958fba2724b51dc' \
-      --header 'clientsecret: 9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902' \
       --header 'Content-Type: application/json' \
       --data-raw '{
         "refreshToken": "BsKhe3ARhL/FfDfK1REphKkkqQaxRCj/LvvRHOg5wCXCBaUSOwafRHyFYIttaORY/NmHS7NAuT6+knBQegVOwQ=="
