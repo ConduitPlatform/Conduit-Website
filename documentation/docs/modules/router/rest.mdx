@@ -142,8 +142,6 @@ Application routes make use of [Application Headers](./headers#headers-app).
   ``` bash title="Request"
   curl --location --request POST 'http://localhost:3000/authentication/local' \
         --header 'masterkey: M4ST3RK3Y' \
-        --header 'clientid: 1c0d06679f837c3958fba2724b51dc' \
-        --header 'clientsecret: 9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902' \
         --header 'Content-Type: application/json' \
         --data-raw '{
           "email": "example@mail.com",
