@@ -449,9 +449,7 @@ async function listMovies() {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'clientid': 'someclientid',
-      'clientsecret': 'someclientsecret',
-      'Authorization': 'Bearer sometoken'
+      'Authorization': 'Bearer sometoken',
     },
   })
     .then(data => data.json())
