@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Cinema Ticket Booking
 
-This is a beginner friendly tutorial intended to familiarize developers with the creation and 
+This is a beginner-friendly tutorial intended to familiarize developers with the creation and
 utilization of custom schemas in a simple ticket booking application.
 
 This tutorial makes use of [Conduit's REST API](../../router/rest) for CRUD operations.
@@ -16,8 +16,9 @@ Following this tutorial requires that you have already read the Database module'
 [Getting Started](../get-started.mdx) guide.<br />
 Please make sure you understand the basics before resuming.
 
-Make sure you don't disable CRUD operations or enable authentication while 
-creating your schemas as this goes beyond the scope of this basic tutorial.
+Make sure your schemas' CRUD operations are enabled.<br />
+That should generate CRUD application-level routes, as long as the [Router](../../router) module is available.<br />
+While doing so, **do not** enable authentication as this goes beyond the scope of this basic tutorial.
 
 -------------------------------------------------
 
@@ -55,9 +56,16 @@ At last, drag a date field into the schema area, name it `releaseDate`. Yeap, th
 
 ![Movies Schema Created](/img/modules/database/tutorials/cinema_tickets_booking/movies_schema_created.png)
 
-Our schema looks solid. Hit that save button 💾.
+<div style={{textAlign: 'center'}}>
 
-Note how we used a text type for the `Movies` schemas's `director` field in 
+![CRUD Operations Configuration](/img/modules/database/admin/schema_edit_crud.png)
+
+Verify that your schema's CRUD endpoints are enabled and **do not** require authentication.
+</div>
+
+With that out of the way, our schema looks solid. Hit that save button 💾.
+
+Note how we used a text type for the `Movies` schema's `director` field in
 order to keep the tutorial's complexity at check.<br />
 Ideally, we would be storing the directors on a separate schema and using a relation field instead.<br />
 Feel free to play around and improve on the original design after you're done.
@@ -90,7 +98,6 @@ We are going to use that last one to calculate the number of tickets available f
 ## Testing our CRUD Endpoints
 
 Wait that's it?<br />
-Almost. Remember that `Allow CRUD operations` checkbox you definitely didn't toggle off during schema creation?<br />
 Yeap. Your schemas are already exposed through [Conduit's REST API](../../router/rest).<br />
 GraphQL is also supported out of the box, but we're focusing on REST for this tutorial.
 
