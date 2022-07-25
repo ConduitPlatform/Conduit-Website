@@ -11,94 +11,74 @@ import TabItem from '@theme/TabItem';
 ## Execution
 
 <Tabs>
-  <TabItem value="makefile" label="Makefile">
-  <details><summary>Prerequisites</summary>
+<TabItem value="cli" label="CLI">
 
-  ``` bash
-  curl -L https://raw.githubusercontent.com/ConduitPlatform/Conduit/latest/docker/Makefile > Makefile
-  make create-network
-  make start-core
-  ```
-  </details>
-  <Tabs>
-  <TabItem value="mongo" label="MongoDB">
+``` bash
+# Option A: Just give me a barebones setup of the latest Conduit release (includes Database + Mongo)
+npx @conduitplatform/cli deploy
 
-  ``` bash
-  make start-database
+# Option B: I wish to bring up extra modules and perform some basic configuration (select Mongo/Postgres)
+npx @conduitplatform/cli deploy --config
+```
+</TabItem>
 
-  # Optional Customizations
-  DB_USER="conduit" DB_PASS="pass" DB_PORT="27017" make start-database
-  ```
-  </TabItem>
-  <TabItem value="postgres" label="PostgreSQL">
+<TabItem value="docker" label="Docker">
+<details><summary>Prerequisites</summary>
 
-:::caution
+``` bash
+# Set up the Container Network
+docker network create conduit
 
-**PosgreSQL** is fully supported, but not yet recommended.<br />
-If you're deploying to production, we recommend sticking with **MongoDB**.
+# Start Redis
+docker run -d --name conduit-redis \
+            --network-alias redis \
+            --network "conduit" \
+            -h conduit-redis \
+            -p 6379:6379 \
+            docker.io/library/redis:latest
 
-:::
+# Start Conduit
+docker run -d --name conduit-core \
+            --network-alias conduit \
+            --network "conduit" \
+            -h conduit-core \
+            -p 55152:55152 -p 3030:3030 -p 3031:3031 \
+            -e REDIS_HOST="conduit-redis" -e REDIS_PORT="6379" \
+            ghcr.io/conduitplatform/conduit:latest
+# Start Router
+docker run -d --name conduit-router \
+              --network-alias router \
+              --network "conduit" \
+              -h conduit-router \
+              -p 3000:3000 -p 3001:3001 \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              ghcr.io/conduitplatform/router:latest
+```
+</details>
+<Tabs>
+<TabItem value="mongo" label="MongoDB">
 
-  ``` bash
-  DB_TYPE="postgres" DB_PORT="5432" make start-database
+``` bash
+# Start MongoDB
+docker run -d --name conduit-mongo \
+            --network-alias mongo \
+            --network "conduit" \
+            -h conduit-mongo \
+            -p 27017:27017 \
+            docker.io/library/mongo:latest
 
-  # Optional Customizations
-  DB_TYPE="postgres" DB_USER="conduit" DB_PASS="pass" DB_PORT="5432" make start-database
-  ```
-  </TabItem>
-  </Tabs>
-  </TabItem>
-
-
-  <TabItem value="docker" label="Docker">
-  <details><summary>Prerequisites</summary>
-
-  ``` bash
-  # Set up the Container Network
-  docker network create conduit
-
-  # Start Redis
-  docker run -d --name conduit-redis \
-                --network-alias redis \
-                --network "conduit" \
-                -h conduit-redis \
-                -p 6379:6379 \
-                docker.io/library/redis:latest
-
-  # Start Conduit
-  docker run -d --name conduit-core \
-                --network-alias conduit \
-                --network "conduit" \
-                -h conduit-core \
-                -p 55152:55152 -p 3000:3000 -p 3001:3001 \
-                -e REDIS_HOST="conduit-redis" -e REDIS_PORT="6379" \
-                ghcr.io/conduitplatform/conduit:latest
-  ```
-  </details>
-  <Tabs>
-  <TabItem value="mongo" label="MongoDB">
-
-  ``` bash
-  # Start MongoDB
-  docker run -d --name conduit-mongo \
-                --network-alias mongo \
-                --network "conduit" \
-                -h conduit-mongo \
-                -p 27017:27017 \
-                docker.io/library/mongo:latest
-
-  # Start Database
-  docker run -d --name conduit-database \
-                --network-alias database \
-                --network "conduit" \
-                -h conduit-database \
-                -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
-                -e DB_TYPE="mongodb" \
-                -e DB_CONN_URI="mongodb://conduit-mongo:27017" \
-                ghcr.io/conduitplatform/database:latest
-  ```
-  </TabItem>
-  <TabItem value="postgres" label="PostgreSQL">
+# Start Database
+docker run -d --name conduit-database \
+            --network-alias database \
+            --network "conduit" \
+            -h conduit-database \
+            -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+            -e DB_TYPE="mongodb" \
+            -e DB_CONN_URI="mongodb://conduit-mongo:27017" \
+            ghcr.io/conduitplatform/database:latest
+```
+</TabItem>
+<TabItem value="postgres" label="PostgreSQL">
 
 :::caution
 
@@ -107,32 +87,31 @@ If you're deploying to production, we recommend sticking with **MongoDB**.
 
 :::
 
+``` bash
+# Start PostgreSQL
+docker run -d --name conduit-postgres \
+            --network-alias postgres \
+            --network "conduit" \
+            -h conduit-postgres \
+            -p 5432:5432 \
+            -e POSTGRES_USER="conduit" \
+            -e POSTGRES_PASSWORD="pass" \
+            -e POSTGRES_DB="conduit" \
+            docker.io/library/postgres:latest
 
-  ``` bash
-  # Start PostgreSQL
-  docker run -d --name conduit-postgres \
-                --network-alias postgres \
-                --network "conduit" \
-                -h conduit-postgres \
-                -p 5432:5432 \
-                -e POSTGRES_USER="conduit" \
-                -e POSTGRES_PASSWORD="pass" \
-                -e POSTGRES_DB="conduit" \
-                docker.io/library/postgres:latest
-
-  # Start Database
-  docker run -d --name conduit-database \
-                --network-alias database \
-                --network "conduit" \
-                -h conduit-database \
-                -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
-                -e DB_TYPE="postgres" \
-                -e DB_CONN_URI="postgres://conduit:pass@localhost:5432/conduit" \
-                ghcr.io/conduitplatform/database:latest
-  ```
-  </TabItem>
-  </Tabs>
-  </TabItem>
+# Start Database
+docker run -d --name conduit-database \
+            --network-alias database \
+            --network "conduit" \
+            -h conduit-database \
+            -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+            -e DB_TYPE="postgres" \
+            -e DB_CONN_URI="postgres://conduit:pass@localhost:5432/conduit" \
+            ghcr.io/conduitplatform/database:latest
+```
+</TabItem>
+</Tabs>
+</TabItem>
 </Tabs>
 
 At this point, you should have a functional Database instance.<br />
@@ -168,7 +147,7 @@ Enough of that intro, show me how I'd go about making one of these bad boys!<br 
 Okay, don't push, click on the `Create New` button in the `Schemas` tab and lets define our first schema.<br />
 A popup should name prompt should be brought up. Insert `Persons`.
 
-![Schema Edit View Empty](/img/modules/database/admin/schema_edit_view_empty.png)
+![Schema Edit View](/img/modules/database/admin/schema_edit_view.png)
 
 This is the schema modification view. It allows you to create new schemas and edit existing ones.<br />
 You may also *archive* schemas, at which point they won't be available for use anymore.<br />
@@ -219,16 +198,14 @@ No separator is required. We don't need make the field required either.
 For the person's `languages`, we'll use another optional text field.<br />
 Simply enable the `Array` option so that our society can be multilingual 💭.
 
-![Schema Edit View Filled](/img/modules/database/admin/schema_edit_view_filled.png)
-
 Our schema's fields are complete. If you changed your mind, you can always edit, remove and reorder 
 any of them in the schema field list on the left.
 
 Alright, that wasn't too bad, now how does one fill that schema with data?
 
-There are mulitple ways to go about this.<br />
+There are multiple ways to go about this.<br />
 If your schemas enable CRUD endpoints, you can simply use our automatically generated 
-[REST](../../router/rest) and [GraphQL](../../router/graphql) API endpoints 
+[REST](../router/rest) and [GraphQL](../router/graphql) API endpoints
 to retrieve and manipulate data from your application.<br />
 This is how you'd register data based on user input and third party APIs.
 
@@ -294,7 +271,7 @@ TODO
 <!-- TODO: We could offer a couple examples here.
 ## Data Access and Manipulation
 
-This section requires a fundamental understanding of how to use Conduit's [REST](../../router/rest) 
+This section requires a fundamental understanding of how to use Conduit's [REST](../router/rest)
 or [GraphQL](../../router/graphql) powered APIs.<br />
 If you haven't done so already, please consider reading any of the above before proceeding.
 
@@ -318,4 +295,4 @@ If you haven't done so already, please consider reading any of the above before 
 ### Guided Examples
 
 Looking for additional examples on how to use the Database module?<br />
-Check out the available [tutorials](80_tutorials/80_tutorials.mdx)!
+Check out the available [tutorials](./tutorials/tutorials.mdx)!

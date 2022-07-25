@@ -1,0 +1,123 @@
+---
+sidebar_label: 'Get Started'
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Getting Started
+
+## Execution
+
+<Tabs>
+<TabItem value="cli" label="CLI">
+
+``` bash
+# Select Email while configuring your modules
+npx @conduitplatform/cli deploy --config
+```
+</TabItem>
+
+<TabItem value="docker" label="Docker">
+<details><summary>Prerequisites</summary>
+
+``` bash
+# Set up the Container Network
+docker network create conduit
+
+# Start Redis
+docker run -d --name conduit-redis \
+              --network-alias redis \
+              --network "conduit" \
+              -h conduit-redis \
+              -p 6379:6379 \
+              docker.io/library/redis:latest
+
+# Start Conduit
+docker run -d --name conduit-core \
+              --network-alias conduit \
+              --network "conduit" \
+              -h conduit-core \
+              -p 55152:55152 -p 3030:3030 -p 3031:3031 \
+              -e REDIS_HOST="conduit-redis" -e REDIS_PORT="6379" \
+              ghcr.io/conduitplatform/conduit:latest
+
+# Start MongoDB
+docker run -d --name conduit-mongo \
+              --network-alias mongo \
+              --network "conduit" \
+              -h conduit-mongo \
+              -p 27017:27017 \
+              docker.io/library/mongo:latest
+
+# Start Database
+docker run -d --name conduit-database \
+              --network-alias database \
+              --network "conduit" \
+              -h conduit-database \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              -e DB_TYPE="mongodb" \
+              -e DB_CONN_URI="mongodb://conduit-mongo:27017" \
+              ghcr.io/conduitplatform/database:latest
+# Start Router
+docker run -d --name conduit-router \
+              --network-alias router \
+              --network "conduit" \
+              -h conduit-router \
+              -p 3000:3000 -p 3001:3001 \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              ghcr.io/conduitplatform/router:latest
+```
+</details>
+
+``` bash
+docker run -d --name conduit-email \
+              --network-alias email \
+              --network "conduit" \
+              -h conduit-email \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              ghcr.io/conduitplatform/email:latest
+```
+</TabItem>
+</Tabs>
+
+At this point, you should have a functional Email instance.<br />
+You may now manage your templates and send emails through the Admin Panel.
+
+-------------------------------------------------------
+
+## Sending Emails
+
+Sending emails requires that you [configure](./config) the Email module with any of the supported email providers.
+
+![Send an email](/img/modules/email/admin/send_email.png)
+
+## Templates
+
+You may create custom email templates from the `Templates` tab.<br />
+Simply select your desired template while sending an email to apply it.
+
+### Using Variables
+
+The Email module supports template variable interpolation (eg: ```{{variable}}```)<br />
+
+![Create template with variables](/img/modules/email/admin/variables.png)
+
+All you have to do is to select your template while sending an email.
+
+![Send an email with variables](/img/modules/email/admin/send_variable_email.png)
+
+Find out more about variables and Handlebars expressions [here](https://handlebarsjs.com/guide/expressions.html).
+
+### Import a template
+
+The Email module supports importing template directly from email providers.<br />
+Upon selecting your desired template, you'll be shown a preview of the template.<br />
+Once you confirm the import action, your template will be readily available for use by the Email module.
+
+![Import Email Template](/img/modules/email/admin/import_template.png)
+
+### Synchronize external templates
+
+This option synchronizes any locally stored external templates with their latest versions available in the remote provider.

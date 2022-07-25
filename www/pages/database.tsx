@@ -29,7 +29,7 @@ const Database = () => {
           {
             title: 'Supports MongoDB and PostgreSQL',
             description: 'You can have either a document based or a relational database, options!',
-            url: '/docs/modules/database/get_started#prerequisites',
+            url: '/docs/modules/database/get-started#prerequisites',
             icon: <DatabaseIcon />,
           },
           {

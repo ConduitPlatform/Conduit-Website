@@ -3,7 +3,7 @@
 ![Email Templates](/img/modules/email/admin/templates.png)
 
 Most web applications typically require a way to send e-mails to users.<br />
-The Email module serves this very purpose.<br />
+The Email module serves this very purpose.
 
 ## Features
 
@@ -30,10 +30,11 @@ This module is disabled by default.<br />
 It requires provider configuration.<br />
 See [Configuration](config.mdx).
 
-## Environmental Variables
+## Environmental Variables {#env-variables}
 
 |  Name          | Required |  Description                                  |  Example      |
 | :------------: | :------: | :-------------------------------------------: | :-----------: |
 | CONDUIT_SERVER |  True    | Conduit Core's address and port               | 0.0.0.0:55152 |
 | SERVICE_IP     |  True    | Address and port to listen to for this module | 0.0.0.0:56154 |
 | REGISTER_NAME  |  False   | Name-based network registration (containers)  | False         |
+| GRCP_KEY       |  False   | Specifying a secret enables [gRPC signed request protection](../../core#grpc-request-protection) | someRandomSecret |

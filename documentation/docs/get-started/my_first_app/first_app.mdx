@@ -1,30 +1,33 @@
 ---
 sidebar_label: 'My First React App'
-sidebar_position: 2
+sidebar_position: 1
 title: 'My First React App'
 ---
 
-<!-- TODO: Route paths should ideall be altered (currently: login, movie, movies -> login, submit-movie, retrieve-movies or sth -->
-<!-- TODO: Explicitly specify a port for our React app. Defaults to 3000, but falls back to 3002 as Conduit occupies 3000 and 30001 -->
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+[//]: # (TODO: Add pagination examples)
+[//]: # (TODO: Link to an archive containing code example)
 
 It's about time we showed you how to make use of all this, wouldn't you think?
 
-In this tutorial, we are going to build a simple frontend app capable of:
+In this tutorial, we are going to create a custom schema through the [Admin Panel](../admin-panel)
+and build a fairly basic frontend app capable of:
 
+- Registering new users
 - Authenticating our users
-- Creating entries for our backend's schemas
+- Creating entries for a custom schema
 - Retrieving schema entries
 
-<!-- TODO: List additional requirements here? eg Movie schema creation (currently done below) -->
-
 Your backend is capable of working with any stack of your choice.<br />
-Yet, for the purpose of keeping things simple, this guide is going to focus solely on building a React app using [Conduit's REST API](../../router/rest).
+Yet, for the purpose of keeping things simple, this guide is going to focus solely on building a React app using [Conduit's REST API](../../modules/router/rest).
 
 ## Prerequisites
 
 Before you start this tutorial, make sure you've read our [Getting Started Guide](../get-started.mdx).
 
-Our app is going to make use the following modules:
+Our app is going to make use of the following modules:
 
 - [Database](../../modules/database)
 - [Authentication](../../modules/authentication)
@@ -32,183 +35,193 @@ Our app is going to make use the following modules:
 Let's bootstrap our Conduit installation using the automated container-based installation option.<br />
 You can read more on that as well as alternative installation methods [here](../../installation).
 
+<Tabs>
+<TabItem value="cli" label="CLI">
+
 ``` bash
-source <(curl -s https://getconduit.dev/bootstrap)
+npx @conduitplatform/cli deploy setup
 ```
+</TabItem>
+</Tabs>
 
-<details><summary>Configuring the Authentication Module</summary>
+At this point, you should be greeted by Conduit's admin panel.<br />
+You'll have to log into your admin panel, head to the `Database` section and create a new schema to be used by your application.
 
-    We are going to specify a local authentication strategy using a username identifier.<br />
-    This choice is going to simplify our initial configuration process.
+![Schema List View](/img/modules/database/admin/schema_list_view.png)
 
-    <!-- TODO: We really ought to remove or at the very least workaround Authentication's initial dependency on Email -->
+Suppose we're building a simple web application where users can register and update a film's details.<br />
+We'll be creating a custom `Movies` schema for our users to operate on.<br />
+Let's introduce a unique `name` text field for our movies, as well as a `director` text field,
+a numeric `duration` and a `releaseDate` field represented as a date field.
 
-    ``` bash title="Getting an Admin Authentication Token"
-    curl --location --request POST 'http://localhost:3000/admin/login' \
-    --header 'masterkey: M4ST3RK3Y' \
-    --header 'Content-Type: application/json' \
-    --data-raw '{
-        "username": "admin",
-        "password": "admin"
-    }'
-    ```
-    ``` json title="Result"
-    { "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI" }
-    ```
+Notice how our schema comes with a unique id as well as creation and modification timestamps out of the box.
 
-    You're going to need your admin token for the following configuration request.
+![Schema Edit View](/img/modules/database/admin/schema_edit_view.png)
 
-    ``` bash title="Configuring the Authentication Module"
-    curl --location --request PUT 'http://localhost:3000/admin/config/authentication' \
-    // highlight-next-line
-    --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
-    --header 'masterkey: M4ST3RK3Y' \
-    --header 'Content-Type: application/json' \
-    --data-raw '{
-        "config": {
-        "active": true,
-        "local": {
-        // highlight-next-line
-        "identifier": "username",
-        "enabled": true,
-        "sendVerificationEmail": false,
-        "verificationRequired": false,
-        "verification_redirect_uri": "",
-        "forgot_password_redirect_uri": "",
-        "phone_authentication": true
-    },
-        "google": {
-        "enabled": false,
-        "clientId": "",
-        "clientSecret": "",
-        "redirect_uri": "",
-        "accountLinking": true
-    },
-        "facebook": {
-        "enabled": false,
-        "clientId": "",
-        "clientSecret": "",
-        "redirect_uri": "",
-        "accountLinking": true
-    },
-        "github": {
-        "enabled": false,
-        "clientId": "",
-        "clientSecret": "",
-        "redirect_uri": "",
-        "accountLinking": true
-    },
-        "slack": {
-        "enabled": false,
-        "clientId": "",
-        "clientSecret": "",
-        "redirect_uri": "",
-        "accountLinking": true
-    },
-        "figma": {
-        "enabled": false,
-        "clientId": "",
-        "clientSecret": "",
-        "redirect_uri": "",
-        "accountLinking": true
-    },
-        "microsoft": {
-        "enabled": false,
-        "clientId": "",
-        "clientSecret": "",
-        "redirect_uri": "",
-        "accountLinking": true
-    },
-        "twitch": {
-        "enabled": false,
-        "clientId": "",
-        "clientSecret": "",
-        "redirect_uri": "",
-        "accountLinking": true
-    },
-        "service": {
-        "enabled": true
-    },
-        "twofa": {
-        "enabled": false
-    },
-        "generateRefreshToken": false,
-        "rateLimit": 3,
-        "tokenInvalidationPeriod": 86400000,
-        "refreshTokenInvalidationPeriod": 604800000,
-        "jwtSecret": "S3CR3T"
-    }
-    }'
-    ```
-</details>
+So as not to overcomplicate things through the introduction of additional schemas,
+we won't be using any relation fields or restrict who can modify these details.
+We're just gonna trust our fellow community members and let any authenticated user update these entries at this time.
 
-<!-- TODO: User logins require an existing user. Our backend seriously needs self-registration for this tutorial to work out. -->
+We're gonna modify our schema's CRUD operations configuration.<br />
+For our example, you're going to have to make sure `Create` and `Read` operations are both enabled.<br />
+We want our movies to be retrievable by guests, so verify that `Read` operations are not authenticated.
 
-<details><summary>Creating our first User</summary>
+<div style={{textAlign: 'center'}}>
 
-    Conduit does not yet support user self-registration.<br />
-    This limitation is going away soon, but in the meantime, we'll be creating a user through an administrative request.<br />
-    We'll create a new user with a username of `user` and a password of `pass`.
+![Schema CRUD Options Configuration](/img/first_app/schema_crud_configuration.png)
 
-    ``` bash title="Creating a User"
-    curl --location --request POST 'http://localhost:3000/admin/authentication/users/' \
-    // highlight-next-line
-    --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
-    --header 'masterkey: M4ST3RK3Y' \
-    --header 'Content-Type: application/json' \
-    --data-raw '{
-        "identification": "user",
-        "password": "pass"
-    } '
-    ```
-</details>
+</div>
+
+Feel free to step this up a notch and experiment with your own complex schemas.<br />
+Doing so through the schema editor should be a breeze.
 
 ## App Initialization
 
 Let's initialize our React app.
 
 ``` bash title="App Initialization"
-sudo npm install -g create-react-app
 npx create-react-app my-app
 cd my-app
+mkdir src/components
 npm install react-router-dom
-npm start
+PORT=3050 CONDUIT_CLIENT_PORT=3000 npm start
+```
+
+## User Registration
+
+Our users are going to need a way for them to register themselves.<br />
+Let's create a registration page component.
+
+``` jsx title="my-app/src/components/Register.js"
+import React, { useState } from 'react';
+
+const PORT = process.env.CONDUIT_CLIENT_PORT ?? 3000;
+
+async function registerUser(credentials) {
+  return fetch(`http://localhost:${PORT}/authentication/local/new`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(credentials),
+  })
+    .then(data => data.json());
+ }
+
+export default function Register() {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const token = await registerUser({
+      email,
+      password,
+    });
+    console.log(token);
+  }
+
+  return(
+    <div
+      className="wrapper"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        flexDirection: 'column',
+      }}>
+      <h2>User Registration</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          <p>Email</p>
+          <input type="text" onChange={e => setEmail(e.target.value)}/>
+        </label>
+        <label>
+          <p>Password</p>
+          <input type="password" onChange={e => setPassword(e.target.value)}/>
+        </label>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  )
+}
+```
+
+Now lets hook up our page component into our router.
+
+``` jsx title="my-app/src/App.js"
+import './App.css';
+import Login from './components/Login';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from 'react-router-dom';
+
+function App() {
+  return (
+    <div className="wrapper">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login/>} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+}
+
+export default App;
+```
+
+<div style={{textAlign: 'center'}}>
+
+![Registration Component](/img/first_app/registration_component.png)
+
+Our registration page is now available under [/register](http://localhost:3050/register).
+</div>
+
+This component submits a `POST` request to `/authentication/local/new` containing our user-specified `email` and `password` fields.<br />
+Bring up your development tools' console and pay attention to the response object.
+The server's response contains our newly created user object.<br />
+
+[//]: # (TODO: Display output into DOM)
+
+``` json title="Example Response"
+{
+    "user": {
+        "email": "user@example.com",
+        "active": true,
+        "isVerified": false,
+        "hasTwoFA": false,
+        "createdAt": "2022-07-22T07:38:31.324Z",
+        "updatedAt": "2022-07-22T07:38:31.324Z",
+        "_id": "62da53f7c28d4156aac93f22",
+        "__v": 0
+    }
+}
 ```
 
 ## User Login
 
-The first thing our users are going to do is log in.<br />
+The first thing our users are going to do after registering is log in.<br />
 Let's make a React component mapped to the `/login` path.<br />
 
-Let's start by introducing a Login component.<br />
-Create a folder named `components` in `my-app/src/components`.<br />
-Then create a new `Login.js` file inside `components`.
-
-``` bash title="Login Component Creation"
-mkdir src/components
-touch src/components/Login.js
-```
-
-Open the file in a text editor of your choice and populate it with the following contents:
-
-<!-- TODO: Note "email" in username-based authentication request. -->
-
 ``` jsx title="my-app/src/components/Login.js"
-import React, {useState } from "react";
-import '../css/Login.css'
+import React, { useState } from 'react';
+
+const PORT = process.env.CONDUIT_CLIENT_PORT ?? 3000;
 
 async function loginUser(credentials) {
-  return fetch('http://localhost:PORT/authentication/local', {
+  return fetch(`http://localhost:${PORT}/authentication/local`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'masterkey': 'somekey',
-      'clientid': 'someclientid',
-      'clientsecret': 'someclientsecret'
     },
-    body: JSON.stringify(credentials)
+    body: JSON.stringify(credentials),
   })
-    .then(data => data.json())
+    .then(data => data.json());
  }
 
 export default function Login() {
@@ -218,13 +231,22 @@ export default function Login() {
     e.preventDefault();
     const token = await loginUser({
       email,
-      password
+      password,
     });
     console.log(token);
   }
 
   return(
-    <div className="login-wrapper">
+    <div
+      className="wrapper"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        flexDirection: 'column',
+      }}>
+      <h2>User Login</h2>
       <form onSubmit={handleSubmit}>
       <label>
         <p>Email</p>
@@ -243,8 +265,34 @@ export default function Login() {
 }
 ```
 
-Our component submits a POST request to `/authentication/local` containing our user-specifid `email` and `password` fields.<br />
+Let's set up our route.<br />
+Add the following lines into the `Routes` section of your `App.js` file:
+
+``` jsx title="my-app/src/App.js"
+        // ...
+        import Login from './components/Login';
+        // highlight-next-line
+        import Register from './components/Register';
+        // ...
+        <Routes>
+          <Route path="/login" element={<Login/>} />
+          // highlight-next-line
+          <Route path="/register" element={<Register/>} />
+        </Routes>
+        // ...
+```
+
+<div style={{textAlign: 'center'}}>
+
+![Login Component](/img/first_app/login_component.png)
+
+Our login component is now accessible through [/login](http://localhost:3050/login).
+</div>
+
+Our component submits a `POST` request to `/authentication/local` containing our user-specified `email` and `password` fields.<br />
 The server's response contains our user's id, as well as a pair of access and refresh tokens to be used for our user authenticated application routes.<br />
+
+[//]: # (TODO: Display output into DOM)
 
 ``` json title="Example Response"
 {
@@ -254,253 +302,209 @@ The server's response contains our user's id, as well as a pair of access and re
 }
 ```
 
-Let's set up our route.<br />
-Paste the following code into your `App.js` file:
+Having obtained our user's authentication token, we are ready to perform our first user-authenticated requests.<br />
+Let's introduce another React component responsible for schema document creation so that our users can start registering new movie entries.
 
-``` jsx title="my-app/src/App.js"
-import './App.css';
-import Login from './components/Login';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link,
-  Outlet
-} from "react-router-dom";
-
-function App() {
-  return (
-    <div className="wrapper">
-      <h1>Admin Login</h1>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login/>} />
-
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
-}
-export default App;
-```
-
-Open your browser and navigate to [`/login`](http://localhost:3002/login).<br />
-
-![Login Component](/img/first_app/login_component.png)
-
-<!-- TODO: Exapmple app should display the returned token(s) directly into the DOM -->
-
-Bring up your development tools' console and verify the user's authentication token is being displayed along with the rest of the response.
-
-## User Authenticated Requests
-
-Having obtained our authentication token, we are ready to perform our first user-authenticated requests.<br />
-Let's introduce another React component responsible for schema document creation.
-
-<!-- TODO: Above text should reference what sort of documents we'll be creating. eg: ...responsible for creating movie entries -->
-<!-- TODO: Having a user insert Movie documents into the backend is an extremely funky use case. -->
-
-<details><summary>Creating a Movie Schema</summary>
-
-    <!-- TODO: Extremely ugly, we shouldn't be sending the reader back and forth -->
-
-    Checkout this [tutorial](../modules/database/tutorials/cinema_ticket_booking#movies_schema) on how to create a schema through the Admin Panel.<br />
-    Create the Movie schema from the example so that we can make use of it in our end-user application.<br />
-    We are going to operate on this schema using CRUD operations.
-
-</details>
-
-### Creating Movies
-
-``` bash title="CreateMovie Component Creation"
-touch src/components/CreateMovie.js
-```
+## Creating Movies
 
 Our application is going to allow users to create their own movie entries.<br />
-The request responsible for Schema creation is `POST /database/schemaName`, where `schemaName` is the name of our schema.<br />
-We named our schema `Movies`, so we'll be sending our POST requests to `database/Movies`.
-<!-- NOTE: This should eventually become /database/schemaId (?) -->
+The request URI responsible for schema document creation is `POST /database/:schemaName`, where `:schemaName` is the name of our schema.<br />
+We named our schema `Movies`, therefore we'll be sending our `POST` requests to `database/Movies`.
 
-Let's create another component to send POST request to our backend.<br />
-
-Paste the following into `CreateMovie.js`.
+Let's create our movie creation component.
 
 ``` jsx title="my-app/src/components/CreateMovie.js"
-import React, { useEffect, useState } from "react";
-import '../css/Login.css'
+import React, { useState } from 'react';
 
-async function createMovie(movie) {
-  // highlight-next-line
-  return fetch('http://localhost:PORT/database/Movies', {
+const PORT = process.env.CONDUIT_CLIENT_PORT ?? 3000;
+
+async function createMovie(userToken, movie) {
+  return fetch(`http://localhost:${PORT}/database/Movies`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'clientid': 'someclientid',
-      'clientsecret':'someclientsecret',
-      'Authorization': 'Bearer sometoken'
+      'Authorization': `Bearer ${userToken}`
     },
-    body: JSON.stringify(movie)
+    body: JSON.stringify(movie),
   })
-    .then(data => data.json())
+    .then(data => data.json());
  }
 
 export default function CreateMovie() {
+  const [userToken, setUserToken] = useState();
   const [name, setName] = useState();
   const [director, setDirector] = useState();
-  const [releaseDate, setRelaseDate] = useState();
   const [duration, setDuration] = useState();
-
+  const [releaseDate, setRelaseDate] = useState();
   const handleSubmit = async e => {
     e.preventDefault();
-    const response = await createMovie({
+    const response = await createMovie(userToken, {
       name,
       director,
-      releaseDate,
       duration,
+      releaseDate,
     });
     console.log(response);
   }
 
   return(
-    <div className="login-wrapper">
+    <div
+      className="wrapper"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        flexDirection: 'column',
+      }}>
+      <h2>Movie Creation</h2>
       <form onSubmit={handleSubmit}>
-      <label>
-        <p>Name</p>
-        <input type="text" onChange={e => setName(e.target.value)}/>
-      </label>
-      <label>
-        <p>Director</p>
-        <input type="text" onChange={e => setDirector(e.target.value)}/>
-      </label>
-      <label>
-        <p>Duration</p>
-        <input type="number" onChange={e => setDuration(e.target.value)}/>
-      </label>
-      <label>
-        <p>Release Date</p>
-        <input type="date" onChange={e => setRelaseDate(e.target.value)}/>
-      </label>
+        <label>
+          <p>User Token</p>
+          <input type="text" onChange={e => setUserToken(e.target.value)}/>
+        </label>
+        <label>
+          <p>Name</p>
+          <input type="text" onChange={e => setName(e.target.value)}/>
+        </label>
+        <label>
+          <p>Director</p>
+          <input type="text" onChange={e => setDirector(e.target.value)}/>
+        </label>
+        <label>
+          <p>Duration</p>
+          <input type="number" onChange={e => setDuration(e.target.value)}/>
+        </label>
+        <label>
+          <p>Release Date</p>
+          <input type="date" onChange={e => setRelaseDate(e.target.value)}/>
+        </label>
 
-      <div>
-        <button type="submit">Submit</button>
-      </div>
-    </form>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
     </div>
   )
 }
 ```
 
-Now map the component to your router by registering a new route.<br />
-Add a route to the App.js file.The new App.js now is this:
+We enabled schema entry creation authentication while configuring our schema's auto-generated CRUD,
+hence our frontend application is going to have to provide a `Authentication` header
+containing the user's authentication token, prefixed by `Bearer `, while submitting movie creation requests.
 
-``` jsx title="mp-app/src/App.js"
-import './App.css';
-import Login from './components/Login';
-import CreateUser from './components/CreateMovie';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link,
-  Outlet
-} from "react-router-dom";
+Your frontend application is responsible for securely storing and passing this along
+with any authenticated user requests, yet to keep matters simple we're going to provide it through a form in this demo.
 
-function App() {
-  return (
-    <div className="wrapper">
-      <h1>Admin Login</h1>
-      <BrowserRouter>
+It's about time we mapped our component to the router, wouldn't you say?
+
+``` jsx title="my-app/src/App.js"
+        // ...
+        import Login from './components/Login';
+        import Register from './components/Register';
+        // highlight-next-line
+        import CreateMovie from './components/CreateMovie';
+        // ...
         <Routes>
           <Route path="/login" element={<Login/>} />
+          <Route path="/register" element={<Register/>} />
           // highlight-next-line
-          <Route path="/movie" element={<CreateMovie/>} />
+          <Route path="/movies/new" element={<CreateMovie/>} />
         </Routes>
-      </BrowserRouter>
-    </div>
-  );
+        // ...
+```
+
+<div style={{textAlign: 'center'}}>
+
+![Create Movie](/img/first_app/create_movie_component.png)
+
+Navigate to [`/movies/new`](http://localhost:3050/movies/new) and create your very first movie!<br />
+</div>
+
+[//]: # (TODO: Display output into DOM)
+
+``` json title="Example Response"
+{
+  "name": "Life of Brian",
+  "director": "Terry Jones",
+  "duration": 134,
+  "releaseDate": "1978-08-17T00:00:00.000Z",
+  "createdAt": "2022-07-22T10:14:18.819Z",
+  "updatedAt": "2022-07-22T10:14:18.819Z",
+  "_id": "62da787ac28d4156aac93f5e",
+  "__v": 0
 }
-export default App;
 ```
 
-Navigate to [`/movie`](http://localhost:3002/movie) from your browser and create your very first movie!<br />
+## Listing Movies
 
-![Create User](/img/first_app/create_movie.png)
+Now that our users are capable of registering new movies,
+let's write one last component responsible for retrieving and rendering our movie entries.
 
-Check your console and verify the movie was indeed created.
+``` jsx title="my-app/src/components/ListMovies.js"
+import React, { useState } from 'react';
 
-### Getting Movies
+const PORT = process.env.CONDUIT_CLIENT_PORT ?? 3000;
 
-We've seen how to make a POST request to our database.<br />
-Now, let's see how to query our database using by performing a GET request.
-
-We'll write another component responsible for retrieving and rendering our movie entries.<br />
-
-``` bash title="GetMovies Component Creation"
-touch src/components/GetMovies.js
-```
-
-``` jsx title="my-app/src/components/GetMovies.js"
-import React, { useEffect, useState } from "react";
-import '../css/Login.css'
-
-async function getMovies() {
-
-  return fetch('http://localhost:PORT/database/Movies', {
+async function listMovies() {
+  return fetch(`http://localhost:${PORT}/database/Movies`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'clientid': 'someclientid',
-      'clientsecret': 'someclientsecret',
-      'Authorization': 'Bearer sometoken'
+      'Authorization': 'Bearer sometoken',
     },
   })
     .then(data => data.json())
  }
 
-export default function GetMovies() {
-
-  const [movies,setMovies] = useState([]);
-
+export default function ListMovies() {
+  const [movies, setMovies] = useState([]);
   const handleSubmit = async e => {
     e.preventDefault();
-    const response = await getMovies();
+    const response = await listMovies();
     console.log(response)
     setMovies(response.documents);
   }
-  console.log(movies)
+
   return(
-    <div className="login-wrapper">
+    <div
+      className="wrapper"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        flexDirection: 'column',
+      }}>
+      <h2>Available Movies</h2>
       <form onSubmit={handleSubmit}>
         <button type="submit">GET MOVIES</button>
-    </form>
-    <div>
-    <ul>
+      </form>
+      <div>
+        <ul>
         {
-          movies &&
-          movies.map((movie) =>
-            <li style={{
-              display: "flex",
-              gap: 2,
-              flexDirection: "column",
-              padding: 10
-
-            }}>
-              <div style= {{ fontWeight:"bold"}}>
-                Name: {movie.name}
-              </div>
-              <div>
-                Director: {movie.director}
-              </div>
-              <div>
-                ReleaseDate: {movie.releaseDate}
-              </div>
-
-
-            </li>
-          )
-        }
+            movies &&
+            movies.map((movie) =>
+              <li style={{
+                display: "flex",
+                gap: 2,
+                flexDirection: "column",
+                padding: 10
+              }}>
+                <div style= {{ fontWeight:"bold"}}>
+                  Name: {movie.name}
+                </div>
+                <div>
+                  Director: {movie.director}
+                </div>
+                <div>
+                  ReleaseDate: {movie.releaseDate}
+                </div>
+              </li>
+            )
+          }
         </ul>
-    </div>
+      </div>
     </div>
   )
 }
@@ -508,50 +512,42 @@ export default function GetMovies() {
 
 Like always, don't forget to map the component to a route.
 
-```tsx title="App.js"
-import './App.css';
-import Login from './components/Login';
-import CreateMovie from './components/CreateMovie';
-import GetMovies from './components/GetMovies';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link,
-  Outlet
-} from "react-router-dom";
-
-function App() {
-  return (
-    <div className="wrapper">
-      <h1>My App</h1>
-      <BrowserRouter>
+``` jsx title="my-app/src/App.js"
+        // ...
+        import Login from './components/Login';
+        import Register from './components/Register';
+        import CreateMovie from './components/CreateMovie';
+        // highlight-next-line
+        import ListMovies from './components/ListMovies';
+        // ...
         <Routes>
           <Route path="/login" element={<Login/>} />
-          <Route path="/movie" element={<CreateMovie/>} />
+          <Route path="/register" element={<Register/>} />
+          <Route path="/movies/new" element={<CreateMovie/>} />
           // highlight-next-line
-          <Route path="/movies" element={<GetMovies/>} />
+          <Route path="/movies" element={<ListMovies/>} />
         </Routes>
-      </BrowserRouter>
-    </div>
-  );
-}
-export default App;
+        // ...
 ```
 
 Our movie retrieval route is now registered.<br />
-Navigate to [`/movies`](http://localhost:3002/movies) from your browser and click on the `GET MOVIES` button.<br />
-The registered movie documents should be displayed to you.<br />
 
-![Get Movies](/img/first_app/get_movies.png)
+<div style={{textAlign: 'center'}}>
+
+![List Movies Before](/img/first_app/list_movies_component_before.png)
+
+Navigate to [`/movies`](http://localhost:3050/movies) and click on the `GET MOVIES` button.<br />
+
+![List Movies After](/img/first_app/list_movies_component_after.png)
+
+The registered movie documents should be displayed to you.<br />
+</div>
 
 ## Conclusion
 
-Our users are now capable of logging in using their credentials, creating their own movies and listing all of the available movie entries.<br />
-And thus, our little tutorial is finally over.<br />
-Hopefully this should help familiarize you with the basics of how to communicate with your Conduit backend from your frontend's perspective.
+Our users are now capable of registering an account, logging in using their credentials,
+creating their own movies and listing all of the available movie entries.<br />
+And thus, our little tutorial is finally over.
 
-<!-- TODO:
- 1. Where to go from here
- 2. Link to downloadable code
--->
+Hopefully this should help get you familiarized with the basics of how to communicate
+with your Conduit backend from your frontend's perspective.

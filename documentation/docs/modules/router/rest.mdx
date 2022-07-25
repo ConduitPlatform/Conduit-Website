@@ -1,0 +1,57 @@
+---
+sidebar_label: 'REST'
+sidebar_position: 2
+---
+
+# REST API
+
+### Performing Requests
+
+Administrative REST routes require that you specify certain [administration headers](../#headers).<br />
+Each module exposes its administrative routes under `/moduleName/`.
+
+[//]: # (TODO: What about non-configurable module names?)
+[Reminder on how to list available module names.](../../config#listing-available-modules)
+
+## Route Documentation {#swagger}
+
+Conduit automatically generates OpenAPI schemas for all of your routes to be used by Swagger.<br />
+This means your REST API is fully documented and even available for interaction through Swagger UI.<br />
+You may always locate your Swagger UI pages and grab the exported JSON files through the Admin Panel.
+
+<div style={{textAlign: 'center'}}>
+
+![Swagger Button](/img/overview/home_topright_buttons.png)
+
+</div>
+
+<ins><strong>Notice:</strong> Make sure you grab the exported files <strong>after</strong> bringing up and configuring
+all of your target modules so that they include all the relevant routes and updated params.</ins>
+
+## Examples
+
+The Database module accepts `GET` requests to `/database/documents`.<br />
+That's how your end-user applications would query for custom (CMS) schema documents.
+
+User authenticated routes additionally require an [Authorization header](./headers/#headers-auth)
+containing a user authentication bearer token.
+
+In fact, for anyone making use of [Local Authentication](../authentication/strategies#local) (enabled by default),
+retrieving that very same user access token is also accomplished through an application request.
+
+``` bash title="Request"
+curl --location --request POST 'http://localhost:3000/authentication/local' \
+    --header 'masterkey: M4ST3RK3Y' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+      "email": "example@mail.com",
+      "password": "I_h4t3_p4ss_r3qu1r3m3nts"
+    } '
+```
+``` json title="Response"
+{
+"userId": "6242f1bb10a09901827738fe",
+"accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDJmMWJiMTBhMDk5MDE4Mjc3MzhmZSIsImlhdCI6MTY0ODU1NDUyNywiZXhwIjoxNzM0OTU0NTI3fQ.Fjqa7ORBBF2giwG7OgiWr2HMgHDL7R6ddFq2E730Djc",
+"refreshToken": "BsKhe3ARhL/FfDfK1REphKkkqQaxRCj/LvvRHOg5wCXCBaUSOwafRHyFYIttaORY/NmHS7NAuT6+knBQegVOwQ=="
+}
+```
