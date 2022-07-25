@@ -16,7 +16,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: "14"
+          node-version: "16"
 
-      - run: cd www && npm install
+      - run: yarn
       - run: cd www && yarn build
