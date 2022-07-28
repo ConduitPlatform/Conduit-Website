@@ -1,0 +1,96 @@
+---
+title: 'Release: Conduit v0.14'
+dateString: 'July 28, 2022'
+mainImageUrl: '/blogIcons/conduit_014.png'
+excerpt: 'The most stable version yet.'
+publisher: 'kkopanidis'
+publisherPosition: 'Founder'
+publisherIcon: 'https://avatars.githubusercontent.com/u/9095396?v=4'
+tags: ['Updates','Open source', 'Release']
+---
+<BlogHeaderComponent
+    title={title}
+    dateString={dateString}
+    mainImageUrl={mainImageUrl}
+    publisher={publisher}
+    publisherIcon={publisherIcon}
+    publisherPosition={publisherPosition}
+/>
+
+Tldr; Configuration changes are now faster and consistent, service discovery is now more reliable and stable.
+The router and security packages have been merged into a standalone microservice, the Admin router supports GraphQL,
+and Core no longer depends on the Database module to spin up.
+
+<br></br>
+
+<SectionItemComponent topic='Overview'/>
+<p>
+    This release is a big update to Conduit, and it includes a number of new features and improvements. It contains
+    a major refactor of the Core module, as well as new components and the target is to make Conduit more stable
+    and reliable.
+</p>
+
+<SectionItemComponent topic='Configuration'/>
+<p>
+  Configuration management is a key part of the Core module, and so far it was using a more complex process than it needed.
+    The new process is much more simple and consistent, and it is much faster. The system now uses Redis as the primary store
+    removing the requirement for DB existence, while also speeding up the process. Using intervals and a mutex-like mechanism,
+    Core instances reconcile configuration between redis and database, making sure that your configuration is always up to date.
+</p>
+<p>
+    General improvements have also been made to the way grpc-sdk handles configuration. Previously there was a loop to store the config,
+    and now it is done in a single step. The core module receives the new config, passes it to the appropriate module and
+    if successful stores it in redis, without requiring secondary calls.
+</p>
+
+
+<br></br>
+<SectionItemComponent topic='Service Discovery'/>
+<p>
+  On version 0.13 we did major improvements to the service discovery mechanism, mainly due to the introduction of grpc-standard
+    Health Checks. This is further improved, by changes in both the Core as well as the grpc-sdk, so that services are
+    discovered more efficiently, and checked properly on recovery. Due to the removal of the db dependency on Core,
+    we no longer have race-condition issues that could cause core to get stuck waiting for the database.
+</p>
+
+<br></br>
+<br></br>
+<SectionItemComponent topic="Routing"/>
+<p>
+  In order to improve scalability and deployment of Conduit installations, we removed the Router from the Core module,
+    and made it a standalone service. This now allows operators to deploy the Core inside a private network without any
+    outside communication, and have the Router module effectively sitting at the edge of the deployment.
+</p>
+<p>
+    Scalability is now also improved, since Router can be linearly scaled without creating multiple Core instances and
+    handle more requests per instance than before.
+</p>
+<p>
+  Due to this split, we also created a new library, named Hermes, that allows you to create Router instances for general usage.
+    This allows us to use the same basis for both the Router and the Admin, and as a result Admin now support Sockets and GraphQL.
+</p>
+
+
+<br></br>
+<br></br>
+<SectionItemComponent topic='Bug fixes'/>
+<p>
+  As with every release we took our time to fix multiple bugs, and improve performance.
+    You can find all things that have changed in our changelog!
+</p>
+<SectionItemComponent topic='Package Updates'/>
+<p>
+  In this release we also went through a huuuge update process of all dependencies in the platform. We updated
+    most of them, reducing potential security issues in old packages and improving performance in many cases.
+</p>
+
+
+Got this far? Well then, YOU are awesome!<br />
+Feel free to let us know if there's anything you love or hate about Conduit.<br />
+Either way, thanks for sticking around.
+
+  - 🌟 Give us a star here: https://github.com/ConduitPlatform/Conduit
+  - 👀 See our cool Development roadmap here: https://getconduit.dev/roadmap
+  - 📚 Read the docs here: https://getconduit.dev/docs
+  - 👋 Wanna say hi? Drop a mail here: hello@getconduit.dev
+  - ✨ Join our discord: https://discord.gg/fBqUQ23M7g

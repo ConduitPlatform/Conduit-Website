@@ -1,5 +1,5 @@
 ---
-title: 'Introspecting Conduit v13.0'
+title: 'Introspecting Conduit v0.13'
 dateString: 'June 21, 2022'
 mainImageUrl: '/blogIcons/conduit_logo.png'
 excerpt: 'Unlimited config power'
@@ -17,8 +17,8 @@ tags: ['Updates', 'Development','Open source', 'Release']
     publisherPosition={publisherPosition}
 />
 
-Tldr; We added support for database introspection and API client library generation, built a CLI, revamped service discovery, 
-implemented the [gRPC health check protocol](https://github.com/grpc/grpc/blob/master/doc/health-checking.md), 
+Tldr; We added support for database introspection and API client library generation, built a CLI, revamped service discovery,
+implemented the [gRPC health check protocol](https://github.com/grpc/grpc/blob/master/doc/health-checking.md),
 introduced new configuration options, pimped up the admin panel and fixed a lot of bugs among other things.
 
 <br></br>
@@ -49,7 +49,7 @@ introduced new configuration options, pimped up the admin panel and fixed a lot 
   All modules may now be started in any random order and they'll just work as long as their dependencies are eventually brought up.
 </p>
 <p>
-  There's now an additional layer of protection available for administrative requests performed through gRPC, where a common private key string is required for said requests to go through. 
+  There's now an additional layer of protection available for administrative requests performed through gRPC, where a common private key string is required for said requests to go through.
   gRPC request protection is entirely optional. To enable it, provide a private key using the`GRPC_KEY` env var value across all of your modules.
 </p>
 <p>
