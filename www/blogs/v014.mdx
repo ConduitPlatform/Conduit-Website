@@ -42,8 +42,6 @@ and Core no longer depends on the Database module to spin up.
     and now it is done in a single step. The core module receives the new config, passes it to the appropriate module and
     if successful stores it in redis, without requiring secondary calls.
 </p>
-
-
 <br></br>
 <SectionItemComponent topic='Service Discovery'/>
 <p>
@@ -53,7 +51,6 @@ and Core no longer depends on the Database module to spin up.
     we no longer have race-condition issues that could cause core to get stuck waiting for the database.
 </p>
 
-<br></br>
 <br></br>
 <SectionItemComponent topic="Routing"/>
 <p>
@@ -70,8 +67,19 @@ and Core no longer depends on the Database module to spin up.
     This allows us to use the same basis for both the Router and the Admin, and as a result Admin now support Sockets and GraphQL.
 </p>
 
-
 <br></br>
+<SectionItemComponent topic="Logging"/>
+<p>
+  We've introduced a new utility in the grpc-sdk, the ConduitLogger, that allows you to log messages to a file, and also
+    to the console. This is a great way to debug your Conduit installation, and easily track down issues.
+    But we didn't stop there, we've also added Loki as a destination, so you can aggregate all your logs to your Grafana Loki
+    instance, and visualize them in a single dashboard.
+</p>
+<p>
+    Our Admin panel is getting updated to include logging consoles that will show you the produced logs without
+    requiring to run Grafana, so only a single Loki container is required!
+</p>
+
 <br></br>
 <SectionItemComponent topic='Bug fixes'/>
 <p>
@@ -82,6 +90,18 @@ and Core no longer depends on the Database module to spin up.
 <p>
   In this release we also went through a huuuge update process of all dependencies in the platform. We updated
     most of them, reducing potential security issues in old packages and improving performance in many cases.
+</p>
+
+<SectionItemComponent topic='Next up'/>
+<p>
+  While this release brings a lot of improvements in the platform, we're excited for the things to come!
+    Here's a sneak peek of the things we're working on:
+    - Add prometheus metrics to all modules
+    - Add metrics charts to the admin panel
+    - Add Roles/Permissions in authentication
+    - Create a dedicated authz module for authorization.
+    - Multi-database connections support
+    - Maybe some serverless magix? who knows.
 </p>
 
 
