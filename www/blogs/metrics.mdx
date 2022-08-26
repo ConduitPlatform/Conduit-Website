@@ -1,0 +1,79 @@
+---
+title: 'Conduit Metrics'
+dateString: 'August 26, 2022'
+mainImageUrl: '/blogIcons/conduit_logo.png'
+excerpt: 'Monitor Everything, Everywhere'
+publisher: 'Michael-Vol'
+publisherPosition: 'Back-End Developer'
+publisherIcon: 'https://avatars.githubusercontent.com/u/31630174?v=4'
+tags: ['Updates', 'Development','Open source', 'Features']
+---
+
+<BlogHeaderComponent
+    title={title}
+    dateString={dateString}
+    mainImageUrl={mainImageUrl}
+    publisher={publisher}
+    publisherIcon={publisherIcon}
+    publisherPosition={publisherPosition}
+/>
+
+Tldr; Conduit now provides a [Prometheus](https://prometheus.io) metrics endpoint for each module allowing you to collect metrics
+and monitor your entire deployment.
+<br></br>
+
+<SectionItemComponent topic={'Guide'}/>
+
+To learn how to enable Metrics for your Conduit application check out <a href='https://getconduit.dev/docs/metrics'>this guide</a>.
+
+<br></br>
+<br></br>
+
+<SectionItemComponent topic={'Monitoring Modules'}/>
+<p>
+Being able to observe your status of your backend and make decisions based on that is critical to the success of your application. Since Conduit
+is a modular application, where each module is a separate entity, scaling your backend without having a way to keep an
+eye on important values such as health states, number of requests etc. is a challenge. That's why it is often the case that you need a
+metrics collection system that can easily provide you with insights into your application without bothering you with the details of setting
+it up.
+</p>
+
+<p>
+Conduit provides you with the ability to enable metrics collection, and expose a Prometheus endpoint for each module in a separate HTTP server.
+To learn how to set it up check out <a href='https://getconduit.dev/docs/metrics'>our docs</a>. Since metrics are only enabled for modules that
+have been given the METRICS_PORT environment variable, it is possible to select which ones you want to enable metrics for, allowing you fine-grain control over
+the observability of your platform.
+
+When metrics are enabled for a module, there are two different sets of them available. The first is Base Metrics which keep track of some essential values for
+each module instance like request count, health state, and request latency. The name of the module as well as its instance are contained in the labels of each metric.
+<img src="/blogIcons/metrics_base.png" alt="base metrics"/>
+
+</p>
+<p>
+The other are module-specific metrics that help you view the behavior of that module only. For instance the Storage module provides you with metrics for the number of containers,
+folders and files created as well as the total size of those files.
+
+<img src="/blogIcons/metrics_storage.png" alt="storage metrics"/>
+</p>
+
+<SectionItemComponent topic='Next up'/>
+<p>
+  While this release brings a lot of improvements in the platform, we're excited for the things to come!
+    Here's a sneak peek of the things we're working on:
+    - Add metrics charts to the admin panel
+    - Add Roles/Permissions in authentication
+    - Create a dedicated authz module for authorization.
+    - Multi-database connections support
+    - Maybe some serverless magix? who knows.
+</p>
+
+
+Got this far? Well then, YOU are awesome!<br />
+Feel free to let us know if there's anything you love or hate about Conduit.<br />
+Either way, thanks for sticking around.
+
+  - 🌟 Give us a star here: https://github.com/ConduitPlatform/Conduit
+  - 👀 See our cool Development roadmap here: https://getconduit.dev/roadmap
+  - 📚 Read the docs here: https://getconduit.dev/docs
+  - 👋 Wanna say hi? Drop a mail here: hello@getconduit.dev
+  - ✨ Join our discord: https://discord.gg/fBqUQ23M7g
