@@ -45,7 +45,7 @@ const highlighterCustomStyle = {
     '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
 };
 
-const bootstrapBash = 'source <(curl -s https://getconduit.dev/bootstrap)';
+const npxInstall = 'npx @conduitplatform/cli deploy';
 
 export default function IntroSection() {
   const theme = useTheme();
@@ -62,7 +62,7 @@ export default function IntroSection() {
   const copyBash = (event: React.MouseEvent<HTMLButtonElement>) =>
     (async () => {
       const target = event.currentTarget;
-      await navigator.clipboard.writeText(bootstrapBash);
+      await navigator.clipboard.writeText(npxInstall);
       if (!open) {
         setAnchorEl(target);
         setTimeout(() => setAnchorEl(null), 2000);
@@ -120,7 +120,7 @@ export default function IntroSection() {
                   style={theme.palette.mode === 'dark' ? materialLight : materialDark}
                   customStyle={highlighterCustomStyle}
                   codeTagProps={{ style: { fontSize: '0.8em', fontFamily: 'monospace' } }}>
-                  {bootstrapBash}
+                  {npxInstall}
                 </SyntaxHighlighter>
                 <IconButton
                   size={'small'}
@@ -129,6 +129,7 @@ export default function IntroSection() {
                   onClick={copyBash}>
                   <ContentCopy fontSize={'small'} />
                 </IconButton>
+
                 <Popover
                   open={open}
                   anchorEl={anchorEl}
