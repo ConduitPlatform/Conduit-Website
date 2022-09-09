@@ -15,6 +15,7 @@ const config = {
   favicon: "img/favicon.ico",
   organizationName: "ConduitPlatform", // Usually your GitHub org/user name.
   projectName: "Conduit", // Usually your repo name.
+  plugins: ["posthog-docusaurus"],
   presets: [
     [
       "classic",
@@ -36,7 +37,13 @@ const config = {
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+
     ({
+      posthog: {
+        apiKey: "<phc_dCXInoPKB2vBuv8KHH6VTl0jmir9BdIuVsdF6maILE0>",
+        appUrl: "<https://app.posthog.com>", // optional
+        enableInDevelopment: false, // optional
+      },
       metadata: [
         {
           name: "title",
@@ -86,6 +93,7 @@ const config = {
           },
         ],
       },
+
       footer: {
         style: "dark",
         links: [
@@ -126,9 +134,9 @@ const config = {
           },
         ],
         logo: {
-          alt: 'Conduit Logo',
-          src: 'img/logo-white.svg',
-          href: 'https://www.getconduit.dev',
+          alt: "Conduit Logo",
+          src: "img/logo-white.svg",
+          href: "https://www.getconduit.dev",
           width: 160,
           height: 51,
         },

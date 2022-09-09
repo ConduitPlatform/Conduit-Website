@@ -9,6 +9,7 @@ import { PaletteMode, responsiveFontSizes } from '@mui/material';
 import getDesignTokens from '../src/theme';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
+import posthog from 'posthog-js';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -29,6 +30,12 @@ const ConduitApp = (props: any) => {
       setMode(storedMode === 'dark' ? 'dark' : 'light');
     }
   }, []);
+
+  if (typeof window !== 'undefined' && !window.location.href.includes('http://localhost:3000/')) {
+    posthog.init('<phc_dCXInoPKB2vBuv8KHH6VTl0jmir9BdIuVsdF6maILE0>', {
+      api_host: '<https://app.posthog.com>',
+    });
+  }
 
   const colorMode = useMemo(
     () => ({
