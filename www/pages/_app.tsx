@@ -10,6 +10,7 @@ import getDesignTokens from '../src/theme';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
 import { usePostHog } from 'next-use-posthog';
+import process from 'process';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -23,7 +24,9 @@ const ConduitApp = (props: any) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const [mode, setMode] = useState<PaletteMode>('dark');
 
-  usePostHog('phc_dCXInoPKB2vBuv8KHH6VTl0jmir9BdIuVsdF6maILE0', {
+  const api_key = process.env.api_key;
+
+  usePostHog(`${api_key}`, {
     api_host: 'https://app.posthog.com',
   });
 
