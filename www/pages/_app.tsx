@@ -23,7 +23,7 @@ const ConduitApp = (props: any) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const [mode, setMode] = useState<PaletteMode>('dark');
 
-  usePostHog('phc_aKwRImdDsuxBQmXZ24GnWlj982cIieM3oOi50mY3NF', {
+  usePostHog('phc_dCXInoPKB2vBuv8KHH6VTl0jmir9BdIuVsdF6maILE0', {
     api_host: 'https://app.posthog.com',
   });
 
