@@ -9,7 +9,7 @@ import { PaletteMode, responsiveFontSizes } from '@mui/material';
 import getDesignTokens from '../src/theme';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
-import posthog from 'posthog-js';
+import { usePostHog } from 'next-use-posthog';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -21,8 +21,11 @@ export const ColorModeContext = createContext({
 
 const ConduitApp = (props: any) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-
   const [mode, setMode] = useState<PaletteMode>('dark');
+
+  usePostHog('phc_aKwRImdDsuxBQmXZ24GnWlj982cIieM3oOi50mY3NF', {
+    api_host: 'https://app.posthog.com',
+  });
 
   useEffect(() => {
     const storedMode = localStorage?.getItem('theme');
@@ -30,12 +33,6 @@ const ConduitApp = (props: any) => {
       setMode(storedMode === 'dark' ? 'dark' : 'light');
     }
   }, []);
-
-  if (typeof window !== 'undefined' && !window.location.href.includes('http://localhost:3000/')) {
-    posthog.init('<phc_dCXInoPKB2vBuv8KHH6VTl0jmir9BdIuVsdF6maILE0>', {
-      api_host: '<https://app.posthog.com>',
-    });
-  }
 
   const colorMode = useMemo(
     () => ({
