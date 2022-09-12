@@ -5,6 +5,7 @@ const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
+
 const config = {
   title: "Conduit Platform",
   tagline: "Less is more",
@@ -15,7 +16,7 @@ const config = {
   favicon: "img/favicon.ico",
   organizationName: "ConduitPlatform", // Usually your GitHub org/user name.
   projectName: "Conduit", // Usually your repo name.
-  plugins: ["posthog-docusaurus"],
+  plugins: ["posthog-docusaurus", ["docusaurus2-dotenv", { systemvars: true }]],
   presets: [
     [
       "classic",
@@ -37,10 +38,9 @@ const config = {
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-
     ({
       posthog: {
-        apiKey: "<phc_dCXInoPKB2vBuv8KHH6VTl0jmir9BdIuVsdF6maILE0>",
+        apiKey: `<${process.env.POSTHOG_API_KEY}>`,
         appUrl: "<https://app.posthog.com>", // optional
         enableInDevelopment: false, // optional
       },
