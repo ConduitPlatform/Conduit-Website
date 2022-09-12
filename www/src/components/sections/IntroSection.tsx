@@ -10,6 +10,7 @@ import { ArrowForwardIos, ContentCopy } from '@mui/icons-material';
 import Link from '../../Link';
 import { SxObject } from '../../models/SxObjects';
 import { useTheme } from '@mui/system';
+import DownloadDialog from '../custom/Downloads/DownloadDialog';
 
 const styles: SxObject = {
   basicText: {
@@ -50,6 +51,7 @@ const bootstrapBash = 'source <(curl -s https://getconduit.dev/bootstrap)';
 export default function IntroSection() {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('md'));
+  const [dialog, setDialog] = React.useState<boolean>(true);
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
@@ -158,6 +160,7 @@ export default function IntroSection() {
           {/* <Image src={workspace} alt="workspace" /> */}
         </Grid>
       </Grid>
+      <DownloadDialog isOpen={dialog} setIsOpen={setDialog} />
     </Box>
   );
 }
