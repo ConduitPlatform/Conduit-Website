@@ -26,9 +26,16 @@ const DownloadStep: FC<Props> = ({ title, index, handleEdit, highlighted, childr
           alignItems={'center'}
           px={2}>
           <Box display="flex" alignItems="center" gap={3}>
-            <Avatar sx={{ backgroundColor: highlighted ? '#E9688A' : '#838B98' }}>{index}</Avatar>
+            <Avatar
+              sx={{ backgroundColor: highlighted ? theme.palette.background.paper : '#838B98' }}>
+              {index}
+            </Avatar>
             <Box display="flex" gap={3} flexDirection={'row'}>
-              <Typography variant={'body1'}>{title}</Typography>
+              <Typography
+                variant={'body1'}
+                color={theme.palette.mode === 'dark' ? 'common.black' : 'common.white'}>
+                {title}
+              </Typography>
             </Box>
           </Box>
           {handleEdit && (

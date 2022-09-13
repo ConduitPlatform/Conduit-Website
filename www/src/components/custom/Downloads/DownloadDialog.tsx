@@ -11,7 +11,7 @@ interface Props {
 
 const DownloadDialog: FC<Props> = ({ isOpen, setIsOpen }) => {
   return (
-    <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+    <Dialog fullWidth maxWidth="sm" open={isOpen} onClose={() => setIsOpen(false)}>
       <IconButton
         onClick={() => setIsOpen(false)}
         sx={{ position: 'absolute', right: 15, top: 15 }}
