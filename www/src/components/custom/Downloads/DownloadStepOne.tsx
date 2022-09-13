@@ -3,6 +3,7 @@ import { Box, Button } from '@mui/material';
 import OSCard from './OsCard';
 import AppleLogo from '../../../../public/icons/appleLogo.svg';
 import WindowsLogo from '../../../../public/icons/windowsLogo.svg';
+import LinuxLogo from '../../../../public/icons/linux-tux.svg';
 
 interface Props {
   os: any;
@@ -15,24 +16,28 @@ const DownloadStepOne: FC<Props> = ({ os, setOs, setCurrentStep }) => {
     <Box py={2} pb={4} display="flex" flexDirection="column" gap={2}>
       <OSCard
         title="Windows"
-        checked={os === 'windows'}
+        checked={os === 'Windows'}
         img={<WindowsLogo />}
-        handleChecked={() => setOs('windows')}
+        handleChecked={() => setOs('Windows')}
       />
       <OSCard
         title="Linux"
-        checked={os === 'linux'}
-        img={''}
-        handleChecked={() => setOs('linux')}
+        checked={os === 'Linux'}
+        img={<LinuxLogo />}
+        handleChecked={() => setOs('Linux')}
       />
       <OSCard
         title="MAC OS"
-        checked={os === 'mac'}
+        checked={os === 'MAC OS'}
         img={<AppleLogo />}
-        handleChecked={() => setOs('mac')}
+        handleChecked={() => setOs('MAC OS')}
       />
       <Box pt={1}>
-        <Button variant="contained" color="secondary" onClick={() => setCurrentStep(1)}>
+        <Button
+          disabled={os === ''}
+          variant="contained"
+          color="secondary"
+          onClick={() => setCurrentStep(1)}>
           Continue
         </Button>
       </Box>

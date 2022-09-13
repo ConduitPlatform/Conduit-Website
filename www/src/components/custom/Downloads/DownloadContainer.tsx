@@ -5,14 +5,15 @@ import DownloadStepOne from './DownloadStepOne';
 
 const DownloadContainer = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [os, setOs] = useState<'mac' | 'linux' | 'windows' | ''>('');
+  const [os, setOs] = useState<'MAC OS' | 'Linux' | 'Windows' | ''>('');
   return (
     <>
       <DownloadStep
         highlighted={currentStep >= 0}
         index={1}
         handleEdit={currentStep > 0 ? () => setCurrentStep(0) : undefined}
-        title={'Select your os'}>
+        title={'Select your OS'}
+        subtitle={currentStep >= 1 ? os : ''}>
         {currentStep === 0 && (
           <DownloadStepOne os={os} setOs={setOs} setCurrentStep={setCurrentStep} />
         )}

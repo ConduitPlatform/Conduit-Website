@@ -1,19 +1,10 @@
-import React, { FC } from 'react';
-import {
-  Box,
-  ButtonBase,
-  Card,
-  Checkbox,
-  Icon,
-  Typography,
-  useTheme,
-  SvgIcon,
-} from '@mui/material';
+import React, { FC, ReactNode } from 'react';
+import { Box, ButtonBase, Card, Checkbox, Typography, useTheme } from '@mui/material';
 
 interface Props {
   title: string;
   checked?: boolean;
-  img: any;
+  img: ReactNode;
   handleChecked: () => void;
 }
 
@@ -29,13 +20,13 @@ const OSCard: FC<Props> = ({ title, img, checked, handleChecked }) => {
         alignItems: 'center',
       }}
       elevation={0}>
-      <ButtonBase onClick={() => handleChecked()} sx={{ display: 'block' }}>
-        <Box display="flex" p={4} gap={'34px'} alignItems="center">
+      <ButtonBase onClick={() => handleChecked()} sx={{ display: 'block', width: '100%' }}>
+        <Box display="flex" p={4} gap={'34px'} alignItems="center" justifyContent="space-between">
           <Checkbox checked={checked ?? false} color="secondary" onClick={() => handleChecked()} />
-          <Box width="100%" display="flex" gap={1} alignItems="center">
+          <Box display="flex" gap={4} alignItems="center">
             <Typography variant="body1">{title}</Typography>
-            {img}
           </Box>
+          {img}
         </Box>
       </ButtonBase>
     </Card>

@@ -5,13 +5,13 @@ import { Edit } from '@mui/icons-material';
 interface Props {
   title: string;
   index: number;
-
+  subtitle?: string;
   handleEdit?: () => void;
   highlighted: boolean;
   children?: ReactNode;
 }
 
-const DownloadStep: FC<Props> = ({ title, index, handleEdit, highlighted, children }) => {
+const DownloadStep: FC<Props> = ({ title, index, handleEdit, highlighted, subtitle, children }) => {
   const theme = useTheme();
   return (
     <>
@@ -27,15 +27,31 @@ const DownloadStep: FC<Props> = ({ title, index, handleEdit, highlighted, childr
           px={2}>
           <Box display="flex" alignItems="center" gap={3}>
             <Avatar
-              sx={{ backgroundColor: highlighted ? theme.palette.background.paper : '#838B98' }}>
+              sx={{
+                backgroundColor: highlighted
+                  ? theme.palette.mode === 'dark'
+                    ? 'white'
+                    : 'black'
+                  : '#838B98',
+              }}>
               {index}
             </Avatar>
             <Box display="flex" gap={3} flexDirection={'row'}>
               <Typography
                 variant={'body1'}
-                color={theme.palette.mode === 'dark' ? 'common.black' : 'common.white'}>
+                color={
+                  theme.palette.mode === 'light' && highlighted ? 'common.white' : 'common.black'
+                }>
                 {title}
               </Typography>
+              {subtitle && (
+                <Typography
+                  color={
+                    theme.palette.mode === 'light' && highlighted ? 'common.white' : 'common.black'
+                  }>
+                  {subtitle}
+                </Typography>
+              )}
             </Box>
           </Box>
           {handleEdit && (
