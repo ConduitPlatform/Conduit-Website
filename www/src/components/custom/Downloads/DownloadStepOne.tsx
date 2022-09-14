@@ -25,7 +25,7 @@ const DownloadStepOne: FC<Props> = ({ os, setOs, setCurrentStep, osVersion, setO
   };
 
   return (
-    <Box py={2} pb={4} display="flex" flexDirection="column" gap={4}>
+    <Box py={2} display="flex" flexDirection="column" gap={4}>
       <Box display="flex" flexDirection="row" gap={2} justifyContent="space-around">
         <OSCard
           title="Windows"

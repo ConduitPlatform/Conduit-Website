@@ -13,18 +13,14 @@ const DownloadDialog: FC<Props> = ({ isOpen, setIsOpen }) => {
   const theme = useTheme();
   return (
     <Dialog
-      PaperProps={{ elevation: 10, sx: { background: theme.palette.background.default } }}
+      PaperProps={{
+        elevation: 10,
+        sx: { background: theme.palette.background.paper, borderRadius: '24px' },
+      }}
       fullWidth
       maxWidth="sm"
       open={isOpen}
       onClose={() => setIsOpen(false)}>
-      <IconButton
-        onClick={() => setIsOpen(false)}
-        sx={{ position: 'absolute', right: 15, top: 15 }}
-        disableRipple>
-        <Close />
-      </IconButton>
-      <DialogTitle>Download</DialogTitle>
       <DialogContent>
         <DownloadContainer />
       </DialogContent>
