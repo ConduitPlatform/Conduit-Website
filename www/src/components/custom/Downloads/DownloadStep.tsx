@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react';
-import { Avatar, Box, Container, IconButton, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Chip, Container, IconButton, Typography, useTheme } from '@mui/material';
 import { Edit } from '@mui/icons-material';
 
 interface Props {
@@ -36,7 +36,7 @@ const DownloadStep: FC<Props> = ({ title, index, handleEdit, highlighted, subtit
               }}>
               {index}
             </Avatar>
-            <Box display="flex" gap={3} flexDirection={'row'}>
+            <Box display="flex" gap={3} flexDirection={'row'} alignItems="center">
               <Typography
                 variant={'body1'}
                 color={
@@ -44,14 +44,7 @@ const DownloadStep: FC<Props> = ({ title, index, handleEdit, highlighted, subtit
                 }>
                 {title}
               </Typography>
-              {subtitle && (
-                <Typography
-                  color={
-                    theme.palette.mode === 'light' && highlighted ? 'common.white' : 'common.black'
-                  }>
-                  {subtitle}
-                </Typography>
-              )}
+              {subtitle && <Chip color="secondary" label={subtitle} />}
             </Box>
           </Box>
           {handleEdit && (

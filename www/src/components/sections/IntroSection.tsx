@@ -6,7 +6,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialLight, materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Button, Grid, Grow, IconButton, Popover, useMediaQuery } from '@mui/material';
 import Illustration from '../../../public/icons/Illustration';
-import { ArrowForwardIos, ContentCopy } from '@mui/icons-material';
+import { ArrowForwardIos, ContentCopy, Download } from '@mui/icons-material';
 import Link from '../../Link';
 import { SxObject } from '../../models/SxObjects';
 import { useTheme } from '@mui/system';
@@ -51,7 +51,7 @@ const bootstrapBash = 'source <(curl -s https://getconduit.dev/bootstrap)';
 export default function IntroSection() {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('md'));
-  const [dialog, setDialog] = React.useState<boolean>(true);
+  const [dialog, setDialog] = React.useState<boolean>(false);
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
@@ -106,6 +106,7 @@ export default function IntroSection() {
           </Typography>
           <Box my={8} gap={1} sx={styles.bottomContainer}>
             <Button
+              sx={{ px: '18px' }}
               component={Link}
               href={'/docs/overview/intro'}
               size="large"
@@ -130,6 +131,13 @@ export default function IntroSection() {
                   color={'secondary'}
                   onClick={copyBash}>
                   <ContentCopy fontSize={'small'} />
+                </IconButton>
+                <IconButton
+                  size={'small'}
+                  sx={styles.copyIcon}
+                  color={'secondary'}
+                  onClick={() => setDialog(true)}>
+                  <Download fontSize={'small'} />
                 </IconButton>
                 <Popover
                   open={open}

@@ -22,10 +22,6 @@ const OSCard: FC<Props> = ({ title, img, checked, handleChecked }) => {
       elevation={0}>
       <ButtonBase onClick={() => handleChecked()} sx={{ display: 'block', width: '100%' }}>
         <Box display="flex" p={4} gap={'34px'} alignItems="center" justifyContent="space-between">
-          <Checkbox checked={checked ?? false} color="secondary" onClick={() => handleChecked()} />
-          <Box display="flex" gap={4} alignItems="center">
-            <Typography variant="body1">{title}</Typography>
-          </Box>
           {img}
         </Box>
       </ButtonBase>
