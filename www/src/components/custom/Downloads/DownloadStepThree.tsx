@@ -1,17 +1,77 @@
 import React, { FC } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, IconButton, Popover, Typography, useTheme } from '@mui/material';
+import { SxObject } from '../../../models/SxObjects';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { materialLight, materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { ContentCopy } from '@mui/icons-material';
 
-interface Props {
-  configuration: 'configless' | 'configured' | '';
-  setConfiguration: (configuration: 'configless' | 'configured' | '') => void;
-  setCurrentStep: (currentStep: number) => void;
-}
+const highlighterCustomStyle = {
+  borderRadius: '4px',
+  padding: '0.5em 1em 0.55em 1em',
+  boxShadow:
+    '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
+};
 
-const DownloadStepThree: FC<Props> = ({ configuration, setConfiguration, setCurrentStep }) => {
-  const handleConfiguration = (configuration: 'configless' | 'configured' | '') => {
-    setConfiguration(configuration);
-    setCurrentStep(3);
-  };
+const styles: SxObject = {
+  basicText: {
+    textAlign: ['center', 'center', 'left'],
+  },
+  bottomContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: {
+      md: 'center',
+      xs: 'center',
+    },
+  },
+  highlighterContainer: {
+    flexGrow: '1',
+    flexShrink: '0',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: {
+      md: 'center',
+      xs: 'center',
+    },
+  },
+  copyIcon: { marginLeft: 1 },
+};
+
+const DownloadStepThree: FC = () => {
+  const theme = useTheme();
+
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+  const [anchorElConfigured, setAnchorElConfigured] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const open = Boolean(anchorEl);
+  const openConfigured = Boolean(anchorElConfigured);
+
+  const command = `conduit deploy setup`;
+  const commandConfigured = `conduit deploy setup --config`;
+
+  const copy = (event: React.MouseEvent<HTMLButtonElement>) =>
+    (async () => {
+      const target = event.currentTarget;
+      await navigator.clipboard.writeText(command);
+      if (!open) {
+        setAnchorEl(target);
+        setTimeout(() => setAnchorEl(null), 2000);
+      }
+    })();
+
+  const copyConfigured = (event: React.MouseEvent<HTMLButtonElement>) =>
+    (async () => {
+      const target = event.currentTarget;
+      await navigator.clipboard.writeText(commandConfigured);
+      if (!open) {
+        setAnchorElConfigured(target);
+        setTimeout(() => setAnchorElConfigured(null), 2000);
+      }
+    })();
 
   return (
     <Box display="flex" flexDirection="column" gap={3} alignItems="center">
@@ -19,20 +79,64 @@ const DownloadStepThree: FC<Props> = ({ configuration, setConfiguration, setCurr
         The default Conduit installation includes the following modules: Core, Database,
         Authentication, Router
       </Typography>
+      <Box sx={styles.highlighterContainer}>
+        <SyntaxHighlighter
+          language={'bash'}
+          style={theme.palette.mode === 'dark' ? materialLight : materialDark}
+          customStyle={highlighterCustomStyle}
+          codeTagProps={{ style: { fontSize: '0.8em', fontFamily: 'monospace' } }}>
+          {command}
+        </SyntaxHighlighter>
+        <IconButton size={'small'} sx={styles.copyIcon} color={'secondary'} onClick={copy}>
+          <ContentCopy fontSize={'small'} />
+        </IconButton>
+        <Popover
+          open={open}
+          anchorEl={anchorEl}
+          onClose={() => setAnchorEl(null)}
+          hideBackdrop
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}>
+          <Typography sx={{ p: 1 }}>Copied!</Typography>
+        </Popover>
+      </Box>
       <Typography textAlign="center">Do you wish to bring up additional modules?</Typography>
-      <Box display="flex" gap={3}>
-        <Button
-          onClick={() => handleConfiguration('configured')}
-          color="secondary"
-          variant={configuration === 'configured' ? 'contained' : 'outlined'}>
-          Yes
-        </Button>
-        <Button
-          onClick={() => handleConfiguration('configless')}
-          color="secondary"
-          variant={configuration === 'configless' ? 'contained' : 'outlined'}>
-          No
-        </Button>
+      <Box sx={styles.highlighterContainer}>
+        <SyntaxHighlighter
+          language={'bash'}
+          style={theme.palette.mode === 'dark' ? materialLight : materialDark}
+          customStyle={highlighterCustomStyle}
+          codeTagProps={{ style: { fontSize: '0.8em', fontFamily: 'monospace' } }}>
+          {commandConfigured}
+        </SyntaxHighlighter>
+        <IconButton
+          size={'small'}
+          sx={styles.copyIcon}
+          color={'secondary'}
+          onClick={copyConfigured}>
+          <ContentCopy fontSize={'small'} />
+        </IconButton>
+        <Popover
+          open={openConfigured}
+          anchorEl={anchorElConfigured}
+          onClose={() => setAnchorElConfigured(null)}
+          hideBackdrop
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}>
+          <Typography sx={{ p: 1 }}>Copied!</Typography>
+        </Popover>
       </Box>
     </Box>
   );

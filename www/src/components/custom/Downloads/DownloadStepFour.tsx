@@ -41,10 +41,10 @@ const styles: SxObject = {
 
 interface Props {
   configuration: 'configless' | 'configured' | '';
-  os: 'NPM' | 'MAC OS' | 'Linux' | 'Windows' | '';
+  platform: 'NPM' | 'MAC OS' | 'Linux' | 'Windows' | '';
 }
 
-const DownloadStepFour: FC<Props> = ({ configuration, os }) => {
+const DownloadStepFour: FC<Props> = ({ configuration, platform }) => {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
@@ -55,6 +55,10 @@ const DownloadStepFour: FC<Props> = ({ configuration, os }) => {
 
   const open = Boolean(anchorEl);
 
+  const command = `${platform === 'NPM' ? 'npx @conduitplatform/cli' : 'conduit'} deploy setup ${
+    configuration === 'configured' ? '--config' : ''
+  }`;
+
   const copy = (event: React.MouseEvent<HTMLButtonElement>) =>
     (async () => {
       const target = event.currentTarget;
@@ -64,10 +68,6 @@ const DownloadStepFour: FC<Props> = ({ configuration, os }) => {
         setTimeout(() => setAnchorEl(null), 2000);
       }
     })();
-
-  const command = `${os === 'NPM' ? 'npx @conduitplatform/cli' : 'conduit'} deploy setup ${
-    configuration === 'configured' ? '--config' : ''
-  }`;
 
   return (
     <Box p={2}>
