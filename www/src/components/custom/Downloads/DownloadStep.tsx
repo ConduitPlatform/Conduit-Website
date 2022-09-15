@@ -6,19 +6,36 @@ interface Props {
   title: string;
   index: number;
   subtitle?: string;
+  skipped?: boolean;
   handleEdit?: () => void;
   highlighted: boolean;
   children?: ReactNode;
 }
 
-const DownloadStep: FC<Props> = ({ title, index, handleEdit, highlighted, subtitle, children }) => {
+const DownloadStep: FC<Props> = ({
+  title,
+  index,
+  handleEdit,
+  highlighted,
+  subtitle,
+  children,
+  skipped,
+}) => {
   const theme = useTheme();
+
+  const extractBackgoundColor: any = () => {
+    if (skipped) {
+      return theme.palette.error.main;
+    } else if (highlighted) {
+      return theme.palette.secondary.main;
+    } else return '#F7F7F8';
+  };
   return (
     <>
       <Box py="14px" display="flex">
         <Box
-          sx={{ backgroundColor: highlighted ? theme.palette.secondary.main : '#F7F7F8' }}
-          height={'72px'}
+          sx={{ backgroundColor: extractBackgoundColor() }}
+          height={'62px'}
           width="100%"
           borderRadius="16px"
           display="flex"
@@ -47,7 +64,7 @@ const DownloadStep: FC<Props> = ({ title, index, handleEdit, highlighted, subtit
               {subtitle && <Chip color="secondary" label={subtitle} />}
             </Box>
           </Box>
-          {handleEdit && (
+          {handleEdit && !skipped && (
             <IconButton disableRipple onClick={() => handleEdit()}>
               <Edit />
             </IconButton>

@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
-import { Dialog, DialogContent, DialogTitle, IconButton, Paper, useTheme } from '@mui/material';
+import { Dialog, DialogContent, useTheme } from '@mui/material';
 import DownloadContainer from './DownloadContainer';
-
-import { Close } from '@mui/icons-material';
 
 interface Props {
   isOpen: boolean;
