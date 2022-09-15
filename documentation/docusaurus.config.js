@@ -5,6 +5,7 @@ const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
+
 const config = {
   title: "Conduit Platform",
   tagline: "Less is more",
@@ -15,6 +16,7 @@ const config = {
   favicon: "img/favicon.ico",
   organizationName: "ConduitPlatform", // Usually your GitHub org/user name.
   projectName: "Conduit", // Usually your repo name.
+  plugins: ["posthog-docusaurus", ["docusaurus2-dotenv", { systemvars: true }]],
   presets: [
     [
       "classic",
@@ -37,6 +39,11 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      posthog: {
+        apiKey: `<${process.env.POSTHOG_API_KEY}>`,
+        appUrl: "<https://app.posthog.com>", // optional
+        enableInDevelopment: false, // optional
+      },
       metadata: [
         {
           name: "title",
@@ -86,6 +93,7 @@ const config = {
           },
         ],
       },
+
       footer: {
         style: "dark",
         links: [
@@ -126,9 +134,9 @@ const config = {
           },
         ],
         logo: {
-          alt: 'Conduit Logo',
-          src: 'img/logo-white.svg',
-          href: 'https://www.getconduit.dev',
+          alt: "Conduit Logo",
+          src: "img/logo-white.svg",
+          href: "https://www.getconduit.dev",
           width: 160,
           height: 51,
         },
