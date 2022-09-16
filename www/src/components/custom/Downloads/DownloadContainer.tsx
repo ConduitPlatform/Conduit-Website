@@ -11,7 +11,7 @@ const DownloadContainer = () => {
 
   const handleChangeStep = (step: number) => {
     if (step === 0) {
-      setPlatform('');
+      setPlatform('NPM');
       setOsVersion('');
     }
 

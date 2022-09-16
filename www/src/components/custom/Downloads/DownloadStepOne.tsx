@@ -137,63 +137,73 @@ const DownloadStepOne: FC<Props> = ({
       <Box display="flex" alignItems="center" flexDirection="column" gap={2}>
         {platform === 'NPM' && (
           <Box display="flex" flexDirection="column" gap={2}>
-            <Box sx={styles.highlighterContainer}>
-              <SyntaxHighlighter
-                language={'bash'}
-                style={theme.palette.mode === 'dark' ? materialLight : materialDark}
-                customStyle={highlighterCustomStyle}
-                codeTagProps={{ style: { fontSize: '0.8em', fontFamily: 'monospace' } }}>
-                {command}
-              </SyntaxHighlighter>
-              <IconButton size={'small'} sx={styles.copyIcon} color={'secondary'} onClick={copy}>
-                <ContentCopy fontSize={'small'} />
-              </IconButton>
-              <Popover
-                open={open}
-                anchorEl={anchorEl}
-                onClose={() => setAnchorEl(null)}
-                hideBackdrop
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}>
-                <Typography sx={{ p: 1 }}>Copied!</Typography>
-              </Popover>
+            <Box display="flex" flexDirection="column">
+              <Typography textAlign="center" variant="caption">
+                Simple setup
+              </Typography>
+              <Box sx={styles.highlighterContainer}>
+                <SyntaxHighlighter
+                  language={'bash'}
+                  style={theme.palette.mode === 'dark' ? materialLight : materialDark}
+                  customStyle={highlighterCustomStyle}
+                  codeTagProps={{ style: { fontSize: '0.8em', fontFamily: 'monospace' } }}>
+                  {command}
+                </SyntaxHighlighter>
+                <IconButton size={'small'} sx={styles.copyIcon} color={'secondary'} onClick={copy}>
+                  <ContentCopy fontSize={'small'} />
+                </IconButton>
+                <Popover
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={() => setAnchorEl(null)}
+                  hideBackdrop
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}>
+                  <Typography sx={{ p: 1 }}>Copied!</Typography>
+                </Popover>
+              </Box>
             </Box>
-            <Box sx={styles.highlighterContainer}>
-              <SyntaxHighlighter
-                language={'bash'}
-                style={theme.palette.mode === 'dark' ? materialLight : materialDark}
-                customStyle={highlighterCustomStyle}
-                codeTagProps={{ style: { fontSize: '0.8em', fontFamily: 'monospace' } }}>
-                {commandConfigured}
-              </SyntaxHighlighter>
-              <IconButton
-                size={'small'}
-                sx={styles.copyIcon}
-                color={'secondary'}
-                onClick={copyConfigured}>
-                <ContentCopy fontSize={'small'} />
-              </IconButton>
-              <Popover
-                open={openConfigured}
-                anchorEl={anchorElConfigured}
-                onClose={() => setAnchorElConfigured(null)}
-                hideBackdrop
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}>
-                <Typography sx={{ p: 1 }}>Copied!</Typography>
-              </Popover>
+            <Box display="flex" flexDirection="column">
+              <Typography textAlign="center" variant="caption">
+                Configurable setup
+              </Typography>
+              <Box sx={styles.highlighterContainer}>
+                <SyntaxHighlighter
+                  language={'bash'}
+                  style={theme.palette.mode === 'dark' ? materialLight : materialDark}
+                  customStyle={highlighterCustomStyle}
+                  codeTagProps={{ style: { fontSize: '0.8em', fontFamily: 'monospace' } }}>
+                  {commandConfigured}
+                </SyntaxHighlighter>
+                <IconButton
+                  size={'small'}
+                  sx={styles.copyIcon}
+                  color={'secondary'}
+                  onClick={copyConfigured}>
+                  <ContentCopy fontSize={'small'} />
+                </IconButton>
+                <Popover
+                  open={openConfigured}
+                  anchorEl={anchorElConfigured}
+                  onClose={() => setAnchorElConfigured(null)}
+                  hideBackdrop
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}>
+                  <Typography sx={{ p: 1 }}>Copied!</Typography>
+                </Popover>
+              </Box>
             </Box>
           </Box>
         )}

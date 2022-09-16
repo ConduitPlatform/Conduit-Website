@@ -163,8 +163,8 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
           </>
         )}
         {download && <Typography>Your download will begin shortly!</Typography>}
-        <Box width="100%" borderBottom={'1px solid white'} />
-        <Typography>Install</Typography>
+        <Box width="100%" borderBottom={`1px solid ${theme.palette.secondary.main}`} />
+        <Typography pt={2}>Install</Typography>
         <Typography color="error">*Install command pending</Typography>
         <Typography textAlign="center" color="secondary">
           *Path has to be addded to env vars until native Conduit packages arrive

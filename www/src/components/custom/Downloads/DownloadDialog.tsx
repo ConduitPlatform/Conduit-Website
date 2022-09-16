@@ -12,7 +12,7 @@ const DownloadDialog: FC<Props> = ({ isOpen, setIsOpen }) => {
   return (
     <Dialog
       PaperProps={{
-        elevation: 10,
+        elevation: 0,
         sx: { background: theme.palette.background.paper, borderRadius: '24px' },
       }}
       fullWidth
