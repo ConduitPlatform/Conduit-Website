@@ -1,5 +1,13 @@
 import React, { FC } from 'react';
-import { Box, Button, Popover, Typography, useTheme, IconButton } from '@mui/material';
+import {
+  Box,
+  Button,
+  Popover,
+  Typography,
+  useTheme,
+  IconButton,
+  useMediaQuery,
+} from '@mui/material';
 import OSCard from './OsCard';
 import AppleLogo from '../../../../public/icons/appleLogo.svg';
 import WindowsLogo from '../../../../public/icons/windowsLogo.svg';
@@ -61,6 +69,8 @@ const DownloadStepOne: FC<Props> = ({
 }) => {
   const theme = useTheme();
 
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
   const [anchorElConfigured, setAnchorElConfigured] = React.useState<HTMLButtonElement | null>(
     null
@@ -108,7 +118,12 @@ const DownloadStepOne: FC<Props> = ({
 
   return (
     <Box py={2} display="flex" flexDirection="column" gap={4}>
-      <Box display="flex" flexDirection="row" gap={2} justifyContent="space-around">
+      <Box
+        display="flex"
+        flexDirection="row"
+        gap={3}
+        justifyContent={mobile ? 'center' : 'space-between'}
+        flexWrap="wrap">
         <OSCard
           title="NPM"
           checked={platform === 'NPM'}

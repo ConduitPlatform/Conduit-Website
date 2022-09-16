@@ -35,7 +35,7 @@ const DownloadStep: FC<Props> = ({
       <Box py="14px" display="flex">
         <Box
           sx={{ backgroundColor: extractBackgoundColor() }}
-          height={'62px'}
+          height={'52px'}
           width="100%"
           borderRadius="16px"
           display="flex"

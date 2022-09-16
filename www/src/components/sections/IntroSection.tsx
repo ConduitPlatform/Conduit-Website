@@ -2,12 +2,10 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TypewriterComponent from 'typewriter-effect';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { materialLight, materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import { Button, Grid, Grow, IconButton, Popover, useMediaQuery } from '@mui/material';
+import { Button, Grid, Grow, useMediaQuery } from '@mui/material';
 import Illustration from '../../../public/icons/Illustration';
-import { ArrowForwardIos, ContentCopy, Download, GitHub } from '@mui/icons-material';
-import Link from '../../Link';
+import { ArrowForwardIos, GitHub } from '@mui/icons-material';
+
 import { SxObject } from '../../models/SxObjects';
 import { useTheme } from '@mui/system';
 import DownloadDialog from '../custom/Downloads/DownloadDialog';
@@ -114,15 +112,16 @@ export default function IntroSection() {
               endIcon={<ArrowForwardIos />}>
               GET STARTED
             </Button>
-            <Button
-              sx={{ px: '18px' }}
-              onClick={() => setDialog(true)}
-              size="large"
-              variant="outlined"
-              color="secondary"
-              endIcon={<GitHub />}>
-              Github
-            </Button>
+            <a href="https://github.com/ConduitPlatform/Conduit" style={{ textDecoration: 'none' }}>
+              <Button
+                sx={{ px: '18px' }}
+                size="large"
+                variant="outlined"
+                color="secondary"
+                endIcon={<GitHub />}>
+                Github
+              </Button>
+            </a>
           </Box>
         </Grid>
         <Grid item md={6} sm={12} xs={12}>

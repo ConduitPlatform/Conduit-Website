@@ -99,7 +99,13 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
         justifyContent="center"
         p={2}>
         {platform !== 'MAC OS' && (
-          <>
+          <Box
+            display="flex"
+            alignItems="center"
+            flexDirection="column"
+            gap={3}
+            p={2}
+            justifyContent="center">
             <Typography>Download package</Typography>
             <a style={{ textDecoration: 'none' }} href={extractURL()} download>
               <Button
@@ -110,11 +116,11 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
                 Download
               </Button>
             </a>
-          </>
+          </Box>
         )}
         {platform === 'MAC OS' && (
           <>
-            <Typography>Download dng</Typography>
+            <Typography>Download .dng</Typography>
             <a style={{ textDecoration: 'none' }} href={extractURL()} download>
               <Button
                 color="secondary"
