@@ -2,12 +2,11 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TypewriterComponent from 'typewriter-effect';
-import { Button, Grid, Grow, useMediaQuery } from '@mui/material';
+import { Button, Grid, Grow } from '@mui/material';
 import Illustration from '../../../public/icons/Illustration';
 import { ArrowForwardIos, GitHub } from '@mui/icons-material';
-
 import { SxObject } from '../../models/SxObjects';
-import { useTheme } from '@mui/system';
+
 import DownloadDialog from '../custom/Downloads/DownloadDialog';
 
 const styles: SxObject = {
@@ -23,51 +22,10 @@ const styles: SxObject = {
       xs: 'center',
     },
   },
-  highlighterContainer: {
-    flexGrow: '1',
-    flexShrink: '0',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: {
-      md: 'flex-start',
-      xs: 'center',
-    },
-  },
-  copyIcon: { marginLeft: 1 },
 };
-
-const highlighterCustomStyle = {
-  borderRadius: '4px',
-  padding: '0.5em 1em 0.55em 1em',
-  boxShadow:
-    '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
-};
-
-const bootstrapBash = 'source <(curl -s https://getconduit.dev/bootstrap)';
 
 export default function IntroSection() {
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up('md'));
   const [dialog, setDialog] = React.useState<boolean>(false);
-
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-
-  const copyBash = (event: React.MouseEvent<HTMLButtonElement>) =>
-    (async () => {
-      const target = event.currentTarget;
-      await navigator.clipboard.writeText(bootstrapBash);
-      if (!open) {
-        setAnchorEl(target);
-        setTimeout(() => setAnchorEl(null), 2000);
-      }
-    })();
 
   return (
     <Box>
@@ -130,8 +88,6 @@ export default function IntroSection() {
               <Illustration />
             </Box>
           </Grow>
-
-          {/* <Image src={workspace} alt="workspace" /> */}
         </Grid>
       </Grid>
       <DownloadDialog isOpen={dialog} setIsOpen={setDialog} />
