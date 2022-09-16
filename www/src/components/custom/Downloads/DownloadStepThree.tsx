@@ -1,43 +1,9 @@
 import React, { FC } from 'react';
 import { Box, IconButton, Popover, Typography, useTheme } from '@mui/material';
-import { SxObject } from '../../../models/SxObjects';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialLight, materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { ContentCopy } from '@mui/icons-material';
-
-const highlighterCustomStyle = {
-  borderRadius: '4px',
-  padding: '0.5em 1em 0.55em 1em',
-  boxShadow:
-    '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
-};
-
-const styles: SxObject = {
-  basicText: {
-    textAlign: ['center', 'center', 'left'],
-  },
-  bottomContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: {
-      md: 'center',
-      xs: 'center',
-    },
-  },
-  highlighterContainer: {
-    flexGrow: '1',
-    flexShrink: '0',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: {
-      md: 'center',
-      xs: 'center',
-    },
-  },
-  copyIcon: { marginLeft: 1 },
-};
+import { highlighterCustomStyle, styles } from './HighlighterStyles';
 
 const DownloadStepThree: FC = () => {
   const theme = useTheme();
