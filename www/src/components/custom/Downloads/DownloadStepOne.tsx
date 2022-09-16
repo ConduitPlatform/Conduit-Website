@@ -8,13 +8,15 @@ import {
   IconButton,
   useMediaQuery,
 } from '@mui/material';
-import OSCard from './OsCard';
+import OSCard from './PlatformCard';
 import AppleLogo from '../../../../public/icons/appleLogo.svg';
 import WindowsLogo from '../../../../public/icons/windowsLogo.svg';
 import LinuxLogo from '../../../../public/icons/linux-tux.svg';
 import NPMLogo from '../../../../public/icons/npmLogo.svg';
+import ConduitLogo from '../../../../public/conduitLogo.svg';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialLight, materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+
 import { ContentCopy } from '@mui/icons-material';
 import { highlighterCustomStyle, styles } from './HighlighterStyles';
 
@@ -87,7 +89,7 @@ const DownloadStepOne: FC<Props> = ({
       <Box
         display="flex"
         flexDirection="row"
-        gap={3}
+        gap={mobile ? 1 : 2}
         justifyContent={mobile ? 'center' : 'space-between'}
         flexWrap="wrap">
         <OSCard
@@ -127,9 +129,12 @@ const DownloadStepOne: FC<Props> = ({
                   language={'bash'}
                   style={theme.palette.mode === 'dark' ? materialLight : materialDark}
                   customStyle={highlighterCustomStyle}
-                  codeTagProps={{ style: { fontSize: '0.8em', fontFamily: 'monospace' } }}>
+                  codeTagProps={{
+                    style: { fontSize: !mobile ? '0.8em' : '0.5em', fontFamily: 'monospace' },
+                  }}>
                   {command}
                 </SyntaxHighlighter>
+
                 <IconButton size={'small'} sx={styles.copyIcon} color={'secondary'} onClick={copy}>
                   <ContentCopy fontSize={'small'} />
                 </IconButton>
@@ -150,7 +155,7 @@ const DownloadStepOne: FC<Props> = ({
                 </Popover>
               </Box>
             </Box>
-            <Box display="flex" flexDirection="column">
+            <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
               <Typography textAlign="center" variant="caption">
                 Configurable setup
               </Typography>
@@ -159,9 +164,12 @@ const DownloadStepOne: FC<Props> = ({
                   language={'bash'}
                   style={theme.palette.mode === 'dark' ? materialLight : materialDark}
                   customStyle={highlighterCustomStyle}
-                  codeTagProps={{ style: { fontSize: '0.8em', fontFamily: 'monospace' } }}>
+                  codeTagProps={{
+                    style: { fontSize: !mobile ? '0.8em' : '0.5em', fontFamily: 'monospace' },
+                  }}>
                   {commandConfigured}
                 </SyntaxHighlighter>
+
                 <IconButton
                   size={'small'}
                   sx={styles.copyIcon}
@@ -184,6 +192,9 @@ const DownloadStepOne: FC<Props> = ({
                   }}>
                   <Typography sx={{ p: 1 }}>Copied!</Typography>
                 </Popover>
+              </Box>
+              <Box pt={3}>
+                <ConduitLogo />
               </Box>
             </Box>
           </Box>

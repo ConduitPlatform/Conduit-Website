@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react';
-import { Box, ButtonBase, Card, Checkbox, Typography, useTheme } from '@mui/material';
+import { Box, ButtonBase, Card, useTheme } from '@mui/material';
 
 interface Props {
   title: string;
@@ -8,7 +8,7 @@ interface Props {
   handleChecked: () => void;
 }
 
-const OSCard: FC<Props> = ({ title, img, checked, handleChecked }) => {
+const PlatformCard: FC<Props> = ({ title, img, checked, handleChecked }) => {
   const theme = useTheme();
   return (
     <Card
@@ -29,4 +29,4 @@ const OSCard: FC<Props> = ({ title, img, checked, handleChecked }) => {
   );
 };
 
-export default OSCard;
+export default PlatformCard;

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Box, IconButton, Popover, Typography, useTheme } from '@mui/material';
+import { Box, IconButton, Popover, Typography, useTheme, useMediaQuery } from '@mui/material';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialLight, materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { ContentCopy } from '@mui/icons-material';
@@ -7,6 +7,7 @@ import { highlighterCustomStyle, styles } from './HighlighterStyles';
 
 const DownloadStepThree: FC = () => {
   const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
   const [anchorElConfigured, setAnchorElConfigured] = React.useState<HTMLButtonElement | null>(
@@ -50,9 +51,12 @@ const DownloadStepThree: FC = () => {
           language={'bash'}
           style={theme.palette.mode === 'dark' ? materialLight : materialDark}
           customStyle={highlighterCustomStyle}
-          codeTagProps={{ style: { fontSize: '0.8em', fontFamily: 'monospace' } }}>
+          codeTagProps={{
+            style: { fontSize: !mobile ? '0.8em' : '0.6em', fontFamily: 'monospace' },
+          }}>
           {command}
         </SyntaxHighlighter>
+
         <IconButton size={'small'} sx={styles.copyIcon} color={'secondary'} onClick={copy}>
           <ContentCopy fontSize={'small'} />
         </IconButton>
@@ -78,9 +82,12 @@ const DownloadStepThree: FC = () => {
           language={'bash'}
           style={theme.palette.mode === 'dark' ? materialLight : materialDark}
           customStyle={highlighterCustomStyle}
-          codeTagProps={{ style: { fontSize: '0.8em', fontFamily: 'monospace' } }}>
+          codeTagProps={{
+            style: { fontSize: !mobile ? '0.8em' : '0.6em', fontFamily: 'monospace' },
+          }}>
           {commandConfigured}
         </SyntaxHighlighter>
+
         <IconButton
           size={'small'}
           sx={styles.copyIcon}

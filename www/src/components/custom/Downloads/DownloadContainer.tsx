@@ -3,8 +3,11 @@ import DownloadStep from './DownloadStep';
 import DownloadStepOne from './DownloadStepOne';
 import DownloadStepTwo from './DownloadStepTwo';
 import DownloadStepThree from './DownloadStepThree';
+import { useTheme, useMediaQuery } from '@mui/material';
 
 const DownloadContainer = () => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [currentStep, setCurrentStep] = useState(0);
   const [platform, setPlatform] = useState<'NPM' | 'MAC OS' | 'Linux' | 'Windows' | ''>('NPM');
   const [osVersion, setOsVersion] = useState<'64bit' | 'amd64' | 'arm64' | 'appleSilicon' | ''>('');
@@ -25,7 +28,7 @@ const DownloadContainer = () => {
         index={1}
         handleEdit={currentStep > 0 ? () => handleChangeStep(0) : undefined}
         title={'Platform'}
-        subtitle={currentStep >= 1 ? `${platform} ${osVersion}` : ''}>
+        subtitle={!mobile && currentStep >= 1 ? `${platform} ${osVersion}` : ''}>
         {currentStep === 0 && (
           <DownloadStepOne
             platform={platform}
@@ -57,7 +60,7 @@ const DownloadContainer = () => {
           highlighted={currentStep >= 2}
           index={3}
           handleEdit={currentStep > 2 ? () => setCurrentStep(2) : undefined}
-          title={'Conduit Configuration Method'}>
+          title={!mobile ? 'Conduit Configuration Method' : 'Configuration'}>
           {currentStep === 2 && <DownloadStepThree />}
         </DownloadStep>
       )}

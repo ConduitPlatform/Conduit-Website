@@ -23,13 +23,14 @@ const DownloadStep: FC<Props> = ({
 }) => {
   const theme = useTheme();
 
-  const extractBackgoundColor: any = () => {
+  const extractBackgoundColor = () => {
     if (skipped) {
       return theme.palette.error.main;
     } else if (highlighted) {
       return theme.palette.secondary.main;
     } else return '#F7F7F8';
   };
+
   return (
     <>
       <Box py="14px" display="flex">
@@ -50,6 +51,7 @@ const DownloadStep: FC<Props> = ({
                     ? 'white'
                     : 'black'
                   : '#838B98',
+                border: `3px solid ${theme.palette.mode === 'dark' ? 'black' : 'white'}`,
               }}>
               {index}
             </Avatar>
@@ -61,7 +63,12 @@ const DownloadStep: FC<Props> = ({
                 }>
                 {title}
               </Typography>
-              {subtitle && <Chip color="secondary" label={subtitle} />}
+              {subtitle && (
+                <Chip
+                  sx={{ backgroundColor: theme.palette.mode === 'light' ? 'white' : 'black' }}
+                  label={subtitle}
+                />
+              )}
             </Box>
           </Box>
           {handleEdit && !skipped && (

@@ -1,5 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Box, Button, IconButton, Popover, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  IconButton,
+  Popover,
+  Typography,
+  useTheme,
+  useMediaQuery,
+} from '@mui/material';
 import { Download } from '@mui/icons-material';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialLight, materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
@@ -17,6 +25,7 @@ interface Props {
 
 const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => {
   const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [download, setDownload] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
@@ -109,7 +118,9 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
                   language={'bash'}
                   style={theme.palette.mode === 'dark' ? materialLight : materialDark}
                   customStyle={highlighterCustomStyle}
-                  codeTagProps={{ style: { fontSize: '0.8em', fontFamily: 'monospace' } }}>
+                  codeTagProps={{
+                    style: { fontSize: !mobile ? '0.8em' : '0.6em', fontFamily: 'monospace' },
+                  }}>
                   {command}
                 </SyntaxHighlighter>
                 <IconButton size={'small'} sx={styles.copyIcon} color={'secondary'} onClick={copy}>
