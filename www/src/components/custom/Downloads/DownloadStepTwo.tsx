@@ -1,21 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
-import {
-  Box,
-  Button,
-  IconButton,
-  Popover,
-  Typography,
-  useTheme,
-  useMediaQuery,
-} from '@mui/material';
+import { Box, Button, Typography, useTheme, useMediaQuery } from '@mui/material';
 import { Download } from '@mui/icons-material';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { materialLight, materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import { ContentCopy } from '@mui/icons-material';
-import { highlighterCustomStyle, styles } from './HighlighterStyles';
-
-const downloadURL =
-  'https://github.com/ConduitPlatform/CLI/releases/download/v0.0.9/conduit-v0.0.9-6767589-';
 
 interface Props {
   platform: 'NPM' | 'MAC OS' | 'Linux' | 'Windows' | '';
@@ -26,23 +11,17 @@ interface Props {
 const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down('sm'));
-
+  const [latestVersion, setLatestVersion] = useState<any>();
   const [download, setDownload] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
-  const extractURL = () => {
-    if (platform === 'Windows') {
-      return `${downloadURL}win32-x64.tar.gz`;
-    } else if (platform === 'Linux') {
-      if (osVersion === 'amd64') {
-        return `${downloadURL}linux-x64.tar.gz`;
-      } else return `${downloadURL}linux-arm.tar.gz`;
-    } else {
-      if (osVersion === 'appleSilicon') {
-        return `${downloadURL}darwin-arm64.tar.gz`;
-      } else return `${downloadURL}darwin-x64.tar.gz`;
-    }
-  };
+  useEffect(() => {
+    fetch('https://api.github.com/repos/ConduitPlatform/CLI/releases')
+      .then((res) => res.json())
+      .then((data) =>
+        setLatestVersion(data[0].assets.map((item: any) => item.browser_download_url))
+      );
+  }, []);
 
   useEffect(() => {
     if (download)
@@ -50,6 +29,27 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
         setDownload(false);
       }, 10000);
   }, [download]);
+
+  const extractSuffix = () => {
+    if (latestVersion !== undefined) {
+      if (platform === 'Windows') {
+        return `$win32-x64.tar.gz`;
+      } else if (platform === 'Linux') {
+        if (osVersion === 'amd64') {
+          return `linux-x64.tar.gz`;
+        } else return `linux-arm.tar.gz`;
+      } else {
+        if (osVersion === 'appleSilicon') {
+          return `darwin-arm64.tar.gz`;
+        } else return `darwin-x64.tar.gz`;
+      }
+    }
+  };
+
+  const finalizedDownload = () => {
+    const suffix = extractSuffix();
+    return suffix !== undefined && latestVersion?.find((item: string) => item.includes(suffix));
+  };
 
   const open = Boolean(anchorEl);
   const command = `homebrew ......`;
@@ -81,14 +81,14 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
             gap={3}
             p={2}
             justifyContent="center">
-            <Typography>Download package</Typography>
-            <a style={{ textDecoration: 'none' }} href={extractURL()} download>
+            {/* <Typography>Download package</Typography> */}
+            <a style={{ textDecoration: 'none' }} href={finalizedDownload()} download>
               <Button
                 color="secondary"
                 endIcon={<Download />}
                 onClick={() => setDownload(true)}
                 variant="outlined">
-                Download
+                Download Package
               </Button>
             </a>
           </Box>
@@ -96,16 +96,16 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
         {platform === 'MAC OS' && (
           <>
             <Typography>Download .dng</Typography>
-            <a style={{ textDecoration: 'none' }} href={extractURL()} download>
+            <a style={{ textDecoration: 'none' }} href={finalizedDownload()} download>
               <Button
                 color="secondary"
                 endIcon={<Download />}
                 onClick={() => setDownload(true)}
                 variant="outlined">
-                Download
+                Download Package
               </Button>
             </a>
-            <Typography>OR</Typography>
+            {/* <Typography>OR</Typography> TODO to be added when homebrew commands are ready
             <Box
               display="flex"
               flexDirection="column"
@@ -142,16 +142,16 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
                   <Typography sx={{ p: 1 }}>Copied!</Typography>
                 </Popover>
               </Box>
-            </Box>
+            </Box> */}
           </>
         )}
         {download && <Typography>Your download will begin shortly!</Typography>}
-        <Box width="100%" borderBottom={`1px solid ${theme.palette.secondary.main}`} />
+        {/* <Box width="100%" borderBottom={`1px solid ${theme.palette.secondary.main}`} />
         <Typography pt={2}>Install</Typography>
         <Typography color="error">*Install command pending</Typography>
         <Typography textAlign="center" color="secondary">
           *Path has to be addded to env vars until native Conduit packages arrive
-        </Typography>
+        </Typography> */}
         <Button variant="contained" color="secondary" onClick={() => setCurrentStep(2)}>
           Continue
         </Button>
