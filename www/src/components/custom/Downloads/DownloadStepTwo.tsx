@@ -33,7 +33,7 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
   const extractSuffix = () => {
     if (latestVersion !== undefined) {
       if (platform === 'Windows') {
-        return `$win32-x64.tar.gz`;
+        return `win32-x64.tar.gz`;
       } else if (platform === 'Linux') {
         if (osVersion === 'amd64') {
           return `linux-x64.tar.gz`;
