@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Box, Button, Typography, useTheme, useMediaQuery } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { Download } from '@mui/icons-material';
 
 interface Props {
@@ -8,9 +8,10 @@ interface Props {
   setCurrentStep: (currentStep: number) => void;
 }
 
+//TODO commented out code to be used when installation commands / homebrew downloads are available
 const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => {
-  const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+  // const theme = useTheme();
+  // const mobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [latestVersion, setLatestVersion] = useState<any>();
   const [download, setDownload] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
