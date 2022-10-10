@@ -1,0 +1,58 @@
+---
+sidebar_label: 'Introspection'
+sidebar_position: 4
+---
+
+# Database Introspection
+
+Database Introspection allows you to conveniently import all or some of your schemas from an existing database
+without the need of manually creating each one. Schemas can be edited and verified through the schema editor.
+
+Let's say that you already have a database and you need use it with Conduit without however deleting all of its
+existing data but using them as a native Conduit DB. In that case, all you need to do is provide your existing database's
+connection URI in the environment variables, introspect it and then verify/edit its schemas.
+
+## Limitations
+ Keep in mind that introspecting your database comes with a few limitations. If you are using an SQL database any primary keys are not
+based on indexes, but rather specified on the fields. Also, multiple Postgres search path "Schemas" are not supported.
+
+
+## Using the Admin Panel
+Let's walk through some examples on how to utilize the Introspection feature in Conduit's admin panel.
+We start by  [launching the admin panel](../../get-started/admin-panel), navigating to the Database page
+and clicking on the Introspection Tab.
+
+![Introspection View](/v0.15/modules/database/admin/introspection_view.png)
+
+You can start the introspection process by clicking on the ```Introspect Schemas``` button. After a while
+you will see all of the schemas of your database that are now in pending state.
+> **Tip: If you later add more schemas to your database externally, you can always trigger the introspection with the
+```Introspect Schemas``` button.**
+
+> **Bear in mind that in Mongo databases, large collections will slow down the introspection process. Therefore it may
+take a while before your pending schemas are available.**
+
+![Introspection Schema View](/v0.15/modules/database/admin/introspection_schema_view.png)
+### Editing Schemas
+
+> For a detailed guide on how the Schema Editor works, checkout our [Get Started Guide](./get-started).
+
+#### Adding New Fields
+By clicking the ```Import Schema``` button you can edit and validate your schema's contents using the
+Conduit's schema editor. On the top bar you can set the allowed CRUD operations for your schema and its permissions.
+If you want to add a field that is missing you can drag and drop one of the available schema field types from the right
+bar to the schema fields.
+
+![Introspection New Field](/v0.15/modules/database/admin/introspection_new_field.png)
+
+#### Editing Existing Field Options
+If for some reason you find that the schema options of a specific field do not match the corresponding
+options of your database's schema you can always adjust them by selecting the gear icon on the right side
+of the field. There you can add/remove any further options.
+
+![Introspection Edit Field](/v0.15/modules/database/admin/introspection_edit_field.png)
+
+### Finalizing Schemas
+When you have finalized your schema you can click on the ```Finalize``` button to set it as declared.
+
+**🎉 Congratulations, your schema is now ready for actual use with Conduit!**

@@ -1,0 +1,45 @@
+# Authentication
+
+![Authentication Module](/v0.14/modules/authentication/admin/overview.png)
+
+This module offers user authentication.<br />
+It supports logins with local credentials as well as popular identity providers.<br />
+TwoFactor authentication is also provided.
+
+## Features
+
+- Local authentication with email/password
+  - Optional email verification (requires [Email](../email/email.mdx) module)
+  - Forgot password
+  - Reset password
+- Integration with third-party auth providers
+  - Facebook
+  - Google
+  - Microsoft
+  - GitHub
+  - Figma
+  - Kakao Talk
+  - Twitch
+  - Slack
+- Service account / API key
+- Optional 2FA supported on all strategies (requires [SMS](../sms/sms.mdx) module)
+- Optional Account linking supported when email is the same between providers
+
+## Dependencies
+
+- [Email](../email/email.mdx) (optional: local authentication + email verification)
+- [Storage](../storage/storage.mdx) (optional: mobile authentication)
+
+## Minimum Configuration
+
+This module requires no configuration to get started.<br />
+Utilizes the [Local Authentication](./strategies#local) strategy by default.
+
+## Environmental Variables {#env-variables}
+
+|  Name          | Required |  Description                                  |  Example      |
+| :------------: | :------: | :-------------------------------------------: | :-----------: |
+| CONDUIT_SERVER |  True    | Conduit Core's address and port               | 0.0.0.0:55152 |
+| SERVICE_IP     |  True    | Address and port to listen to for this module | 0.0.0.0:56154 |
+| REGISTER_NAME  |  False   | Name-based network registration (containers)  | False         |
+| GRCP_KEY       |  False   | Specifying a secret enables [gRPC signed request protection](../../core#grpc-request-protection) | someRandomSecret |

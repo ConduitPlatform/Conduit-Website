@@ -1,0 +1,76 @@
+---
+sidebar_label: 'Security'
+sidebar_position: 5
+---
+
+# Security
+
+<div style={{textAlign: 'center'}}>
+
+![Secrets Tab](/v0.14/modules/router/admin/security_client_view.png)
+
+</div>
+
+
+## Client Validation {#client-validation}
+
+Security client validation introduces an additional security layer for your application requests.<br />
+Upon enabling this option any client requests going through your transport APIs are going to have to provide a
+client id/secret pair before their request can be forwarded to the appropriate module.
+
+You are responsible for creating these clients in advance.<br />
+You may do so through the admin panel or by performing an administrative request to Conduit's admin REST or GraphQL API.
+
+In case of web clients, the incoming request's domain is also validated against the one specified in the client entry.
+
+:::caution
+User authentication tokens are **tied to the security client** they were generated with.<br />
+Meaning you can't reuse or refresh tokens for your users across different clients.
+:::
+
+### Supported Platforms:
+
+<!-- TODO: Screenshots + explanation on how to create these from UI -->
+
+- `WEB`
+- `ANDROID`
+- `IOS`
+- `IPADOS`
+- `WINDOWS`
+- `MACOS`
+- `LINUX`
+- `CLI` (used exclusively by Conduit's CLI)
+
+You may conveniently generate your own security clients through the Router section of Conduit's Admin Panel.
+
+<div style={{textAlign: 'center'}}>
+
+![Create Security Client](/v0.14/modules/router/admin/security_client_create.png)
+
+</div>
+
+<details>
+<summary>Generating a Security Client through the administrative REST API</summary>
+
+**Security clients are generated using an administrative request.**<br />
+As such, your request's `Authorization` header should contain an admin access token.
+
+``` bash title="Request"
+
+    curl --location --request POST 'http://localhost:3030/security/client/' \
+        --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
+        --header 'masterkey: M4ST3RK3Y' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{
+        "platform": "ANDROID"
+    }'
+```
+ ``` json title="Response"
+    {
+        "id": "6242b88a10a0990182773840",
+        "clientId": "1c0d06679f837c3958fba2724b51dc",
+        "clientSecret": "9ffd3a9041bff6aabff5fa81df8175c2406baaca6c417a165f5b66a9ad1c1e4408bc4aad895126ddc0ee007332aacf842f63ebc68eddc304a902a3f8867e9902",
+        "platform": "ANDROID"
+    }
+ ```
+</details>

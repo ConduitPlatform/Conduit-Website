@@ -1,6 +1,11 @@
 [[redirects]]
+from = "/docs"
+to = "/docs/overview/intro"
+status = 200
+force = true
+[[redirects]]
 from = "/docs/"
-to = "/overview/intro"
+to = "/docs/overview/intro"
 status = 200
 force = true
 [[redirects]]

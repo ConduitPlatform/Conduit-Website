@@ -1,0 +1,118 @@
+---
+sidebar_label: 'Cinema Ticket Booking'
+sidebar_position: 1
+---
+
+# Cinema Ticket Booking
+
+This is a beginner-friendly tutorial intended to familiarize developers with the creation and
+utilization of custom schemas in a simple ticket booking application.
+
+This tutorial makes use of [Conduit's REST API](../../router/rest) for CRUD operations.
+
+### Prerequisites
+
+Following this tutorial requires that you have already read the Database module's 
+[Getting Started](../get-started.mdx) guide.<br />
+Please make sure you understand the basics before resuming.
+
+Make sure your schemas' CRUD operations are enabled.<br />
+That should generate CRUD application-level routes, as long as the [Router](../../router) module is available.<br />
+While doing so, **do not** enable authentication as this goes beyond the scope of this basic tutorial.
+
+-------------------------------------------------
+
+### Scenario
+
+You are a building a ticket booking website for a cinema.<br />
+You need a fast, yet efficient way to build your application's backend.
+
+### Requirements
+
+Your website needs to keep track of movies, halls and projections.<br />
+It should also be aware of ticket availability for the latter.<br />
+In order to represent each one of these through types, we need to figure out their specifications.
+
+A movie should have a name, a director, a duration and a release date.<br />
+A hall needs a name, a number of seats and a class.<br />
+A projection has relation fields to a movie and a hall, as well as a datetime field and 
+a counter for the tickets sold for it.
+
+Head to the admin panel's Database page so we can begin creating our schemas.<br />
+
+-------------------------------------------------
+
+## Building our Backend
+
+### Movies Schema:
+
+Create a new schema and name it `Movies`.<br />
+A movie's name is a string, so drag a text field element into the schema fields area.<br />
+After the field edit pane is brought up, set its name to `name` and make it required.
+
+Drag another text field, name it `director`, make it required and save that too.<br />
+We are going to represent duration in minutes, so use a number field, name it `duration` and make that too required.<br />
+At last, drag a date field into the schema area, name it `releaseDate`. Yeap, that's also required.
+
+![Movies Schema Created](/v0.14/modules/database/tutorials/cinema_tickets_booking/movies_schema_created.png)
+
+<div style={{textAlign: 'center'}}>
+
+![CRUD Operations Configuration](/v0.14/modules/database/admin/schema_edit_crud.png)
+
+Verify that your schema's CRUD endpoints are enabled and **do not** require authentication.
+</div>
+
+With that out of the way, our schema looks solid. Hit that save button 💾.
+
+Note how we used a text type for the `Movies` schema's `director` field in
+order to keep the tutorial's complexity at check.<br />
+Ideally, we would be storing the directors on a separate schema and using a relation field instead.<br />
+Feel free to play around and improve on the original design after you're done.
+
+### Halls Schema:
+
+Create a `Halls` schema, adding three required fields.<br />
+A `name` text field, a `seats` number field and a `class` enum field (of type text).<br />
+Enum options are separated via new lines.
+
+![Halls Class Enum](/v0.14/modules/database/tutorials/cinema_tickets_booking/halls_class_enum.png)
+
+Damn, you're getting good at this.
+
+### Projections Schema:
+
+Last but not least, create a `Projections` schema to combine these two.<br />
+Add two required relation fields. Name the first one `movie` and select `Movies` from the relation type dropdown.<br />
+Now create a required `hall` field, setting its relation type to `Halls`.
+
+![Projections Movie Relation](/v0.14/modules/database/tutorials/cinema_tickets_booking/projections_movie_relation.png)
+
+Use a date field to represent the `startTime` and make it required.<br />
+At last, throw in a required `ticketsSold` number field with a default value of 0.
+
+We are going to use that last one to calculate the number of tickets available for sale based on the hall's seats down the road.
+
+-------------------------------------------------
+
+## Testing our CRUD Endpoints
+
+Wait that's it?<br />
+Yeap. Your schemas are already exposed through [Conduit's REST API](../../router/rest).<br />
+GraphQL is also supported out of the box, but we're focusing on REST for this tutorial.
+
+<!--
+**TODO**
+
+-------------------------------------------------
+
+## Registering Custom Endpoints
+
+**TODO**
+
+-------------------------------------------------
+
+## Finishing Touches
+
+**TODO**
+-->
