@@ -1,0 +1,58 @@
+---
+sidebar_label: 'GraphQL'
+sidebar_position: 3
+---
+
+# GraphQL API
+
+Conduit exposes a GraphQL server for you to perform GraphQL requests.<br />
+Your application-level GraphQL path is `/graphql`.<br />
+You may always retrieve the exact url through the Admin Panel.
+
+<div style={{textAlign: 'center'}}>
+
+![GraphQL Button](/v0.15/overview/home_topright_buttons.png)
+
+</div>
+
+Navigating to the above URL through your web browser should bring up GraphQL Playground.<br />
+You can use that to test out your requests.
+
+## Performing Requests
+
+Performing certain GraphQL queries requires that you pass in certain [application request headers](./headers#headers-app).<br />
+What this typically means is passing along an `Authorization` header for your user authenticated requests.<br />
+If you've enabled [clientValidation](./headers#headers-security) for your application requests,
+you'll additionally provide a security client id and secret pair.
+
+``` json title="User Authenticated Request Headers Example"
+{
+	"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzQ3MjMzYTQ5ODg4MGNkOWI4MDY5ZSIsImlhdCI6MTY0NzYwNDk5OCwiZXhwIjoxNzM0MDA0OTk4fQ.D_TsIaQlMimft4CXhCo_aOs0vk6opnClxM3aFtFF4Qc"
+}
+```
+
+Upon specifying your headers in the GraphQL Playground page, your route documentation should become available to you.<br />
+Lets perform our first query, shall we?
+
+Let's make a query to find out which chat rooms are currently registered in our database!<br />
+This should return an array containing the ids of the registered chat rooms.<br />
+Make sure the [Chat module](../chat) is currently online.
+
+``` bash title="Example Request"
+query getRooms($skip: Number,$limit:Number) {
+	getChatRooms(skip: $skip, limit:$limit) {
+		rooms {
+			_id
+		}
+	}
+}
+```
+
+``` json title="Example Query Variables"
+{
+  "skip": 0,
+  "limit": 0
+}
+```
+
+[//]: # (TODO: Example result)

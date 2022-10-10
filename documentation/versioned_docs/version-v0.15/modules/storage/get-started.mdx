@@ -1,0 +1,121 @@
+---
+sidebar_label: 'Get Started'
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Getting Started
+
+## Execution
+
+<Tabs>
+<TabItem value="cli" label="CLI">
+
+``` bash
+# Select Storage while configuring your modules
+npx @conduitplatform/cli deploy --config
+```
+</TabItem>
+
+<TabItem value="docker" label="Docker">
+<details><summary>Prerequisites</summary>
+
+``` bash
+# Set up the Container Network
+docker network create conduit
+
+# Start Redis
+docker run -d --name conduit-redis \
+              --network-alias redis \
+              --network "conduit" \
+              -h conduit-redis \
+              -p 6379:6379 \
+              docker.io/library/redis:latest
+
+# Start Conduit
+docker run -d --name conduit-core \
+              --network-alias conduit \
+              --network "conduit" \
+              -h conduit-core \
+              -p 55152:55152 -p 3030:3030 -p 3031:3031 \
+              -e REDIS_HOST="conduit-redis" -e REDIS_PORT="6379" \
+              ghcr.io/conduitplatform/conduit:latest
+
+# Start MongoDB
+docker run -d --name conduit-mongo \
+              --network-alias mongo \
+              --network "conduit" \
+              -h conduit-mongo \
+              -p 27017:27017 \
+              docker.io/library/mongo:latest
+
+# Start Database
+docker run -d --name conduit-database \
+              --network-alias database \
+              --network "conduit" \
+              -h conduit-database \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              -e DB_TYPE="mongodb" \
+              -e DB_CONN_URI="mongodb://conduit-mongo:27017" \
+              ghcr.io/conduitplatform/database:latest
+# Start Router
+docker run -d --name conduit-router \
+              --network-alias router \
+              --network "conduit" \
+              -h conduit-router \
+              -p 3000:3000 -p 3001:3001 \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              ghcr.io/conduitplatform/router:latest
+```
+</details>
+
+``` bash
+docker run -d --name conduit-storage \
+              --network-alias storage \
+              --network "conduit" \
+              -h conduit-storage \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              ghcr.io/conduitplatform/storage:latest
+```
+</TabItem>
+</Tabs>
+
+<ins><strong>Notice:</strong> This module is disabled by default as it requires initial configuration.</ins>
+
+Selecting **[Local](config.mdx/#local-storage)** storage as your provider is the fastest way to get started.<br />
+For more information on how to configure the Storage module, see [Configuration](config.mdx).
+
+-------------------------------------------------
+
+## Using the Admin Panel
+
+### Creating a Container
+
+Creating your own file system requires that you create a container first.<br />
+
+![Create container](/v0.15/modules/storage/admin/create_container.png)
+
+After creating a container, you may now populate your file system.
+
+### Create a Folder
+
+Choose a name for your folder and select the container where you wish to store it.<br />
+
+![Create Folder](/v0.15/modules/storage/admin/create_folder.png)
+
+Repeat the same process for creating additional subfolders.
+
+## Store a file in a folder
+
+Optianally, navigate to the folder where you wish the file to be stored in.<br />
+**Example:** _/mycontainer/myfolder_
+
+![Create File Empty](/v0.15/modules/storage/admin/create_file_empty.png)
+
+Click on `Add` and specify your file's details.<br />
+
+![Create File Filled](/v0.15/modules/storage/admin/create_file_filled.png)
+
+Save your file.

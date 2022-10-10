@@ -1,0 +1,118 @@
+---
+sidebar_label: 'REST'
+sidebar_position: 1
+---
+
+# REST API
+
+## Performing Requests
+
+Administrative REST routes require that you specify certain [administration headers](./#headers).<br />
+Each module exposes its administrative routes under `/moduleName/`.
+
+[//]: # (TODO: What about non-configurable module names?)
+[Reminder on how to list available module names.](../config#listing-available-modules)
+
+## Route Documentation {#swagger}
+
+Conduit automatically generates OpenAPI schemas for all of your routes to be used by Swagger.<br />
+This means your administrative REST API is fully documented and even available for interaction through Swagger UI.<br />
+You may always locate your Swagger UI pages and grab the exported JSON files through the Admin Panel.
+
+<div style={{textAlign: 'center'}}>
+
+![Swagger Button](/v0.14/overview/home_topright_buttons.png)
+
+</div>
+
+<ins><strong>Notice:</strong> Make sure you grab the exported files <strong>after</strong> bringing up and configuring
+all of your target modules so that they include all the relevant routes and updated params.</ins>
+
+### Examples
+
+Let's go through a couple examples, shall we?<br />
+We'll be using curl for this in order to make sure everyone can follow along, but you can send your requests any way you like.
+
+We'll start by sending an administrative login request.
+
+``` bash title="Admin Login"
+curl --location --request POST 'http://localhost:3030/login' \
+     --header 'masterkey: M4ST3RK3Y' \
+     --header 'Content-Type: application/json' \
+     --data-raw '{
+     "username": "admin",
+     "password": "admin"
+}'
+```
+```json title="Response"
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI"
+}
+```
+
+Great, that got us, uh, a quite long string of non-sense characters?<br />
+Is that thing broken or what? Oh yeah, that's right, a token thing, I've watched people talk about these on YouTube.<br />
+Does that mean I've got my very own NFT now?
+
+Nah, but on the bright side, it should let you access your very own set of administrative routes!<br />
+Let's put that token to use and send an authenticated admin request to the Database module.<br />
+We pass it along as the `Authorization` header, prefixed by `Bearer`.<br />
+That one should return all of the schemas owned by Database or Authentication.
+
+``` bash title="Retrieving Database Schemas"
+curl --location --request GET 'http://localhost:3030/database/schemas/?enabled=true&owner=database,authentication' \
+     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI' \
+     --header 'masterkey: M4ST3RK3Y'
+```
+```json title="Response"
+{
+    "schemas": [
+        {
+            "_id": "622f1dda58dd200017805f0e",
+            "name": "AccessToken",
+            "fields": {
+            "_id": "ObjectId",
+            "userId": {
+            "type": "Relation",
+            "model": "User",
+            "required": true
+        },
+            "clientId": {
+            "type": "String",
+            "required": true
+        },
+            "token": {
+            "type": "String",
+            "required": true
+        },
+            "expiresOn": {
+            "type": "Date",
+            "required": true
+        },
+            "createdAt": "Date",
+            "updatedAt": "Date"
+        },
+            "modelOptions": {
+            "timestamps": true,
+            "conduit": {
+            "permissions": {
+            "extendable": true,
+            "canCreate": false,
+            "canModify": "ExtensionOnly",
+            "canDelete": false
+        }
+        }
+        },
+            "ownerModule": "authentication",
+            "createdAt": "2022-03-14T10:50:02.239Z",
+            "updatedAt": "2022-03-15T09:21:50.559Z",
+            "extensions": [],
+            "__v": 0
+        },
+        {
+            ... more schemas ...
+        }
+    ],
+    "count": 5
+}
+```

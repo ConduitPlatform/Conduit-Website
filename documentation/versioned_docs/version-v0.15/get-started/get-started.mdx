@@ -1,0 +1,78 @@
+# Getting Started
+
+This section assumes that Conduit is [already installed](../installation) and running locally.<br />
+If you haven't done so already, please follow the [relevant instructions](../installation) on how to bootstrap Conduit from the Overview section.
+
+Building a backend using Conduit requires that you familiarize yourself with a few key aspects of the project.<br />
+We're going to brief you on the essentials here and help you navigate the sections of the documentation that are actually most relevant to your needs.
+
+## Configuration
+
+Conduit is a microservice-based backend where services can function in a distributed environment.<br />
+Most of these services provide optional configuration. Some of them even require that you provide their configuration before they can be of use.<br />
+You can configure each and every one of them in a consistent and streamlined fashion in the following ways:
+
+- Using the Admin Panel
+- Using Conduit's administration-level REST & GraphQL APIs
+
+[Find out more about Configuration](../config)
+
+## Routing
+
+Conduit offers a plethora of options when it comes to routing.<br />
+You get support for both REST and GraphQL without duplicating any of your code, as well as WebSockets,
+all of which are available as API transports for both application and administration level requests.<br />
+You even get GraphQL-style populates on your REST endpoints ootb, plus auto-generated Swagger and whatnot.
+
+Most modules usually expose a bunch of routes for you to make use of.<br />
+Some of them are administrative routes to be used only by you and your project's staff, while others are meant to be used by your clients.<br />
+You may choose to make use of either REST or GraphQL for both application and administration level requests alike.<br />
+WebSockets are also supported across the board, but due to their use is naturally restricted to specific operations.
+
+You may find out more about [application routing](../modules/router) and [administration routing](../administration) in their respective sections.
+
+## Modules
+
+Conduit is built around microservices and, as such, modules are where most of its functionality comes from.<br />
+Modules are more or less the bread and butter of Conduit and what would ultimately allow your projects to incorporate additional functionality
+without you needing to worry about implementing it yourself over and over again for each and every single one of them.<br />
+
+Official modules are built to be extremely versatile and configurable, but they are also entirely optional and replaceable.<br />
+If there's any reason why you'd wish to swap out our database our application router implementations you could just go ahead and do that and
+everything else would continue to function as expected, as long as you replace them with something that reimplements all of the expected service functions.
+
+Check out the [documentation on our officially provided modules](../modules).
+
+## Admin Panel
+
+Conduit also comes with an admin panel to facilitate the administration of your project.<br />
+Using it is completely optional and it can connect to remote Conduit instances, so you don't really need to deploy it online either.<br />
+
+[Find out more about Administration](admin-panel)
+
+-------------------------------------------------
+
+## I'm back. Now what?
+
+Hopefully, the above should be enough to get you started and put you on the right track to build a fast and reliable backend.<br />
+This is just the tip of the iceberg of course. Backends can be pretty versatile, thus there's much more to be covered on how to build one.
+
+Depending on your project's needs, you might just get by with solely using our [Database](../modules/database) module's CMS functionality,
+or you might as well end up requiring every single one of our modules. You might even consider building your own services on top of Conduit.
+
+In any case, we suggest that you take a look at the rest of the sections in these docs.<br />
+Conduit is a project offering readily available functionality for a vast variety of different use cases and as such its complexity can feel somewhat daunting at times.<br />
+
+If you're having trouble figuring out the best way to approach things or simply wish that a certain feature were supported,
+make sure you contact us and let us know about it, we'd be more than happy to help.<br />
+
+And if you come across a bug, please do report it on our [issue tracker](https://github.com/ConduitPlatform/Conduit/issues/new/choose) so that we can get it sorted 🐛🔨.
+
+If you enjoy using Conduit, feel free to join our [Discord server](https://discord.com/invite/fBqUQ23M7g) and let us know about it, we're always chatty,
+except when we're building things... we're less chatty then and we kinda do that a lot.<br />
+Look, what I'm trying to say is we'd love to hear from you.
+
+Thanks for bearing with us through this quick start guide.<br />
+
+You can check the rest of the pages in this Getting Started section to familiarize yourself with Conduit!
+See you around 😎.

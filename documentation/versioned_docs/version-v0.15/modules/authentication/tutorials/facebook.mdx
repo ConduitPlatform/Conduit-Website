@@ -1,0 +1,57 @@
+---
+sidebar_label: 'Facebook'
+sidebar_position: 2
+---
+
+# Facebook
+
+In this tutorial, we'll set up Facebook authentication for Conduit.<br />
+To get started, you have to create a Facebook Web Application.<br />
+
+## Creating a Facebook Web App
+
+Navigate to the [Facebook for Developers](https://developers.facebook.com/) website and sign in.<br />
+We'll be creating an app to be used for our Conduit authentication.
+
+![Facebook app](/v0.15/modules/authentication/tutorials/create_facebook_app.png)
+
+Select Consumer app type.
+
+![Facebook app type](/v0.15/modules/authentication/tutorials/app_type.png)
+
+Fill the application details and finalize your app!<br />
+
+![Facebook app details](/v0.15/modules/authentication/tutorials/add_details.png)
+
+In this step, you will be asked to add products to your app. Select Facebook Login.<br />
+
+![Facebook app details](/v0.15/modules/authentication/tutorials/login_app.png)
+
+You will be asked to select a type for your application. Select `WEB`.<br />
+Select  Facebook Login.<br />
+
+Your app is ready. Make sure you download the relevant file.
+
+[Additional information on Facebook Apps](https://developers.facebook.com/docs/development/create-an-app/).
+
+------------------------------------------------------------------------------------------------
+
+## Setting up the configuration
+
+***NOTE***<br />
+**Do not forget to configure the Facebook provider through the [Admin Panel](../config#third-party).**<br />
+Open the app which you downloaded and navigate to the `config.js` file.<br />
+Replace client id and client secret with your actual Facebook app credentials.<br />
+
+------------------------------------------------------------------------------------------------
+
+## Authenticate with Facebook
+
+To begin authenticating with Facebook you request a redirect url with the proper scopes<br />
+We'll proceed using Postman!<br />
+
+![Postman Facebook Init](/v0.15/modules/authentication/tutorials/postman_facebook_init.png)
+
+Open a browser and navigate to the url returned to you from Conduit.<br />
+Now the `/hook/authentication` route has been triggered.<br />
+Once your browser has been redirected, your authentication has been completed.

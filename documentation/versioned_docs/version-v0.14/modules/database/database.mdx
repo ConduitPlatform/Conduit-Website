@@ -1,0 +1,48 @@
+# Database
+
+![Schema View](/v0.14/modules/database/admin/overview.png)
+
+This module provides a consistent query language so that your modules can effortlessly store and retrieve persistent data.<br />
+It also acts as a CMS, facilitating the management of custom content types through the generation of db level schemas, 
+the creation and manipulation of schema document entries and the registration of fine-tuned custom endpoints.<br />
+You even get (optional) auto-generated CRUD endpoints for your custom schemas!
+
+Content is delivered through REST and GraphQL APIs.
+
+We currently support MongoDB and PostgreSQL (default: MongoDB).
+
+## Features
+
+- Supports MongoDB
+- Supports PostgreSQL
+- Consistent Query Language (based on MongoDB)
+- CMS
+  - Creation of custom content types (schema)
+  - Create db collections based on said types
+  - Create db collection entries
+  - Auto-generated CRUD routes
+  - Create powerful custom endpoints
+  - Expose content through GraphQL
+  - Expose content through REST API
+  - Pagination
+  - Sorting
+  - GraphQL-style 'populate' field for REST APIs
+
+## Dependencies
+
+This module requires a functional installation of MongoDB or PostgreSQL.<br />
+
+## Minimum Configuration
+
+This module requires no configuration.
+
+## Environmental Variables {#env-variables}
+
+|  Name          | Required |  Description                                  |  Example      |
+| :------------: | :------: | :-------------------------------------------: | :-----------: |
+| CONDUIT_SERVER |  True    | Conduit Core's address and port               | 0.0.0.0:55152 |
+| SERVICE_IP     |  True    | Address and port to listen to for this module | 0.0.0.0:56154 |
+| REGISTER_NAME  |  False   | Name-based network registration (containers)  | False         |
+| DB_TYPE        |  False   | Database engine (mongodb/sql)                 | mongodb       |
+| DB_CONN_URI    |  False   | Database connection string                    | mongodb+srv://user:pass@host/db |
+| GRCP_KEY       |  False   | Specifying a secret enables [gRPC signed request protection](../../core#grpc-request-protection) | someRandomSecret |

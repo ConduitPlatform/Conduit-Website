@@ -1,0 +1,108 @@
+---
+sidebar_label: 'Get Started'
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Getting Started
+
+## Execution
+
+<Tabs>
+<TabItem value="cli" label="CLI">
+
+``` bash
+# Select Forms and Email while configuring your modules
+npx @conduitplatform/cli deploy --config
+```
+</TabItem>
+
+<TabItem value="docker" label="Docker">
+<details><summary>Prerequisites</summary>
+
+``` bash
+# Set up the Container Network
+docker network create conduit
+
+# Start Redis
+docker run -d --name conduit-redis \
+              --network-alias redis \
+              --network "conduit" \
+              -h conduit-redis \
+              -p 6379:6379 \
+              docker.io/library/redis:latest
+
+# Start Conduit
+docker run -d --name conduit-core \
+              --network-alias conduit \
+              --network "conduit" \
+              -h conduit-core \
+              -p 55152:55152 -p 3030:3030 -p 3031:3031 \
+              -e REDIS_HOST="conduit-redis" -e REDIS_PORT="6379" \
+              ghcr.io/conduitplatform/conduit:latest
+
+# Start MongoDB
+docker run -d --name conduit-mongo \
+              --network-alias mongo \
+              --network "conduit" \
+              -h conduit-mongo \
+              -p 27017:27017 \
+              docker.io/library/mongo:latest
+
+# Start Database
+docker run -d --name conduit-database \
+              --network-alias database \
+              --network "conduit" \
+              -h conduit-database \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              -e DB_TYPE="mongodb" \
+              -e DB_CONN_URI="mongodb://conduit-mongo:27017" \
+              ghcr.io/conduitplatform/database:latest
+# Start Router
+docker run -d --name conduit-router \
+              --network-alias router \
+              --network "conduit" \
+              -h conduit-router \
+              -p 3000:3000 -p 3001:3001 \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              ghcr.io/conduitplatform/router:latest
+```
+</details>
+
+``` bash
+docker run -d --name conduit-forms \
+              --network-alias forms \
+              --network "conduit" \
+              -h conduit-forms \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              ghcr.io/conduitplatform/forms:latest
+```
+</TabItem>
+</Tabs>
+
+:::caution
+
+**Forms** requires a running instance of the **[Email](../email/email.mdx)** module.<br />
+This module won't activate fully until **Email** becomes available.
+
+:::
+
+At this point, you should have a functional Forms instance.<br />
+You may now register forms through the [Admin Panel](../../get-started/admin-panel).
+
+-------------------------------------------------
+
+## Using the Admin Panel
+
+Lets walk you through some examples on how to utilize the Forms module through Conduit's admin panel.<br />
+Start by [launching the admin panel](../../get-started/admin-panel) and navigating to the Forms page.
+
+![Forms List View](/v0.14/modules/forms/admin/forms_list_view.png)
+
+On the main screen, you can see a list view of all the available forms.<br />
+You may delete individual forms and view their submitted replies.<br />
+You can also view a form's specification and edit its fields.
+
+![Forms List View](/v0.14/modules/forms/admin/view_form.png)

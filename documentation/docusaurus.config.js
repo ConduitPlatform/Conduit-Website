@@ -13,7 +13,7 @@ const config = {
   baseUrl: "/docs/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
-  favicon: "img/favicon.ico",
+  favicon: "favicon.ico",
   organizationName: "ConduitPlatform", // Usually your GitHub org/user name.
   projectName: "Conduit", // Usually your repo name.
   plugins: ["posthog-docusaurus", ["docusaurus2-dotenv", { systemvars: true }]],
@@ -27,6 +27,7 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           editUrl: undefined,
+          includeCurrentVersion: false, // disable 'next' version, enable for offline edits
         },
         blog: false,
         theme: {
@@ -62,8 +63,8 @@ const config = {
       navbar: {
         title: "",
         logo: {
-          alt: "My Site Logo",
-          src: "img/logo.svg",
+          alt: "Conduit Logo",
+          src: "docusaurus/logo.dark.svg",
           href: "https://www.getconduit.dev",
           target: "_self",
         },
@@ -85,6 +86,10 @@ const config = {
             target: "_self",
             label: "Contribute",
             position: "left",
+          },
+          {
+            type: 'docsVersionDropdown',
+            position: "right",
           },
           {
             href: "https://github.com/ConduitPlatform/Conduit",
@@ -135,7 +140,7 @@ const config = {
         ],
         logo: {
           alt: "Conduit Logo",
-          src: "img/logo-white.svg",
+          src: "logo.light.svg",
           href: "https://www.getconduit.dev",
           width: 160,
           height: 51,

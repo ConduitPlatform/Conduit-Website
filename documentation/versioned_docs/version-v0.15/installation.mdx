@@ -1,0 +1,64 @@
+---
+sidebar_label: 'Installation'
+sidebar_position: 2
+title: 'Installation'
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## Getting Conduit
+
+9 out of 10 successful backend engineers agree downloading software drastically increases the chances of running it!<br />
+The odd one is renting their backend from a megacorp, but we are not here to judge anyone, are we?<br />
+
+There are multiple ways to get started with Conduit.<br />
+You could [build it from source](https://github.com/ConduitPlatform/Conduit#running-from-source-)
+or you could use our [prebuilt container images](https://github.com/orgs/ConduitPlatform/packages?sort_by=downloads_desc&visibility=public).<br />
+We'll pick the latter in this case, but feel free to choose any installation method you prefer.
+
+If you're not going to use the automated approach listed below, make sure you're not mix and matching different major versions of
+Conduit, modules or Conduit-UI (Admin Panel), otherwise you might face incompatibilities!
+
+## Using Conduit's CLI {#cli}
+
+Conduit and all of our official modules are available as container images on both DockerHub and the GitHub's Container Registry.<br />
+You can pull and configure them yourself however you see fit, but you don't wanna do that just to test things locally do you?<br />
+Yeah, thought so. Thankfully, it just so happens we've built a handy little something to automate everything for you!
+
+First things first, make sure [Docker is installed](https://docs.docker.com/get-docker/) and
+configured so that you are capable of executing docker commands without *sudo* (by adding your user to the docker group).
+
+<Tabs>
+<TabItem value="npm" label="npm">
+
+``` bash title="Bootstrapping a local deployment"
+# Option A: Just give me a barebones setup of the latest Conduit release
+npx @conduitplatform/cli deploy
+
+# Option B: I wish to bring up extra modules and perform some basic configuration
+npx @conduitplatform/cli deploy --config
+```
+</TabItem>
+</Tabs>
+
+Upon completion, the above should bring up Conduit's admin panel in your browser.<br />
+Default administration credentials are `admin`/`admin`.
+
+[Tell me more about this CLI of yours](./cli)
+
+-------------------------------------------------
+
+## Does this actually work?
+
+Sure, we printed out a bunch of catchy stuff in a terminal and would you look at that? we even used emojis too!<br />
+But how do you know this is actually the real deal?<br />
+I mean... the panel has a dark mode! And that login page had a cool SVG... Surely that's enough to convince you?<br />
+No? People are too suspicious these days 😢.
+
+Why don't you have a look at our [Getting Started](./get-started) guide?<br />
+It should help reassure you this is all actually legit stuff 👌.
+
+Bottom line is Conduit should solve every single one of your problems, including your carpal tunnel syndrome, no matter how you install it.<br />
+Unless it won't... at this point you might wanna open a [feature request](https://github.com/ConduitPlatform/Conduit/issues/new/choose)
+or shoot us a message over on our [community platforms](https://getconduit.dev/contribute) and let us know about it.
