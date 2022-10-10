@@ -64,7 +64,7 @@ const config = {
         title: "",
         logo: {
           alt: "Conduit Logo",
-          src: "docusaurus/logo.dark.svg",
+          src: "logo.dark.svg",
           href: "https://www.getconduit.dev",
           target: "_self",
         },
