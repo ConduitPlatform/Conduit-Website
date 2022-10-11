@@ -8,5 +8,8 @@ module.exports = {
 
     return config;
   },
+  env: {
+    api_key: process.env.POSTHOG_API_KEY,
+  },
   reactStrictMode: true,
 };

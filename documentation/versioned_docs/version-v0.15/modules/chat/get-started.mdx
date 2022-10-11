@@ -1,0 +1,102 @@
+---
+sidebar_label: 'Get Started'
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Getting Started
+
+## Execution
+
+<Tabs>
+<TabItem value="cli" label="CLI">
+
+``` bash
+# Select Chat while configuring your modules
+npx @conduitplatform/cli deploy --config
+```
+</TabItem>
+
+<TabItem value="docker" label="Docker">
+<details><summary>Prerequisites</summary>
+
+``` bash
+# Set up the Container Network
+docker network create conduit
+
+# Start Redis
+docker run -d --name conduit-redis \
+              --network-alias redis \
+              --network "conduit" \
+              -h conduit-redis \
+              -p 6379:6379 \
+              docker.io/library/redis:latest
+
+# Start Conduit
+docker run -d --name conduit-core \
+              --network-alias conduit \
+              --network "conduit" \
+              -h conduit-core \
+              -p 55152:55152 -p 3030:3030 -p 3031:3031 \
+              -e REDIS_HOST="conduit-redis" -e REDIS_PORT="6379" \
+              ghcr.io/conduitplatform/conduit:latest
+
+# Start MongoDB
+docker run -d --name conduit-mongo \
+              --network-alias mongo \
+              --network "conduit" \
+              -h conduit-mongo \
+              -p 27017:27017 \
+              docker.io/library/mongo:latest
+
+# Start Database
+docker run -d --name conduit-database \
+              --network-alias database \
+              --network "conduit" \
+              -h conduit-database \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              -e DB_TYPE="mongodb" \
+              -e DB_CONN_URI="mongodb://conduit-mongo:27017" \
+              ghcr.io/conduitplatform/database:latest
+# Start Router
+docker run -d --name conduit-router \
+              --network-alias router \
+              --network "conduit" \
+              -h conduit-router \
+              -p 3000:3000 -p 3001:3001 \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              ghcr.io/conduitplatform/authentication:latest
+```
+</details>
+
+``` bash
+docker run -d --name conduit-chat \
+              --network-alias chat \
+              --network "conduit" \
+              -h conduit-chat \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              ghcr.io/conduitplatform/chat:latest
+```
+</TabItem>
+</Tabs>
+
+At this point, you should have a functional Chat instance.<br />
+Your users are now capable of creating, joing and utilizing chat rooms to communicate with each other.<br />
+You may also create chat rooms and populate them with participants yourself using the [Admin Panel](../../get-started/admin-panel).
+
+-------------------------------------------------
+
+## Using the Admin Panel
+
+![Chat Room View](/v0.15/modules/chat/admin/room_view.png)
+
+The admin panel lets you browse the available chat rooms, create new ones and preview their messages.
+
+### Creating Rooms
+
+While in the "Rooms" tab of the Chat administration page, click on the "Create Chat Room" button.<br />
+A side pane should be brought up on your right, where you can specify your room's details. 
+
+![Create Chat Room](/v0.15/modules/chat/admin/create_room_pane.png)

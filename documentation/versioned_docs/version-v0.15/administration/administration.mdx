@@ -1,0 +1,74 @@
+---
+title: Administrative APIs
+hide_title: true
+---
+
+:::info
+These APIs are responsible for handling **administration-level** requests.<br />
+Check out the [Router](modules/router) module for information on application-level requests.
+:::
+
+# Administrative APIs
+
+Conduit allows administrators to operate on their backend using REST and GraphQL APIs.<br />
+There's also an administrative WebSockets API for real time communication.
+
+All of the above transports are enabled by default, but can be disabled if you so desire.
+
+Most administrative requests expose or modify critical parts of your backend like listing private data and configuring user authentication strategies.<br />
+As such, utilizing them requires authorization to prevent non-administrators from being capable of performing them.
+
+## Headers {#headers}
+
+### Master Key {#headers-masterkey}
+
+A secret key specified as a [Conduit Core environment variable](../core#env-variables).<br />
+This header is required by every single administrative route.
+
+``` json title="Example"
+{ "masterkey": "M4ST3RKEY" }
+```
+
+On a fresh deployment, the master key secret defaults to `M4ST3RK3Y`.
+
+### Authorization {#headers-auth}
+
+A bearer formatted access token used for administrator authentication.<br />
+This header is required by most administrative routes, with the exception of:
+
+- Admin Login (`POST: /login`)
+- Online Modules (`GET: /modules`)
+- GraphQL (`GET: /graphql`)
+- Swagger (`GET: /swagger & /swagger.json` whenever Core is in development mode)
+
+``` json title="Example"
+{ "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI" }
+```
+
+<details>
+<summary>Getting an Admin Authentication Token</summary>
+
+``` bash title="Request"
+curl --location --request POST 'http://localhost:3030/login' \
+--header 'masterkey: M4ST3RK3Y' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+"username": "admin",
+"password": "admin"
+}'
+```
+``` json title="Response"
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI"
+}
+```
+</details>
+
+**Admin access tokens cannot be used interchangeably with [user access tokens](../modules/router/headers/#headers-auth)!**
+<br />
+
+# Configuration
+
+![Admin Config Section](/v0.15/config/admin/admin_config_section.png)
+
+You may configure your administrative APIs through the main settings page of your admin panel.

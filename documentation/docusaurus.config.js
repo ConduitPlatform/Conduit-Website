@@ -5,6 +5,7 @@ const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
+
 const config = {
   title: "Conduit Platform",
   tagline: "Less is more",
@@ -12,9 +13,10 @@ const config = {
   baseUrl: "/docs/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
-  favicon: "img/favicon.ico",
+  favicon: "favicon.ico",
   organizationName: "ConduitPlatform", // Usually your GitHub org/user name.
   projectName: "Conduit", // Usually your repo name.
+  plugins: ["posthog-docusaurus", ["docusaurus2-dotenv", { systemvars: true }]],
   presets: [
     [
       "classic",
@@ -25,6 +27,7 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           editUrl: undefined,
+          includeCurrentVersion: false, // disable 'next' version, enable for offline edits
         },
         blog: false,
         theme: {
@@ -37,6 +40,11 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      posthog: {
+        apiKey: `<${process.env.POSTHOG_API_KEY}>`,
+        appUrl: "<https://app.posthog.com>", // optional
+        enableInDevelopment: false, // optional
+      },
       metadata: [
         {
           name: "title",
@@ -55,8 +63,8 @@ const config = {
       navbar: {
         title: "",
         logo: {
-          alt: "My Site Logo",
-          src: "img/logo.svg",
+          alt: "Conduit Logo",
+          src: "logo.dark.svg",
           href: "https://www.getconduit.dev",
           target: "_self",
         },
@@ -80,12 +88,17 @@ const config = {
             position: "left",
           },
           {
+            type: 'docsVersionDropdown',
+            position: "right",
+          },
+          {
             href: "https://github.com/ConduitPlatform/Conduit",
             label: "GitHub",
             position: "right",
           },
         ],
       },
+
       footer: {
         style: "dark",
         links: [
@@ -126,9 +139,9 @@ const config = {
           },
         ],
         logo: {
-          alt: 'Conduit Logo',
-          src: 'img/logo-white.svg',
-          href: 'https://www.getconduit.dev',
+          alt: "Conduit Logo",
+          src: "logo.light.svg",
+          href: "https://www.getconduit.dev",
           width: 160,
           height: 51,
         },
