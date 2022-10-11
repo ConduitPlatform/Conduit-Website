@@ -29,6 +29,9 @@ Yeah, thought so. Thankfully, it just so happens we've built a handy little some
 First things first, make sure [Docker is installed](https://docs.docker.com/get-docker/) and
 configured so that you are capable of executing docker commands without *sudo* (by adding your user to the docker group).
 
+You're also going to need some form of support for [docker compose](https://docs.docker.com/compose/install/).<br />
+Conduit's CLI supports both v2 and v1. The former comes pre-installed with the latest versions of Docker desktop.
+
 <Tabs>
 <TabItem value="npm" label="npm">
 
@@ -38,8 +41,97 @@ npx @conduitplatform/cli deploy setup
 
 # Option B: I wish to bring up extra modules and perform some basic configuration
 npx @conduitplatform/cli deploy setup --config
+
 ```
 </TabItem>
+
+[//]: # (TODO: We should use website-level redirects for latest release links)
+<TabItem value="linux" label="Linux">
+
+``` bash title="Installing the CLI"
+# amd64
+curl -Lo conduit-cli.tar.gz https://github.com/ConduitPlatform/CLI/releases/download/v0.0.11/conduit-v0.0.11-f58a3f7-linux-x64.tar.gz
+# arm64
+curl -Lo conduit-cli.tar.gz https://github.com/ConduitPlatform/CLI/releases/download/v0.0.11/conduit-v0.0.11-f58a3f7-linux-arm.tar.gz
+
+mkdir ~/.conduit
+tar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit
+chmod a+x ~/.conduit/bin/conduit
+
+# Update your $PATH to include the installation directory
+# For Bash Users
+echo '\n#Add Conduit CLI to executable PATH\nexport PATH=$PATH:~/.bin\n' >> ~/.bashrc
+source ~/.bashrc
+# For Zsh Users
+echo '\n#Add Conduit CLI to executable PATH\nexport PATH=$PATH:~/.bin\n' >> ~/.zshrc
+source ~/.zshrc
+```
+
+``` bash title="Bootstrapping a local deployment"
+# Option A: Just give me a barebones setup of the latest Conduit release
+conduit deploy setup
+
+# Option B: I wish to bring up extra modules and perform some basic configuration
+conduit deploy setup --config
+```
+</TabItem>
+<TabItem value="mac" label="Mac">
+
+``` bash title="Installing the CLI"
+# intel
+curl -Lo conduit-cli.tar.gz https://github.com/ConduitPlatform/CLI/releases/download/v0.0.11/conduit-v0.0.11-f58a3f7-darwin-x64.tar.gz
+# apple silicon
+curl -Lo conduit-cli.tar.gz https://github.com/ConduitPlatform/CLI/releases/download/v0.0.11/conduit-v0.0.11-f58a3f7-darwin-arm64.tar.gz
+
+mkdir ~/.conduit
+tar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit
+chmod a+x ~/.conduit/bin/conduit
+
+# Update your $PATH to include the installation directory
+# For Bash Users
+echo '\n#Add Conduit CLI to executable PATH\nexport PATH=$PATH:~/.bin\n' >> ~/.bashrc
+source ~/.bashrc
+# For Zsh Users
+echo '\n#Add Conduit CLI to executable PATH\nexport PATH=$PATH:~/.bin\n' >> ~/.zshrc
+source ~/.zshrc
+```
+
+``` bash title="Bootstrapping a local deployment"
+# Option A: Just give me a barebones setup of the latest Conduit release
+conduit deploy setup
+
+# Option B: I wish to bring up extra modules and perform some basic configuration
+conduit deploy setup --config
+```
+</TabItem>
+
+[//]: # (<TabItem value="windows" label="Windows">)
+
+[//]: # ()
+[//]: # (``` bash title="Installing the CLI")
+
+[//]: # (curl -Lo conduit-cli.tar.gz https://github.com/ConduitPlatform/CLI/releases/download/v0.0.11/conduit-v0.0.11-f58a3f7-win32-x64.tar.gz)
+
+[//]: # ()
+[//]: # (TODO...)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (``` bash title="Bootstrapping a local deployment")
+
+[//]: # (# Option A: Just give me a barebones setup of the latest Conduit release)
+
+[//]: # (conduit deploy setup)
+
+[//]: # ()
+[//]: # (# Option B: I wish to bring up extra modules and perform some basic configuration)
+
+[//]: # (conduit deploy setup --config)
+
+[//]: # (```)
+
+[//]: # (</TabItem>)
 </Tabs>
 
 Upon completion, the above should bring up Conduit's admin panel in your browser.<br />
