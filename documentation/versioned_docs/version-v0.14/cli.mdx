@@ -8,6 +8,8 @@ hide_title: true
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+import CliPlatformInstallation from '/src/components/CliPlatformInstallation.tsx';
 
 :::caution
 
@@ -36,54 +38,85 @@ Anyway, point is, you're most likely going to want to use this, so stick around 
 
 While the use of Docker is not required for every single piece of functionality provided, for most typical use cases
 you're going to [need Docker installed](https://docs.docker.com/get-docker) and configured so that your user is capable
-of utilizing it without superuser privileges.
-
+of utilizing it without superuser privileges.<br />
 For Linux users, this usually means adding your user to the `docker` group.
 
-[//]: # (TODO: Mention docker-compose, podman ?)
+You're also going to need some form of support for [docker compose](https://docs.docker.com/compose/install/).<br />
+Conduit's CLI supports both v2 and v1. The former comes pre-installed with the latest versions of Docker desktop.
 
 ## Installation {#installation-methods}
 
-[//]: # (TODO: Once we add more installation options, tabs should wrap everything below, componentize and import text)
 <Tabs>
-<TabItem value="npm" label="npm">
-
-``` bash
-npm install @conduitplatform/cli
-```
-</TabItem>
+  <TabItem value="npm" label="npm">
+    <CodeBlock language="bash">npx install @conduitplatform/cli</CodeBlock>
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+    <CliPlatformInstallation platform='Linux' />
+  </TabItem>
+  <TabItem value="mac" label="Mac">
+    <CliPlatformInstallation platform='Mac' />
+  </TabItem>
 </Tabs>
 
 ## Bootstrapping Local Deployments {#cmd-deploy}
 
-Deploys a local instance of Conduit using Docker.<br />
+Deploys a local instance of Conduit using containers.<br />
 By default, it's going to pick the latest stable release, select MongoDB as your database engine and
-bring up any modules deemed essential for a barebones configuration.
+bring up any modules or features deemed essential for a barebones configuration.
 
 If you wish to explicitly select your target Conduit version, db type or pick and configure your module selection you
 should make sure to specify `--configure` while invoking this.
 
+<Tabs>
+<TabItem value="npm" label="npm">
+
+``` bash title="Examples"
+# Option A: Just give me a barebones setup of the latest Conduit release
+npx @conduitplatform/cli deploy setup
+
+# Option B: I wish to bring up extra modules and perform some basic configuration
+npx @conduitplatform/cli deploy setup --config
+```
+
 ``` bash title="Find out more"
 npx @conduitplatform/cli deploy --help
 ```
+</TabItem>
+<TabItem value="native" label="Native Packages">
 
-## Selecting Active Deployment {#cmd-init}
+``` bash title="Examples"
+# Option A: Just give me a barebones setup of the latest Conduit release
+conduit deploy setup
 
-Select the deployment to be used for operations such as schema and API client library generation.
-You may specify any local or remote deployment regardless of how it was deployed.
-
-``` bash title="Find out more"
-npx @conduitplatform/cli init --help
+# Option B: I wish to bring up extra modules and perform some basic configuration
+conduit deploy setup --config
 ```
 
-## API Client Library Generation ${cmd-generateClient}
+``` bash title="Find out more"
+conduit deploy --help
+```
+</TabItem>
+</Tabs>
+
+## API Client Library Generation {#cmd-generateClient}
 
 Generates an API client library for Conduit.<br />
 Supports both REST and GraphQL APIs.<br />
 
+<Tabs>
+<TabItem value="npm" label="npm">
+
 ``` bash title="Find out more"
 npx @conduitplatform/cli generateClient --help
 ```
+</TabItem>
+<TabItem value="native" label="Native Packages">
+
+``` bash title="Find out more"
+conduit generateClient --help
+```
+</TabItem>
+</Tabs>
 
 ## Schema Generation {#cmd-generateSchema}
 
@@ -91,6 +124,17 @@ Generates a compatible Conduit schema TypeScript file based on your deployment's
 This command is extremely useful if you're trying to build your own custom module.<br />
 Make use of Database module's CMS functionality to create a custom schema, then use this command to generate a schema file for it.
 
+<Tabs>
+<TabItem value="npm" label="npm">
+
 ``` bash title="Find out more"
 npx @conduitplatform/cli generateSchema --help
 ```
+</TabItem>
+<TabItem value="native" label="Native Packages">
+
+``` bash title="Find out more"
+conduit generateSchema --help
+```
+</TabItem>
+</Tabs>
