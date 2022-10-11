@@ -1,6 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { materialLight, materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Download } from '@mui/icons-material';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { highlighterCustomStyle, styles } from './HighlighterStyles';
 
 interface Props {
   platform: 'NPM' | 'MAC OS' | 'Linux' | 'Windows' | '';
@@ -8,20 +11,17 @@ interface Props {
   setCurrentStep: (currentStep: number) => void;
 }
 
-//TODO commented out code to be used when installation commands / homebrew downloads are available
 const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => {
-  // const theme = useTheme();
-  // const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [latestVersion, setLatestVersion] = useState<any>();
   const [download, setDownload] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
   useEffect(() => {
-    fetch('https://api.github.com/repos/ConduitPlatform/CLI/releases')
+    fetch('https://api.github.com/repos/ConduitPlatform/CLI/releases/latest')
       .then((res) => res.json())
-      .then((data) =>
-        setLatestVersion(data[0].assets.map((item: any) => item.browser_download_url))
-      );
+      .then((data) => setLatestVersion(data.assets.map((item: any) => item.browser_download_url)));
   }, []);
 
   useEffect(() => {
@@ -52,18 +52,18 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
     return suffix !== undefined && latestVersion?.find((item: string) => item.includes(suffix));
   };
 
-  const open = Boolean(anchorEl);
-  const command = `homebrew ......`;
+  // const open = Boolean(anchorEl);
+  // const command = `homebrew ......`;
 
-  const copy = (event: React.MouseEvent<HTMLButtonElement>) =>
-    (async () => {
-      const target = event.currentTarget;
-      await navigator.clipboard.writeText(command);
-      if (!open) {
-        setAnchorEl(target);
-        setTimeout(() => setAnchorEl(null), 2000);
-      }
-    })();
+  // const copy = (event: React.MouseEvent<HTMLButtonElement>) =>
+  //   (async () => {
+  //     const target = event.currentTarget;
+  //     await navigator.clipboard.writeText(command);
+  //     if (!open) {
+  //       setAnchorEl(target);
+  //       setTimeout(() => setAnchorEl(null), 2000);
+  //     }
+  //   })();
 
   return (
     <Box>
@@ -82,7 +82,7 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
             gap={3}
             p={2}
             justifyContent="center">
-            {/* <Typography>Download package</Typography> */}
+            <Typography>Download package</Typography>
             <a style={{ textDecoration: 'none' }} href={finalizedDownload()} download>
               <Button
                 color="secondary"
@@ -106,7 +106,7 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
                 Download Package
               </Button>
             </a>
-            {/* <Typography>OR</Typography> TODO to be added when homebrew commands are ready
+            {/* <Typography>OR</Typography>
             <Box
               display="flex"
               flexDirection="column"
@@ -146,13 +146,33 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
             </Box> */}
           </>
         )}
-        {download && <Typography>Your download will begin shortly!</Typography>}
-        {/* <Box width="100%" borderBottom={`1px solid ${theme.palette.secondary.main}`} />
-        <Typography pt={2}>Install</Typography>
-        <Typography color="error">*Install command pending</Typography>
-        <Typography textAlign="center" color="secondary">
-          *Path has to be addded to env vars until native Conduit packages arrive
-        </Typography> */}
+
+        {(platform === 'MAC OS' || platform === 'Linux') && (
+          <>
+            <Box width="100%" borderBottom={`1px solid ${theme.palette.secondary.main}`} />
+            <Typography pt={2}>Installation instructions</Typography>
+            <Box
+              display="flex"
+              flexDirection="column"
+              gap={1}
+              justifyContent="center"
+              alignItems="center">
+              <Box sx={styles.highlighterContainer}>
+                <SyntaxHighlighter
+                  language={'bash'}
+                  style={theme.palette.mode === 'dark' ? materialLight : materialDark}
+                  customStyle={highlighterCustomStyle}
+                  codeTagProps={{
+                    style: { fontSize: !mobile ? '0.68em' : '0.58em', fontFamily: 'monospace' },
+                  }}>
+                  {platform === 'MAC OS'
+                    ? `mkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n#Update your $PATH to include the installation directory\n#For Zsh Users\necho '\\n#Add Conduit CLI to executable PATH\\nexport PATH=$PATH:~/.bin\\n' >> ~/.zshrc\nsource ~/.zshrc`
+                    : `mkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n#Update your $PATH to include the installation directory\n#For Bash Users\necho '\\n#Add Conduit CLI to executable PATH\\nexport PATH=$PATH:~/.bin\\n' >> ~/.bashrc\n#For Zsh Users\necho '\\n#Add Conduit CLI to executable PATH\\nexport PATH=$PATH:~/.bin\\n' >> ~/.zshrc\nsource ~/.zshrc`}
+                </SyntaxHighlighter>
+              </Box>
+            </Box>
+          </>
+        )}
         <Button variant="contained" color="secondary" onClick={() => setCurrentStep(2)}>
           Continue
         </Button>
