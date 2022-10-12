@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Box, IconButton, Popover, Typography, useTheme, useMediaQuery } from '@mui/material';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { materialLight, materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { ContentCopy } from '@mui/icons-material';
 import { highlighterCustomStyle, styles } from './HighlighterStyles';
 
@@ -49,7 +49,7 @@ const DownloadStepThree: FC = () => {
       <Box sx={styles.highlighterContainer}>
         <SyntaxHighlighter
           language={'bash'}
-          style={theme.palette.mode === 'dark' ? materialLight : materialDark}
+          style={dracula}
           customStyle={highlighterCustomStyle}
           codeTagProps={{
             style: { fontSize: !mobile ? '0.8em' : '0.6em', fontFamily: 'monospace' },
@@ -80,7 +80,7 @@ const DownloadStepThree: FC = () => {
       <Box sx={styles.highlighterContainer}>
         <SyntaxHighlighter
           language={'bash'}
-          style={theme.palette.mode === 'dark' ? materialLight : materialDark}
+          style={dracula}
           customStyle={highlighterCustomStyle}
           codeTagProps={{
             style: { fontSize: !mobile ? '0.8em' : '0.6em', fontFamily: 'monospace' },

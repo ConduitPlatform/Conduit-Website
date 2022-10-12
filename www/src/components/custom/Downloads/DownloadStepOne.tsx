@@ -15,8 +15,7 @@ import LinuxLogo from '../../../../public/icons/linux-tux.svg';
 import NPMLogo from '../../../../public/icons/npmLogo.svg';
 import ConduitLogo from '../../../../public/conduitLogo.svg';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { materialLight, materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-
+import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { ContentCopy } from '@mui/icons-material';
 import { highlighterCustomStyle, styles } from './HighlighterStyles';
 
@@ -90,7 +89,7 @@ const DownloadStepOne: FC<Props> = ({
         display="flex"
         flexDirection="row"
         gap={mobile ? 1 : 2}
-        justifyContent={mobile ? 'center' : 'space-between'}
+        justifyContent={mobile ? 'center' : 'space-around'}
         flexWrap="wrap">
         <OSCard
           title="NPM"
@@ -127,7 +126,7 @@ const DownloadStepOne: FC<Props> = ({
               <Box sx={styles.highlighterContainer}>
                 <SyntaxHighlighter
                   language={'bash'}
-                  style={theme.palette.mode === 'dark' ? materialLight : materialDark}
+                  style={dracula}
                   customStyle={highlighterCustomStyle}
                   codeTagProps={{
                     style: { fontSize: !mobile ? '0.8em' : '0.5em', fontFamily: 'monospace' },
@@ -162,7 +161,7 @@ const DownloadStepOne: FC<Props> = ({
               <Box sx={styles.highlighterContainer}>
                 <SyntaxHighlighter
                   language={'bash'}
-                  style={theme.palette.mode === 'dark' ? materialLight : materialDark}
+                  style={dracula}
                   customStyle={highlighterCustomStyle}
                   codeTagProps={{
                     style: { fontSize: !mobile ? '0.8em' : '0.5em', fontFamily: 'monospace' },
@@ -226,7 +225,7 @@ const DownloadStepOne: FC<Props> = ({
                 color="secondary"
                 variant={osVersion === 'amd64' ? 'contained' : 'outlined'}
                 onClick={() => handleChangeOsVersion('amd64')}>
-                AMD64
+                Intel
               </Button>
               <Button
                 color="secondary"

@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Box, Button, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { materialLight, materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Download } from '@mui/icons-material';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { highlighterCustomStyle, styles } from './HighlighterStyles';
@@ -16,7 +16,6 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
   const mobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [latestVersion, setLatestVersion] = useState<any>();
   const [download, setDownload] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     fetch('https://api.github.com/repos/ConduitPlatform/CLI/releases/latest')
@@ -160,14 +159,14 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
               <Box sx={styles.highlighterContainer}>
                 <SyntaxHighlighter
                   language={'bash'}
-                  style={theme.palette.mode === 'dark' ? materialLight : materialDark}
+                  style={dracula}
                   customStyle={highlighterCustomStyle}
                   codeTagProps={{
-                    style: { fontSize: !mobile ? '0.68em' : '0.58em', fontFamily: 'monospace' },
+                    style: { fontSize: !mobile ? '0.8em' : '0.65em', fontFamily: 'monospace' },
                   }}>
                   {platform === 'MAC OS'
-                    ? `mkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n#Update your $PATH to include the installation directory\n#For Zsh Users\necho '\\n#Add Conduit CLI to executable PATH\\nexport PATH=$PATH:~/.bin\\n' >> ~/.zshrc\nsource ~/.zshrc`
-                    : `mkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n#Update your $PATH to include the installation directory\n#For Bash Users\necho '\\n#Add Conduit CLI to executable PATH\\nexport PATH=$PATH:~/.bin\\n' >> ~/.bashrc\n#For Zsh Users\necho '\\n#Add Conduit CLI to executable PATH\\nexport PATH=$PATH:~/.bin\\n' >> ~/.zshrc\nsource ~/.zshrc`}
+                    ? `mkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n#Update your $PATH to include the installation directory\n#For Zsh Users\necho '\\n#Add Conduit CLI to executable PATH'\necho 'export PATH=$PATH:~/.conduit/bin\\n' >> ~/.zshrc\nsource ~/.zshrc`
+                    : `mkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n#Update your $PATH to include the installation directory\n#For Bash Users\necho '\\n#Add Conduit CLI to executable PATH'\necho 'export PATH=$PATH:~/.conduit/bin\\n' >> ~/.bashrc\n#For Zsh Users\necho '\\n#Add Conduit CLI to executable PATH'\necho 'export PATH=$PATH:~/.conduit/bin\\n' >> ~/.zshrc\nsource ~/.zshrc`}
                 </SyntaxHighlighter>
               </Box>
             </Box>
