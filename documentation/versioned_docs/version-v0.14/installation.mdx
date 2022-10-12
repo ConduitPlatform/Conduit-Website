@@ -29,8 +29,11 @@ Yeah, thought so. Thankfully, it just so happens we've built a handy little some
 First things first, make sure [Docker is installed](https://docs.docker.com/get-docker/) and
 configured so that you are capable of executing docker commands without *sudo* (by adding your user to the docker group).
 
-<Tabs>
-<TabItem value="npm" label="npm">
+You're also going to need some form of support for [docker compose](https://docs.docker.com/compose/install/).<br />
+Conduit's CLI supports both v2 and v1. The former comes pre-installed with the latest versions of Docker desktop.
+
+The following example makes use of `npm`.<br />
+If you'd rather not install `node` or go through `npm` you may still [use the CLI through a native package option](./cli#installation-methods).
 
 ``` bash title="Bootstrapping a local deployment"
 # Option A: Just give me a barebones setup of the latest Conduit release
@@ -38,9 +41,8 @@ npx @conduitplatform/cli deploy setup
 
 # Option B: I wish to bring up extra modules and perform some basic configuration
 npx @conduitplatform/cli deploy setup --config
+
 ```
-</TabItem>
-</Tabs>
 
 Upon completion, the above should bring up Conduit's admin panel in your browser.<br />
 Default administration credentials are `admin`/`admin`.
