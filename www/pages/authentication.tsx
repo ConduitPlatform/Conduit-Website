@@ -39,7 +39,7 @@ TwoFactor authentication is also provided."
           {
             title: 'Sign in methods',
             description:
-              'Login with client credentials from Facebook, Google, Kakao, Twitch. There are more to come!',
+              'Login with client credentials from Facebook, Google, Kakao, Twitch, Microsoft, Github, Gitlab. There are more to come!',
             url: '/docs/modules/authentication/config#third-party',
             icon: <SignIcon />,
           },
