@@ -3,7 +3,6 @@ import { Box, Typography } from '@mui/material';
 import MiniInfoCard from '../custom/MiniInfoCard';
 import { SxObject } from '../../models/SxObjects';
 import Document from '../../../public/icons/icons8-document.svg';
-import Edit from '../../../public/icons/icons8-edit.svg';
 import Monitoring from '../../../public/icons/monitoring.svg';
 import Dev from '../../../public/icons/dev.svg';
 import RecommendIcon from '@mui/icons-material/Recommend';
