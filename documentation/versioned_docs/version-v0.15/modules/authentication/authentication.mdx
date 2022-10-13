@@ -40,6 +40,6 @@ Utilizes the [Local Authentication](./strategies#local) strategy by default.
 |  Name          | Required |  Description                                  |  Example      |
 | :------------: | :------: | :-------------------------------------------: | :-----------: |
 | CONDUIT_SERVER |  True    | Conduit Core's address and port               | 0.0.0.0:55152 |
-| SERVICE_IP     |  True    | Address and port to listen to for this module | 0.0.0.0:56154 |
-| REGISTER_NAME  |  False   | Name-based network registration (containers)  | False         |
+| SERVICE_URL    |  False   | This should be where this service listens on. If behind a LB it should point to the LB's IP/DNS | 0.0.0.0:56154 |
+| GRPC_PORT      |  False   | Port to be used by the gRPC server            | 56154         |
 | GRCP_KEY       |  False   | Specifying a secret enables [gRPC signed request protection](../../core#grpc-request-protection) | someRandomSecret |
