@@ -23,7 +23,7 @@ const paletteDark: PaletteOptions = {
     main: warning,
   },
   background: {
-    paper: '#1F2034',
+    paper: '#202030',
     default: '#262840',
   },
 };
@@ -45,7 +45,7 @@ const paletteLight: PaletteOptions = {
     main: warning,
   },
   background: {
-    paper: '#F2F2F2',
+    paper: '#E8E7E7',
     default: '#F2F2F2',
   },
 };
