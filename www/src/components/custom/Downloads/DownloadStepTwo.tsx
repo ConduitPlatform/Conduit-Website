@@ -52,9 +52,9 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
 
   const extractPlatform = () => {
     if (platform === 'MAC OS') {
-      return `curl -Lo conduit-cli.tar.gz ${finalizedDownload()} \n   \nmkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n#Update your $PATH to include the installation directory\n#For Zsh Users\necho '\\n#Add Conduit CLI to executable PATH'\necho '\\nexport PATH=$PATH:~/.conduit/bin\\n' >> ~/.zshrc\nsource ~/.zshrc`;
+      return `curl -Lo conduit-cli.tar.gz ${finalizedDownload()}\nmkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n\n#Update your $PATH to include the installation directory\necho '\\n#Add Conduit CLI to executable PATH' >> ~/.zshrc\necho '\\nexport PATH=$PATH:~/.conduit/bin\\n' >> ~/.zshrc\nsource ~/.zshrc`;
     } else if (platform === 'Linux') {
-      return `curl -Lo conduit-cli.tar.gz ${finalizedDownload()} \n \nmkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n#Update your $PATH to include the installation directory\n#For Bash Users\necho '\\n#Add Conduit CLI to executable PATH'\necho '\\nexport PATH=$PATH:~/.conduit/bin\\n' >> ~/.bashrc\n#For Zsh Users\necho '\\n#Add Conduit CLI to executable PATH'\necho '\\nexport PATH=$PATH:~/.conduit/bin\\n' >> ~/.zshrc\nsource ~/.zshrc`;
+      return `curl -Lo conduit-cli.tar.gz ${finalizedDownload()}\nmkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n\n#Update your $PATH to include the installation directory\n#For Bash Users\necho '\\n#Add Conduit CLI to executable PATH' >> ~/.bashrc\necho '\\nexport PATH=$PATH:~/.conduit/bin\\n' >> ~/.bashrc\n#For Zsh Users\necho '\\n#Add Conduit CLI to executable PATH' >> ~/.zshrc\necho '\\nexport PATH=$PATH:~/.conduit/bin\\n' >> ~/.zshrc\nsource ~/.zshrc`;
     }
   };
 
@@ -79,7 +79,7 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
         flexDirection="column"
         gap={2}
         justifyContent="center"
-        p={2}>
+        py={2}>
         {/* {platform !== 'MAC OS' && (
           <Box
             display="flex"
