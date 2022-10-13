@@ -30,7 +30,7 @@ export default function UsageSection() {
         <MiniInfoCard
           className={'fullGrow'}
           imageComponent={<Dev />}
-          title={'For developers'}
+          title={'For Developers'}
           subText={
             'Conduit provides you with APIs that are simple to work with, yet highly customizable. ' +
             ' Build your own server, create your own endpoints,' +
