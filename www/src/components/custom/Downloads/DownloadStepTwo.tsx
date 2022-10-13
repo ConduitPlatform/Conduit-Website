@@ -1,9 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Box, Button, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import { Download } from '@mui/icons-material';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { highlighterCustomStyle, styles } from './HighlighterStyles';
+import { highlighterCustomStyle } from './HighlighterStyles';
 
 interface Props {
   platform: 'NPM' | 'MAC OS' | 'Linux' | 'Windows' | '';
@@ -51,6 +50,14 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
     return suffix !== undefined && latestVersion?.find((item: string) => item.includes(suffix));
   };
 
+  const extractPlatform = () => {
+    if (platform === 'MAC OS') {
+      return `curl -Lo conduit-cli.tar.gz ${finalizedDownload()} \n   \nmkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n#Update your $PATH to include the installation directory\n#For Zsh Users\necho '\\n#Add Conduit CLI to executable PATH'\necho '\\nexport PATH=$PATH:~/.conduit/bin\\n' >> ~/.zshrc\nsource ~/.zshrc`;
+    } else if (platform === 'Linux') {
+      return `curl -Lo conduit-cli.tar.gz ${finalizedDownload()} \n \nmkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n#Update your $PATH to include the installation directory\n#For Bash Users\necho '\\n#Add Conduit CLI to executable PATH'\necho '\\nexport PATH=$PATH:~/.conduit/bin\\n' >> ~/.bashrc\n#For Zsh Users\necho '\\n#Add Conduit CLI to executable PATH'\necho '\\nexport PATH=$PATH:~/.conduit/bin\\n' >> ~/.zshrc\nsource ~/.zshrc`;
+    }
+  };
+
   // const open = Boolean(anchorEl);
   // const command = `homebrew ......`;
 
@@ -73,7 +80,7 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
         gap={2}
         justifyContent="center"
         p={2}>
-        {platform !== 'MAC OS' && (
+        {/* {platform !== 'MAC OS' && (
           <Box
             display="flex"
             alignItems="center"
@@ -92,8 +99,8 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
               </Button>
             </a>
           </Box>
-        )}
-        {platform === 'MAC OS' && (
+        )} */}
+        {/* {platform === 'MAC OS' && (
           <>
             <Typography>Download .dng</Typography>
             <a style={{ textDecoration: 'none' }} href={finalizedDownload()} download>
@@ -104,8 +111,8 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
                 variant="outlined">
                 Download Package
               </Button>
-            </a>
-            {/* <Typography>OR</Typography>
+            </a> */}
+        {/* <Typography>OR</Typography>
             <Box
               display="flex"
               flexDirection="column"
@@ -143,32 +150,21 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
                 </Popover>
               </Box>
             </Box> */}
-          </>
-        )}
+        {/* </>
+        )} */}
 
         {(platform === 'MAC OS' || platform === 'Linux') && (
           <>
-            <Box width="100%" borderBottom={`1px solid ${theme.palette.secondary.main}`} />
-            <Typography pt={2}>Installation instructions</Typography>
-            <Box
-              display="flex"
-              flexDirection="column"
-              gap={1}
-              justifyContent="center"
-              alignItems="center">
-              <Box sx={styles.highlighterContainer}>
-                <SyntaxHighlighter
-                  language={'bash'}
-                  style={dracula}
-                  customStyle={highlighterCustomStyle}
-                  codeTagProps={{
-                    style: { fontSize: !mobile ? '0.8em' : '0.65em', fontFamily: 'monospace' },
-                  }}>
-                  {platform === 'MAC OS'
-                    ? `mkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n#Update your $PATH to include the installation directory\n#For Zsh Users\necho '\\n#Add Conduit CLI to executable PATH'\necho 'export PATH=$PATH:~/.conduit/bin\\n' >> ~/.zshrc\nsource ~/.zshrc`
-                    : `mkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n#Update your $PATH to include the installation directory\n#For Bash Users\necho '\\n#Add Conduit CLI to executable PATH'\necho 'export PATH=$PATH:~/.conduit/bin\\n' >> ~/.bashrc\n#For Zsh Users\necho '\\n#Add Conduit CLI to executable PATH'\necho 'export PATH=$PATH:~/.conduit/bin\\n' >> ~/.zshrc\nsource ~/.zshrc`}
-                </SyntaxHighlighter>
-              </Box>
+            <Box width="100%">
+              <SyntaxHighlighter
+                language={'bash'}
+                style={dracula}
+                customStyle={highlighterCustomStyle}
+                codeTagProps={{
+                  style: { fontSize: !mobile ? '0.8em' : '0.6em', fontFamily: 'monospace' },
+                }}>
+                {extractPlatform()}
+              </SyntaxHighlighter>
             </Box>
           </>
         )}

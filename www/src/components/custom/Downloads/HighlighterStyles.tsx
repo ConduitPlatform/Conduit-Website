@@ -16,6 +16,7 @@ export const styles: SxObject = {
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
+    overflow: 'scroll',
     justifyContent: {
       md: 'center',
       xs: 'center',

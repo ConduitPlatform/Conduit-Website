@@ -46,7 +46,7 @@ const DownloadStepThree: FC = () => {
         The default Conduit installation includes the following modules: Core, Database,
         Authentication, Router
       </Typography>
-      <Box sx={styles.highlighterContainer}>
+      <Box sx={styles.highlighterContainer} width="60%">
         <SyntaxHighlighter
           language={'bash'}
           style={dracula}
@@ -77,7 +77,7 @@ const DownloadStepThree: FC = () => {
         </Popover>
       </Box>
       <Typography textAlign="center">Do you wish to bring up additional modules?</Typography>
-      <Box sx={styles.highlighterContainer}>
+      <Box sx={styles.highlighterContainer} width="60%">
         <SyntaxHighlighter
           language={'bash'}
           style={dracula}

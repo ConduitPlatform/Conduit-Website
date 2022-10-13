@@ -97,12 +97,12 @@ const DownloadStepOne: FC<Props> = ({
           img={<NPMLogo />}
           handleChecked={() => setPlatform('NPM')}
         />
-        <OSCard
+        {/* <OSCard
           title="Windows"
           checked={platform === 'Windows'}
           img={<WindowsLogo />}
           handleChecked={() => windowsDownload()}
-        />
+        /> */}
         <OSCard
           title="Linux"
           checked={platform === 'Linux'}
@@ -121,7 +121,7 @@ const DownloadStepOne: FC<Props> = ({
           <Box display="flex" flexDirection="column" gap={2}>
             <Box display="flex" flexDirection="column">
               <Typography textAlign="center" variant="caption">
-                Simple setup
+                Simple Setup
               </Typography>
               <Box sx={styles.highlighterContainer}>
                 <SyntaxHighlighter
@@ -156,7 +156,7 @@ const DownloadStepOne: FC<Props> = ({
             </Box>
             <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
               <Typography textAlign="center" variant="caption">
-                Configurable setup
+                Configurable Setup
               </Typography>
               <Box sx={styles.highlighterContainer}>
                 <SyntaxHighlighter
