@@ -60,8 +60,8 @@ const DownloadStepOne: FC<Props> = ({
     setCurrentStep(1);
   };
 
-  const command = `npx @conduitplatform/cli deploy setup`;
-  const commandConfigured = `npx @conduitplatform/cli deploy setup --config`;
+  const command = `npx -y @conduitplatform/cli@latest deploy setup`;
+  const commandConfigured = `npx -y @conduitplatform/cli@latest deploy setup --config`;
 
   const copy = (event: React.MouseEvent<HTMLButtonElement>) =>
     (async () => {
