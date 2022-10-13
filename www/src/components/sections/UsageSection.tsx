@@ -4,6 +4,7 @@ import MiniInfoCard from '../custom/MiniInfoCard';
 import { SxObject } from '../../models/SxObjects';
 import Document from '../../../public/icons/icons8-document.svg';
 import Edit from '../../../public/icons/icons8-edit.svg';
+import Monitoring from '../../../public/icons/monitoring.svg';
 import Dev from '../../../public/icons/dev.svg';
 import RecommendIcon from '@mui/icons-material/Recommend';
 
@@ -32,7 +33,7 @@ export default function UsageSection() {
           imageComponent={<Dev />}
           title={'For developers'}
           subText={
-            'For developers that look for easy and fast api.' +
+            'Conduit provides you with APIs that are simple to work with, yet highly customizable. ' +
             ' Build your own server, create your own endpoints,' +
             ' use authentication as fast as possible,' +
             ' with a click of a button'
@@ -40,10 +41,10 @@ export default function UsageSection() {
         />
         <MiniInfoCard
           className={'fullGrow'}
-          imageComponent={<Edit />}
-          title={'Comfortable design'}
+          imageComponent={<Monitoring />}
+          title={'Monitoring'}
           subText={
-            'Design simple enough, yet powerful, to be used and understood by all developers.'
+            'Monitor your module health, latency and traffic. Integrated, yet extendable, allowing you to use third party dashboards.'
           }
         />
         <MiniInfoCard
