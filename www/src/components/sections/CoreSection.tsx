@@ -32,7 +32,7 @@ const CoreSection: FC = () => {
         flexWrap={'wrap'}
         sx={styles.childrenGrow}
         gap={4}>
-        <Link href={'/docs/router'} passHref>
+        <Link href={'/docs/modules/router'} passHref>
           <MiniInfoCard
             className={'fullGrow'}
             imageComponent={<ApiIcon />}
@@ -44,7 +44,7 @@ const CoreSection: FC = () => {
             }
           />
         </Link>
-        <Link href={'/docs/security'} passHref>
+        <Link href={'/docs/modules/router/security'} passHref>
           <MiniInfoCard
             className={'fullGrow'}
             imageComponent={<LockIcon />}
