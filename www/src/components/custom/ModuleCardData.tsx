@@ -24,13 +24,6 @@ export const ModuleCardData = [
     icon: <Chat />,
   },
   {
-    title: 'CMS',
-    href: '/cms',
-    subtitle: 'Create custom Schemas, Queries and leverage automatically-created CRUD operations.',
-    icon: <CMS />,
-  },
-
-  {
     title: 'Database',
     href: '/database',
     subtitle:
