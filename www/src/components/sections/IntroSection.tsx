@@ -2,14 +2,12 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TypewriterComponent from 'typewriter-effect';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { materialLight, materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import { Button, Grid, Grow, IconButton, Popover, useMediaQuery } from '@mui/material';
+import { Button, Grid, Grow } from '@mui/material';
 import Illustration from '../../../public/icons/Illustration';
-import { ArrowForwardIos, ContentCopy } from '@mui/icons-material';
-import Link from '../../Link';
+import { ArrowForwardIos, GitHub } from '@mui/icons-material';
 import { SxObject } from '../../models/SxObjects';
-import { useTheme } from '@mui/system';
+
+import DownloadDialog from '../custom/Downloads/DownloadDialog';
 
 const styles: SxObject = {
   basicText: {
@@ -24,50 +22,10 @@ const styles: SxObject = {
       xs: 'center',
     },
   },
-  highlighterContainer: {
-    flexGrow: '1',
-    flexShrink: '0',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: {
-      md: 'flex-start',
-      xs: 'center',
-    },
-  },
-  copyIcon: { marginLeft: 1 },
 };
-
-const highlighterCustomStyle = {
-  borderRadius: '4px',
-  padding: '0.5em 1em 0.55em 1em',
-  boxShadow:
-    '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
-};
-
-const bootstrapBash = 'source <(curl -s https://getconduit.dev/bootstrap)';
 
 export default function IntroSection() {
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up('md'));
-
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-
-  const copyBash = (event: React.MouseEvent<HTMLButtonElement>) =>
-    (async () => {
-      const target = event.currentTarget;
-      await navigator.clipboard.writeText(bootstrapBash);
-      if (!open) {
-        setAnchorEl(target);
-        setTimeout(() => setAnchorEl(null), 2000);
-      }
-    })();
+  const [dialog, setDialog] = React.useState<boolean>(false);
 
   return (
     <Box>
@@ -104,48 +62,24 @@ export default function IntroSection() {
           </Typography>
           <Box my={8} gap={1} sx={styles.bottomContainer}>
             <Button
-              component={Link}
-              href={'/docs/overview/intro'}
+              sx={{ px: '18px' }}
+              onClick={() => setDialog(true)}
               size="large"
               variant="contained"
               color="secondary"
               endIcon={<ArrowForwardIos />}>
               GET STARTED
             </Button>
-
-            {matches ? (
-              <Box sx={styles.highlighterContainer}>
-                <SyntaxHighlighter
-                  language={'bash'}
-                  style={theme.palette.mode === 'dark' ? materialLight : materialDark}
-                  customStyle={highlighterCustomStyle}
-                  codeTagProps={{ style: { fontSize: '0.8em', fontFamily: 'monospace' } }}>
-                  {bootstrapBash}
-                </SyntaxHighlighter>
-                <IconButton
-                  size={'small'}
-                  sx={styles.copyIcon}
-                  color={'secondary'}
-                  onClick={copyBash}>
-                  <ContentCopy fontSize={'small'} />
-                </IconButton>
-                <Popover
-                  open={open}
-                  anchorEl={anchorEl}
-                  onClose={handleClose}
-                  hideBackdrop
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                  }}>
-                  <Typography sx={{ p: 1 }}>Copied!</Typography>
-                </Popover>
-              </Box>
-            ) : null}
+            <a href="https://github.com/ConduitPlatform/Conduit" style={{ textDecoration: 'none' }}>
+              <Button
+                sx={{ px: '18px' }}
+                size="large"
+                variant="outlined"
+                color="secondary"
+                endIcon={<GitHub />}>
+                Github
+              </Button>
+            </a>
           </Box>
         </Grid>
         <Grid item md={6} sm={12} xs={12}>
@@ -154,10 +88,9 @@ export default function IntroSection() {
               <Illustration />
             </Box>
           </Grow>
-
-          {/* <Image src={workspace} alt="workspace" /> */}
         </Grid>
       </Grid>
+      <DownloadDialog isOpen={dialog} setIsOpen={setDialog} />
     </Box>
   );
 }
