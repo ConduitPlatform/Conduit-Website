@@ -13,6 +13,7 @@ import AppleLogo from '../../../../public/icons/appleLogo.svg';
 // import WindowsLogo from '../../../../public/icons/windowsLogo.svg';
 import LinuxLogo from '../../../../public/icons/linux-tux.svg';
 import HelmLogo from '../../../../public/icons/helm.svg';
+import HelmLogoColored from '../../../../public/icons/helmColored.svg';
 import NPMLogo from '../../../../public/icons/npmLogo.svg';
 import ConduitLogo from '../../../../public/conduitLogo.svg';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -135,12 +136,6 @@ const DownloadStepOne: FC<Props> = ({
           handleChecked={() => windowsDownload()}
         /> */}
         <OSCard
-          title="Helm"
-          checked={platform === 'HELM'}
-          img={<HelmLogo />}
-          handleChecked={() => setPlatform('HELM')}
-        />
-        <OSCard
           title="Linux"
           checked={platform === 'Linux'}
           img={<LinuxLogo />}
@@ -151,6 +146,12 @@ const DownloadStepOne: FC<Props> = ({
           checked={platform === 'MAC OS'}
           img={<AppleLogo />}
           handleChecked={() => handleChangePlatform('MAC OS')}
+        />
+        <OSCard
+          title="Helm"
+          checked={platform === 'HELM'}
+          img={theme.palette.mode === 'dark' ? <HelmLogo /> : <HelmLogoColored />}
+          handleChecked={() => setPlatform('HELM')}
         />
       </Box>
       <Box display="flex" alignItems="center" flexDirection="column" gap={2}>
