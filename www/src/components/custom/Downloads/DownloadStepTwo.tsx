@@ -1,20 +1,41 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  useMediaQuery,
+  useTheme,
+  Popover,
+  Typography,
+  IconButton,
+} from '@mui/material';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { highlighterCustomStyle } from './HighlighterStyles';
+import { highlighterCustomStyle, styles } from './HighlighterStyles';
+import { ContentCopy } from '@mui/icons-material';
 
 interface Props {
-  platform: 'NPM' | 'MAC OS' | 'Linux' | 'Windows' | '';
+  platform: 'NPM' | 'MAC OS' | 'Linux' | 'Windows' | 'HELM' | '';
   osVersion: '64bit' | 'amd64' | 'arm64' | 'appleSilicon' | '';
   setCurrentStep: (currentStep: number) => void;
 }
+
+const installChartCommand = 'helm install conduit conduit-platform/conduit';
+const exposeAdminUICommand = 'kubectl port-forward svc/conduit-admin 8000:80';
 
 const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [latestVersion, setLatestVersion] = useState<any>();
   const [download, setDownload] = useState(false);
+  const [anchorElInstallChart, setAnchorElInstallChart] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+  const [anchorExposeAdminUI, setAnchorElExposeAdminUI] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const openInstallChart = Boolean(anchorElInstallChart);
+  const openExposeAdminUI = Boolean(anchorExposeAdminUI);
 
   useEffect(() => {
     fetch('https://api.github.com/repos/ConduitPlatform/CLI/releases/latest')
@@ -28,6 +49,26 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
         setDownload(false);
       }, 10000);
   }, [download]);
+
+  const copy = (event: React.MouseEvent<HTMLButtonElement>) =>
+    (async () => {
+      const target = event.currentTarget;
+      await navigator.clipboard.writeText(installChartCommand);
+      if (!openInstallChart) {
+        setAnchorElInstallChart(target);
+        setTimeout(() => setAnchorElInstallChart(null), 2000);
+      }
+    })();
+
+  const copyConfigured = (event: React.MouseEvent<HTMLButtonElement>) =>
+    (async () => {
+      const target = event.currentTarget;
+      await navigator.clipboard.writeText(exposeAdminUICommand);
+      if (!openInstallChart) {
+        setAnchorElExposeAdminUI(target);
+        setTimeout(() => setAnchorElExposeAdminUI(null), 2000);
+      }
+    })();
 
   const extractSuffix = () => {
     if (latestVersion !== undefined) {
@@ -168,9 +209,92 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
             </Box>
           </>
         )}
-        <Button variant="contained" color="secondary" onClick={() => setCurrentStep(2)}>
-          Continue
-        </Button>
+        {platform === 'HELM' && (
+          <Box display="flex" flexDirection="column" gap={2}>
+            <Box display="flex" flexDirection="column">
+              <Typography textAlign="center" variant="caption">
+                Install Chart
+              </Typography>
+              <Box sx={styles.highlighterContainer}>
+                <SyntaxHighlighter
+                  language={'bash'}
+                  style={dracula}
+                  customStyle={highlighterCustomStyle}
+                  codeTagProps={{
+                    style: { fontSize: !mobile ? '0.8em' : '0.5em', fontFamily: 'monospace' },
+                  }}>
+                  {installChartCommand}
+                </SyntaxHighlighter>
+
+                <IconButton size={'small'} sx={styles.copyIcon} color={'secondary'} onClick={copy}>
+                  <ContentCopy fontSize={'small'} />
+                </IconButton>
+                <Popover
+                  open={openInstallChart}
+                  anchorEl={anchorElInstallChart}
+                  onClose={() => setAnchorElInstallChart(null)}
+                  hideBackdrop
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}>
+                  <Typography sx={{ p: 1 }}>Copied!</Typography>
+                </Popover>
+              </Box>
+            </Box>
+            <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
+              <Typography textAlign="center" variant="caption">
+                Expose Admin UI
+              </Typography>
+              <Box sx={styles.highlighterContainer}>
+                <SyntaxHighlighter
+                  language={'bash'}
+                  style={dracula}
+                  customStyle={highlighterCustomStyle}
+                  codeTagProps={{
+                    style: { fontSize: !mobile ? '0.8em' : '0.5em', fontFamily: 'monospace' },
+                  }}>
+                  {exposeAdminUICommand}
+                </SyntaxHighlighter>
+
+                <IconButton
+                  size={'small'}
+                  sx={styles.copyIcon}
+                  color={'secondary'}
+                  onClick={copyConfigured}>
+                  <ContentCopy fontSize={'small'} />
+                </IconButton>
+                <Popover
+                  open={openExposeAdminUI}
+                  anchorEl={anchorExposeAdminUI}
+                  onClose={() => setAnchorElExposeAdminUI(null)}
+                  hideBackdrop
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}>
+                  <Typography sx={{ p: 1 }}>Copied!</Typography>
+                </Popover>
+              </Box>
+              <Typography mt={2} variant="caption">
+                Access Admin UI at localhost:8000
+              </Typography>
+            </Box>
+          </Box>
+        )}
+        {platform !== 'HELM' && (
+          <Button variant="contained" color="secondary" onClick={() => setCurrentStep(2)}>
+            Continue
+          </Button>
+        )}
       </Box>
     </Box>
   );
