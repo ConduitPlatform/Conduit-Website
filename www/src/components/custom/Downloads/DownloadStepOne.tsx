@@ -346,8 +346,8 @@ const DownloadStepOne: FC<Props> = ({
                 </Popover>
               </Box>
             </Box>
-            <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
-              <Box display="flex" gap={2}>
+            <Box display="flex" justifyContent="center">
+              <Box display="flex" mt={2} gap={2}>
                 <Button
                   color="secondary"
                   variant={osVersion === 'appleSilicon' ? 'contained' : 'outlined'}
