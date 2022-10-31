@@ -9,7 +9,9 @@ const DownloadContainer = () => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [currentStep, setCurrentStep] = useState(0);
-  const [platform, setPlatform] = useState<'NPM' | 'MAC OS' | 'Linux' | 'Windows' | ''>('NPM');
+  const [platform, setPlatform] = useState<'NPM' | 'MAC OS' | 'Linux' | 'Windows' | 'HELM' | ''>(
+    'NPM'
+  );
   const [osVersion, setOsVersion] = useState<'64bit' | 'amd64' | 'arm64' | 'appleSilicon' | ''>('');
 
   const handleChangeStep = (step: number) => {
@@ -28,7 +30,13 @@ const DownloadContainer = () => {
         index={1}
         handleEdit={currentStep > 0 ? () => handleChangeStep(0) : undefined}
         title={'Platform'}
-        subtitle={!mobile && currentStep >= 1 ? `${platform} ${osVersion}` : ''}>
+        subtitle={
+          !mobile && currentStep >= 1
+            ? platform === 'HELM'
+              ? 'HELM'
+              : `${platform} ${osVersion}`
+            : ''
+        }>
         {currentStep === 0 && (
           <DownloadStepOne
             platform={platform}
@@ -45,7 +53,7 @@ const DownloadContainer = () => {
           skipped={platform === 'NPM'}
           index={2}
           handleEdit={currentStep > 1 ? () => handleChangeStep(1) : undefined}
-          title={'CLI Installation'}>
+          title={platform === 'HELM' ? 'Installation' : 'CLI Installation'}>
           {currentStep === 1 && (
             <DownloadStepTwo
               osVersion={osVersion}
