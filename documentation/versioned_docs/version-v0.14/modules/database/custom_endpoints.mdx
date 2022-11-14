@@ -5,56 +5,93 @@ sidebar_position: 5
 
 # Custom Endpoints
 
-Creating a custom schema allows up to optionally make use of auto-generated CRUD operations.<br />
-These are simple operations that may be enabled individually. They may also be protected by user authentication.
+Conduit attempts to help you cut back on boilerplate code.<br />
+Besides offering support for optional auto-generated CRUD endpoints for your custom schemas,
+it also provides the means for you to construct powerful functional endpoints,
+allowing you to effortlessly operate on your backend without having to write any code whatsoever.
 
-In this tutorial, we'll learn how to create powerful functional endpoints without having to code them yourself.
+These endpoints are schema-based, meaning they make use of a specific schema's entries.<br />
+Both system and custom schemas are supported.
 
-## Create an Endpoint
+## Creating Endpoints
 
-Bring up the Admin Panel and open the `Database` section.<br />
+Bring up the Admin Panel and navigate to the `Database` section.<br />
 Then head to the `Custom Endpoints` tab.
 
 ![Custom Endpoints Panel](/v0.14/first_app/custom_endpoints_panel.png)
 
-- `Name` field should be filled with the name of your choice.This name will be the name of the created endpoint.
-- `Authenticated` checkbox stands for authenticated routes.If it is checked then the route can accessed only from authenticated users.
-- With `Select Operation` you choose the type of the request you want to create.
-- `SELECT SCHEMA` button lets you select the schema which is relative with the created endpoint.
+Let's show you around the place.<br />
+Here's a rundown of the base fields and options making up a custom endpoint:
 
-For the purposes of this tutorial we will create an endpoint which retrieves all the movies with a given director.<br />
+- `Name` to be used as the endpoint's name
+- `Authenticated` defines whether endpoint requires user authentication
+- `Operation` to be used for the endpoint
+- `Schema` to be used for the endpoint
+
+`Find/Get` operations additionally offer the following options:
+
+- `Paginated` defines whether endpoint should provide pagination (skip/limit)
+- `Sorted` defines whether results should be sorted
 
 ![Custom Endpoints Panel](/v0.14/first_app/SomeEndpoint.png)
 
-As you can see because we chose a `GET` request two extra checkboxes displayed.<br />
+Upon selecting your request type, the page is updated with the appropriate sections
+to be used while defining your endpoint's behavior.
 
-- `Paginated` used if you want your data to be paginated.
-- `Sorted` used if you want your data to be sorted.
-
-Also, there are two more fields that need explanation.
-
-- `Add input` button lets you add parameters (body,query,url) in your request.
-- `Add Query` button lets you add queries in your request.
-
-### Add input
-Click on the `Add input` button and some extra fields will be displayed to you.
-- `Input name` is for the name of the parameter variable.
-- `Select types` describes the type of the variable.
-- `Location` describes what type of parameter the parameter is. **(Url, Body or Query)**
-- If `Array` checkbox is checked then that means that the parameter is an array.
-- If `Optional` checkbox is checked then the parameter is optional and not required.
-
-For this tutorial we will need to add the name of the `director` in the query params which have a string type, obviously.<br />
+### Inputs {#inputs}
 
 ![Add Input](/v0.14/first_app/add_input.png)
 
-### Add query
-We also need  to add a query for our request.The query should retrieve all the Movies with a specific director.<br />
-Click the `Add Query` button and some extra fields will be displayed to you.
-After click the `Condition` button.
+If you wish to, you may conditionally operate on your data based on variable fields.<br />
+Here's what makes up an input:
+
+- `Name` to be used while referring to this field in the followup sections
+- `Type` specifies the type of the field
+- `Location` defines whether the field should be a query, body or url param
+- `Array` defines whether the field should be an array
+- `Optional` defines whether the field should be optional
+
+### Queries {#queries}
 
 ![Add Query](/v0.14/first_app/add_condition.png)
 
-Choose the `Schema Field` you wish to compare against.<br />
-Then select the `Operator` and the `Value` you wish to compare against.<br />
-You may also to enable the [SQL-style Like operator](https://www.w3schools.com/sql/sql_like.asp).
+You're going to have to specify at least one query condition for your endpoint.<br />
+Queries require a schema field to be compared against as well as a condition,
+comparing that field to a specific value (or a set of values).<br />
+These values may be defined through any of the following:
+
+- `System Values` are internal context values (middleware-dependent)
+- `Custom Values` may be provided during endpoint creation (hardcoded)
+- `Schema Fields` are existing fields from the target schema
+- `Input Fields` are defined in the [`Inputs` section](#inputs)
+
+The [SQL-style Like operator](https://www.w3schools.com/sql/sql_like.asp) is also supported.
+
+Query condition checks can be `AND`ed or `OR`ed.<br />
+They may also be nested however you see fit.
+
+### Assignments {#assignments}
+
+While creating or updating a schema doc entry, you're going to have to specify the values for your schema fields.<br />
+`Create` and `Update/Edit` operations require that you specify all schema fields,
+whereas `Patch` ones let you partially update an existing schema document.
+
+Assignment definitions include the following fields:
+
+- `Schema Field` to be populated
+- `Action` to be used for the operation
+- `Assignment Value` to be used while populating the field
+
+A field may be populated through any of the following actions:
+
+- `SET` populates the field with target assignment value
+- `INCREMENT` increments the field by target assignment value
+- `DECREMENT` decrements the field by target assignment value
+- `APPEND` appends the target assignment value to an array field
+- `REMOVE` removes the target assignment value from an array field
+
+Similarly to how [`Queries`](#queries) operate, assignment values may come from:
+
+- request context
+- inputs (specified in the [Inputs section](#inputs))
+- custom values
