@@ -11,7 +11,7 @@ and diagnose any potential issues in your deployment.
 
 # Inspection
 
-Conduit's [Admin Panel](./administration/admin-panel.mdx) displays metric information through numerous
+Conduit's [Admin Panel](./administration/administration.mdx) displays metric information through numerous
 indicator elements and configurable graphs in its interface so that you may conveniently  inspect your deployment.
 
 Most critical information is already exposed there, but if wish to personalize your own dashboard or fine-tune the way
@@ -44,7 +44,7 @@ You may ping their `/metrics` endpoint on the specified port to collect individu
 Exposed metrics data is [formatted for Prometheus](https://prometheus.io/docs/concepts/data_model/).<br />
 Your Prometheus instance should be configured appropriately so as to scrape these endpoints.
 
-In order for the [Admin Panel](./administration/admin-panel.mdx) to display metrics-related information
+In order for the [Admin Panel](./administration/administration.mdx) to display metrics-related information
 you should also provide Conduit-UI with your Prometheus instance's url through the `PROMETHEUS_URL` env var.
 
 <details>
