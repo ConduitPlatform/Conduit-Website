@@ -3,38 +3,52 @@ sidebar_label: 'Metrics'
 sidebar_position: 9
 ---
 
+# Metrics
 
-# Prometheus Metrics
+Conduit exposes a set of useful metrics for your modules using [Prometheus](https://prometheus.io/),
+allowing you to monitor the health and status of your backend
+and diagnose any potential issues in your deployment.
 
-Conduit provides support for collecting useful metrics from each module with [Prometheus](https://prometheus.io/).
-By exposing a set of metrics with your deployment, you can easily monitor the health and status of your Conduit Backend and diagnose any issues.
+# Inspection
 
+Conduit's [Admin Panel](./administration/administration.mdx) displays metric information through numerous
+indicator elements and configurable graphs in its interface so that you may conveniently  inspect your deployment.
 
-## Monitoring and Diagnotics
+Most critical information is already exposed there, but if wish to personalize your own dashboard or fine-tune the way
+you observe your metrics, you may always manually set up
+[Grafana](https://grafana.com/docs/grafana/latest/datasources/prometheus/),
+or any other metrics inspection tool that supports Prometheus,
+and configure it however you see fit for your own needs.
 
-Suppose you have a deployment with all modules, and you want to monitor the health of each module. You would have to check each one for
-any potential errors or issues that may be causing problems. Wouldn't it be easier to have a collection mechanism
-for each instance of the modules to collect and expose the health status so that you can then have a quick overview of the health of the entire deployment?
+## Configuration
 
-For this reason Conduit provides a metrics collection mechanism that allows you to probe each module in intervals and then expose the results (e.g. visualizing them with
-Grafana).
+### CLI Deployments
 
-## Bootstrapping Module Metrics
-When you spin up a new instance of a module it will scan for the ```METRICS_PORT``` environment variable and if it is set, it will start an HTTP server on that port and expose the metrics.
-```bash
-METRICS_PORT=9100
-```
+If you're setting up a local deployment using [Conduit's CLI](./cli.mdx) you should already have metrics-support
+enabled out of the box for all of your modules.
 
-You can then ping the module's metrics endpoint (```/metrics```) on the specified port to collect the metrics in the [Prometheus format](https://prometheus.io/docs/concepts/data_model/).
-```bash
-curl -X GET http://localhost:9100/metrics
-```
-This will give you the collected metrics for that module only. However, if you want to probe the entire deployment you will have to spin up a Prometheus server and let it scrape the metrics
-from all the modules. Here is a handy Prometheus YAML configuration that lets you do this:
+Prometheus runs on [http://localhost:9090](http://localhost:9090).<br />
+Individual module metrics server endpoints are not directly exposed outside the container network
+so as to avoid any potential port collisions, therefore you can't manually scrape them using a custom Prometheus setup,
+but you may still run PromQL queries for all of them through the pre-deployed Prometheus instance.
+
+### Manual Deployments
+
+If you're manually configuring your own dev/production cluster, you should provide
+and [configure](https://prometheus.io/docs/prometheus/latest/configuration/configuration/)
+a Prometheus instance to be used by your deployment.
+
+Conduit Core and modules expect you to specify a port for their metrics http server
+through the `METRICS_PORT` environment variable.<br />
+You may ping their `/metrics` endpoint on the specified port to collect individual container metrics.<br />
+Exposed metrics data is [formatted for Prometheus](https://prometheus.io/docs/concepts/data_model/).<br />
+Your Prometheus instance should be configured appropriately so as to scrape these endpoints.
+
+In order for the [Admin Panel](./administration/administration.mdx) to display metrics-related information
+you should also provide Conduit-UI with your Prometheus instance's url through the `PROMETHEUS_URL` env var.
 
 <details>
-    <summary> Prometheus YAML Configuration </summary>
-
+<summary>Prometheus Configuration Example</summary>
 
 ```yaml
 global:
@@ -43,105 +57,127 @@ global:
   evaluation_interval: 5s
 alerting:
   alertmanagers:
-  - static_configs:
-    - targets: []
+    - static_configs:
+      - targets: []
     scheme: http
     timeout: 10s
     api_version: v1
 scrape_configs:
-- job_name: prometheus
-  honor_timestamps: true
-  scrape_interval: 3s
-  scrape_timeout: 3s
-  metrics_path: /metrics
-  scheme: http
-  static_configs:
-  - targets: ['localhost:9091']
-    labels:
-      module: 'Core'
-  - targets: ['localhost:9092']
-    labels:
-      module: 'Router'
-  - targets: ['localhost:9093']
-    labels:
-      module: 'Database'
-  - targets: ['localhost:9094']
-    labels:
-      module: 'Authentication'
-  - targets: ['localhost:9095']
-    labels:
-      module: 'Chat'
-  - targets: ['localhost:9096']
-    labels:
-      module: 'Email'
-  - targets: ['localhost:9097']
-    labels:
-      module: 'Forms'
-  - targets: ['localhost:9099']
-    labels:
-      module: 'SMS'
-  - targets: ['localhost:9098']
-    labels:
-      module: 'Push Notifications'
-  - targets: ['localhost:9190']
-    labels:
-      module: 'Storage'
+  - job_name: prometheus
+    honor_timestamps: true
+    scrape_interval: 3s
+    scrape_timeout: 3s
+    metrics_path: /metrics
+    scheme: http
+    static_configs:
+      - labels:
+          module: 'Core'
+        targets: ['conduit:9091']
+      - labels:
+          module: 'Database'
+        targets: ['conduit-database:9092']
+      - labels:
+          module: 'Router'
+        targets: ['conduit-router:9093']
+      - labels:
+          module: 'Authentication'
+        targets: ['conduit-authentication:9094']
+      - labels:
+          module: 'Chat'
+        targets: ['conduit-chat:9095']
+      - labels:
+          module: 'Email'
+        targets: ['conduit-email:9096']
+      - labels:
+          module: 'Forms'
+        targets: ['conduit-forms:9097']
+      - labels:
+          module: 'Push Notifications'
+        targets: ['conduit-push-notifications:9098']
+      - labels:
+          module: 'SMS'
+        targets: ['conduit-sms:9099']
+      - labels:
+          module: 'Storage'
+        targets: ['conduit-storage:9190']
 ```
-
 </details>
 
-
-
-
 ## Available Metrics
+
+:::tip
+
+You may look up all available metrics for your deployment directly through your Prometheus instance.
+
+:::
+
 Here is a handy list of all the available metrics that can be collected from Conduit.
 
 ### Base Metrics
-Base metrics are available in every module.
 
-- ```internal_grpc_requests_total``` - Tracks the total number of Conduit's internal gRPC requests.
-- ```client_grpc_requests_total``` - Tracks the total number of the client gRPC requests.
-- ```admin_grpc_requests_total``` - Tracks the total number of the admin gRPC requests.
-- ```client_grpc_errors_total``` - Tracks the total number of client grpc errors.
-- ```admin_grpc_errors_total``` - Tracks the total number of admin grpc errors.
-- ```module_health_state``` - Tracks the health state of the module.
-- ```grpc_request_latency_seconds``` - Tracks the latency of grpc requests in seconds.
-- ```grpc_response_statuses_total``` - Tracks the total number of grpc response codes.
+These are standard metrics utilized by all Conduit services.
+
+- ```conduit_internal_grpc_requests_total``` - Tracks the total number of Conduit's internal gRPC requests.
+- ```conduit_client_grpc_requests_total``` - Tracks the total number of the client gRPC requests.
+- ```conduit_admin_grpc_requests_total``` - Tracks the total number of the admin gRPC requests.
+- ```conduit_client_grpc_errors_total``` - Tracks the total number of client gRPC errors.
+- ```conduit_admin_grpc_errors_total``` - Tracks the total number of admin gRPC errors.
+- ```conduit_module_health_state``` - Tracks the health state of the module.
+- ```conduit_grpc_request_latency_seconds``` - Tracks the latency of gRPC requests in seconds.
+- ```conduit_grpc_response_statuses_total``` - Tracks the total number of gRPC response codes.
+
+### Conduit (Core)
+
+- ```conduit_admin_routes_total``` - Tracks the total number of registered admin routes.
 
 ### Authentication
-- ```login_requests_total``` - Tracks the total number of login requests.
-- ```logged_in_users_total``` - Tracks the total number of logged in users.
 
-### Router
-- ```registered_routes_total``` - Tracks the total number of registered routes.
-- ```security_clients_total``` - Tracks the total number of security clients.
+- ```conduit_login_requests_total``` - Tracks the total number of login requests.
+- ```conduit_logged_in_users_total``` - Tracks the total number of logged-in users.
 
-### Database
-- ```database_queries_total``` - Tracks the total number of security clients.
-- ```registered_schemas_total``` - Tracks the total number of registered schemas.
-- ```custom_endpoints_total``` - Tracks the total number of custom endpoints.
+### Authorization
+
+- ```conduit_authorization_requests_total``` - Tracks the total number of authorization requests.
+- ```conduit_authorization_rules_total``` - Tracks the total number of stored rules.
+- ```conduit_authorization_roles_total``` - Tracks the total number of stored roles.
+- ```conduit_authorization_denials``` - Tracks the total number of denials in the authz requests.
 
 ### Chat
-- ```chat_rooms_total``` - Tracks the total number of chat rooms.
-- ```messages_sent_total``` - Tracks the total number of messages sent.
+
+- ```conduit_chat_rooms_total``` - Tracks the total number of chat rooms.
+- ```conduit_messages_sent_total``` - Tracks the total number of messages sent.
+
+### Database
+
+- ```conduit_database_queries_total``` - Tracks the total number of database queries.
+- ```conduit_registered_schemas_total``` - Tracks the total number of registered schemas.
+- ```conduit_custom_endpoints_total``` - Tracks the total number of custom endpoints.
 
 ### Email
-- ```emails_sent_total``` - Tracks the total number of emails sent.
-- ```email_templates_total``` - Tracks the total number of email templates.
+
+- ```conduit_emails_sent_total``` - Tracks the total number of emails sent.
+- ```conduit_email_templates_total``` - Tracks the total number of email templates.
 
 ### Forms
-- ```forms_total``` - Tracks the total number of forms created.
+
+- ```conduit_forms_total``` - Tracks the total number of forms created.
 
 ### Push Notifications
-- ```push_notifications_sent_total``` - Tracks the total number of push notifications sent.
+
+- ```conduit_push_notifications_sent_total``` - Tracks the total number of push notifications sent.
+
+### Router
+
+- ```conduit_client_routes_total``` - Tracks the total number of registered client routes.
+- ```conduit_security_clients_total``` - Tracks the total number of security clients.
 
 ### SMS
-- ```sms_sent_total``` - Tracks the total number of sms sent.
+
+- ```conduit_sms_sent_total``` - Tracks the total number of sms sent.
 
 ### Storage
-- ```containers_total``` - Tracks the total number of containers.
-- ```folders_total``` - Tracks the total number of folders.
-- ```files_total``` - Tracks the total number of files.
-- ```storage_size_bytes_total``` - Tracks the cumulative size of all files in bytes.
 
-
+- ```conduit_containers_total``` - Tracks the total number of containers.
+- ```conduit_folders_total``` - Tracks the total number of folders.
+- ```conduit_files_total``` - Tracks the total number of files.
+- ```conduit_storage_size_bytes_total``` - Tracks the cumulative size of all files in bytes.
