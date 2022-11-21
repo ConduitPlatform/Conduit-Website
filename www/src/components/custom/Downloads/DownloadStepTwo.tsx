@@ -93,9 +93,31 @@ const DownloadStepTwo: FC<Props> = ({ platform, osVersion, setCurrentStep }) => 
 
   const extractPlatform = () => {
     if (platform === 'MAC OS') {
-      return `curl -Lo conduit-cli.tar.gz ${finalizedDownload()}\nmkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n\n#Update your $PATH to include the installation directory\necho '\\n#Add Conduit CLI to executable PATH' >> ~/.zshrc\necho '\\nexport PATH=$PATH:~/.conduit/bin\\n' >> ~/.zshrc\nsource ~/.zshrc`;
+      return (
+        `curl -Lo conduit-cli.tar.gz ${finalizedDownload()}\n` +
+        'mkdir ~/.conduit\n' +
+        'tar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\n' +
+        'chmod a+x ~/.conduit/bin/conduit\n\n' +
+        '# Update your $PATH to include the installation directory\n' +
+        `echo -e '\\n# Add Conduit CLI to executable PATH' >> ~/.zshrc\n` +
+        `echo -e 'export PATH=$PATH:~/.conduit/bin\\n' >> ~/.zshrc\nsource ~/.zshrc`
+      );
     } else if (platform === 'Linux') {
-      return `curl -Lo conduit-cli.tar.gz ${finalizedDownload()}\nmkdir ~/.conduit \ntar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\nchmod a+x ~/.conduit/bin/conduit\n\n#Update your $PATH to include the installation directory\n#For Bash Users\necho '\\n#Add Conduit CLI to executable PATH' >> ~/.bashrc\necho '\\nexport PATH=$PATH:~/.conduit/bin\\n' >> ~/.bashrc\n#For Zsh Users\necho '\\n#Add Conduit CLI to executable PATH' >> ~/.zshrc\necho '\\nexport PATH=$PATH:~/.conduit/bin\\n' >> ~/.zshrc\nsource ~/.zshrc`;
+      return (
+        `curl -Lo conduit-cli.tar.gz ${finalizedDownload()}\n` +
+        'mkdir ~/.conduit\n' +
+        'tar xvf conduit-cli.tar.gz --strip-components=1 -C ~/.conduit\n' +
+        'chmod a+x ~/.conduit/bin/conduit\n\n' +
+        '# Update your $PATH to include the installation directory\n' +
+        '# For Bash Users\n' +
+        `echo -e '\\n# Add Conduit CLI to executable PATH' >> ~/.bashrc\n` +
+        `echo -e 'export PATH=$PATH:~/.conduit/bin\\n' >> ~/.bashrc\n` +
+        'source ~/.bashrc\n' +
+        '# For Zsh Users\n' +
+        `echo -e '\\n# Add Conduit CLI to executable PATH' >> ~/.zshrc\n` +
+        `echo -e 'export PATH=$PATH:~/.conduit/bin\\n' >> ~/.zshrc\n` +
+        'source ~/.zshrc'
+      );
     }
   };
 
