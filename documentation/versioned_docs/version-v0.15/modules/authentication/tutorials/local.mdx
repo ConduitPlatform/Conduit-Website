@@ -8,7 +8,15 @@ sidebar_position: 1
 The Authentication module offers a local email address based authentication strategy available for users to register with right out of the box.<br />
 Making use of it does not require any administrative intervention other than simply bringing up the Authentication module.
 
-In this tutorial, we'll be utilizing Conduit's [REST API](../../router/rest) to create and authenticate our users.<br
+In this tutorial, we'll be utilizing Conduit's [REST API](../../router/rest) to create and authenticate our users.
+
+### JWT functionality
+
+The Authentication module comes with JWT functionality built in.<br />
+JWTs are a great way to authenticate users without having to store any session data on the server.<br />
+This is especially useful for mobile applications, where you don't want to have to worry about managing sessions.<br />
+JWTs are also a great way to authenticate users for API requests.
+
 
 ## User Creation
 
