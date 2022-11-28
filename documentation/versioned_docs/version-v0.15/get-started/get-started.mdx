@@ -9,13 +9,22 @@ We're going to brief you on the essentials here and help you navigate the sectio
 ## Configuration
 
 Conduit is a microservice-based backend where services can function in a distributed environment.<br />
-Most of these services provide optional configuration. Some of them even require that you provide their configuration before they can be of use.<br />
-You can configure each and every one of them in a consistent and streamlined fashion in the following ways:
+Some of them are simple enough to require no configuration whatsoever, while others provide just enough default values to get their service started, with additional options for further modifying their behavior.<br />
+Certain modules depend heavily on third party service credentials, making it impossible for them to function without initial configuration.<br />
+The latter actually rely on the administrators providing configuration values before these modules can be activated for the first time.<br />
 
-- Using the Admin Panel
-- Using Conduit's administration-level REST & GraphQL APIs
+Some configuration option examples could include the delivery of message reads in a chat module or
+enforcing user verification in an authentication module.
 
-[Find out more about Configuration](../config)
+By now, we have established how most modules provide some form of configuration, whether they rely on it or not.<br />
+But how does one actually configure all of these distributed service modules?
+
+Conduit provides a centralized form of module configuration, meaning administrators are capable of
+specifying their desired config options for any individual module through Conduit itself.
+
+Modules can be configured directly through the [Admin Panel](get-started/admin-panel), or manually, using [Conduit's Administration APIs](administration).<br />
+
+<ins><strong>Notice:</strong> Modules need to be <strong>online</strong> in order for them to be configurable and for their configuration to be retrievable.</ins>
 
 ## Routing
 
