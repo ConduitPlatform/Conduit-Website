@@ -1,0 +1,124 @@
+# Usage
+
+## Configuring the provider
+
+A major problem while playing with Conduit modules is the configuration problem. Many Conduit modules use third party providers
+to operate and email module is not an exception. Providers such as Mandrill,Mailgun and Sendgrid are used from email module for
+sending emails etc. <br />
+
+In order to start using  Email you need to configure it firstly! And this is simply done by sending a curl to the Conduit Server
+based on the provider that you want to use.
+
+:::caution
+
+See how email [configuration](./config) works.
+
+:::
+
+## Start playing
+Now the module is configured and everything is ready to proceed.
+
+## Sending an Email
+
+You are mama's lovely child, and you want to email her to tell her that everything is going well!
+Are you going to use a typical email mechanism like Gmail or Outlook? The answer is no.<br/>
+Conduit can do it for you. Just find a PC in the middle of nowhere and type in a terminal:
+
+``` bash title="Request"
+curl --location --request POST 'http://localhost:3030/email/send' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'masterkey: yourmasterkey' \
+--header 'Authorization: Bearer youradmintoken'
+--data-raw '{
+    "email": "receiver@example.com",
+    "sender": "sender@example.com",
+    "subject": "MAMA EVERYTHING IS OK",
+    "body": "Hello mama. I hope that this email finds you well. Everything is ok."
+}'
+```
+
+## Templates
+Conduit provides a template mechanism. You can either create a template locally and store it also to the external provider,
+or you can use the templates that are created only in the external provider.
+
+### Create a template
+Each stored template has two characteristics.
+- **externalManaged** feature which is true if the template is stored also in the external provider.
+- **externalId** , which is the template identification in the  external provider.
+
+Before you send the request you need to know what **externalManaged** and **_id** variables are used for.
+
+If **externalManaged** is set to true then:
+- If **_id** variable is not set, then the template is going to be stored in the external provider
+and the **externalId** is the same as the external template id.
+
+- **Otherwise**, the template is created only in the conduit configured database and the **externalId**
+is set to the given **_id**.
+
+
+``` bash title="Request"
+curl --location --request POST 'http://localhost:3030/email/templates' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer youradmintoken' \
+--header 'masterkey: yourmasterkey' \
+--data-raw '{
+    "name": "template name",
+    "subject": "template email subject",
+    "body": "body template",
+    "sender": "sender@mail.com",
+    "externalManaged": "boolean value",
+}'
+```
+
+:::note
+** Template body could be also an html document.**
+:::
+
+### Create template with variables
+
+Conduit supports also template creation with variables using handlebars.
+Let's try to create a template which contains variables.
+
+A template body example could be this:
+
+```
+Mama , I am your lovely son {{ lovelySonName }} and i need your help!
+```
+
+``` bash title="Request"
+curl --location --request POST 'http://localhost:3030/email/templates' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer youradmintoken' \
+--header 'masterkey: yourmasterkey' \
+--data-raw '{
+    "name": "Mamas_help",
+    "subject": "MAMA HELP ME",
+    "body": "Mama , I am your lovely son {{ lovelySonName }} and I need your help!",
+    "sender": "mamasboy@mail.com",
+    "externalManaged": "false",
+}'
+```
+
+### Sending email with template
+
+To send an email using template and variables you have to give values to these variables.
+
+```bash title="Request"
+curl --location --request POST 'http://localhost:3030/email/send' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer youradmintoken ' \
+--header 'masterkey: yourmasterkey' \
+--data-raw '{
+    "email": "tomama@mail.com",
+    "sender": "yourmail@mail.com",
+    "variables": {
+        "lovelySonName": "yourname"
+    },
+    "templateName": "Mamas_help"
+
+}'
+```
