@@ -118,3 +118,31 @@ curl --location --request POST 'http://localhost:3030/email/send' \
 
 }'
 ```
+### Getting external templates
+Option for getting all the templates which are registered in the external email provider is supported.
+You can list the external templates through this curl:
+
+```bash title="Request"
+curl --location --request GET 'http://localhost:3030/email/externalTemplates' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer youradmintoken ' \
+--header 'masterkey: yourmasterkey' \
+--data-raw ''
+```
+
+### Upload a template
+
+Email module provides an option for uploading local stored templates on the third party email provider.<br/>
+For instance, if mailgun provider is configured as an email provider then you can upload a template on mailgun.
+
+```bash title="Request"
+curl --location --request POST 'http://localhost:3030/email/templates/upload' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer youradmintoken ' \
+--header 'masterkey: yourmasterkey' \
+--data-raw '{
+    "_id": "templateId"
+}'
+```
