@@ -1,0 +1,41 @@
+---
+sidebar_label: 'Slack'
+sidebar_position: 10
+---
+
+# Slack
+
+Slack is a cloud-based set of team collaboration tools and services.<br />
+Slack is a proprietary business communication platform which offers a range of features, including persistent chat rooms organized by topic,
+private groups, and direct messaging.
+Slack is available on desktop and mobile devices, as well as via third-party apps that integrate its API with other web services.
+
+## Prerequisites
+
+* A Slack account
+* A Slack workspace
+* A Slack channel
+
+## Installation
+
+### 1. Create a Slack App
+
+To create a Slack App, go to [https://api.slack.com/apps](https://api.slack.com/apps) and click on the **Create New App** button.
+
+[//]: # (![Create a Slack App]&#40;/img/slack/create-slack-app.png&#41;)
+
+
+## Setting up the configuration
+
+***NOTE***<br />
+**Do not forget to configure the Slack provider through the [Admin Panel](../config#third-party).**<br />
+Go to the Authentication -> SIGN IN METHODS and select the Slack provider.<br />
+Then, fill the required fields you obtained from the Slack App.
+
+## Authenticate with Slack
+
+[//]: # (TODO Slack photos)
+
+Open a browser and navigate to the url returned to you from Conduit.<br />
+Now the `/hook/authentication` route has been triggered.<br />
+Once your browser has been redirected, your authentication has been completed.

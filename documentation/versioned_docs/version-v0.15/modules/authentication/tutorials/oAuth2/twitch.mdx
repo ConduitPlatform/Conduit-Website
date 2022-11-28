@@ -1,0 +1,37 @@
+---
+sidebar_label: 'Twitch'
+sidebar_position: 12
+---
+
+# Twitch
+
+In this tutorial, we will set up Twitch as an authentication provider for Conduit.<br />
+
+## Prerequisites
+
+- A Twitch account
+- A Conduit project
+
+## Create a Twitch App
+
+1. Go to the [Twitch Developer Console](https://dev.twitch.tv/console/apps) and click on the **Register Your Application** button.
+2. Fill in the form and click on the **Register** button.
+3. On the next page, click on the **Manage** button.
+4. On the next page, click on the **New Secret** button.
+5. Copy the **Client ID** and **Client Secret** and save them for later.
+
+## Setting up the configuration
+
+***NOTE***<br />
+**Do not forget to configure the Twitch provider through the [Admin Panel](../config#third-party).**<br />
+Go to the Authentication -> SIGN IN METHODS and select the Twitch provider.<br />
+Then, fill the required fields you obtained from the Twitch App.
+
+## Authenticate with Twitch
+
+[//]: # (TODO Twitch photos)
+
+Open a browser and navigate to the url returned to you from Conduit.<br />
+Now the `/hook/authentication` route has been triggered.<br />
+Once your browser has been redirected, your authentication has been completed.
+

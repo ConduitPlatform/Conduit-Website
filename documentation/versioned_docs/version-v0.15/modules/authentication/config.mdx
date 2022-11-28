@@ -1,6 +1,6 @@
 ---
 sidebar_label: 'Configuration'
-sidebar_position: 3
+sidebar_position: 2
 ---
 
 # Config
@@ -9,7 +9,7 @@ sidebar_position: 3
 
 ![Enable sign-in method](/v0.15/modules/authentication/admin/auth_config.png)
 
-Specify the amount of user authentication attemps before enabling rate limiting and 
+Specify the amount of user authentication attempts before enabling rate limiting and
 set your desired token invalidation periods in milliseconds.
 
 ## Local Authentication
@@ -23,18 +23,21 @@ module being available and configured with valid provider credentials.
 
 :::
 
-<!-- TODO: That is NOT how we enable 2FA support. Leaving as is until UI/Auth affecting PR gets merged
-## How to enable 2FA?
+## Two-Factor Authentication
 
-Find the user you are interested in, press the edit button on the right side of the panel and<br />
-a pop-up window will be displayed to you. In order to enable it, you should fill the phone number<br />
-section  with your actual phone number. <br />
+Enable two-factor authentication for your users to add an extra layer of security to their accounts.<br />
+Depending on the strategy you choose, users will be prompted to enter a code sent to their phone number
+or use a mobile app to scan a QR code.
 
-![Enable sign-in methods](/v0.15/modules/authentication/admin/enable2FA.png)
 
-Users may now individually enable 2FA
-for their accounts.
--->
+![Enable sign-in method](/v0.15/modules/authentication/tutorials/enable-2-fa.png)
+
+:::caution
+
+Enabling two-factor authentication with SMS relies on the [SMS](../sms) module being available and configured with valid provider credentials.
+
+:::
+
 
 ## Third-Party Providers
 
@@ -42,3 +45,9 @@ You may configure third-party authentication options by enabling the correspondi
 Account linking is also supported, but only works for accounts using the same email address across providers.
 
 ![Third party Configuration](/v0.15/modules/authentication/admin/facebook_enable.png)
+
+## Magic Link
+
+Enable the [Magic Link](./strategies#magic-link) authentication strategy and specify the redirect URi to which the user will be redirected after signing in.
+
+![Magic Link Configuration](/v0.15/modules/authentication/tutorials/enable_magic_link.png)

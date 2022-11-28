@@ -1,6 +1,6 @@
 ---
 sidebar_label: 'Strategies'
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Authentication Strategies
@@ -8,6 +8,8 @@ sidebar_position: 2
 The Authentication module supports multiple user authentication strategies.<br />
 It supports local credential-based logins, while also providing integration for a plethora of third party providers through 0Auth2.<br />
 Two-Factor cellular authentication is supported across any strategy.
+Magic links are also supported for passwordless authentication.
+
 
 Local Authentication is enabled out of the box.
 
@@ -25,28 +27,52 @@ Check out our [simple tutorial](./tutorials/local) on how to make use of Local A
 
 ## Third Party Providers
 
-:::note
+The Authentication module supports integration with a number of third party providers through OAuth2.<br />
+The following providers are supported out of the box:
 
-This section is a work in progress. 👷
 
-:::
+#### [Facebook](./tutorials/oAuth2/facebook)
 
-<!--
-### Facebook {#facebook}
+#### [Google](./tutorials/oAuth2/google)
 
-### Google {#google}
+#### [Microsoft](./tutorials/oAuth2/microsoft)
 
-### Microsoft {#microsoft}
+#### [Github](./tutorials/oAuth2/github)
 
-### GitHub {#github}
+#### [Gitlab](./tutorials/oAuth2/gitlab)
 
-### Twitch {#twitch}
+#### [Apple](./tutorials/oAuth2/apple)
 
-### Slack {#slack}
+#### [Figma](./tutorials/oAuth2/figma)
 
-### Figma {#figma}
+#### [LinkedIn](./tutorials/oAuth2/linkedin)
 
-### Kakao {#kakao}
--->
+#### [Slack](./tutorials/oAuth2/slack)
 
-<!-- TODO: Phone Authentication / 2FA -->
+#### [Reddit](./tutorials/oAuth2/reddit)
+
+#### [Twitch](./tutorials/oAuth2/twitch)
+
+#### [Twitter](./tutorials/oAuth2/twitter)
+
+#### [Bitbucket](./tutorials/oAuth2/bitbucket)
+
+-------------------------------------------------
+
+## Two-Factor Authentication
+
+In case of phone 2FA based authentication, the user's phone number is required before 2FA can be enabled.
+
+-------------------------------------------------
+
+
+## Magic Link {#magic-link}
+
+Magic Link is a passwordless authentication strategy.<br />
+It makes use of a unique link that is sent to the user's email address.<br />
+The link contains a token that can be used to authenticate the user.<br />
+The token is valid for a limited period of time, after which it expires.
+You can find more information about Magic Link [here](https://auth0.com/docs/connections/passwordless/guides/email-magic-link).<br />
+A simple tutorial on how to make use of Magic Link can be found [here](./tutorials/magicLink).
+
+

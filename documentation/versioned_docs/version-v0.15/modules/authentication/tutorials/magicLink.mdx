@@ -1,0 +1,27 @@
+---
+sidebar_label: 'Magic link'
+sidebar_position: 15
+---
+
+# Magic link
+
+MagicLink is a simple way to authenticate users without requiring them to enter a password.<br />
+It works by sending a one-time login link to the user's email address. When the user clicks the link, they are logged in to your app.
+
+## How it works
+
+MagicLink is a two-step process:
+
+1. The user enters their email address and clicks the "Send MagicLink" button.
+2. The user receives an email with a link to log in to your app. When they click the link, they are logged in to your app.
+
+## Set up Magic-link authentication
+
+To set up Magic-link authentication, you need to go to Authentication -> Sign in method and enable the Magic-link authentication.
+The redirect uri is not required, but if it is provided, it must be a valid url.
+It is used to redirect the user to a specific page after they have verified their email
+
+![Enable Magic Link](/v0.15/modules/authentication/tutorials/enable_magic_link.png)
+
+
+

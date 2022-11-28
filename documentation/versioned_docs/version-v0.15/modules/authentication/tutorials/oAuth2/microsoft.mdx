@@ -1,0 +1,47 @@
+---
+sidebar_label: 'Microsoft'
+sidebar_position: 4
+---
+
+# Microsoft
+
+In this tutorial, we'll be setting up Microsoft authentication for Conduit.<br />
+Before we begin, we'll need to create a Microsoft Application.
+
+## Creating a Microsoft Application
+
+1. Go to the [Microsoft Application Registration Portal](https://apps.dev.microsoft.com/).
+2. Click on **Add an app**.
+3. Enter a name for your application and click **Create application**.
+4. Click on **Generate New Password** and copy the password.
+5. Click on **Add Platform** and select **Web**.
+6. Enter your **Redirect URL** and click **Add URL**.
+7. Click on **Save**.
+
+------------------------------------------------------------------------------------------------
+
+## Setting up the configuration
+
+In order to log in via Microsoft provider you need to configure through the [Admin Panel](../config#third-party).**<br />
+Select the Microsoft provider and enter the following details:
+
+- **Client ID**: The Client ID of your Microsoft Application.
+- **Client Secret**: The Client Secret of your Microsoft Application.
+- **Callback URL**: The Callback URL of your Microsoft Application.
+
+------------------------------------------------------------------------------------------------
+
+## Authenticate with Microsoft
+
+To begin authenticating with Microsoft you request a redirect url with the proper scopes<br />
+We'll proceed using Postman!<br />
+
+[//]: # (// TODO: Add Postman example)
+
+Open a browser and navigate to the url returned to you from Conduit.<br />
+Now the `/hook/authentication` route has been triggered.<br />
+Once your browser has been redirected, your authentication has been completed.<br />
+
+
+
+

@@ -1,0 +1,51 @@
+---
+sidebar_label: 'Github'
+sidebar_position: 5
+---
+
+# Github
+
+In this tutorial, we'll be setting up GitHub authentication for Conduit.<br />
+
+## Prerequisites
+
+Before we begin, you should have a GitHub account and a Conduit application set up. If you don't, head over to the [Getting Started](/docs/getting-started) section to get set up.
+
+## Setting up GitHub OAuth
+
+To set up GitHub OAuth, you'll need to create a new OAuth application on GitHub. You can do this by going to [GitHub's developer settings](/settings/developers) and clicking the "New OAuth App" button.
+
+[//]: # (![GitHub OAuth App]&#40;/img/docs/github-oauth-app.png&#41;)
+
+You'll need to fill out the form with the following information:
+
+- **Application name**: This is the name of your application. It can be anything you want.
+- **Homepage URL**: This is the URL of your application's homepage. It can be anything you want.
+- **Authorization callback URL**: This is the URL that GitHub will redirect to after the user has authenticated. It should be `http://localhost:4000/auth/github/callback` if you're using the default port for Conduit.
+- **Application description**: This is a description of your application. It can be anything you want.
+- **Organization name**: This is the name of your organization. It can be anything you want.
+- **Organization website**: This is the URL of your organization's website. It can be anything you want.
+
+Once you've filled out the form, click the "Register application" button. You'll be redirected to the application's settings page.
+
+[//]: # (![GitHub OAuth App Settings]&#40;/img/docs/github-oauth-app-settings.png&#41;)
+
+You'll need to copy the **Client ID** and **Client Secret** from the application's settings page. You'll need these later.
+
+## Configuring Conduit
+
+Now that you have your GitHub OAuth application set up, you'll need to configure Conduit to use it. To do this, you'll need to set the clientId and client secret.
+Go to the Authentication -> SIGN IN METHODS and select the GitHub provider.<br />
+Then, fill the required fields you obtained from the GitHub App.
+
+## Authenticate with GitHub
+
+Now that you've configured Conduit to use GitHub OAuth, you can authenticate with GitHub.
+
+[//]: # (![Sign in with GitHub]&#40;/img/docs/sign-in-with-github.png&#41;)
+
+You'll be redirected to GitHub's authentication page. You'll need to enter your GitHub username and password to authenticate.
+
+[//]: # (![GitHub Authentication]&#40;/img/docs/github-authentication.png&#41;)
+
+

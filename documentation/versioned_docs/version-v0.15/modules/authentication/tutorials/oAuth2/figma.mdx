@@ -1,0 +1,40 @@
+---
+sidebar_label: 'Figma'
+sidebar_position: 8
+---
+
+# Figma
+
+Figma is a vector graphics editor and prototyping tool which is primarily web-based, with additional offline features enabled by desktop applications for macOS and Windows.<br />
+Figma is primarily focused on user interface and user experience design, and supports collaborative editing.
+
+In this tutorial, we'll set up Figma authentication for Conduit.<br />
+
+## Prerequisites
+
+- [Conduit](https://getconduit.dev)
+- [Figma account](https://www.figma.com/)
+- [Figma Personal Access Token](https://www.figma.com/developers/docs#auth)
+
+## Create a new Figma app
+
+1. Go to [Figma Developer](https://www.figma.com/developers/apps) and click on the **New App** button.
+2. Enter a name for your app and click on the **Create App** button.
+3. Copy the **Client ID** and **Client Secret** and save them for later.
+
+## Setting up the configuration
+
+***NOTE***<br />
+**Do not forget to configure the Figma provider through the [Admin Panel](../config#third-party).**<br />
+Go to the Authentication -> SIGN IN METHODS and select the Figma provider.<br />
+Then, fill the required fields you obtained from the Figma App.
+
+## Authenticate with Figma
+
+Now that you have set up the configuration, you can authenticate with Figma.<br />
+
+[//]: # (figma postman photo)
+
+Open a browser and navigate to the url returned to you from Conduit.<br />
+Now the `/hook/authentication` route has been triggered.<br />
+Once your browser has been redirected, your authentication has been completed.

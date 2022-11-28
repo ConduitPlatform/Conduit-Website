@@ -1,0 +1,99 @@
+---
+sidebar_label: 'Apple'
+sidebar_position: 7
+---
+
+# Apple
+
+In this tutorial, we'll set up Apple authentication for Conduit.<br />
+Apple authentication is a way for users to sign in to your app using their Apple ID.
+Apple authentication provides a secure and private way for users to sign in to your app.
+
+## Prerequisites
+
+This provider is a little different from the others.<br />
+You'll need to have an Apple Developer account and an Apple App ID.<br />
+
+- Apple App ID
+- Apple Developer Account
+
+## Create an Apple App ID
+
+1. Go to [Apple Developer](https://developer.apple.com/account/resources/identifiers/list) and sign in with your Apple ID.
+2. Click on `Identifiers` and then `App IDs`.
+3. Click on the `+` button to create a new App ID.
+4. Enter a description for your App ID and select `Sign in with Apple` as the primary App ID.
+5. Click on `Continue` and then `Register`.
+6. Click on the `Edit` button next to your App ID.
+7. Click on `Configure` next to the `Sign in with Apple` capability.
+8. Click on `Enable as a primary App ID`.
+9. Click on `Save` and then `Done`.
+
+## Create an Apple Service ID
+
+1. Go to [Apple Developer](https://developer.apple.com/account/resources/identifiers/list) and sign in with your Apple ID.
+2. Click on `Identifiers` and then `Services IDs`.
+3. Click on the `+` button to create a new Service ID.
+4. Enter a description for your Service ID and select `Sign in with Apple` as the primary Service ID.
+5. Click on `Continue` and then `Register`.
+6. Click on the `Edit` button next to your Service ID.
+7. Click on `Configure` next to the `Sign in with Apple` capability.
+8. Click on `Enable as a primary Service ID`.
+9. Click on `Save` and then `Done`.
+
+## Create an Apple Private Key
+
+1. Go to [Apple Developer](https://developer.apple.com/account/resources/authkeys/list) and sign in with your Apple ID.
+2. Click on `Keys` and then `+`.
+3. Enter a description for your key and click on `Configure`.
+4. Select `Sign in with Apple` and click on `Continue`.
+5. Click on `Register`.
+6. Click on the `Download` button next to your key.
+7. Click on `Done`.
+
+## Create an Apple Team ID
+
+1. Go to [Apple Developer](https://developer.apple.com/account/#/membership) and sign in with your Apple ID.
+2. Click on `Membership` and then `View Details`.
+3. Copy your Team ID.
+
+## Create an Apple Client ID
+
+1. Go to [Apple Developer](https://developer.apple.com/account/resources/identifiers/list) and sign in with your Apple ID.
+2. Click on `Identifiers` and then `App IDs`.
+3. Click on the `Edit` button next to your App ID.
+4. Click on `Configure` next to the `Sign in with Apple` capability.
+5. Copy your Client ID.
+
+## Setting up the configuration
+
+***NOTE***<br />
+**Do not forget to configure the Apple provider through the [Admin Panel](../config#third-party).**<br />
+Go to the Authentication -> SIGN IN METHODS and select the Apple provider.<br />
+Then, fill the required fields with the values you got from the previous steps.
+
+- `clientId` - The client id that you created in the previous step.
+- `redirect_uri` - The uri that the user will be redirected to, on successful Apple login, when using the redirect method.
+- `privateKey` - The private key that you created in the previous step.
+- `teamId` - The team id that you copied in the previous step.
+- `keyId` - The private key id that you created in the previous step.
+
+![Enable Apple Provider](/v0.15/modules/authentication/tutorials/enable_apple_provider.png)
+
+Enable Apple Provider and click on `Save`.
+
+## Authenticate with Apple
+
+[//]: # (Apple postman photo )
+
+Open a browser and navigate to the url returned to you from Conduit.<br />
+Now the `/hook/authentication` route has been triggered.<br />
+Once your browser has been redirected, your authentication has been completed.
+
+
+
+
+
+
+
+

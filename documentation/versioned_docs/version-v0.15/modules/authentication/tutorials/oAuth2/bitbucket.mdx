@@ -1,0 +1,39 @@
+---
+sidebar_label: 'Bitbucket'
+sidebar_position: 14
+---
+
+# Bitbucket
+
+Bitbucket is a web-based version control repository hosting service owned by Atlassian, for source code and development projects.
+In this tutorial, we will learn how to set up Bitbucket as an authentication provider for Conduit.<br />
+
+## Prerequisites
+
+* A Bitbucket account
+* A Conduit instance
+
+## Create a Bitbucket App
+
+1. Log in to your Bitbucket account and go to the [Bitbucket settings](https://bitbucket.org/account/settings/app-passwords/).
+2. Click on the **Create app password** button.
+3. Enter a label for the app password and click on the **Create** button.
+4. Copy the generated app password.
+5. Copy the **Client ID** and **Client Secret** from the Bitbucket app you created to use in the next step.
+
+## Configure Bitbucket as an authentication provider
+
+***NOTE***<br />
+**Do not forget to configure the Bitbucket provider through the [Admin Panel](../config#third-party).**<br />
+Go to the Authentication -> SIGN IN METHODS and select the Bitbucket provider.<br />
+Then, fill the required fields you obtained from the Bitbucket App.
+
+## Authenticate with Bitbucket
+
+[//]: # (TODO Bitbucket photos)
+
+Open a browser and navigate to the url returned to you from Conduit.<br />
+Now the `/hook/authentication` route has been triggered.<br />
+Once your browser has been redirected, your authentication has been completed.
+
+
