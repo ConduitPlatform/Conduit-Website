@@ -1,0 +1,216 @@
+---
+sidebar_label: 'Get Started'
+sidebar_position: 1
+---
+
+# Getting Started
+
+[//]: # (TODO: Update kon14 links)
+
+Before we go over the different ways anyone could use the SDK for their particular use case,
+we'll need to explore a straight-forward example and wrap our head around Conduit module initialization.
+
+We built a [minimal reference implementation](https://github.com/kon14/ConduitModuleExample) to be used as our starting point.
+
+## Module Description
+
+Our application allows our users to receive free cookies 🍪 via client API requests,
+as long as our cookie resources are not depleted and their name is not blacklisted in our configuration.
+
+As far as REST and GraphQL APIs are concerned, we offer two client endpoints for receiving cookies.<br />
+One of them is unprotected, while the other one requires user authentication.<br />
+There's also an administrative endpoint for updating our cookie stocks.
+
+When it comes to gRPC, we also provide two administrative RPCs for receiving and replenishing cookies.<br />
+Cookies are also automatically replenished on service startup.
+
+Our module's configuration allows us to specify an array of names that won't be receiving cookies,
+disable the unauthenticated cookie retrieving endpoint and set the starting amount of cookies
+(also used on resets without an explicitly specified cookie count value).
+
+We utilize Prometheus metrics for tracking the total amount of cookie requests received and the count for currently available cookies.<br />
+We also log informational messages and errors through Loki.
+
+## How Do I Run This?
+
+It is assumed that you are building and running this in a Linux or macOS environment.<br />
+If you're using Windows, make sure you're using WSL.
+
+We also assume that you've already brought up a Conduit deployment using the [Conduit CLI](https://getconduit.dev/docs/cli).<br />
+Make sure your deployment's major version matches the one of the example module implementation being used!
+
+If you don't intend to use the default deployment configuration provided by Conduit CLI
+(eg: by running Conduit directly on the host), make sure that you update the provided `.env` file.
+
+```bash title="Cloning The Repo"
+git clone git@github.com:kon14/ConduitModuleExample.git
+cd ConduitModuleExample
+```
+
+```bash title="Building"
+# Install Dependencies
+npm run setup
+# Build Module
+npm run build
+```
+
+The above steps will pull in the required Node.js dependencies and build the module.<br />
+The build step involves generating TypeScript code from your proto-files,
+building the codebase and copying certain static files to the build directory.
+
+If you're interested in finding out more, reading what's in the `package.json` would be a good place to start.
+
+```bash title="Running"
+# Start Module
+npm run start
+```
+
+That's it, your module should be online and ready to serve requests across its APIs.<br />
+
+## Performing Requests
+
+This section assumes that you are already aware of how to utilize Conduit's
+[user](../modules/authentication/strategies) and [admin](../administration) authentication headers.<br />
+Additionally, the application APIs' [security clients](../modules/router/security) are assumed to be disabled.
+
+### REST
+You may perform REST requests and browse your endpoint documentation directly through Swagger UI,
+or by importing your APIs' Swagger JSON files to an HTTP API testing tool of your choice.
+
+We'll proceed with a few `curl` examples to get you started:
+
+#### Getting Cookies
+
+Let's start off by simply requesting a cookie.<br />
+We'll go by Stan for this one, as that name is not blacklisted in the default configuration.
+
+``` bash title="Get Cookie (Unauthenticated)"
+curl --location --request POST 'http://localhost:3000/example/cookies/' \
+     --header 'Content-Type: application/json' \
+     --data-raw '{
+        "name": "Stan"
+     }'
+```
+``` bash title="Response"
+{
+    "result": "Hey there Stan, have a cookie 🍪."
+}
+```
+
+Great, we got our first cookie, hopefully they're not keeping tabs on us, so we can ask for more soon.
+Let's try once more, this time going by Betty.
+
+``` bash title="Get Cookie (Unauthenticated)"
+curl --location --request POST 'http://localhost:3000/example/cookies/' \
+     --header 'Content-Type: application/json' \
+     --data-raw '{
+        "name": "Betty"
+     }'
+```
+``` bash title="Response"
+{
+    "result": "I'm sorry Betty, no cookies for you today 💅."
+}
+```
+
+Ouch, that hurt. But hey, thankfully for Betty and regrettably for our application,
+clients can provide any name they wish and our endpoint will gladly accept that.
+
+Moving on, let's try the proper user authenticated endpoint.<br />
+We assume you already know how to [create and authenticate your users](../modules/authentication/strategies)
+and have already obtained our own user authentication token.
+
+``` bash title="Get Cookie (User Authentication)"
+curl --location --request GET 'http://localhost:3000/example/cookies' \
+     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzODhjZTVlZTFlMDAzYjdmZGU4YzY1ZiIsImF1dGhvcml6ZWQiOnRydWUsInN1ZG8iOnRydWUsImlhdCI6MTY2OTk5MjYzNiwiZXhwIjoxNjczNTkyNjM2fQ.oCAELwBektsfINwa1EaxmrhtSVuhM7xvcccf2xQb948'
+```
+``` bash title="Response"
+{
+    "result": "Hey there guacamole.lover97, have a cookie 🍪."
+}
+```
+
+That's a weird looking name, what's going on here and where did we even get a name for this?<br />
+Looking into our endpoint's implementation you'll realize we're basically stripping off the user's email prefix
+and using that as the implicitly provided name for our cookie request.
+
+``` typescript title="GetCookieAuthenticated Handler Snippet"
+const user: User = call.request.context.user;
+const name = user.email.split('@')[0];
+```
+
+The Authentication module's User schema does not have a `firstName` or `lastName` field attached to it.<br />
+That is simply because not all application use cases require that it does.<br />
+You may still extend the schema as you see fit by providing additional fields for it both through
+the Database module's CMS functionality available right in your admin panel, or through your custom microservice.<br />
+You may then update this endpoint to utilize your extension field instead.
+
+As a final step, let's modify our name blacklist through an administrative module configuration request.<br />
+We'll start by viewing our existing configuration.
+
+We assume you're already aware of [how to work with admin authentication headers](../administration).
+
+``` bash title="Get Module Configuration (Admin Authentication)"
+curl --location --request GET 'http://localhost:3030/config/example/' \
+     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzN2FiNzE3NjYxMzk4ZDUzNTBhZjhmYyIsImlhdCI6MTY2OTk5MjE1MSwiZXhwIjoxNjcwMDY0MTUxfQ.lgLnkrx_FDlUCsD5wNtXfMc3GKG41Eq7xN4BrnMznrw' \
+     --header 'masterkey: M4ST3RK3Y' \
+     --header 'Content-Type: application/json'
+```
+``` bash title="Response"
+{
+    "config": {
+        "active": true,
+        "defaultCookieCount": 20,
+        "illegalNames": [
+            "Alex",
+            "Betty",
+            "Charlie"
+        ]
+    }
+}
+```
+
+Alright then, say we wish to remove Betty from the blacklist.<br />
+We'd send a PATCH request, updating our `example` module's configuration.<br />
+
+``` bash title="Update Module Configuration (Admin Authentication)"
+curl --location --request PATCH 'http://localhost:3030/config/example/' \
+     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzN2FiNzE3NjYxMzk4ZDUzNTBhZjhmYyIsImlhdCI6MTY2OTk5MjE1MSwiZXhwIjoxNjcwMDY0MTUxfQ.lgLnkrx_FDlUCsD5wNtXfMc3GKG41Eq7xN4BrnMznrw' \
+     --header 'masterkey: M4ST3RK3Y' \
+     --header 'Content-Type: application/json' \
+     --data-raw '{
+         "config": {
+             "illegalNames": [
+                 "Alex",
+                 "Charlie"
+             ]
+         }
+}'
+```
+``` bash title="Response"
+{
+    "config": {
+        "active": true,
+        "defaultCookieCount": 20,
+        "illegalNames": [
+            "Alex",
+            "Charlie"
+        ]
+    }
+}
+```
+
+Our configuration was updated successfully.<br />
+Notice how we only provided the configuration fields we wished to update.
+
+This time around, if you were to perform another cookie retrieval request as Betty, the operation would be successful.
+
+### GraphQL
+You may perform GraphQL queries and mutations directly through the GraphQL Playground,
+or through an GraphQL API testing tool of your choice.
+
+Check the generated GraphQL documentation for details.
+
+### gRPC
+Import `src/service.proto` in a gRPC testing tool of your choice and specify `0.0.0.0:55152` as your server's address.<br />
+You may then perform your gRPC requests.

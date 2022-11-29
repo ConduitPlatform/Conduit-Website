@@ -1,0 +1,71 @@
+---
+title: SDK
+hide_title: true
+---
+
+:::caution
+Before proceeding, we suggest that you've already familiarized yourself with the following:<br />
+[Database](../modules/database), [Router](../modules/router), [Admin](../administration),
+[Database](../modules/authentication), [gRPC](https://grpc.io)
+:::
+:::info
+The Conduit dev team remains committed to developing SDKs for multiple languages.<br />
+At this time, we are only providing an official [SDK for Node.js](https://www.npmjs.com/package/@conduitplatform/conduit-grpc-sdk).
+:::
+
+# Conduit SDK 🔨
+
+Conduit facilitates the development of modules through an SDK exposing standard module operations
+and providing utils around service initialization, bus utilization, API route building, gRPC health checking etc.
+
+As a module developer, the SDK takes care of a bunch of different things for you.<br />
+Most importantly, it abstracts away the cumbersome bits of setting up connections
+to distributed services and module state monitoring.
+
+## Features ✨
+
+- Ergonomic Wrappers Around Standard Module gRPC Operations
+- Service Initialization & Registration (Lifecycle Hooks)
+- Support for [gRPC Health Checking Protocol](https://github.com/grpc/grpc/blob/master/doc/health-checking.md)
+- Schema Model Controller Base Class
+- Route Building Utilities
+- Bus Publish/Subscribe (Redis)
+- State Management (Redis)
+- Useful Utilities & Syntactic Sugar
+
+## Usage
+
+Interaction with Conduit may happen unidirectionally or bidirectionally, depending on your needs.<br />
+That is to say, your application could interact with your Conduit deployment without registering itself as a module,
+unless it expects to make use of features that cannot be utilized without Conduit being aware of its existence
+and capable of monitoring its state.
+
+If you're building a microservice, you're probably going to need two-way communication with Conduit.<br />
+Writing a module allows you to:
+- configure your module via Conduit
+- register **code-level** API endpoints (gRPC, REST, GraphQL, WebSockets)
+- register your own schemas
+
+Note how you may always utilize the [Database](../modules/database) module's CMS functionality
+(CRUD endpoints, [query-based endpoints](../modules/database/custom_endpoints.mdx), schema extensions)
+to implement a lot of the features you'd otherwise need to support in your own code,
+or even circumvent the need for a custom microservice altogether!
+
+For the kinds of projects that do require that you build a custom module,
+we've made sure to equip the SDK with the tools required to help you write clean and maintainable code.
+
+If you're scratching your head right now, rest assured,
+we'll guide you through the process and offer examples in the following pages.
+
+## Do I Have To Use This? 🤔
+
+Using the SDK is entirely optional.<br />
+You could always just grab the [proto-files](https://developers.google.com/protocol-buffers/docs/proto3)
+of the services you're interested in, generate native client code for your language using `protoc`,
+perform your gRPC requests manually and so on.<br />
+As you'll soon come to realize, making use of the official SDK is not something you should shy away from.
+
+## I Need Help! 🆘
+
+If you get stuck or need some pointers do not hesitate to open an issue
+or let us know on our [Discord](https://discord.com/invite/fBqUQ23M7g).
