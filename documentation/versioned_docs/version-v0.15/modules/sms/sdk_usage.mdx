@@ -1,0 +1,48 @@
+# SDK Usage
+
+
+## Send Sms
+Underworld has to know about Conduit Platform. Just text him via sms.
+
+:::caution
+Sms module has to be configured with the proper provider.
+:::
+```jsx title="Send sms"
+    this.grpcSdk.sms.sendSms({
+        to: "+6666666666",
+        message: "Hello. Conduit rocks!"
+    })
+    .catch(e => {
+        ConduitGrpcSdk.Logger.error(e);
+    })
+```
+
+## Verify via Sms
+
+Conduit provides a verification logic by sending sms. You can verify everything in two steps. <br/>
+In the first step, a verification code will be sent to a user using the **sendVerificationCode** function.
+
+```jsx title="Send verification code"
+const verificationSid = await this.grpcSdk.sms.sendVerificationCode({
+    to: "+6666666666",
+})
+.catch(e => {
+    ConduitGrpcSdk.Logger.error(e);
+})
+```
+
+A verificationSid will be returned to you. Also, a code will be sent to the user.
+To proceed to the next and final step you have to use these to make the verification.
+
+
+```jsx title="Verify"
+const verified = await this.grpcSdk.sms.verify({
+    verificationSid : "someverificationsid",
+    code: "verificationcode"
+})
+.catch(e => {
+    ConduitGrpcSdk.Logger.error(e);
+})
+```
+
+If verification process went well then the returned value will be true.

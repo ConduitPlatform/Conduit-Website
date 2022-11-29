@@ -17,12 +17,10 @@ await this.grpcSdk.authentication.userLogin({
 
 ## User Create
 It is necessary to explain how a user is created using Conduit sdk.
-Each sdk user has the option to decide whenever a user will be verified or not.<br />
-In case that **verify** parameter is set to **true** then the user will be under a verification process in order to signup successfully.
-The second step of the verification process depend on the configuration of the local strategy. The **send verification email** option should be selected.
+As in dev using the sdk you have the option to decide whenever a user will be verified or not.<br />
+You can enable also sign up verification by sending an email.
 
 :::caution
-
 If the [email module is not up and configured](../email/config) or the [send verification email](./config#local-authentication) option is not selected then the process will fail .<br />
 :::
 
@@ -30,12 +28,11 @@ If the [email module is not up and configured](../email/config) or the [send ver
 await this.grpcSdk.authentication.userCreate({
     email: "somemail@example.com",
     password : "P@$$w0rd",
-    verify: true | false
+    verify: true,
 })
 .catch(e => {
     ConduitGrpcSdk.Logger.error(e);
 });
-
 ```
 
 
