@@ -1,0 +1,69 @@
+# SDK Usage
+
+
+## User Login
+This sdk function produces login credentials for a user without them having to login.
+It is required a user and a client have been created.
+```jsx title="User login"
+await this.grpcSdk.authentication.userLogin({
+    userId: "someuserid",
+    clientId : "someclientid"
+})
+.catch(e => {
+    ConduitGrpcSdk.Logger.error(e);
+});
+
+```
+
+## User Create
+It is necessary to explain how a user is created using Conduit sdk.
+Each sdk user has the option to decide whenever a user will be verified or not.<br />
+In case that **verify** parameter is set to **true** then the user will be under a verification process in order to signup successfully.
+The second step of the verification process depend on the configuration of the local strategy. The **send verification email** option should be selected.
+
+:::caution
+
+If the [email module is not up and configured](../email/config) or the [send verification email](./config#local-authentication) option is not selected then the process will fail .<br />
+:::
+
+```jsx title="User login"
+await this.grpcSdk.authentication.userCreate({
+    email: "somemai@example.com",
+    password : "P@$$w0rd",
+    verify: true | false
+})
+.catch(e => {
+    ConduitGrpcSdk.Logger.error(e);
+});
+
+```
+
+
+## User Delete
+
+No words needed to explain this sdk function usage. The only thing you need is the **userId** that you want to delete.
+
+```jsx title="User delete"
+await this.grpcSdk.authentication.userDelete({
+    userId: "someuserid"
+})
+.catch(e => {
+    ConduitGrpcSdk.Logger.error(e);
+});
+
+```
+
+## Change Password
+
+No explanation needed either. Just type the new password and the email of the user, and you are ready.
+
+```jsx title="Change user's password "
+await this.grpcSdk.authentication.changePass({
+    email: "somemai@example.com",
+    password: "newP@$$w0rd"
+})
+.catch(e => {
+    ConduitGrpcSdk.Logger.error(e);
+});
+
+```

@@ -1,27 +1,11 @@
-# Usage
-
-## Setting up
-
-### Configuring the provider
-
-In order to start using  Email you need to execute  and configure it firstly!
-
-:::caution
-See how to [execute](./get-started#execution) the email module.<br/>
-See how to [configure](./config) it.
-:::
-
-After configuring , you need to have the appropriate imports.
-
-```jsx title="Imports"
-import ConduitGrpcSdk from '@conduitplatform/grpc-sdk';
-```
+# SDK Usage
 
 
 ## Sending an Email
 
 
 ```jsx title="Send an email"
+import ConduitGrpcSdk from '@conduitplatform/grpc-sdk';
 await this.grpcSdk.sendEmail('template_name',{
     email : 'mail@example.com',
     sender: 'sendermail@example.com',
