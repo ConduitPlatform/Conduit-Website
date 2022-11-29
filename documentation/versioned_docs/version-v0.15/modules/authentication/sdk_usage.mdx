@@ -28,7 +28,7 @@ If the [email module is not up and configured](../email/config) or the [send ver
 
 ```jsx title="User login"
 await this.grpcSdk.authentication.userCreate({
-    email: "somemai@example.com",
+    email: "somemail@example.com",
     password : "P@$$w0rd",
     verify: true | false
 })
@@ -59,7 +59,7 @@ No explanation needed either. Just type the new password and the email of the us
 
 ```jsx title="Change user's password "
 await this.grpcSdk.authentication.changePass({
-    email: "somemai@example.com",
+    email: "somemail@example.com",
     password: "newP@$$w0rd"
 })
 .catch(e => {
