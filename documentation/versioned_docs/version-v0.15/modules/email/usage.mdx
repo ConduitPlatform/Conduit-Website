@@ -1,23 +1,23 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # Usage
 
-## Configuring the provider
+## Setting up
 
-In order to start using  Email you need to configure it firstly!
+### Configuring the provider
+
+In order to start using  Email you need to execute  and configure it firstly!
 
 :::caution
-
-See how email [configuration](./config) works.
+See how to [execute](./get-started#execution) the email module.<br/>
+See how to [configure](./configuration) it.
 :::
 
-## Proper imports
-In order to start using the email module you need to do the proper imports.
+After configuring , you need to have the appropriate imports.
 
 ```jsx title="Imports"
 import ConduitGrpcSdk from '@conduitplatform/grpc-sdk';
 ```
+
+
 ## Sending an Email
 
 
@@ -35,23 +35,10 @@ await this.grpcSdk.sendEmail('template_name',{
 ```
 
 ## Templates
-Conduit provides a template mechanism. You can either create a template locally and store it also to the external provider,
-or you can use the templates that are created only in the external provider.
+Conduit provides a template mechanism. Templates can be created with or without variables.<br/>
+To create a template with variables, do it by using [handlebars](https://handlebarsjs.com/guide/).
 
 ### Template registration
-Each stored template has two characteristics.
-- **externalManaged** feature which is true if the template is stored also in the external provider.
-- **externalId** , which is the template identification in the  external provider.
-
-Before you send the request you need to know what **externalManaged** and **_id** variables are used for.
-
-If **externalManaged** is set to true then:
-- If **_id** variable is not set, then the template is going to be stored in the external provider
-and the **externalId** is the same as the external template id.
-
-- **Otherwise**, the template is created only in the conduit configured database and the **externalId**
-is set to the given **_id**.
-
 
 ```jsx title="Template registration"
 await this.grpcSdk.registerTemplate({
