@@ -1,6 +1,5 @@
 ---
 sidebar_label: 'Github'
-sidebar_position: 5
 ---
 
 # Github
@@ -13,22 +12,20 @@ Before we begin, you should have a GitHub account and a Conduit application set 
 
 ## Setting up GitHub OAuth
 
-To set up GitHub OAuth, you'll need to create a new OAuth application on GitHub. You can do this by going to [GitHub's developer settings](/settings/developers) and clicking the "New OAuth App" button.
+To set up GitHub OAuth, you'll need to create a new OAuth application on GitHub. You can do this by going to [GitHub's developer settings](https://github.com/settings/applications/new) and clicking the "New OAuth App" button.
 
-[//]: # (![GitHub OAuth App]&#40;/img/docs/github-oauth-app.png&#41;)
 
 You'll need to fill out the form with the following information:
 
 - **Application name**: This is the name of your application. It can be anything you want.
 - **Homepage URL**: This is the URL of your application's homepage. It can be anything you want.
-- **Authorization callback URL**: This is the URL that GitHub will redirect to after the user has authenticated. It should be `http://localhost:4000/auth/github/callback` if you're using the default port for Conduit.
+- **Authorization callback URL**: This is the URL that GitHub will redirect to after the user has authenticated.
 - **Application description**: This is a description of your application. It can be anything you want.
 - **Organization name**: This is the name of your organization. It can be anything you want.
 - **Organization website**: This is the URL of your organization's website. It can be anything you want.
 
 Once you've filled out the form, click the "Register application" button. You'll be redirected to the application's settings page.
 
-[//]: # (![GitHub OAuth App Settings]&#40;/img/docs/github-oauth-app-settings.png&#41;)
 
 You'll need to copy the **Client ID** and **Client Secret** from the application's settings page. You'll need these later.
 
@@ -40,12 +37,21 @@ Then, fill the required fields you obtained from the GitHub App.
 
 ## Authenticate with GitHub
 
-Now that you've configured Conduit to use GitHub OAuth, you can authenticate with GitHub.
+To begin authenticating with GitHub you request a redirect url with the proper scopes<br />
 
-[//]: # (![Sign in with GitHub]&#40;/img/docs/sign-in-with-github.png&#41;)
+```bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/init/github' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTgwMjc0MCwiZXhwIjoxNjY5ODc0NzQwfQ._Q5rzo-FJ7gLesdaKV13dXi9aMNpGZA_nGpNJfkov3Y'
+```
 
-You'll be redirected to GitHub's authentication page. You'll need to enter your GitHub username and password to authenticate.
+```json title="Response"
+{
+  "result": "https://github.com/login/oauth/authorize?client_id=1ceec70018979ba780ab&redirect_uri=http://localhost:3000/hook/authentication/github&response_type=code&response_mode=query&scope=read:user,repo&code_challenge=undefined&code_challenge_method=undefined&state=8eb67451-edbd-4248-8613-c36727070a78"
+}
+```
 
-[//]: # (![GitHub Authentication]&#40;/img/docs/github-authentication.png&#41;)
+Open a browser and navigate to this link.<br />
+If your browser has been redirected to the url which you configured everything went well and the authentication has been completed.<br />
+You can now use the token to access the API.
 
 

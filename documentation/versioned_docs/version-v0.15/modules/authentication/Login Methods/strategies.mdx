@@ -1,0 +1,64 @@
+---
+sidebar_label: 'Strategies'
+sidebar_position: 4
+---
+
+# Authentication Strategies
+
+The Authentication module supports multiple user authentication strategies.<br />
+It supports local credential-based logins, while also providing integration for a plethora of third party providers through 0Auth2.<br />
+Two-Factor cellular authentication is supported across any strategy.
+Magic links are also supported for passwordless authentication.
+
+
+Local Authentication is enabled out of the box.
+
+## Local Authentication {#local}
+
+Makes use of an email address based identifier for user accounts.<br />
+Supports optional user verification.<br />
+Delivery of verification emails for user self-verification depends on the [Email](../email/email.mdx) module.
+
+<strong>Initial configuration does not enable automatic delivery of verification emails</strong> so that the module's default strategy can be utilized without a dependency on email service.
+
+Check out our [simple tutorial](./tutorials/local) on how to make use of Local Authentication to create users and generate authentication tokens.
+
+-------------------------------------------------
+
+## Third Party Providers
+
+The Authentication module supports integration with a number of third party providers through OAuth2.<br />
+The following providers are supported out of the box:
+
+
+#### [Facebook](../tutorials/OAuth2/facebook)
+
+#### [Google](../tutorials/OAuth2/google)
+
+#### [Microsoft](../tutorials/OAuth2/microsoft)
+
+#### [Github](../tutorials/OAuth2/github)
+
+#### [Gitlab](../tutorials/OAuth2/gitlab)
+
+#### [Apple](../tutorials/OAuth2/apple)
+
+#### [Figma](../tutorials/OAuth2/figma)
+
+#### [LinkedIn](../tutorials/OAuth2/linkedin)
+
+#### [Slack](../tutorials/OAuth2/slack)
+
+#### [Reddit](../tutorials/OAuth2/reddit)
+
+#### [Twitch](../tutorials/OAuth2/twitch)
+
+#### [Twitter](../tutorials/OAuth2/twitter)
+
+#### [Bitbucket](../tutorials/OAuth2/bitbucket)
+
+-------------------------------------------------
+
+
+
+

@@ -1,6 +1,5 @@
 ---
 sidebar_label: 'Apple'
-sidebar_position: 7
 ---
 
 # Apple
@@ -84,7 +83,25 @@ Enable Apple Provider and click on `Save`.
 
 ## Authenticate with Apple
 
-[//]: # (Apple postman photo )
+Now that you have configured the Apple provider, you can authenticate with it.
+
+### Redirect Method
+
+The redirect method is the easiest way to authenticate with Apple.<br />
+It will redirect the user to the Apple login page, where they can sign in with their Apple ID.<br />
+After signing in, the user will be redirected back to your app.<br />
+To begin authenticating with Bitbucket you request a redirect url with the proper scopes<br />
+
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/apple' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U'
+```
+``` json title="Response"
+{
+    "result": "https://appleid.apple.com/auth/authorize?client_id=io.conduit.app&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauthentication%2Fapple%2Fcallback&response_type=code%20id_token&response_mode=form_post&scope=name%20email&state=eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U&nonce=eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U"
+}
+```
+
 
 Open a browser and navigate to the url returned to you from Conduit.<br />
 Now the `/hook/authentication` route has been triggered.<br />

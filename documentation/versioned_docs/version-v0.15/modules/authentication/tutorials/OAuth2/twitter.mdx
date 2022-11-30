@@ -1,6 +1,5 @@
 ---
 sidebar_label: 'Twitter'
-sidebar_position: 13
 ---
 
 # Twitter
@@ -36,11 +35,19 @@ If you don't have a Twitter app, you can create one [here](https://developer.twi
 ## Authenticate with Twitter
 
 To begin authenticating with Twitter you request a redirect url with the proper scopes<br />
-We'll proceed using Postman!<br />
 
-[//]: # (![Postman Twitter Init]&#40;/v0.15/modules/authentication/tutorials/postman_Twitter_init.png&#41;)
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/init/twitter' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U' \
+```
 
-Open a browser and navigate to the url returned to you from Conduit.<br />
-Now the `/hook/authentication` route has been triggered.<br />
+``` bash title="Response"
+{
+    "result": "https://twitter.com/i/oauth2/authorize?client_id=ZURSUXNqX2Q5T1RmcDNCenJBZE46MTpjaQ&redirect_uri=http://localhost:3000/hook/authentication/twitter&response_type=code&response_mode=query&scope=tweet.read%20users.read%20offline.access&code_challenge=LBVjPhkdXdFvZZdn3OvsyvwZAQRrr05-N_oprH3EBWo&code_challenge_method=S256&state=006f65b0-a26c-4a69-aa29-6145d8506cc6"
+}
+```
+Open a browser and navigate to the url returned to you from Conduit.
+Now the /hook/authentication route has been triggered.
 Once your browser has been redirected, your authentication has been completed.
+
 

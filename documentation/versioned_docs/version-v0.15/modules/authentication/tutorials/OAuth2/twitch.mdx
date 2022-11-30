@@ -1,6 +1,5 @@
 ---
 sidebar_label: 'Twitch'
-sidebar_position: 12
 ---
 
 # Twitch
@@ -29,9 +28,22 @@ Then, fill the required fields you obtained from the Twitch App.
 
 ## Authenticate with Twitch
 
-[//]: # (TODO Twitch photos)
+To begin authenticating with Twitch you request a redirect url with the proper scopes<br />
 
-Open a browser and navigate to the url returned to you from Conduit.<br />
-Now the `/hook/authentication` route has been triggered.<br />
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/init/twitch' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U' \
+
+```
+
+``` json title="Response"
+{
+  "result": "https://id.twitch.tv/oauth2/authorize?client_id=CLIENT_ID&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauthentication%2Fcallback%2Ftwitch&response_type=code&scope=user:read:email"
+}
+```
+
+
+Open a browser and navigate to the url returned to you from Conduit.
+Now the /hook/authentication route has been triggered.
 Once your browser has been redirected, your authentication has been completed.
 

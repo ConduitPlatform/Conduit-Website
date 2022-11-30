@@ -1,6 +1,5 @@
 ---
 sidebar_label: 'Slack'
-sidebar_position: 10
 ---
 
 # Slack
@@ -22,7 +21,6 @@ Slack is available on desktop and mobile devices, as well as via third-party app
 
 To create a Slack App, go to [https://api.slack.com/apps](https://api.slack.com/apps) and click on the **Create New App** button.
 
-[//]: # (![Create a Slack App]&#40;/img/slack/create-slack-app.png&#41;)
 
 
 ## Setting up the configuration
@@ -34,8 +32,18 @@ Then, fill the required fields you obtained from the Slack App.
 
 ## Authenticate with Slack
 
-[//]: # (TODO Slack photos)
+To begin authenticating with Slack you request a redirect url with the proper scopes<br />
 
-Open a browser and navigate to the url returned to you from Conduit.<br />
-Now the `/hook/authentication` route has been triggered.<br />
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/init/slack' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U'
+```
+``` json title="Response"
+{
+  "result": https://slack.com/oauth/v2/authorize?client_id=1234567890.1234567890&scope=identity.basic&redirect_uri=http://localhost:3000/authentication/callback/slack&state=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U
+}
+```
+
+Open a browser and navigate to the url returned to you from Conduit.
+Now the /hook/authentication route has been triggered.
 Once your browser has been redirected, your authentication has been completed.

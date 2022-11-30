@@ -1,6 +1,5 @@
 ---
 sidebar_label: 'Reddit'
-sidebar_position: 11
 ---
 
 # Reddit
@@ -15,7 +14,6 @@ In this tutorial, we will set up Reddit as an authentication provider for Condui
 2. Fill in the details as shown below and click on the **create app** button.
 3. Copy the **client id** and **client secret** and save it for later use.
 
-[//]: # (![Reddit App]&#40;/img/tutorials/reddit-app.png&#41;)
 
 ## Setting up the configuration
 
@@ -27,14 +25,21 @@ Then, fill the required fields you obtained from the Reddit App.
 ## Authenticate with Reddit
 
 To begin authenticating with Reddit you request a redirect url with the proper scopes<br />
-We'll proceed using Postman!<br />
 
-[//]: # (![Postman Reddit Init]&#40;/v0.15/modules/authentication/tutorials/postman_Reddit_init.png&#41;)
+```bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/init/reddit' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTcyODgwOCwiZXhwIjoxNjY5ODAwODA4fQ._bHzQ7t2NuOiupEbWX25R_jCShev8Av3PSZW5mOPlaI'
+```
 
-Open a browser and navigate to the url returned to you from Conduit.<br />
-Now the `/hook/authentication` route has been triggered.<br />
+```json title="Response"
+{
+ "result": "https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&duration=permanent&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fhook%2Fauthentication&response_type=code&scope=identity&state=STATE"
+}
+```
+
+Open a browser and navigate to the url returned to you from Conduit.
+Now the /hook/authentication route has been triggered.
 Once your browser has been redirected, your authentication has been completed.
-
 
 
 

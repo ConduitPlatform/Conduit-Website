@@ -1,6 +1,5 @@
 ---
 sidebar_label: 'Microsoft'
-sidebar_position: 4
 ---
 
 # Microsoft
@@ -34,9 +33,18 @@ Select the Microsoft provider and enter the following details:
 ## Authenticate with Microsoft
 
 To begin authenticating with Microsoft you request a redirect url with the proper scopes<br />
-We'll proceed using Postman!<br />
 
-[//]: # (// TODO: Add Postman example)
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/init/microsoft' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U' \
+```
+
+``` json title="Response"
+{
+  "result": "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=CLIENT_ID&response_type=code&redirect_uri=REDIRECT_URL&response_mode=query&scope=openid%20profile%20email&state=STATE"
+}
+```
+
 
 Open a browser and navigate to the url returned to you from Conduit.<br />
 Now the `/hook/authentication` route has been triggered.<br />

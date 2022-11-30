@@ -1,6 +1,5 @@
 ---
 sidebar_label: 'Gitlab'
-sidebar_position: 6
 ---
 
 # Gitlab
@@ -22,7 +21,6 @@ Click on the "New application" button and fill in the form as follows:
 - Redirect URI: `The_url_of_your_conduit_project`
 - Scopes: `The_scopes_you_need`
 
-[//]: # (![Gitlab application form]&#40;/img/tutorials/gitlab/gitlab-application-form.png&#41;)
 
 Click on the "Create application" button to create the application.<br />
 
@@ -34,7 +32,17 @@ Then, fill the required fields you obtained from the Gitlab App.
 
 ## Step 3: Authenticate with Gitlab
 
-[//]: # (![Gitlab login]&#40;/img/tutorials/gitlab/gitlab-login.png&#41;)
+To begin authenticating with Gitlab you request a redirect url with the proper scopes<br />
+
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/init/gitlab' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U' \
+```
+``` json title="Response"
+{
+    "result": "https://gitlab.com/oauth/authorize?client_id=1&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauthentication%2Fcallback%2Fgitlab&response_type=code&scope=read_user+read_api+read_repository+openid+profile+email&state=eyJpZCI6IjYzN
+}
+```
 
 Open a browser and navigate to the url returned to you from Conduit.<br />
 Now the `/hook/authentication` route has been triggered.<br />

@@ -1,6 +1,5 @@
 ---
 sidebar_label: 'Figma'
-sidebar_position: 8
 ---
 
 # Figma
@@ -31,9 +30,18 @@ Then, fill the required fields you obtained from the Figma App.
 
 ## Authenticate with Figma
 
-Now that you have set up the configuration, you can authenticate with Figma.<br />
+To begin authenticating with Figma you request a redirect url with the proper scopes<br />
 
-[//]: # (figma postman photo)
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/figma' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U'
+```
+
+``` json title="Response"
+{
+  "result": "https://www.figma.com/oauth?client_id=YOUR_CLIENT_ID&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauthentication%2Ffigma%2Fcallback&scope=file_read&state=YOUR_STATE"
+}
+```
 
 Open a browser and navigate to the url returned to you from Conduit.<br />
 Now the `/hook/authentication` route has been triggered.<br />

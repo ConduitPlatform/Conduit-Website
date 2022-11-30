@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { Box, Typography } from '@mui/material';
-import ImageSectionCard from '../custom/ImageSectionCard';
 import ToolIcon from '../../../public/icons/services.svg';
 import LockIcon from '../../../public/icons/lock.svg';
 import ApiIcon from '../../../public/icons/connect.svg';
@@ -44,7 +43,7 @@ const CoreSection: FC = () => {
             }
           />
         </Link>
-        <Link href={'/docs/modules/router/security'} passHref>
+        <Link href={'/docs/modules/router/Login Methods'} passHref>
           <MiniInfoCard
             className={'fullGrow'}
             imageComponent={<LockIcon />}

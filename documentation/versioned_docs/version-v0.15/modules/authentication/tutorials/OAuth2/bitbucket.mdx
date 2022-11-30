@@ -1,6 +1,5 @@
 ---
 sidebar_label: 'Bitbucket'
-sidebar_position: 14
 ---
 
 # Bitbucket
@@ -30,7 +29,19 @@ Then, fill the required fields you obtained from the Bitbucket App.
 
 ## Authenticate with Bitbucket
 
-[//]: # (TODO Bitbucket photos)
+To begin authenticating with Bitbucket you request a redirect url with the proper scopes<br />
+
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/bitbucket' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U'
+```
+
+``` json title="Response"
+{
+  "result": "https://bitbucket.org/site/oauth2/authorize?client_id=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauthentication%2Fbitbucket%2Fcallback"
+}
+```
+
 
 Open a browser and navigate to the url returned to you from Conduit.<br />
 Now the `/hook/authentication` route has been triggered.<br />

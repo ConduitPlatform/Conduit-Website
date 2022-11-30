@@ -1,6 +1,5 @@
 ---
 sidebar_label: 'Linkedin'
-sidebar_position: 9
 ---
 
 # Linkedin
@@ -40,7 +39,18 @@ Then, fill the required fields you obtained from the LinkedIn App.
 
 ## Authenticate with LinkedIn
 
-[//]: # (TODO linkedIn photos)
+To begin authenticating with LinkedIn you request a redirect url with the proper scopes<br />
+
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/linkedin' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U'
+```
+
+``` json title="Response"
+{
+    "result": "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=123456789&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauthentication%2Flinkedin%2Fcallback&state=eyJpZCI6IjYzN
+}
+```
 
 Open a browser and navigate to the url returned to you from Conduit.<br />
 Now the `/hook/authentication` route has been triggered.<br />
