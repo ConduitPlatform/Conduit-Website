@@ -1,0 +1,146 @@
+# SDK Usage
+
+Since database is up, its sdk comes up with a bunch of operations that you could use.
+To start playing with database you need to create a schema first. And **createSchemaFromAdapter()**
+goes for it.
+
+## Schema creation
+
+Crete schema from adapter accepts a JSON schema as an argument, and it stores into the database.
+Additional arguments are required such as:
+- Schema name
+- [Schema fields](./sdk_usage#schema-fields)
+- [Schema model options](./sdk_usage#model-options)
+- Owner module name // module that owns the module
+- Collection name ( name of the collection)
+
+### Schema fields
+Schema fields represent the whole schema. Each field may have:
+
+Name | Type | Description |
+| ---- | ---- | ----------- |
+| `type` | TYPE | Could be TYPE.(String,Number,Boolean etc.)|
+| `required` | boolean | Indicates if a field is required. |
+| `unique` | boolean | Indicates if a field is unique. |
+| `select` | boolean | Indicates if a field could be retreived from a query. |
+| `description` | string | Description of the field, |
+| `default` | any | Default value of the field. |
+| `enum` | enum values |  When a field  has enum values. |
+
+Suppose that we want to create a movie schema. A movie may have **title** , **genre**, **duration**, **description**  **for_adults** and surely an **_id** field.
+So a possible schema could be this.
+
+```jsx title="Movie schema"
+enum MoviesGenreEnum {
+    THRILLER = "THRILLER",
+    COMEDY = "COMEDY",
+    ADVENTURE ="ADVENTURE",
+    SCIENCE_FICTION = "SCIFI"
+};
+
+const schema = {
+    _id: TYPE.ObjectId,
+    title: {
+        type: TYPE.String,
+        unique: true,
+        required: true,
+    },
+    title: {
+        type: TYPE.String,
+        unique: true,
+        required: true,
+    },
+    duration: {
+      type: TYPE.Number
+    },
+    genre: {
+        type: TYPE.String,
+        enum: Object.values(MoviesGenreEnum),
+        required: true,
+    },
+    description: {
+        type: TYPE.String,
+        required: false,
+        unique: false,
+    },
+    forAdults: {
+        type: TYPE.Boolean,
+        required: true,
+    }
+    createdAt: TYPE.Date,
+    updatedAt: TYPE.Date,
+}
+```
+### Model Options
+
+There is another argument that createSchemaFromAdapter() needs and it called modelOptions.
+Model options is an object and is stored in the database and keeps some information about our schema.
+
+Name | Type | Description |
+| ---- | ---- | ----------- |
+| `type` | TYPE | Could be TYPE.(String,Number,Boolean etc.)|
+| `conduit.permissions` | object | Schema permissions |
+| `conduit.persmissions.extendable` | boolean | Indicates if a schema could be extend after its creation. |
+| `conduit.permissions.canCreate` | boolean | Indicates if a module can create documents of that schema. |
+| `conduit.permissions.canModify` | boolean | Indicates if a module can modify documents of that schema. |
+| `conduit.permissions.canModify` | boolean | Indicates if a module can delete of that schema. |
+
+A modelOptions object could be this:
+
+```jsx title="Model options object"
+const modelOptions = {
+  timestamps: true,
+  conduit: {
+    permissions: {
+      extendable: true,
+      canCreate: false,
+      canModify: 'ExtensionOnly',
+      canDelete: false,
+    },
+  },
+} as const;
+```
+
+## Schema creation
+
+Final step is to call the createSchemaFromAdapter() function.
+```jsx title="Create schema from adapter"
+await this.grpcSdk.database.createSchemaFromAdapter({
+    name: "Movies",
+    fields: schema,
+    modelOptions: modelOptions,
+    collectionName: "", // could be 'Movies' also
+})
+.catch(e => {
+    ConduitGrpcSdk.Logger.error(e);
+})
+```
+
+## Getting schemas
+
+List schemas functionality is also available in grpc-sdk. Fetching registered schemas could be done
+by calling **getSchemas()** function.<br />
+In detail:
+
+```jsx title="Getting registereds schemas"
+await this.grpcSdk.database.getSchemas({})
+.catch(e => {
+    ConduitGrpcSdk.Logger.error(e);
+})
+```
+
+In case of success, an array of schema documents will be returned to you.
+
+## Delete schema
+
+Deleting schemas could also be done by calling sdk's **deleteSchema()** function. All you need is schema's name.
+Remember that conduit provides you the option of deleting also the created documents of the schema.
+
+```jsx title="Getting registereds schemas"
+await this.grpcSdk.database.deleteSchema({
+    name: "someschemaname",
+    deleteData: true // could be also false
+})
+.catch(e => {
+    ConduitGrpcSdk.Logger.error(e);
+})
