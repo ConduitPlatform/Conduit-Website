@@ -19,9 +19,15 @@ Makes use of an email address based identifier for user accounts.<br />
 Supports optional user verification.<br />
 Delivery of verification emails for user self-verification depends on the [Email](../email/email.mdx) module.
 
+There are two ways to access your resources:
+
+  * **Email and password only** - The user is authenticated using email and password.
+  * **Two-Factor Authentication (recommended)** - The user is prompted to enter a one-time password (OTP) sent to their mobile phone via SMS or scan a qr code.
+
+
 <strong>Initial configuration does not enable automatic delivery of verification emails</strong> so that the module's default strategy can be utilized without a dependency on email service.
 
-Check out our [simple tutorial](./tutorials/local) on how to make use of Local Authentication to create users and generate authentication tokens.
+Check out our [simple tutorial](../tutorials/local) on how to make use of Local Authentication to create users and generate authentication tokens.
 
 -------------------------------------------------
 

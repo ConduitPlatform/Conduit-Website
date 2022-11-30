@@ -75,11 +75,11 @@ Let's finish off with an example on how to do just that.
 
 ``` bash title="Request"
 curl --location --request POST 'http://localhost:3000/authentication/renew' \
-      --header 'Content-Type: application/json' \
-      --data-raw '{
-        "refreshToken": "BsKhe3ARhL/FfDfK1REphKkkqQaxRCj/LvvRHOg5wCXCBaUSOwafRHyFYIttaORY/NmHS7NAuT6+knBQegVOwQ=="
-      }'
+--header 'Authorization: Bearer YlwPQv1SvYY4um4G75zZfr5BBqwTx8rp0PsLtpLBmcqywnriAb06oF/luec0iyzCAZu1ftwQ/WZq+v/DHO+XJw==' \
+--header 'Content-Type: application/json'
 ```
+
+
 ``` json title="Response"
 {
   "accessToken": "eyxhbGmZSIsImlhdCI6MTYciOiJIUzI3Mzh0OXVCJ9.RBBF2giwG7OgiWr2HMgHDLMjcR6ddFq2E730Djce71NiIsInR5cCI6IkpMDkmMWJiMTBhDU1NDUyNywiZXhwIjoxNzM0OTU0NTI3fQ.5MDE4yJpZCI6IjYyNDJFjqa7O",

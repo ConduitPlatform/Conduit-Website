@@ -67,7 +67,7 @@ You'll need to have an Apple Developer account and an Apple App ID.<br />
 ## Setting up the configuration
 
 ***NOTE***<br />
-**Do not forget to configure the Apple provider through the [Admin Panel](../config#third-party).**<br />
+**Do not forget to configure the Apple provider through the [Admin Panel](../../config#third-party-providers).**<br />
 Go to the Authentication -> SIGN IN METHODS and select the Apple provider.<br />
 Then, fill the required fields with the values you got from the previous steps.
 
@@ -90,7 +90,8 @@ Now that you have configured the Apple provider, you can authenticate with it.
 The redirect method is the easiest way to authenticate with Apple.<br />
 It will redirect the user to the Apple login page, where they can sign in with their Apple ID.<br />
 After signing in, the user will be redirected back to your app.<br />
-To begin authenticating with Bitbucket you request a redirect url with the proper scopes<br />
+
+To begin authenticating with Apple you request a redirect url with the proper scopes<br />
 
 ``` bash title="Request"
 curl --location --request GET 'http://localhost:3000/authentication/apple' \

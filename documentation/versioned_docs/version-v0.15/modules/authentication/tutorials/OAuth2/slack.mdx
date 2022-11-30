@@ -12,21 +12,21 @@ Slack is available on desktop and mobile devices, as well as via third-party app
 ## Prerequisites
 
 * A Slack account
-* A Slack workspace
-* A Slack channel
+* A registered Slack app
+
 
 ## Installation
 
 ### 1. Create a Slack App
 
-To create a Slack App, go to [https://api.slack.com/apps](https://api.slack.com/apps) and click on the **Create New App** button.
+To create a Slack App, go to [Slack](https://api.slack.com/apps) and click on the **Create New App** button.
 
 
 
 ## Setting up the configuration
 
 ***NOTE***<br />
-**Do not forget to configure the Slack provider through the [Admin Panel](../config#third-party).**<br />
+**Do not forget to configure the Slack provider through the [Admin Panel](../../config#third-party-providers).**<br />
 Go to the Authentication -> SIGN IN METHODS and select the Slack provider.<br />
 Then, fill the required fields you obtained from the Slack App.
 
@@ -40,7 +40,7 @@ curl --location --request GET 'http://localhost:3000/authentication/init/slack' 
 ```
 ``` json title="Response"
 {
-  "result": https://slack.com/oauth/v2/authorize?client_id=1234567890.1234567890&scope=identity.basic&redirect_uri=http://localhost:3000/authentication/callback/slack&state=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U
+  "result": "https://slack.com/oauth/v2/authorize?client_id=1234567890.1234567890&scope=identity.basic&redirect_uri=http://localhost:3000/authentication/callback/slack&state=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U"
 }
 ```
 
