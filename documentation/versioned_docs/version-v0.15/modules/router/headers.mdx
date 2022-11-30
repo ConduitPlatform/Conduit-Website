@@ -20,7 +20,7 @@ This header is only required by user-authenticated routes.
 [//]: # (TODO: Fix this docusaurus indexing mess where browser url determines level of path, hitting same link from /some/doc/page and /some/doc/page/ produces different results)
 **User access tokens cannot be used interchangeably with [administrator access tokens](../../administration/#headers-auth)!**
 
-The [Authentication](../authentication) module provides multiple [authentication strategies](../authentication/strategies) for you to choose from.<br />
+The [Authentication](../authentication) module provides multiple [authentication strategies](../authentication/Login-Methods/strategies) for you to choose from.<br />
 Your authentication strategy affects how you register users and obtain user authentication tokens.
 
 <!-- TODO: Elaborate on Access/Refresh tokens, expiry, security client coupleing etc ??? -->
@@ -28,7 +28,7 @@ Your authentication strategy affects how you register users and obtain user auth
 <details>
   <summary>Obtaining User Access and Refresh Tokens</summary>
 
-  Out of the box, Conduit's Authentication module utilizes <a href="../authentication/Login Methods/strategies#local">Local Authentication</a> in order to provide you with a simple,
+  Out of the box, Conduit's Authentication module utilizes <a href="../authentication/Login-Methods/strategies#local">Local Authentication</a> in order to provide you with a simple,
   yet extendable, strategy that's capable of functioning without further configuration.
 
   <a href="../authentication/tutorials/local">Read up on how to make use of the Local Authentication strategy in order to create your users and generate authentication tokens.</a>
