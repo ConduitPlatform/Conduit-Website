@@ -1,12 +1,12 @@
 # SDK Usage
-
-
-## Send Sms
-Underworld has to know about Conduit Platform. Just text him via sms.
+Underworld has to know about Conduit Platform. Just use sms module to do it.
 
 :::caution
 Sms module has to be configured with the proper provider.
 :::
+
+## Send Sms
+
 ```jsx title="Send sms"
 this.grpcSdk.sms.sendSms({
     to: "+6666666666",
@@ -17,7 +17,7 @@ this.grpcSdk.sms.sendSms({
 });
 ```
 
-## Verify via Sms
+## Verify via sms
 
 Conduit provides a verification mechanism by sending sms. You can verify everything in two steps. <br/>
 In the first step, a verification code will be sent to a user using the **sendVerificationCode** function.

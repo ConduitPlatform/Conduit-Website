@@ -1,10 +1,7 @@
 # SDK Usage
 
 Conduit sdk provides push notifications utils depending on the configured provider. For now, <br/>
-only Firebase and OneSignal providers are implemented.
-
-## Push Notification logic
-
+only Firebase and OneSignal providers are implemented.<br />
 As it is mentioned before, push notifications are sent to applications which are related with users.
 In fact, a user is related with a notification token , and a token is related with an application.
 Notification token is a unique identifier generated for a user, thus for an application also.
@@ -23,7 +20,7 @@ In detail:
 ```
 
 
-## Set Notification Token
+## Set notification token
 
 A reasonable question is "How a notification token is related with a user ?". Conduit has the answer for you.
 You can "relate" a token with a user by using **setNotificationToken()** sdk function.
@@ -39,7 +36,7 @@ await this.grpcSdk.pushNotifications.setNotificationToken({
 });
 ```
 
-## Get Notification Token
+## Get notification token
 
 Getting a user's notification token will be an easy process. Just call getNotificationTokens() function.
 ```jsx title=" Get notification tokens"
@@ -65,7 +62,7 @@ tokens: [{
 
 Congratulations! You are now ready to send push notifications.
 
-```jsx title="Send Notification"
+```jsx title="Send notification"
 const response= await this.grpcSdk.pushNotifications.sendNotification({
     sendTo: "diresuemos",
     title: "Hello 666.I have a message for you.",
@@ -82,7 +79,7 @@ response: {
 }
 ```
 
-## Send Many Notifications
+## Send many notifications
 
 There is a "plus" function for sending push notifications to many users concurrently.
 ```jsx title="Send Notifications"
