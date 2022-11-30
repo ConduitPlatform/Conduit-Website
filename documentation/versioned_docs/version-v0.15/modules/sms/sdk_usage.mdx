@@ -8,13 +8,13 @@ Underworld has to know about Conduit Platform. Just text him via sms.
 Sms module has to be configured with the proper provider.
 :::
 ```jsx title="Send sms"
-    this.grpcSdk.sms.sendSms({
-        to: "+6666666666",
-        message: "Hello. Conduit rocks!"
-    })
-    .catch(e => {
-        ConduitGrpcSdk.Logger.error(e);
-    })
+this.grpcSdk.sms.sendSms({
+    to: "+6666666666",
+    message: "Hello. Conduit rocks!"
+})
+.catch(e => {
+    ConduitGrpcSdk.Logger.error(e);
+});
 ```
 
 ## Verify via Sms
@@ -28,7 +28,7 @@ const verificationSid = await this.grpcSdk.sms.sendVerificationCode({
 })
 .catch(e => {
     ConduitGrpcSdk.Logger.error(e);
-})
+});
 ```
 
 A verificationSid will be returned to you. Also, a code will be sent to the user.

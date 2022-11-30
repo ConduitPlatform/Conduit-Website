@@ -1,0 +1,97 @@
+# SDK Usage
+
+Conduit sdk provides push notifications utils depending on the configured provider. For now, <br/>
+only Firebase and OneSignal providers are implemented.
+
+## Push Notification logic
+
+As it is mentioned before, push notifications are sent to applications which are related with users.
+In fact, a user is related with a notification token , and a token is related with an application.
+Notification token is a unique identifier generated for a user, thus for an application also.
+For instance , Firebase messaging system provides tokens for sending push notifications.<br />
+Conduit represents these tokens as objects which include three subfields.
+
+In detail:
+
+```jsx title="Notification Token Object"
+{
+    _id: ObjectId,
+    userId: ObjectId, //user's Id related with this token,
+    token: string, // actual token related with the application
+    platform: string, // application platform
+}
+```
+
+
+## Set Notification Token
+
+A reasonable question is "How a notification token is related with a user ?". Conduit has the answer for you.
+You can "relate" a token with a user by using **setNotificationToken()** sdk function.
+
+```jsx title=" Set notification token"
+await this.grpcSdk.pushNotifications.setNotificationToken({
+    token: "applicationtoken",
+    platform: "WEB", // could be also ANDROID,IOS,MACOS,LINUX,CLI,IPADOS
+    userId: "someuserid", // user related with this token
+})
+.catch(e => {
+    ConduitGrpcSdk.Logger.error(e);
+});
+```
+
+## Get Notification Token
+
+Getting a user's notification token will be an easy process. Just call getNotificationTokens() function.
+```jsx title=" Get notification tokens"
+const tokens = await this.grpcSdk.pushNotifications.getNotificationTokens({
+    userId: "someuserid", // user related with this token
+})
+.catch(e => {
+    ConduitGrpcSdk.Logger.error(e);
+});
+```
+Response will include an array of Notification Token Object
+
+```jsx title="Response"
+tokens: [{
+    _id: ObjectId,
+    userId: ObjectId, //user's Id related with this token,
+    token: string, // actual token related with the application
+    platform: string, // application platform
+}]
+```
+
+## Send Notification
+
+Congratulations! You are now ready to send push notifications.
+
+```jsx title="Send Notification"
+const response= await this.grpcSdk.pushNotifications.sendNotification({
+    sendTo: "diresuemos",
+    title: "Hello 666.I have a message for you.",
+    body: "Conduit will send you to heaven.Try it."
+})
+.catch(e => {
+    ConduitGrpcSdk.Logger.error(e);
+});
+```
+Appropriate message will be returned to you if everything went well.
+```jsx title="Response"
+response: {
+    message: "Ok"
+}
+```
+
+## Send Many Notifications
+
+There is a "plus" function for sending push notifications to many users concurrently.
+```jsx title="Send Notifications"
+await this.grpcSdk.pushNotifications.sendToManyDevices({
+    sendTo: ["diresuemos","somueserid2","someuserid3"],
+    title: "Hello 666.I have a message for you.",
+    body: "Conduit will send you to heaven.Try it."
+})
+.catch(e => {
+    ConduitGrpcSdk.Logger.error(e);
+});
+```
