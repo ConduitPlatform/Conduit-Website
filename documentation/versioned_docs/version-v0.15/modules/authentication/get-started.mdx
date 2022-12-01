@@ -86,11 +86,47 @@ docker run -d --name conduit-authentication \
 </Tabs>
 
 At this point, you should have a functional Authentication instance.<br />
-You can now, create and manipulate users through the [Admin Panel](../../get-started/admin-panel).
 
 -------------------------------------------------
 
+Now let's provide some curls of using the Authentication service.
+
+``` bash
+# Create a user
+curl -X POST \
+  http://localhost:3000/api/v1/users \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "username
+    "password": "password"
+}'
+```
+
+``` bash
+# Login
+curl -X POST \
+  http://localhost:3000/api/v1/login \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "username": "username",
+    "password": "password"
+}'
+```
+
+``` bash
+# Get user
+
+# First, login and copy the token
+
+curl -X GET \
+  http://localhost:3000/api/v1/users/username \
+  -H 'Authorization
+
+```
+
 ## Using the Admin Panel
+
+You can create and manipulate users through the [Admin Panel](../../get-started/admin-panel).
 
 The Users tab is where User manipulation takes place.
 
