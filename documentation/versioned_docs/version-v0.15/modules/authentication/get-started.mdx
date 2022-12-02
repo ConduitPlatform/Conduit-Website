@@ -133,6 +133,10 @@ curl --location --request POST 'http://localhost:3000/authentication/local/new' 
 ## Login
 
 ``` bash title="Login Request"
+
+# Login endpoint that can be used to authenticate.
+# Tokens are returned according to configuration.
+
 curl --location --request POST 'http://localhost:3000/authentication/local' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -147,6 +151,22 @@ curl --location --request POST 'http://localhost:3000/authentication/local' \
     "refreshToken": "aDYLqHPw6yK+GTNsWApA9BYfpSkVIRvA+cVtPw2DPQ3CaRCfEPCHo4xCsENHqzdu7e8ZrARwc/P58UyY95yn4Q=="
 }
 ```
+
+**We can now use the access token to make authenticated requests.**
+
+Let's make an example. We will use the access token to make a logout request.
+
+``` bash title="Log out Request"
+
+curl --location --request POST 'http://localhost:3000/authentication/logout' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTk4MTIwOSwiZXhwIjoxNjcwMDUzMjA5fQ.sxIQDgJv5zzZo8PV6logbvyLO0WbXgES9EWEtUo_kEg' \
+}'
+
+```
+
+Congratulations! The user is now successfully logged out.
 
 
 ## Using the Admin Panel
