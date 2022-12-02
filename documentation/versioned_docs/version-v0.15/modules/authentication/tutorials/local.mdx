@@ -85,3 +85,107 @@ curl --location --request POST 'http://localhost:3000/authentication/renew' \
   "refreshToken": "xEuQegVOwQ==KhREphKkkqQaxRCj/LvvRe3ARhL/yFYIttaORY/NmHSFfDfK1HOg5wCXCBaUSOwafRH7NAuT6+k"
 }
 ```
+
+
+**A number of endpoints are also available to users to manage their account.**
+
+## Resend Verification
+
+``` bash title="Resend Verification Request"
+# Used to resend email verification after new user is created.
+
+curl --location --request POST 'http://localhost:3000/authentication/local/resent-verification' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--data-raw '{
+  "email": "example@mail.com"
+}'
+```
+
+## Forgot Password
+
+``` bash title="Forgot Password Request"
+# Generates a password reset token and forwards a verification link to the user's email address.
+
+curl --location --request POST 'http://localhost:3000/authentication/local/forgot-password' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--data-raw '{
+  "email": "example@mail.com"
+}'
+```
+
+## Reset Password
+
+``` bash title="Reset Password Request"
+
+# Used after the user clicks on the 'forgot password' link and
+# requires the token from the url and the new password.
+# New password must not be the same as the old password.
+
+curl --location --request POST 'http://localhost:3000/authentication/local/reset-password' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--data-raw '{
+  "passwordResetToken": "passwordResetToken",
+  "password": "pass"
+}'
+```
+
+
+## Change Password
+
+```bash title=" Change Password Request"
+
+# Changes the user's password but requires the old password first.
+# If 2FA is enabled then a message will be returned asking for token input.
+# Re-login is required to enter sudo mode
+# The new password can not be the same as the old password
+
+curl --location --request POST '//authentication/local/change-password' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTk4MTIwOSwiZXhwIjoxNjcwMDUzMjA5fQ.sxIQDgJv5zzZo8PV6logbvyLO0WbXgES9EWEtUo_kEg' \
+--data-raw '{
+  "oldPassword": "your_old_password",
+  "newPassword": "your_new_password"
+}'
+```
+
+## Change Email
+
+```bash title=" Change Email Request"
+
+# Sends a verification link to the new email address.
+# Changes the user's email (requires sudo access).
+# The new email can not be the same as the old email
+
+curl --location --request POST 'http://localhost:3000/authentication/local/change-email' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTk4MTIwOSwiZXhwIjoxNjcwMDUzMjA5fQ.sxIQDgJv5zzZo8PV6logbvyLO0WbXgES9EWEtUo_kEg' \
+--data-raw '{
+  "newEmail": "newEMail@mail.com"
+}'
+```
+
+## Verify Email
+
+```bash title=" Verify Email Request"
+# A webhook used to verify user email. This bypasses the need for client id/secret.
+
+curl --location --request GET 'http://localhost:3000/hook/authentication/verify-email/:verificationToken' \
+--header 'Accept: application/json' \
+```
+
+## Verify Change Email
+
+```bash title=" Verify Change Email Request"
+
+# A webhook used to verify an email address change. This bypasses the need for client id/secret.
+
+curl --location --request GET '//hook/authentication/verify-change-email/:verificationToken' \
+--header 'Accept: application/json' \
+--header 'clientid: <API Key>'
+
+```
