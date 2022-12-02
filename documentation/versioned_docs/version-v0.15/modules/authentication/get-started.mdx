@@ -8,6 +8,10 @@ import TabItem from '@theme/TabItem';
 
 # Getting Started
 
+Conduit provides authentication for your application in a simple yet powerful way.
+Accounts can be created through email and password, or through a third party.
+Magic links are also supported for passwordless authentication.
+
 ## Execution
 
 <Tabs>
@@ -89,44 +93,66 @@ At this point, you should have a functional Authentication instance.<br />
 
 -------------------------------------------------
 
-Now let's provide some curls of using the Authentication service.
+**Now let's provide some basic information for starting using the Authentication module.**
 
-``` bash
-# Create a user
-curl -X POST \
-  http://localhost:3000/api/v1/users \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "username
-    "password": "password"
-}'
+## Create a user
+
+A Conduit user is a representation of a person that can interact with the system.<br />
+**A user can be created through the following request:**
+
+``` bash title="Create User Request"
+# Creates a new user using email/password.
+# An optional invitation code can be provided to create a user with a specific role.
+# A valid email must be given.
+
+curl --location --request POST 'http://localhost:3000/authentication/local/new' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+        "email": "example@mail.com",
+        "password": "pass"
+      } '
+```
+**The following response will be returned:**
+``` json title="Create User Response"
+{
+  "user": {
+        "email": "example@mail.com",
+        "active": true,
+        "isVerified": false,
+        "hasTwoFA": false,
+        "createdAt": "2022-12-02T13:08:36.696Z",
+        "updatedAt": "2022-12-02T13:08:36.696Z",
+        "_id": "6389f8d445d164a022897845",
+        "__v": 0
+    }
+}
 ```
 
-``` bash
-# Login
-curl -X POST \
-  http://localhost:3000/api/v1/login \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "username": "username",
-    "password": "password"
-}'
+**We have now created our first user. Let's see how we can authenticate with it.**
+
+## Login
+
+``` bash title="Login Request"
+curl --location --request POST 'http://localhost:3000/authentication/local' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+        "email": "example@mail.com",
+        "password": "pass"
+      } '
+```
+**The response will contain the access and refresh tokens that can be used to make authenticated requests:**
+``` json title="Login Response"
+{
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzODlmOGQ0NDVkMTY0YTAyMjg5Nzg0NSIsImF1dGhvcml6ZWQiOnRydWUsInN1ZG8iOnRydWUsImlhdCI6MTY2OTk4Njg0MiwiZXhwIjoxNjczNTg2ODQyfQ.VoSh7QXCFDoGBRYiv9qug3uWm7JX4jwb7-l05qWTVOs",
+    "refreshToken": "aDYLqHPw6yK+GTNsWApA9BYfpSkVIRvA+cVtPw2DPQ3CaRCfEPCHo4xCsENHqzdu7e8ZrARwc/P58UyY95yn4Q=="
+}
 ```
 
-``` bash
-# Get user
-
-# First, login and copy the token
-
-curl -X GET \
-  http://localhost:3000/api/v1/users/username \
-  -H 'Authorization
-
-```
 
 ## Using the Admin Panel
 
-You can create and manipulate users through the [Admin Panel](../../get-started/admin-panel).
+The Admin Panel can be used to manage users.<br />
+Through the [Admin Panel](../../get-started/admin-panel), you can create, update, delete and block/unblock users.<br />
 
 The Users tab is where User manipulation takes place.
 
@@ -134,9 +160,6 @@ The Users tab is where User manipulation takes place.
 
 -------------------------------------------------
 
-## User
-
-Let's talk about creating, editing and deleting users.
 
 ### Create
 
@@ -160,3 +183,7 @@ In case that you want to enable 2FA, fill-in the phone field and tick the corres
 ### Delete
 
 In order to delete multiple users at once, select the users that you want to delete and click the corresponding button.
+
+### Block / Unblock
+
+You can block or unblock a single or multiple users by clicking the corresponding button.

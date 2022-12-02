@@ -107,7 +107,7 @@ curl --location --request POST 'http://localhost:3000/authentication/local/resen
 ``` bash title="Forgot Password Request"
 # Generates a password reset token and forwards a verification link to the user's email address.
 
-curl --location --request POST 'http://localhost:3000/authentication/local/forgot-password' \
+curl --location --request POST 'http://localhost:3000/authentication/forgot-password' \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 --data-raw '{
@@ -123,7 +123,7 @@ curl --location --request POST 'http://localhost:3000/authentication/local/forgo
 # requires the token from the url and the new password.
 # New password must not be the same as the old password.
 
-curl --location --request POST 'http://localhost:3000/authentication/local/reset-password' \
+curl --location --request POST 'http://localhost:3000/authentication/reset-password' \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 --data-raw '{
@@ -142,7 +142,7 @@ curl --location --request POST 'http://localhost:3000/authentication/local/reset
 # Re-login is required to enter sudo mode
 # The new password can not be the same as the old password
 
-curl --location --request POST '//authentication/local/change-password' \
+curl --location --request POST 'http:/localhost:3000/authentication/local/change-password' \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTk4MTIwOSwiZXhwIjoxNjcwMDUzMjA5fQ.sxIQDgJv5zzZo8PV6logbvyLO0WbXgES9EWEtUo_kEg' \
@@ -175,7 +175,7 @@ curl --location --request POST 'http://localhost:3000/authentication/local/chang
 # A webhook used to verify user email. This bypasses the need for client id/secret.
 
 curl --location --request GET 'http://localhost:3000/hook/authentication/verify-email/:verificationToken' \
---header 'Accept: application/json' \
+--header 'Accept: application/json'
 ```
 
 ## Verify Change Email
@@ -184,8 +184,7 @@ curl --location --request GET 'http://localhost:3000/hook/authentication/verify-
 
 # A webhook used to verify an email address change. This bypasses the need for client id/secret.
 
-curl --location --request GET '//hook/authentication/verify-change-email/:verificationToken' \
---header 'Accept: application/json' \
---header 'clientid: <API Key>'
+curl --location --request GET 'http://localhost:3000/hook/authentication/verify-change-email/:verificationToken' \
+--header 'Accept: application/json'
 
 ```
