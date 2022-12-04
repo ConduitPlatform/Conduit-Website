@@ -151,7 +151,7 @@ We'll start by viewing our existing configuration.
 We assume you're already aware of [how to work with admin authentication headers](../administration).
 
 ``` bash title="Get Module Configuration (Admin Authentication)"
-curl --location --request GET 'http://localhost:3030/config/example/' \
+curl --location --request GET 'http://localhost:3030/config/exampleModule/' \
      --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzN2FiNzE3NjYxMzk4ZDUzNTBhZjhmYyIsImlhdCI6MTY2OTk5MjE1MSwiZXhwIjoxNjcwMDY0MTUxfQ.lgLnkrx_FDlUCsD5wNtXfMc3GKG41Eq7xN4BrnMznrw' \
      --header 'masterkey: M4ST3RK3Y' \
      --header 'Content-Type: application/json'
@@ -174,7 +174,7 @@ Alright then, say we wish to remove Betty from the blacklist.<br />
 We'd send a PATCH request, updating our `example` module's configuration.<br />
 
 ``` bash title="Update Module Configuration (Admin Authentication)"
-curl --location --request PATCH 'http://localhost:3030/config/example/' \
+curl --location --request PATCH 'http://localhost:3030/config/exampleModule/' \
      --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzN2FiNzE3NjYxMzk4ZDUzNTBhZjhmYyIsImlhdCI6MTY2OTk5MjE1MSwiZXhwIjoxNjcwMDY0MTUxfQ.lgLnkrx_FDlUCsD5wNtXfMc3GKG41Eq7xN4BrnMznrw' \
      --header 'masterkey: M4ST3RK3Y' \
      --header 'Content-Type: application/json' \
