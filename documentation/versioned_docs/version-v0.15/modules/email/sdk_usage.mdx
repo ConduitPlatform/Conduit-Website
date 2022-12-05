@@ -6,7 +6,7 @@
 
 ```jsx title="Send an email"
 import ConduitGrpcSdk from '@conduitplatform/grpc-sdk';
-await this.grpcSdk.sendEmail('template_name',{
+await this.grpcSdk.email.sendEmail('template_name',{
     email : 'mail@example.com',
     sender: 'sendermail@example.com',
     variables: {
@@ -25,7 +25,7 @@ To create a template with variables, do it by using [handlebars](https://handleb
 ### Template registration
 
 ```jsx title="Template registration"
-await this.grpcSdk.registerTemplate({
+await this.grpcSdk.email.registerTemplate({
     name: 'template_name',
     subject: 'subject',
     body: '<p> Hello, {{user}}. I hope you are doing well.',
