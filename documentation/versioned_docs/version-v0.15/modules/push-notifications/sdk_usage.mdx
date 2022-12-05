@@ -1,12 +1,11 @@
 # SDK Usage
 
-Conduit sdk provides push notifications utils depending on the configured provider. For now, <br/>
-only Firebase and OneSignal providers are implemented.<br />
-As it is mentioned before, push notifications are sent to applications which are related with users.
-In fact, a user is related with a notification token , and a token is related with an application.
-Notification token is a unique identifier generated for a user, thus for an application also.
-For instance , Firebase messaging system provides tokens for sending push notifications.<br />
-Conduit represents these tokens as objects which include three subfields.
+Depending on the configured provider, Conduit SDK provides push notification utilities.For now, only Firebase and OneSignal providers are implemented. <br />
+As it was mentioned before, push notifications are sent to applications that are related to users.
+In fact, a user is related to a notification token, and a token is related to an application.
+A notification token is a unique identifier generated for a user, and thus for an application as well.
+For instance, the Firebase messaging system provides tokens for sending push notifications. <br />
+Conduit represents these tokens as objects, which include three subfields.
 
 In detail:
 
@@ -22,8 +21,9 @@ In detail:
 
 ## Set notification token
 
-A reasonable question is "How a notification token is related with a user ?". Conduit has the answer for you.
-You can "relate" a token with a user by using **setNotificationToken()** sdk function.
+A reasonable question is "How is a notification token related to a user?" Conduit has the answer for you.
+Using the **setNotificationToken()** SDK function, you can "relate" a token to a user.
+
 
 ```jsx title=" Set notification token"
 await this.grpcSdk.pushNotifications.setNotificationToken({

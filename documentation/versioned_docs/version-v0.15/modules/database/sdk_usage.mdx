@@ -1,12 +1,12 @@
 # SDK Usage
 
-Since database is up, its sdk comes up with a bunch of operations that you could use.
+Since database is up, its sdk comes up with a bunch of operations you could use.
 To start playing with database you need to create a schema first. And **createSchemaFromAdapter()**
 goes for it.
 
 ## Schema creation
 
-Crete schema from adapter accepts a JSON schema as an argument, and it stores into the database.
+Create schema from adapter accepts a JSON schema as an argument, and it stores into the database.
 Additional arguments are required such as:
 - Schema name
 - [Schema fields](./sdk_usage#schema-fields)
@@ -27,8 +27,8 @@ Name | Type | Description |
 | `default` | any | Default value of the field. |
 | `enum` | enum values |  When a field  has enum values. |
 
-Suppose that we want to create a movie schema. A movie may have **title** , **genre**, **duration**, **description**  **for_adults** and surely an **_id** field.
-So a possible schema could be this.
+Assume that we want to create a movie schema. A movie may have **title** , **genre**, **duration**, **description**  **for_adults** and surely an **_id** field.
+So a possible schema could be this:
 
 ```jsx title="Movie schema"
 enum MoviesGenreEnum {
@@ -73,8 +73,8 @@ const schema = {
 ```
 ### Model Options
 
-There is another argument that createSchemaFromAdapter() needs and it called modelOptions.
-Model options is an object and is stored in the database and keeps some information about our schema.
+There is another argument that createSchemaFromAdapter() needs, and it is called modelOptions.
+Model options are objects that are stored in the database and contain some information about our schema.
 
 Name | Type | Description |
 | ---- | ---- | ----------- |
@@ -103,7 +103,7 @@ const modelOptions = {
 
 ## Schema creation
 
-Final step is to call the createSchemaFromAdapter() function.
+The final step is to call the createSchemaFromAdapter() function.
 ```jsx title="Create schema from adapter"
 await this.grpcSdk.database.createSchemaFromAdapter({
     name: "Movies",
@@ -118,8 +118,8 @@ await this.grpcSdk.database.createSchemaFromAdapter({
 
 ## Getting schemas
 
-List schemas functionality is also available in grpc-sdk. Fetching registered schemas could be done
-by calling **getSchemas()** function.<br />
+The functionality of list schemas is also available in grpc-sdk.Fetching registered schemas could be done
+by invoking the **getSchemas()** method
 In detail:
 
 ```jsx title="Getting registereds schemas"
@@ -133,8 +133,8 @@ In case of success, an array of schema documents will be returned to you.
 
 ## Delete schema
 
-Deleting schemas could also be done by calling sdk's **deleteSchema()** function. All you need is schema's name.
-Remember that conduit provides you the option of deleting also the created documents of the schema.
+Deleting schemas could also be done by calling the SDK's deleteSchema() function. All you need is Schema's name.
+Remember that conduit allows you to delete the schema's created documents as well.
 
 ```jsx title="Getting registereds schemas"
 await this.grpcSdk.database.deleteSchema({

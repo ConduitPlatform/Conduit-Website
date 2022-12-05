@@ -2,8 +2,9 @@
 
 
 ## User Login
-This sdk function produces login credentials for a user without them having to login.
-It is required a user and a client have been created.
+Without requiring the user to log in first, this SDK function generates login credentials for them.
+A user and a client must both have been created.
+
 ```jsx title="User login"
 await this.grpcSdk.authentication.userLogin({
     userId: "someuserid",
@@ -15,9 +16,9 @@ await this.grpcSdk.authentication.userLogin({
 ```
 
 ## User Create
-It is necessary to explain how a user is created using Conduit sdk.
-As in dev using the sdk you have the option to decide whenever a user will be verified or not.<br />
-You can enable also sign up verification by sending an email.
+It is necessary to explain how Conduit sdk is used to create a user.
+As in dev, you can choose whether to verify a user when using the SDK.<br />
+Sign up verification can also be enabled by sending an email.
 
 :::caution
 If the [email module is not up and configured](../email/config) or the [send verification email](./config#local-authentication) option is not selected then the process will fail .<br />
