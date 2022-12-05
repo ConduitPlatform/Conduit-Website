@@ -17,12 +17,12 @@ To set up GitHub OAuth, you'll need to create a new OAuth application on GitHub.
 
 You'll need to fill out the form with the following information:
 
-- **Application name**: This is the name of your application. It can be anything you want.
-- **Homepage URL**: This is the URL of your application's homepage. It can be anything you want.
+- **Application name**: This is the name of your application.
+- **Homepage URL**: This is the URL of your application's homepage.
 - **Authorization callback URL**: This is the URL that GitHub will redirect to after the user has authenticated.
-- **Application description**: This is a description of your application. It can be anything you want.
-- **Organization name**: This is the name of your organization. It can be anything you want.
-- **Organization website**: This is the URL of your organization's website. It can be anything you want.
+- **Application description**: This is a description of your application.
+- **Organization name**: This is the name of your organization.
+- **Organization website**: This is the URL of your organization's website.
 
 Once you've filled out the form, click the "Register application" button. You'll be redirected to the application's settings page.
 
@@ -50,8 +50,8 @@ curl --location --request GET 'http://localhost:3000/authentication/init/github'
 }
 ```
 
-Open a browser and navigate to this link.<br />
-If your browser has been redirected to the url which you configured everything went well and the authentication has been completed.<br />
-You can now use the token to access the API.
+Open a browser and navigate to the url returned to you from Conduit.<br />
+Now the `/hook/authentication` route has been triggered.<br />
+Once your browser has been redirected, your authentication has been completed.
 
 
