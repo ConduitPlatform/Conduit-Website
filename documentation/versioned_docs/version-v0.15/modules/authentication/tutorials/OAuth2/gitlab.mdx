@@ -1,19 +1,19 @@
 ---
-sidebar_label: 'Gitlab'
+sidebar_label: 'GitLab'
 ---
 
-# Gitlab
+# GitLab
 
-In this tutorial, we'll set up Gitlab authentication for Conduit.<br />
+In this tutorial, we'll set up GitLab authentication for Conduit.<br />
 
 ## Prerequisites
 
 - A Conduit project 😎
-- A Gitlab account
+- A GitLab account
 
 ## Step 1: Create a new application
 
-Log in to your Gitlab account and go to your [profile settings](https://gitlab.com).<br />
+Log in to your GitLab account and go to your [profile settings](https://gitlab.com).<br />
 
 Click on the "New application" button and fill in the form as follows:
 
@@ -26,13 +26,13 @@ Click on the "Create application" button to create the application.<br />
 
 ## Step 2: Setting up the configuration
 
-**Do not forget to configure the Gitlab provider through the [Admin Panel](../../config#third-party-providers).**<br />
-Go to the Authentication -> SIGN IN METHODS and select the Gitlab provider.<br />
-Then, fill the required fields you obtained from the Gitlab App.
+**Do not forget to configure the GitLab provider through the [Admin Panel](../../config#third-party-providers).**<br />
+Go to the Authentication -> SIGN IN METHODS and select the GitLab provider.<br />
+Then, fill the required fields you obtained from the GitLab App.
 
-## Step 3: Authenticate with Gitlab
+## Step 3: Authenticate with GitLab
 
-To begin authenticating with Gitlab you request a redirect url with the proper scopes<br />
+To begin authenticating with GitLab you request a redirect url with the proper scopes<br />
 
 ``` bash title="Request"
 curl --location --request GET 'http://localhost:3000/authentication/init/gitlab' \

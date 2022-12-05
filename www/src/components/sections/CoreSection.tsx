@@ -43,7 +43,7 @@ const CoreSection: FC = () => {
             }
           />
         </Link>
-        <Link href={'/docs/modules/router/strategies'} passHref>
+        <Link href={'/docs/modules/router/security'} passHref>
           <MiniInfoCard
             className={'fullGrow'}
             imageComponent={<LockIcon />}

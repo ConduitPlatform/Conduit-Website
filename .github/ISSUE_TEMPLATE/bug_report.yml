@@ -18,7 +18,7 @@ body:
           required: true
         - label: This issue is not related to the [Conduit Admin Panel](https://github.com/ConduitPlatform/Conduit-UI) user interface.
           required: true
- #       - label: This issue is not a report of a strategies vulnerability (see [here](https://github.com/ConduitPlatform/Conduit/security/policy) if you need to report a strategies issue).
+ #       - label: This issue is not a report of a security vulnerability (see [here](https://github.com/ConduitPlatform/Conduit/security/policy) if you need to report a security issue).
  #         required: true
   - type: textarea
     attributes:
