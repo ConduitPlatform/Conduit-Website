@@ -136,7 +136,7 @@ In case of success, an array of schema documents will be returned to you.
 Deleting schemas could also be done by calling the SDK's deleteSchema() function. All you need is Schema's name.
 Remember that conduit allows you to delete the schema's created documents as well.
 
-```jsx title="Getting registereds schemas"
+```jsx title="Getting registered schemas"
 await this.grpcSdk.database.deleteSchema({
     name: "someschemaname",
     deleteData: true // could be also false
