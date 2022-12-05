@@ -195,7 +195,7 @@ For instance if we want to fetch all Users which have
 enabled the 2FA using phone method ,then a query would be this:
 
 ```jsx title="Finding many documents"
-const users = await this.grpcSdk.database
+const users: User[] = await this.grpcSdk.database
                 .findMany("User", { $and: [ { hasTwoFa: true},{ twoFaMethod: 'phone'} ] })
                 .catch(e => {
                     ConduitGrpcSdk.Logger.error(e);
@@ -281,8 +281,8 @@ For example, if we want to count how many users have two-factor authentication e
 **countDocuments()** should be used.<br />
 An alternative but more complicated way of doing it is to use **findMany()** and calculate the length of the returned array.
 
-```jsx title="Cunt documents"
-await this.grpcSdk.database
+```jsx title="Count documents"
+const count: number = await this.grpcSdk.database
     .countDocuments("User",{ hasTwoFa: true })
     .catch(e => {
         ConduitGrpcSdk.Logger.error(e);
