@@ -1,16 +1,37 @@
 # SDK Usage
+Using the email module SDK, you can send emails using templates. The only requirement is that the template should be registered in the database.
+Conduit provides a template mechanism. Templates can be created with or without variables.
+To create a template with variables, do it by using [handlebars](https://handlebarsjs.com/guide/).
+## Templates
 
+### Template registration
+To create a template in to the database we need to set four fields.
+- **Name**: The name of the template
+- **Subject**: The subject of the email template
+- **Body**: The body of the template. Could also be html document.
+- **Variables**: An array of strings which contain the names of the template variables.
+```jsx title="Template registration"
+await this.grpcSdk.email.registerTemplate({
+    name: 'template_name',
+    subject: 'subject',
+    body: '<p> Hello, {{user}}. I hope you are doing well. </p>',
+    variables: ['user']
+})
+.catch(e => {
+    ConduitGrpcSdk.Logger.error(e);
+})
+```
 
-## Sending an email
-
-
+## Sending an email with templates
+Sending emails with templates requires you to configure each template variable with a specific value.
+For instance if you want the **user** variable to be rendered to "Conduit" you have to specify it.
 ```jsx title="Send an email"
 import ConduitGrpcSdk from '@conduitplatform/grpc-sdk';
 await this.grpcSdk.email.sendEmail('template_name',{
     email : 'mail@example.com',
     sender: 'sendermail@example.com',
     variables: {
-        'variable1' : 'variable_value',
+        user : 'Conduit',
     }
 })
 .catch(e => {
@@ -18,20 +39,9 @@ await this.grpcSdk.email.sendEmail('template_name',{
 })
 ```
 
-## Templates
-Conduit provides a template mechanism. Templates can be created with or without variables.<br/>
-To create a template with variables, do it by using [handlebars](https://handlebarsjs.com/guide/).
-
-### Template registration
-
-```jsx title="Template registration"
-await this.grpcSdk.email.registerTemplate({
-    name: 'template_name',
-    subject: 'subject',
-    body: '<p> Hello, {{user}}. I hope you are doing well.',
-    variables: ['user']
-})
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
-})
+This email will be rendered into this:
 ```
+<p> Helo, Conduit, I hope you are doing well </p>
+```
+
+As you can see above, the ***User*** variable is replaced by the value we gave.
