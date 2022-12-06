@@ -1,0 +1,47 @@
+---
+sidebar_label: 'Bitbucket'
+---
+
+# Bitbucket
+
+Bitbucket is a web-based version control repository hosting service owned by Atlassian, for source code and development projects.
+In this tutorial, we will learn how to set up Bitbucket as an authentication provider for Conduit.<br />
+
+
+
+## Create a Bitbucket App
+
+1. Log in to your Bitbucket account and go to the [Bitbucket settings](https://bitbucket.org/account/settings/app-passwords/).
+2. Click on the **Create app password** button.
+3. Enter a label for the app password and click on the **Create** button.
+4. Copy the generated app password.
+5. Copy the **Client ID** and **Client Secret** from the Bitbucket app you created to use in the next step.
+
+## Configure Bitbucket as an authentication provider
+
+***NOTE***<br />
+**Do not forget to configure the Bitbucket provider through the [Admin Panel](../../config#third-party-providers).**<br />
+Go to the Authentication -> SIGN IN METHODS and select the Bitbucket provider.<br />
+Then, fill the required fields you obtained from the Bitbucket App.
+
+## Authenticate with Bitbucket
+
+To begin authenticating with Bitbucket you request a redirect url with the proper scopes<br />
+
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/bitbucket' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U'
+```
+
+``` json title="Response"
+{
+  "result": "https://bitbucket.org/site/oauth2/authorize?client_id=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauthentication%2Fbitbucket%2Fcallback"
+}
+```
+
+
+Open a browser and navigate to the url returned to you from Conduit.<br />
+Now the `/hook/authentication` route has been triggered.<br />
+Once your browser has been redirected, your authentication has been completed.
+
+

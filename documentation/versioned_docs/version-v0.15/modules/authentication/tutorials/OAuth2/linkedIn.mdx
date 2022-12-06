@@ -1,0 +1,52 @@
+---
+sidebar_label: 'LinkedIn'
+---
+
+# LinkedIn
+
+In this tutorial, we'll set up LinkedIn authentication for Conduit.<br />
+
+
+
+## Step 1: Set up LinkedIn authentication
+
+To set up LinkedIn authentication, we'll need to add the LinkedIn provider to our project.
+
+## Creating a LinkedIn Web App
+
+To create a LinkedIn Web App, follow these steps:
+
+1. Go to the [LinkedIn Developer Portal](https://www.linkedin.com/developers/apps) and log in with your LinkedIn account.
+2. Click **Create App**.
+3. Enter a name for your app and click **Create App**.
+4. Click **Edit** next to **OAuth 2.0 settings**.
+5. Add `your_redirect_url` to the **Authorized redirect URLs** field.
+6. Click **Save**.
+
+## Adding the LinkedIn Provider
+
+***NOTE***<br />
+**Do not forget to configure the LinkedIn provider through the [Admin Panel](../../config#third-party-providers).**<br />
+Go to the Authentication -> SIGN IN METHODS and select the LinkedIn provider.<br />
+Then, fill the required fields you obtained from the LinkedIn App.
+
+## Authenticate with LinkedIn
+
+To begin authenticating with LinkedIn you request a redirect url with the proper scopes<br />
+
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/linkedin' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U'
+```
+
+``` json title="Response"
+{
+    "result": "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=123456789&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauthentication%2Flinkedin%2Fcallback&state=eyJpZCI6IjYzN
+}
+```
+
+Open a browser and navigate to the url returned to you from Conduit.<br />
+Now the `/hook/authentication` route has been triggered.<br />
+Once your browser has been redirected, your authentication has been completed.
+
+

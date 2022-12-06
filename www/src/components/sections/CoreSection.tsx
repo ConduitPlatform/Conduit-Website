@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { Box, Typography } from '@mui/material';
-import ImageSectionCard from '../custom/ImageSectionCard';
 import ToolIcon from '../../../public/icons/services.svg';
 import LockIcon from '../../../public/icons/lock.svg';
 import ApiIcon from '../../../public/icons/connect.svg';
