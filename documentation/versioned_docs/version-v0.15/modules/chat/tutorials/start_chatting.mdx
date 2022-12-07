@@ -1,0 +1,40 @@
+# Chatting
+
+Chat module can be used to add chatting functionality to your application without having to write complex lines of code.
+To begin explaining how to create a chat functionality, some assumptions must be made.
+
+## Basics
+
+Chat communication is only possible between Conduit users. So, first, we must [create some users](../../authentication/get-started#create-a-user).
+We'll need a chat room with some users to participate in now that users have been created. We can accomplish this in two ways:
+
+- By [creating a chat room](../get-started#creating-rooms) , as a Conduit Admin through Conduit Admin Panel.
+- By creating a chat room, as a Conduit User using chat user routes.
+
+Let's follow the second way, to see how a user can create a room.
+
+## Create a room as user
+
+To begin, a user must be logged in before proceeding with the creation of a room. In the case of using the local authentication strategy,
+you can see how to log in as a user by following the [Local Tutorial](../../authentication/tutorials/local).
+At this step we'll need the user access token. Then just simply type in a terminal:
+
+```bash = "Create a room as user"
+curl --location --request POST 'http://localhost:3000/chat/rooms' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer "userAccessToken" ' \
+--data-raw '{
+  "roomName": "Conduit Users",
+  "users": ["participantUserId1","participantUserId2"]
+}'
+```
+
+Three individuals will be placed in a room dubbed ***Conduit Users***. It should be clear that in order to build a chat room, the logged-in userId is not necessary
+to be included in the users array. The user who creates a room is also a participant.
+
+```json title="Resposne"
+{
+    "roomId": "someId"
+}
+```
