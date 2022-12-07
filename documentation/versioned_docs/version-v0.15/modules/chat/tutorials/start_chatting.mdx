@@ -38,3 +38,48 @@ to be included in the users array. The user who creates a room is also a partici
     "roomId": "someId"
 }
 ```
+## Send a message
+
+
+## Add users in a chat room
+
+As a user, you have the option to add new users to the chat room after it has been created.
+As previously stated, you must be logged in as a user to follow this tutorial, so the user access token is required.
+
+```bash title="Add users in a room"
+curl --location --request PUT 'http://localhost:3000/chat/rooms/{roomId}/addUsers' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'masterkey: M4ST3RK3Y' \
+--header 'Authorization: Bearer "userAccessToken"' \
+--data-raw '{
+  "users": ["someUserId1","someUserId2"]
+}'
+```
+
+If user fits in the room successfully then an appropriate message will be returned to you.
+
+```json title="Resposne"
+{
+    "result": "Users added"
+}
+```
+
+## Leaving a room
+
+Chat module also provides the option of leaving a room. Again you'll need to be logged in as a user.
+
+```bash title="Add users in a room"
+curl --location --request PUT 'http://localhost:3000/chat/leave/6390b1808c52d0b5a436a429' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'masterkey: M4ST3RK3Y' \
+--header 'Authorization: Bearer "userAccessToken"' \
+--data-raw ''
+```
+
+```json title="Resposne"
+{
+    "result": "Ok"
+}
+```
