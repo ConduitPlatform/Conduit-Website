@@ -9,7 +9,6 @@ hide_title: true
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import CodeBlock from '@theme/CodeBlock';
-import CliPlatformInstallation from '/src/components/CliPlatformInstallation.tsx';
 
 :::caution
 
@@ -47,14 +46,18 @@ Conduit's CLI supports both v2 and v1. The former comes pre-installed with the l
 ## Installation {#installation-methods}
 
 <Tabs>
+  <TabItem value="native" label="Native Packages">
+
+:::caution
+Windows users should install through WSL.
+:::
+
+``` bash
+sh <(curl -s https://getconduit.dev/bootstrap)
+```
+  </TabItem>
   <TabItem value="npm" label="npm">
     <CodeBlock language="bash">npx install @conduitplatform/cli</CodeBlock>
-  </TabItem>
-  <TabItem value="linux" label="Linux">
-    <CliPlatformInstallation platform='Linux' />
-  </TabItem>
-  <TabItem value="mac" label="Mac">
-    <CliPlatformInstallation platform='Mac' />
   </TabItem>
 </Tabs>
 
@@ -70,32 +73,24 @@ should make sure to specify `--configure` while invoking this.
 Make sure Docker is running before proceeding.
 
 <Tabs>
-<TabItem value="npm" label="npm">
-
-``` bash title="Examples"
-# Option A: Just give me a barebones setup of the latest Conduit release
-npx @conduitplatform/cli deploy setup
-
-# Option B: I wish to bring up extra modules and perform some basic configuration
-npx @conduitplatform/cli deploy setup --config
-```
-
-``` bash title="Find out more"
-npx @conduitplatform/cli deploy --help
-```
-</TabItem>
 <TabItem value="native" label="Native Packages">
 
-``` bash title="Examples"
-# Option A: Just give me a barebones setup of the latest Conduit release
-conduit deploy setup
-
-# Option B: I wish to bring up extra modules and perform some basic configuration
+``` bash title="Bootstrap a Conduit deployment"
 conduit deploy setup --config
 ```
 
 ``` bash title="Find out more"
 conduit deploy --help
+```
+</TabItem>
+<TabItem value="npm" label="npm">
+
+``` bash title="Bootstrap a Conduit deployment"
+npx @conduitplatform/cli deploy setup --config
+```
+
+``` bash title="Find out more"
+npx @conduitplatform/cli deploy --help
 ```
 </TabItem>
 </Tabs>
@@ -106,16 +101,16 @@ Generates an API client library for Conduit.<br />
 Supports both REST and GraphQL APIs.<br />
 
 <Tabs>
-<TabItem value="npm" label="npm">
-
-``` bash title="Find out more"
-npx @conduitplatform/cli generateClient --help
-```
-</TabItem>
 <TabItem value="native" label="Native Packages">
 
 ``` bash title="Find out more"
 conduit generateClient --help
+```
+</TabItem>
+<TabItem value="npm" label="npm">
+
+``` bash title="Find out more"
+npx @conduitplatform/cli generateClient --help
 ```
 </TabItem>
 </Tabs>
@@ -127,16 +122,16 @@ This command is extremely useful if you're trying to build your own custom modul
 Make use of Database module's CMS functionality to create a custom schema, then use this command to generate a schema file for it.
 
 <Tabs>
-<TabItem value="npm" label="npm">
-
-``` bash title="Find out more"
-npx @conduitplatform/cli generateSchema --help
-```
-</TabItem>
 <TabItem value="native" label="Native Packages">
 
 ``` bash title="Find out more"
 conduit generateSchema --help
+```
+</TabItem>
+<TabItem value="npm" label="npm">
+
+``` bash title="Find out more"
+npx @conduitplatform/cli generateSchema --help
 ```
 </TabItem>
 </Tabs>
