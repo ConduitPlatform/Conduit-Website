@@ -1,0 +1,48 @@
+---
+sidebar_label: 'Figma'
+---
+
+# Figma
+
+Figma is a vector graphics editor and prototyping tool which is primarily web-based, with additional offline features enabled by desktop applications for macOS and Windows.<br />
+Figma is primarily focused on user interface and user experience design, and supports collaborative editing.
+
+In this tutorial, we'll set up Figma authentication for Conduit.<br />
+
+## Prerequisites
+
+- [Conduit](https://getconduit.dev)
+- [Figma account](https://www.figma.com/)
+- [Figma Personal Access Token](https://www.figma.com/developers/docs#auth)
+
+## Create a new Figma app
+
+1. Go to [Figma Developer](https://www.figma.com/developers/apps) and click on the **New App** button.
+2. Enter a name for your app and click on the **Create App** button.
+3. Copy the **Client ID** and **Client Secret** and save them for later.
+
+## Setting up the configuration
+
+***NOTE***<br />
+**Do not forget to configure the Figma provider through the [Admin Panel](../../config#third-party-providers).**<br />
+Go to the Authentication -> SIGN IN METHODS and select the Figma provider.<br />
+Then, fill the required fields you obtained from the Figma App.
+
+## Authenticate with Figma
+
+To begin authenticating with Figma you request a redirect url with the proper scopes<br />
+
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/figma' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U'
+```
+
+``` json title="Response"
+{
+  "result": "https://www.figma.com/oauth?client_id=YOUR_CLIENT_ID&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauthentication%2Ffigma%2Fcallback&scope=file_read&state=YOUR_STATE"
+}
+```
+
+Open a browser and navigate to the url returned to you from Conduit.<br />
+Now the `/hook/authentication` route has been triggered.<br />
+Once your browser has been redirected, your authentication has been completed.

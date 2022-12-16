@@ -1,0 +1,53 @@
+---
+sidebar_label: 'Twitter'
+---
+
+# Twitter
+
+In this tutorial, we will learn how to set up Twitter as an authentication provider for Conduit.<br />
+
+## Prerequisites
+
+Before you begin, you will need to have a Twitter account and a Twitter app. If you don't have a Twitter account, you can create one [here](https://twitter.com/i/flow/signup).<br />
+If you don't have a Twitter app, you can create one [here](https://developer.twitter.com/en/apps).<br />
+
+## Setting up Twitter
+
+### Step 1: Create a Twitter app
+
+1. Go to the [Twitter Developer Portal](https://developer.twitter.com/en/apps) and log in with your Twitter account.
+2. Click on the **Create an app** button.
+3. Fill in the required details and click on the **Create** button.
+
+### Step 2: Configure the Twitter app
+
+1. Go to the **Keys and tokens** tab and copy the **API key** and **API secret key**.
+2. Go to the **Settings** tab and enable **Allow this application to be used to Sign in with Twitter**.
+3. Go to the **App permissions** tab and enable the permissions you want to use.
+
+### Step 3: Configure the Twitter provider
+
+1. Go to the **Authentication** tab and click on the **SIGN IN METHODS**.
+2. Select **Twitter** from the list of providers.
+3. Paste the **API key** and **API secret key** from the **Keys and tokens** tab of the Twitter app.
+4. Enable the twitter provider and click on the **Save** button.
+
+## Authenticate with Twitter
+
+To begin authenticating with Twitter you request a redirect url with the proper scopes<br />
+
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/init/twitter' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U' \
+```
+
+``` bash title="Response"
+{
+    "result": "https://twitter.com/i/oauth2/authorize?client_id=ZURSUXNqX2Q5T1RmcDNCenJBZE46MTpjaQ&redirect_uri=http://localhost:3000/hook/authentication/twitter&response_type=code&response_mode=query&scope=tweet.read%20users.read%20offline.access&code_challenge=LBVjPhkdXdFvZZdn3OvsyvwZAQRrr05-N_oprH3EBWo&code_challenge_method=S256&state=006f65b0-a26c-4a69-aa29-6145d8506cc6"
+}
+```
+Open a browser and navigate to the url returned to you from Conduit.
+Now the /hook/authentication route has been triggered.
+Once your browser has been redirected, your authentication has been completed.
+
+

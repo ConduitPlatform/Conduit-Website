@@ -7,7 +7,7 @@ import Illustration from '../../../public/icons/Illustration';
 import { ArrowForwardIos, GitHub } from '@mui/icons-material';
 import { SxObject } from '../../models/SxObjects';
 
-import DownloadDialog from '../custom/Downloads/DownloadDialog';
+import DownloadDialog from '../custom/DownloadDialog';
 
 const styles: SxObject = {
   basicText: {

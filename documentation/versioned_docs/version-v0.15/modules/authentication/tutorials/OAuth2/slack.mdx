@@ -1,0 +1,49 @@
+---
+sidebar_label: 'Slack'
+---
+
+# Slack
+
+Slack is a cloud-based set of team collaboration tools and services.<br />
+Slack is a proprietary business communication platform which offers a range of features, including persistent chat rooms organized by topic,
+private groups, and direct messaging.
+Slack is available on desktop and mobile devices, as well as via third-party apps that integrate its API with other web services.
+
+## Prerequisites
+
+* A Slack account
+* A registered Slack app
+
+
+## Installation
+
+### 1. Create a Slack App
+
+To create a Slack App, go to [Slack](https://api.slack.com/apps) and click on the **Create New App** button.
+
+
+
+## Setting up the configuration
+
+***NOTE***<br />
+**Do not forget to configure the Slack provider through the [Admin Panel](../../config#third-party-providers).**<br />
+Go to the Authentication -> SIGN IN METHODS and select the Slack provider.<br />
+Then, fill the required fields you obtained from the Slack App.
+
+## Authenticate with Slack
+
+To begin authenticating with Slack you request a redirect url with the proper scopes<br />
+
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/init/slack' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U'
+```
+``` json title="Response"
+{
+  "result": "https://slack.com/oauth/v2/authorize?client_id=1234567890.1234567890&scope=identity.basic&redirect_uri=http://localhost:3000/authentication/callback/slack&state=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U"
+}
+```
+
+Open a browser and navigate to the url returned to you from Conduit.
+Now the /hook/authentication route has been triggered.
+Once your browser has been redirected, your authentication has been completed.

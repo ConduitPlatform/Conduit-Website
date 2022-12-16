@@ -1,6 +1,5 @@
 ---
 sidebar_label: 'Google'
-sidebar_position: 3
 ---
 
 # Google
@@ -38,10 +37,20 @@ A pop-up window will be displayed to you which contain your client id and client
 
 ## Authenticate with Google
 
-At this step you need to begin authorize with Google by calling the `/authentication/init/google` route.<br />
-Open postman and make a GET request to this route.By doing this you will get a link.<br />
 
-![Google Postman](/v0.15/modules/authentication/tutorials/google_postman.png)
+To begin authenticating with Google you request a redirect url with the proper scopes<br />
 
-Open a browser and navigate to this link.<br />
-If your browser has been redirected to the url which you configured everything went well and the authentication has been completed.
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/init/google' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U'
+```
+
+``` json title="Response"
+{
+    "result": "https://accounts.google.com/o/oauth2/v2/auth?client_id=CLIENT_ID&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fhook%2Fauthentication%2Fgoogle&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&access_type=offline&state=eyJpZCI6IjYzN
+}
+```
+
+Open a browser and navigate to the url returned to you from Conduit.<br />
+Now the `/hook/authentication` route has been triggered.<br />
+Once your browser has been redirected, your authentication has been completed.
