@@ -1,68 +1,57 @@
+---
+sidebar_label: 'SDK Usage'
+sidebar_position: 100
+---
+
 # SDK Usage
 
-Chat sdk comes with three functionalities. Guess what ? You can create, delete rooms and send messages.
-You might wonder  "Why I can not update the room ?". And the answer is that is not implemented yet.
-
-
-## Create a room
+## Room Creation
 
 Let's begin by creating a room. All you need is:
 - A participant array which include the participants user ids.
 - A room name.
 
-```jsx title="Create a room"
-const room = await this.grpcSdk.chat.createRoom({
-    name: "roomname",
-    participants: ["userid1","userid2"],
-})
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
+```ts title="Request"
+await grpcSdk.chat.createRoom({
+    name: "roomName",
+    participants: ["userId1", "userId2"],
 });
 ```
-
-In case of a successful chat room creation, the created room will be returned to you.
-
-```jsx title="Response"
-room: {
-      Id: "roomid",
-      name: "roomname",
-      participants: ["userid1","userid2"]
+```ts title="Response"
+{
+    room: {
+      _id: "roomId",
+      name: "roomName",
+      participants: ["userId1", "userId2"]
+    }
 }
 ```
 
-## Delete a room
+## Room Deletion
 
-Room id is only required for deleting it.
-
-```jsx title="Delete a room"
-const deletedRoom = await this.grpcSdk.chat.deleteRoom({
-    id: "roomid",
-
-})
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
+```ts title="Request"
+await grpcSdk.chat.deleteRoom({
+    id: "roomId",
 });
 ```
-A room object will be returned to you if deletion takes place successfully.
-
-```jsx title="Response"
-room: {
-      Id: "roomid",
-      name: "roomname",
-      participants: ["userid1","userid2"]
+```ts title="Response"
+{
+    room: {
+        _id: "roomId",
+        name: "roomName",
+        participants: ["userId1", "userId2"]
+    }
 }
 ```
 
+## Sending Messages
 
-## Send a message
-Finally, sending a message to a room is also an easy operation. To send a message, you have to belong to the room and to be logged in as a user.
+Before sending a message to a group, make sure the user you're sending it as is already a member of the group.
 
-```jsx title="Delete a room"
-const message = await this.grpcSdk.chat.sendMessage({
-    roomId: "roomid",
+```ts title="Request"
+await grpcSdk.chat.sendMessage({
+    userId: "userId",
+    roomId: "roomId",
     message: "Hello Conduit users!"
-})
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
 });
 ```
