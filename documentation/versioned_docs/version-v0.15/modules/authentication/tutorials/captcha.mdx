@@ -1,0 +1,240 @@
+---
+sidebar_label: 'Captcha'
+sidebar_position: 5
+---
+# Captcha in Conduit
+
+Conduit uses captcha as a middleware to improve security and prevent automated bot attacks.
+Captcha can be enabled or disabled based on the configuration. Currently, Conduit supports only recaptcha v2 and hcaptcha providers.
+In this tutorial, we will learn how to configure and use captcha in Conduit using the hcaptcha provider.
+
+## Configuring captcha
+
+To enable the captcha feature in Conduit, you need to patch the authentication configuration and set the **enabled** option to true. You can also specify which routes should have the captcha feature enabled using the routes option. The available options are **login, register, and oAuth2**.
+
+You can also specify which platforms the captcha feature is available for using the **acceptablePlatform**  option. The available options are android and web.
+
+:::caution
+In order to continue to this tutorial you have to fully understand how [client validation](../../router/security#client-validation) works in conduit.
+:::
+
+To specify which captcha provider to use, you can set the provider option to either recaptcha or hcaptcha.
+
+Here is an example configuration that enables the captcha feature for the login routes, using the hcaptcha provider and allowing the captcha feature to be used on both the web and android platforms
+using hcaptcha provider.
+
+##
+``` bash title="Path Authentication Config"
+curl --location --request PATCH 'http://localhost:3030/config/authentication' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'masterkey: M4ST3RK3Y' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOWI0MTYwOGE0OWQyYmViNmRhNWRiOSIsImlhdCI6MTY3MTExOTIyOCwiZXhwIjoxNjcxMTkxMjI4fQ.QFWYjB7hSyR9Zz6LCZZd-r5NthLuCeKYA9J8KdgEB9Q' \
+--data-raw '{
+    "config": {
+        "active": true,
+        "service": {
+            "enabled": true
+        },
+        "captcha": {
+            "enabled": true,
+            "routes": {
+                "login": true,
+                "register": false,
+                "oAuth2": false
+            },
+            "acceptablePlatform": {
+                "android": true,
+                "web": true
+            },
+            "provider": "hcaptcha",
+            "secretKey": "0x0000000000000000000000000000000000000000"
+        },
+        "twoFa": {
+            "enabled": false,
+            "methods": {
+                "sms": false,
+                "authenticator": true
+            },
+            "backUpCodes": {
+                "enabled": true
+            }
+        },
+        "phoneAuthentication": {
+            "enabled": false
+        },
+        "teams": {
+            "enabled": false,
+            "enableDefaultTeam": false,
+            "invites": {
+                "enabled": false,
+                "sendEmail": false,
+                "inviteUrl": "https://mydomain.conduit/invite"
+            }
+        },
+        "figma": {
+            "enabled": false,
+            "clientId": "",
+            "clientSecret": "",
+            "redirect_uri": "",
+            "accountLinking": true
+        },
+        "github": {
+            "enabled": false,
+            "clientId": "",
+            "clientSecret": "",
+            "redirect_uri": "",
+            "accountLinking": true
+        },
+        "microsoft": {
+            "enabled": false,
+            "clientId": "",
+            "clientSecret": "",
+            "redirect_uri": "",
+            "accountLinking": true
+        },
+        "google": {
+            "enabled": false,
+            "clientId": "",
+            "clientSecret": "",
+            "redirect_uri": "",
+            "accountLinking": true
+        },
+        "facebook": {
+            "enabled": false,
+            "clientId": "",
+            "clientSecret": "",
+            "redirect_uri": "",
+            "accountLinking": true
+        },
+        "twitch": {
+            "enabled": false,
+            "clientId": "",
+            "clientSecret": "",
+            "redirect_uri": "",
+            "accountLinking": true
+        },
+        "slack": {
+            "enabled": false,
+            "clientId": "",
+            "clientSecret": "",
+            "redirect_uri": "",
+            "accountLinking": true
+        },
+        "clients": {
+            "multipleUserSessions": false,
+            "multipleClientLogins": true
+        },
+        "accessTokens": {
+            "jwtSecret": "S3CR3T",
+            "expiryPeriod": 3600000,
+            "setCookie": false,
+            "cookieOptions": {
+                "httpOnly": true,
+                "secure": false,
+                "signed": false,
+                "maxAge": 900000,
+                "domain": "",
+                "path": "",
+                "sameSite": "Lax"
+            }
+        },
+        "refreshTokens": {
+            "enabled": true,
+            "expiryPeriod": 604800000,
+            "setCookie": false,
+            "cookieOptions": {
+                "httpOnly": true,
+                "secure": false,
+                "signed": false,
+                "maxAge": 900000,
+                "domain": "",
+                "path": "",
+                "sameSite": "Lax"
+            }
+        },
+        "local": {
+            "enabled": true,
+            "verification": {
+                "required": false,
+                "send_email": false,
+                "redirect_uri": ""
+            },
+            "forgot_password_redirect_uri": ""
+        },
+        "magic_link": {
+            "enabled": false,
+            "redirect_uri": ""
+        },
+        "gitlab": {
+            "enabled": false,
+            "clientId": "",
+            "clientSecret": "",
+            "redirect_uri": "",
+            "accountLinking": true
+        },
+        "apple": {
+            "enabled": false,
+            "clientId": "",
+            "redirect_uri": "",
+            "privateKey": "",
+            "teamId": "",
+            "keyId": "",
+            "accountLinking": true
+        },
+        "twitter": {
+            "enabled": false,
+            "clientId": "",
+            "clientSecret": "",
+            "redirect_uri": "",
+            "accountLinking": true
+        },
+        "reddit": {
+            "enabled": false,
+            "clientId": "",
+            "clientSecret": "",
+            "redirect_uri": "",
+            "accountLinking": true
+        },
+        "bitbucket": {
+            "enabled": false,
+            "clientId": "",
+            "clientSecret": "",
+            "redirect_uri": "",
+            "accountLinking": true
+        },
+        "linkedin": {
+            "enabled": false,
+            "clientId": "",
+            "clientSecret": "",
+            "redirect_uri": "",
+            "accountLinking": true
+        }
+    }
+}'
+```
+
+## Testing the captcha
+
+The simplest approach to test the captcha middleware is by using the already generated [hcaptcha test keys](https://docs.hcaptcha.com/#integration-testing-test-keys).
+Let's make a request to login by using the [local authentication strategy](./local).
+``` bash title="Request"
+curl --location --request POST 'http://localhost:3000/authentication/local' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+"email": "example@mail.com",
+"password": "I_h4t3_p4ss_r3qu1r3m3nts",
+"captchaToken": "10000000-aaaa-bbbb-cccc-000000000001",  //hcaptcha test token
+}'
+```
+
+``` json title="Response"
+{
+  "userId": "6242f1bb10a09901827738fe",
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDJmMWJiMTBhMDk5MDE4Mjc3MzhmZSIsImlhdCI6MTY0ODU1NDUyNywiZXhwIjoxNzM0OTU0NTI3fQ.Fjqa7ORBBF2giwG7OgiWr2HMgHDL7R6ddFq2E730Djc",
+  "refreshToken": "BsKhe3ARhL/FfDfK1REphKkkqQaxRCj/LvvRHOg5wCXCBaUSOwafRHyFYIttaORY/NmHS7NAuT6+knBQegVOwQ=="
+}
+```
+
+As you can see, the token was verified by the captcha middleware and you received some authentication tokens.
+If the verification of the token fails, you will receive a proper error message.
