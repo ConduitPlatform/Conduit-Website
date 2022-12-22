@@ -1,66 +1,57 @@
+---
+sidebar_label: 'SDK Usage'
+sidebar_position: 100
+---
+
 # SDK Usage
 
-Chat sdk comes with three functionalities. Guess what ? You can create, delete rooms and send messages.
-You might wonder  "Why I can not update the room ?". And the answer is that is not implemented yet.
-
-
-## Create a room
+## Room Creation
 
 Let's begin by creating a room. All you need is:
 - A participant array which include the participants user ids.
 - A room name.
 
-```ts title="Response"
+```ts title="Request"
 await grpcSdk.chat.createRoom({
-    name: "roomname",
-    participants: ["userid1","userid2"],
-})
+    name: "roomName",
+    participants: ["userId1", "userId2"],
+});
 ```
-
-```ts title="Response"
-room: {
-      Id: "roomid",
-      name: "roomname",
-      participants: ["userid1","userid2"]
-}
-```
-
-In case of a successful chat room creation, the created room will be returned to you.
-
 ```ts title="Response"
 {
-      Id: "roomid",
-      name: "roomname",
-      participants: ["userid1","userid2"]
+    room: {
+      Id: "roomId",
+      name: "roomName",
+      participants: ["userId1", "userId2"]
+    }
 }
 ```
 
-## Delete a room
+## Room Deletion
 
-Room id is only required for deleting it.
-
-```jsx title="Request"
+```ts title="Request"
 await grpcSdk.chat.deleteRoom({
-    id: "roomid",
-})
+    id: "roomId",
+});
 ```
-A room object will be returned to you if deletion takes place successfully.
-
 ```ts title="Response"
-room: {
-      Id: "roomid",
-      name: "roomname",
-      participants: ["userid1","userid2"]
+{
+    room: {
+        Id: "roomId",
+        name: "roomName",
+        participants: ["userId1", "userId2"]
+    }
 }
 ```
 
+## Sending Messages
 
-## Send a message
-Finally, sending a message to a room is also an easy operation. To send a message, you have to belong to the room and to be logged in as a user.
+Before sending a message to a group, make sure the user you're sending it as is already a member of the group.
 
-```ts title="Response"
+```ts title="Request"
 await grpcSdk.chat.sendMessage({
-    roomId: "roomid",
+    userId: "userId",
+    roomId: "roomId",
     message: "Hello Conduit users!"
-})
+});
 ```
