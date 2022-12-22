@@ -5,35 +5,36 @@ data from an already existing file.
 
 ## Create
 
-```jsx title="Create a file"
-await this.grpcSdk.storage.createFile(name,mimeType,data,folder,isPublic)
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
-})
+```ts title="Request"
+await grpcSdk.storage.createFile(name,mimeType,data,folder,isPublic)
+```
+
+```ts title="Response"
+{
+    "id": "fileid",
+    "url": "fileurl",
+    "name": "fileName"
+}
 ```
 ## Get a file
 
-```jsx title="Get a file"
-const file = await this.grpcSdk.storage.getFile(fileId)
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
-})
+```ts title="Request"
+await grpcSdk.storage.getFile(fileId)
 ```
 
 ## Get file's data
 
-```jsx title="Get a file's data"
-const data = await this.grpcSdk.storage.getFileData(fileId)
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
-})
+```ts title="Request"
+await grpcSdk.storage.getFileData(fileId)
 ```
 
+```ts title="Response"
+{
+    "data": "stringifiedFileData"
+}
+```
 ## Update a file
 
-```jsx title="Get a file's data"
-await this.grpcSdk.storage.updateFile(name,mimeType,data,folder,isPublic)
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
-})
+```ts title="Request"
+await grpcSdk.storage.updateFile(name,mimeType,data,folder,isPublic)
 ```

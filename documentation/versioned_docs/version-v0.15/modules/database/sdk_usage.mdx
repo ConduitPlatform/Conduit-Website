@@ -31,7 +31,7 @@ Name | Type | Description |
 Assume that we want to create a movie schema. A movie may have **title** , **genre**, **duration**, **director** , **description**  **for_adults** and surely an **_id** field.
 So a possible schema could be this:
 
-```jsx title="Movie schema"
+```ts title="Movie schema"
 enum MoviesGenreEnum {
     THRILLER = "THRILLER",
     COMEDY = "COMEDY",
@@ -63,10 +63,6 @@ const schema = {
         required: false,
         unique: false,
     },
-    forAdults: {
-        type: TYPE.Boolean,
-        required: true,
-    },
     releaseDate: TYPE.Date,
     createdAt: TYPE.Date,
     updatedAt: TYPE.Date,
@@ -88,7 +84,7 @@ Name | Type | Description |
 
 A modelOptions object could be this:
 
-```jsx title="Model options object"
+```ts title="Model options object"
 const modelOptions = {
   timestamps: true,
   conduit: {
@@ -105,15 +101,12 @@ const modelOptions = {
 ## Schema creation
 
 The final step is to call the createSchemaFromAdapter() function.
-```jsx title="Create schema from adapter"
-await this.grpcSdk.database.createSchemaFromAdapter({
+```jsx title="Request"
+await grpcSdk.database.createSchemaFromAdapter({
     name: "Movies",
     fields: schema,
     modelOptions: modelOptions,
     collectionName: "", // could be 'Movies' also
-})
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
 })
 ```
 
@@ -123,11 +116,8 @@ The functionality of list schemas is also available in grpc-sdk.Fetching registe
 by invoking the **getSchemas()** method
 In detail:
 
-```jsx title="Getting registereds schemas"
-await this.grpcSdk.database.getSchemas({})
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
-})
+```ts title="Request"
+await grpcSdk.database.getSchemas({})
 ```
 
 In case of success, an array of schema documents will be returned to you.
@@ -137,13 +127,10 @@ In case of success, an array of schema documents will be returned to you.
 Deleting schemas could also be done by calling the SDK's deleteSchema() function. All you need is Schema's name.
 Remember that conduit allows you to delete the schema's created documents as well.
 
-```jsx title="Getting registered schemas"
-await this.grpcSdk.database.deleteSchema({
+```ts title="Request"
+await grpcSdk.database.deleteSchema({
     name: "Movies",
     deleteData: true // could be also false
-})
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
 })
 ```
 
@@ -157,8 +144,8 @@ Assume that the existing user schema does not account for your specific project'
 You are free to include any field you want.<br />
 Assume your goal is to add a field called **recoverEmail** which is used to recover an account if the initial email is misplaced or forgotten.
 
-```jsx title="Set schema extension"
-await this.grpcSdk.database.setSchemaExtension({
+```jsx title="Request"
+await grpcSdk.database.setSchemaExtension({
     schemaName: "Movies",
     extOwner: "database",
     extFields:  {
@@ -167,9 +154,6 @@ await this.grpcSdk.database.setSchemaExtension({
             required: "false",
         }
     }
-})
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
 })
 ```
 
@@ -183,24 +167,16 @@ Queries are structured Mongoose-like. To see Conduit's query language click [her
 ### findOne
 Suppose that we want to find a record with a specific id.
 
-```jsx title="Set schema extension"
-const user = await this.grpcSdk.database
-            .findOne("Movies",{ _id: "somemovieid"})
-            .catch(e => {
-                ConduitGrpcSdk.Logger.error(e);
-            });
+```ts title="Request"
+await grpcSdk.database.findOne("Movies",{ _id: "somemovieid"})
 ```
 
 ### findMany
 For instance if we want to fetch all Movies that have
 duration greater than 1 hour.
 
-```jsx title="Finding many documents"
-const movies: any[] = await this.grpcSdk.database
-                .findMany("Movies", { duration: { $gt: 60 } })
-                .catch(e => {
-                    ConduitGrpcSdk.Logger.error(e);
-                });
+```ts title="Request"
+await grpcSdk.database.findMany("Movies", { duration: { $gt: 60 } })
 ```
 
 ### create
@@ -208,32 +184,27 @@ const movies: any[] = await this.grpcSdk.database
 Create operation is very simple. Just invoke the **create()** function through database sdk and fill the
 necessary fields for document creation.
 
-```jsx title="Create a document"
-await this.grpcSdk.database
+```ts title="Request"
+await grpcSdk.database
         .create("Movies",{
                 title: "The hobbit.",
                 duration: 165,
                 genre: "SCIFI",
                 description: "Tolkien rocks",
-                forAdults: false,
                 director: "Peter Jackson",
                 releaseDate: "13/12/2012"
         })
-        .catch(e => {
-            ConduitGrpcSdk.Logger.error(e);
-        });
 ```
 
 ### createMany
 
-```jsx title="Create many documents"
+```ts title="Request"
 await this.grpcSdk.database.createMany("User",
         [{
             title: "The hobbit.",
             duration: 165,
             genre: "SCIFI",
             description: "Tolkien rocks",
-            forAdults: false,
             director: "Peter Jackson",
             releaseDate: "13/12/2012"
         },
@@ -242,53 +213,39 @@ await this.grpcSdk.database.createMany("User",
             duration: 200,
             genre: "SCIFI",
             description: "Marvel rocks",
-            forAdults: false,
             director: "Sam Raimi",
             releaseDate: "29/04/2002"
         }])
-        .catch(e => {
-            ConduitGrpcSdk.Logger.error(e);
-        });
 ```
 
 
 ### updateMany
 In case of updating many documents given some constraints then we can use updateMany() function.<br />
-Consider that we want to make some movies for adults only.<br />
 Movies id's have to be an array.
 
-```jsx title="Update many documents "
+```ts title="Request"
 const idArray = [movieid2,movieid2,movieid3];
-await this.grpcSdk.database
-    .updaeteMany("Movies",{ _id :{ $in: idArray } },{ forAdults: true })
-    .catch(e => {
-        ConduitGrpcSdk.Logger.error(e);
-    });
+await grpcSdk.database
+    .updaeteMany("Movies",{ _id :{ $in: idArray } })
 ```
 
 ### deleteOne
 
 The only thing we need is the document ID we want to delete.
 
-```jsx title="Update many documents "
-await this.grpcSdk.database
+```ts title="Request"
+await grpcSdk.database
     .deleteOne("Movies",{ _id : id })
-    .catch(e => {
-        ConduitGrpcSdk.Logger.error(e);
-    });
 ```
 
 ### deleteMany
 
 Like updateMany we can use **deleteMany** to delete documents given some constraints.
 
-```jsx title="Delete many documents "
+```ts title="Request"
 const idArray = [movieid2,movieid2,movieid3];
-await this.grpcSdk.database
+await grpcSdk.database
     .deleteMany("Movies",{ _id :{ $in: idArray } })
-    .catch(e => {
-        ConduitGrpcSdk.Logger.error(e);
-    });
 ```
 
 ### countDocuments
@@ -298,10 +255,7 @@ For example, if we want to count how many movies are suitable only for.
 **countDocuments()** should be used.<br />
 An alternative but more complicated way of doing it is to use **findMany()** and calculate the length of the returned array.
 
-```jsx title="Count documents"
-const count: number = await this.grpcSdk.database
-    .countDocuments("Movies",{ forAdults: true })
-    .catch(e => {
-        ConduitGrpcSdk.Logger.error(e);
-    });
+```ts title="Request"
+grpcSdk.database
+    .countDocuments("Movies",{ genre: 'SCIFI' })
 ```

@@ -10,20 +10,25 @@ Let's begin by creating a room. All you need is:
 - A participant array which include the participants user ids.
 - A room name.
 
-```jsx title="Create a room"
-const room = await this.grpcSdk.chat.createRoom({
+```ts title="Response"
+await grpcSdk.chat.createRoom({
     name: "roomname",
     participants: ["userid1","userid2"],
 })
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
-});
+```
+
+```ts title="Response"
+room: {
+      Id: "roomid",
+      name: "roomname",
+      participants: ["userid1","userid2"]
+}
 ```
 
 In case of a successful chat room creation, the created room will be returned to you.
 
-```jsx title="Response"
-room: {
+```ts title="Response"
+{
       Id: "roomid",
       name: "roomname",
       participants: ["userid1","userid2"]
@@ -34,18 +39,14 @@ room: {
 
 Room id is only required for deleting it.
 
-```jsx title="Delete a room"
-const deletedRoom = await this.grpcSdk.chat.deleteRoom({
+```jsx title="Request"
+await grpcSdk.chat.deleteRoom({
     id: "roomid",
-
 })
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
-});
 ```
 A room object will be returned to you if deletion takes place successfully.
 
-```jsx title="Response"
+```ts title="Response"
 room: {
       Id: "roomid",
       name: "roomname",
@@ -57,12 +58,9 @@ room: {
 ## Send a message
 Finally, sending a message to a room is also an easy operation. To send a message, you have to belong to the room and to be logged in as a user.
 
-```jsx title="Delete a room"
-const message = await this.grpcSdk.chat.sendMessage({
+```ts title="Response"
+await grpcSdk.chat.sendMessage({
     roomId: "roomid",
     message: "Hello Conduit users!"
 })
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
-});
 ```

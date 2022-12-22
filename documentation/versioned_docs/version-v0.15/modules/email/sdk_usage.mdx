@@ -10,32 +10,25 @@ To create a template in to the database we need to set four fields.
 - **Subject**: The subject of the email template
 - **Body**: The body of the template. Could also be html document.
 - **Variables**: An array of strings which contain the names of the template variables.
-```jsx title="Template registration"
-await this.grpcSdk.email.registerTemplate({
+```ts title="Request"
+await grpcSdk.email.registerTemplate({
     name: 'template_name',
     subject: 'subject',
     body: '<p> Hello, {{user}}. I hope you are doing well. </p>',
     variables: ['user']
-})
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
 })
 ```
 
 ## Sending an email with templates
 Sending emails with templates requires you to configure each template variable with a specific value.
 For instance if you want the **user** variable to be rendered to "Conduit" you have to specify it.
-```jsx title="Send an email"
-import ConduitGrpcSdk from '@conduitplatform/grpc-sdk';
-await this.grpcSdk.email.sendEmail('template_name',{
+```ts title="Request"
+await grpcSdk.email.sendEmail('template_name',{
     email : 'mail@example.com',
     sender: 'sendermail@example.com',
     variables: {
         user : 'Conduit',
     }
-})
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
 })
 ```
 

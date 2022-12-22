@@ -1,3 +1,8 @@
+---
+sidebar_label: 'SDK Usage'
+sidebar_position: 5
+---
+
 # SDK Usage
 
 
@@ -5,14 +10,18 @@
 Without requiring the user to log in first, this SDK function generates login credentials for them.
 A user and a client must both have been created.
 
-```jsx title="User login"
-await this.grpcSdk.authentication.userLogin({
+```ts title="Request"
+await grpcSdk.authentication.userLogin({
     userId: "someuserid",
     clientId : "someclientid"
 })
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
-});
+```
+
+```ts title="Response"
+{
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDJmMWJiMTBhMDk5MDE4Mjc3MzhmZSIsImlhdCI6MTY0ODU1NDUyNywiZXhwIjoxNzM0OTU0NTI3fQ.Fjqa7ORBBF2giwG7OgiWr2HMgHDL7R6ddFq2E730Djc",
+    "refreshToken": "BsKhe3ARhL/FfDfK1REphKkkqQaxRCj/LvvRHOg5wCXCBaUSOwafRHyFYIttaORY/NmHS7NAuT6+knBQegVOwQ=="
+}
 ```
 
 ## User Create
@@ -24,15 +33,12 @@ Sign up verification can also be enabled by sending an email.
 If the [email module is not up and configured](../email/config) or the [send verification email](./config#local-authentication) option is not selected then the process will fail .<br />
 :::
 
-```jsx title="User login"
-await this.grpcSdk.authentication.userCreate({
+```ts title="Request"
+await grpcSdk.authentication.userCreate({
     email: "somemail@example.com",
     password : "P@$$w0rd",
     verify: true,
 })
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
-});
 ```
 
 
@@ -40,27 +46,19 @@ await this.grpcSdk.authentication.userCreate({
 
 No words needed to explain this sdk function usage. The only thing you need is the **userId** that you want to delete.
 
-```jsx title="User delete"
-await this.grpcSdk.authentication.userDelete({
+```ts title="Request"
+await grpcSdk.authentication.userDelete({
     userId: "someuserid"
 })
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
-});
-
 ```
 
 ## Change Password
 
 No explanation needed either. Just type the new password and the email of the user, and you are ready.
 
-```jsx title="Change user's password "
-await this.grpcSdk.authentication.changePass({
+```ts title="Request"
+await grpcSdk.authentication.changePass({
     email: "somemail@example.com",
     password: "newP@$$w0rd"
 })
-.catch(e => {
-    ConduitGrpcSdk.Logger.error(e);
-});
-
 ```
