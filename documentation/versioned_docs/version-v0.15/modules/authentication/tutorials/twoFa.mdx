@@ -1,0 +1,232 @@
+---
+sidebar_label: 'TwoFa'
+sidebar_position: 3
+---
+
+# Step-by-Step Guide to Two-Factor Authentication
+
+First, you need to enable Two-Factor Authentication (2FA) on your account.
+A user can choose between two methods for 2FA: SMS or Authenticator app.
+
+## Step 1: Enable 2FA
+
+To enable 2FA, users must be successfully logged.
+
+To enable SMS 2FA, you need to have a verified phone number on your account.
+
+The method parameter can be either `sms` or `authenticator` and is required.
+The sms parameter is required for the `sms` method and is the phone number that will receive the 2FA code.
+
+
+```bash title="Enable two factor authentication with phone method"
+curl -X PUT \
+  http://localhost:3000/authentication/twoFa/enable \
+  -H 'Content-Type: application/json' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer {{token}}' \
+  -d '{
+  "method": "sms",
+  "phone": "1234567890"
+}'
+```
+```json title="Responsee"
+{
+  "message": "Verification code sent"
+}
+```
+If a user wants to enable 2FA using the Authenticator method, they can use the following curl example:
+
+```bash title="Enable two factor authentication with authenticator method"
+
+curl --location --request PUT 'http://localhost:3000/authentication/twoFa/enable' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer ' \
+--data-raw '{
+  "method": "authenticator"
+}'
+
+```
+The response will be a link to a QR code that can be scanned by an authenticator app.
+
+``` json title="Response"
+{
+  "result": "https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl=otpauth://totp/Conduit%3Atest%40test.gr%3Fsecret=N5FX7RZGKNRKQORJFV77SM7ZEF6LNU3X%26issuer=Conduit"
+}
+```
+
+Every time a user enables two factor authenticator must verify the 6-digit code that was sent to their phone number or authenticator app.<br />
+That is done by using the following curl example:
+
+```bash title="Verify two factor authentication code"
+curl --location --request POST 'http://localhost:3000/authentication/twoFa/enable/verify' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer ' \
+--data-raw '{
+  "code": "488333"
+}'
+```
+After a successful verification, the user will be able to use 2FA to login.
+
+```json title="Response"
+{
+  "message": "2FA enabled"
+}
+```
+
+## Step 2: Login with 2FA
+
+After a user has enabled 2FA, they can log in with it.
+From now on, the endpoint that they will use to log in is the following:
+
+```bash title="Login with two factor authentication"
+# Starts 2FA process by sending a code to user's phone
+# or returns a message to check authenticator app.
+# User's 2FA mechanism has to be enabled.
+
+curl -X POST http://localhost:3000/authentication/twoFa/authorize \
+-H 'Content-Type: application/json' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTkwODA2MCwiZXhwIjoxNjY5OTgwMDYwfQ.9dtBJc4YvSbuz74YRhJj4b9k-myAC_6EPlVFunRMkcw' \
+
+
+```
+If the user has enabled 2FA with a sms method the response will be like this:
+```json title="Response"
+{
+  "method": "sms",
+  "message": "A verification code has been sent to ${phoneNumber}"
+}
+```
+If the user has enabled 2FA with an authenticator app the response will be like this.
+
+
+
+```json title="Response"
+{
+  "method": "authenticator",
+  "message": "Check your authenticator app for the code"
+}
+```
+
+**If the user has not enabled 2FA the response will be like this:**
+
+```json title="Response"
+{
+  "message": "2FA disabled"
+}
+```
+## Step 3: Verify the code
+
+At this step, the user must verify the code that was sent to their phone or authenticator app.<br />
+A curl example of the endpoint that verifies the code is shown below:
+
+```bash title="Verify two factor authentication code"
+
+curl --location --request POST 'http://localhost:3000/authentication/twoFa/verify' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTkwODA2MCwiZXhwIjoxNjY5OTgwMDYwfQ.9dtBJc4YvSbuz74YRhJj4b9k-myAC_6EPlVFunRMkcw' \
+--data-raw '{
+    "code": "123456"
+}'
+
+```
+
+After a successful verification, access and refresh tokens will be returned.
+
+``` json title="Response"
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTkwODA2MCwiZX...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTkwODA2MCwiZX"
+}
+```
+
+### Generate Backup Codes
+
+If a user has no access to their phone or authenticator app, they can use the backup codes to login.<br />
+**Each backup code is only used once and a user must generate new ones before using all of them.**
+
+```bash title="Generate backup codes"
+curl --location --request GET 'http://localhost:3000/authentication/twoFa/generate' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer ' \
+
+```
+This will return a set of 10 backup codes that the user can use to log in.
+
+```json title="Response"
+{
+    [
+        "3892 3664",
+        "3676 4634",
+        "5810 6001",
+        "8728 6569",
+        "9671 8273",
+        "9357 5185",
+        "4331 9651",
+        "2096 8790",
+        "1840 1122",
+        "3283 6089"
+    ]
+}
+```
+:::caution
+**This codes must be stored in a safe place and the user must be informed that they can only be used once.**
+:::
+
+### Revover access with backup codes
+
+This endpoint is used to recover 2FA access with an 8 digit backup code.<br />
+A user can use one of the backup codes that were generated in the previous step.
+A curl example is shown below:
+
+```bash title="Recover two factor authentication"
+curl --location --request POST 'http://localhost:3000/authentication/twoFa/recover' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer ' \
+--data-raw '{
+  "code": "38923664"
+}'
+```
+After successfully recovering 2FA, access and refresh tokens are returned as well as a message that informs the user about remaining back-up codes.
+
+``` json title="Response"
+{
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzODljMWNhMDE3ZGJkMDg3NTczMDNkNyIsImF1dGhvcml6ZWQiOnRydWUsInN1ZG8iOnRydWUsImlhdCI6MTY2OTk3NDMyOCwiZXhwIjoxNjczNTc0MzI4fQ.azq4JLczTNwnzd7XOHAhY2mXrJm7WjwF1ym0wWelRJQ",
+    "refreshToken": "IgbxMMrlUeM2O24SZ9NBbSM5OP8Cp4HWn25yzvQnd//CZeTdlhVmZIoYQ+V8jISR5wFY+RTWnFbdKTb08LDIIw==",
+    "message": "You have 9 back up codes left"
+}
+```
+
+
+
+###  Disable two-factor authentication
+
+A user can disable 2FA any time they want. This will remove the 2FA method and the user will be able to log in without a code.<br />
+
+**The user must be in sudo mode to disable 2FA. This means that they must have successfully logged in with 2FA and have followed the steps.<br />**
+
+```bash title="Disable two factor authentication"
+curl --location --request PUT 'http://localhost:3000/authentication/twoFa/disable' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer {{token}}' \
+
+```
+After successfully disabling 2FA, the following message is returned:
+
+```json title="Response"
+{
+    "message": "2FA disabled"
+}
+```
+
+
+
+
+
+
+

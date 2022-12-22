@@ -2,14 +2,14 @@ import React, { FC, ReactNode } from 'react';
 import { Box, ButtonBase, Card, useTheme } from '@mui/material';
 
 interface Props {
-  title: string;
   checked?: boolean;
   img: ReactNode;
   handleChecked: () => void;
 }
 
-const PlatformCard: FC<Props> = ({ title, img, checked, handleChecked }) => {
+const PlatformCard: FC<Props> = ({ img, checked, handleChecked }) => {
   const theme = useTheme();
+
   return (
     <Card
       sx={{

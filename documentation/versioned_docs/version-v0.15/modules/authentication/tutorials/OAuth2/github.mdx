@@ -1,0 +1,57 @@
+---
+sidebar_label: 'GitHub'
+---
+
+# GitHub
+
+In this tutorial, we'll be setting up GitHub authentication for Conduit.<br />
+
+## Prerequisites
+
+Before we begin, you should have a GitHub account and a Conduit application set up. If you don't, head over to the [Getting Started](../../get-started) section to get set up.
+
+## Setting up GitHub OAuth
+
+To set up GitHub OAuth, you'll need to create a new OAuth application on GitHub. You can do this by going to [GitHub's developer settings](https://github.com/settings/applications/new) and clicking the "New OAuth App" button.
+
+
+You'll need to fill out the form with the following information:
+
+- **Application name**: This is the name of your application.
+- **Homepage URL**: This is the URL of your application's homepage.
+- **Authorization callback URL**: This is the URL that GitHub will redirect to after the user has authenticated.
+- **Application description**: This is a description of your application.
+- **Organization name**: This is the name of your organization.
+- **Organization website**: This is the URL of your organization's website.
+
+Once you've filled out the form, click the "Register application" button. You'll be redirected to the application's settings page.
+
+
+You'll need to copy the **Client ID** and **Client Secret** from the application's settings page. You'll need these later.
+
+## Configuring Conduit
+
+Now that you have your GitHub OAuth application set up, you'll need to configure Conduit to use it. To do this, you'll need to set the clientId and client secret.
+Go to the Authentication -> SIGN IN METHODS and select the GitHub provider.<br />
+Then, fill the required fields you obtained from the GitHub App.
+
+## Authenticate with GitHub
+
+To begin authenticating with GitHub you request a redirect url with the proper scopes<br />
+
+```bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/init/github' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTgwMjc0MCwiZXhwIjoxNjY5ODc0NzQwfQ._Q5rzo-FJ7gLesdaKV13dXi9aMNpGZA_nGpNJfkov3Y'
+```
+
+```json title="Response"
+{
+  "result": "https://github.com/login/oauth/authorize?client_id=1ceec70018979ba780ab&redirect_uri=http://localhost:3000/hook/authentication/github&response_type=code&response_mode=query&scope=read:user,repo&code_challenge=undefined&code_challenge_method=undefined&state=8eb67451-edbd-4248-8613-c36727070a78"
+}
+```
+
+Open a browser and navigate to the url returned to you from Conduit.<br />
+Now the `/hook/authentication` route has been triggered.<br />
+Once your browser has been redirected, your authentication has been completed.
+
+

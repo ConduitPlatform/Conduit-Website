@@ -1,6 +1,5 @@
 ---
 sidebar_label: 'Facebook'
-sidebar_position: 2
 ---
 
 # Facebook
@@ -39,18 +38,27 @@ Your app is ready. Make sure you download the relevant file.
 ## Setting up the configuration
 
 ***NOTE***<br />
-**Do not forget to configure the Facebook provider through the [Admin Panel](../config#third-party).**<br />
-Open the app which you downloaded and navigate to the `config.js` file.<br />
-Replace client id and client secret with your actual Facebook app credentials.<br />
+**Do not forget to configure the Facebook provider through the [Admin Panel](../../config#third-party-providers).**<br />
+Go to the Authentication -> SIGN IN METHODS and select the Facebook provider.<br />
+Then, fill the required fields you obtained from the Facebook App.
+
 
 ------------------------------------------------------------------------------------------------
 
 ## Authenticate with Facebook
 
 To begin authenticating with Facebook you request a redirect url with the proper scopes<br />
-We'll proceed using Postman!<br />
 
-![Postman Facebook Init](/v0.15/modules/authentication/tutorials/postman_facebook_init.png)
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/facebook' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U'
+```
+
+``` json title="Response"
+{
+    "result": "https://www.facebook.com/v11.0/dialog/oauth?client_id=1234567890&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauthentication%2Ffacebook%2Fcallback&scope=email&state=eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyM30zfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U"
+}
+```
 
 Open a browser and navigate to the url returned to you from Conduit.<br />
 Now the `/hook/authentication` route has been triggered.<br />
