@@ -33,7 +33,7 @@ Name | Type | Description |
 | `default` | any | Default value of the field. |
 | `enum` | enum values |  When a field has enum values. |
 
-Assume that we want to create a movie schema. A movie may have **title** , **genre**, **duration**, **director** , **description**  **for_adults** and surely an **_id** field.
+Assume that we want to create a movie schema. A movie may have **title** , **genre**, **duration**, **director** , **description**  and surely an **_id** field.
 So a possible schema could be this:
 
 ```jsx title="Movie schema"
@@ -67,10 +67,6 @@ const schema = {
         type: TYPE.String,
         required: false,
         unique: false,
-    },
-    forAdults: {
-        type: TYPE.Boolean,
-        required: true,
     },
     releaseDate: TYPE.Date,
     createdAt: TYPE.Date,
@@ -204,7 +200,6 @@ await grpcSdk.database
         duration: 165,
         genre: "scifi",
         description: "Tolkien rocks",
-        forAdults: false,
         director: "Peter Jackson",
         releaseDate: "13/12/2012"
     });
@@ -220,7 +215,6 @@ await grpcSdk.database.createMany("User",
             duration: 165,
             genre: "scifi",
             description: "Tolkien rocks",
-            forAdults: false,
             director: "Peter Jackson",
             releaseDate: "13/12/2012"
         },
@@ -229,7 +223,6 @@ await grpcSdk.database.createMany("User",
             duration: 200,
             genre: "scifi",
             description: "Marvel rocks",
-            forAdults: false,
             director: "Sam Raimi",
             releaseDate: "29/04/2002"
         },
@@ -277,5 +270,5 @@ An alternative but more complicated way of doing it is to use **findMany()** and
 
 ```ts title="Request"
 await grpcSdk.database
-    .countDocuments("Movies",{ forAdults: true });
+    .countDocuments("Movies",{ genre: "SCIFI" });
 ```
