@@ -40,7 +40,6 @@ the authenticated user id should not be included int the user's array. The user 
     "roomId": "someId"
 }
 ```
-## Send a message
 
 ## Add users in a chat room
 
@@ -83,3 +82,55 @@ curl --location --request PUT 'http://localhost:3000/chat/leave/6390b1808c52d0b5
     "result": "Ok"
 }
 ```
+
+## Send message
+
+To send a message, you need to log in as a user and join a chat room. This has been demonstrated in previous instances.
+:::info
+See how to take the user access token in [authentication](../../authentication/tutorials/local) docs.
+:::
+
+The Conduit chat module utilizes Web Sockets to function. Therefore, in order to begin sending messages, you must establish a connection with the Web Socket server.
+Here are the steps to do so using Postman:
+
+- Open postman and create a new WebSocket Request.
+
+![Configuration View](/v0.15/modules/chat/chat_tutorial_1.png)
+
+
+- Select Socket.IO request.
+- In server URL section add *** http://localhost:3001/chat/ ***.
+- Navigate to **Headers** tab and add the Authorization token that you got when you logged in as a user.
+
+![Web Socket Request Headers](/v0.15/modules/chat/web_socket_headers.png)
+
+:::caution
+The port used is determined by the value of the **CLIENT_SOCKET_PORT** environment variable in the router module. The default value for this variable is 3001.
+
+See [here](https://github.com/ConduitPlatform/Conduit/blob/main/modules/chat/README.mdx) for more.
+:::
+
+- Go to settings and type **/realtime** in the handshake path.
+
+![Web Socket handshake path](/v0.15/modules/chat/web_socket_settings.png)
+
+
+Now that you have connected to the Web Socket server, you can start sending messages.
+All you need is the chat room you are participating in and the message you want to send. Simply click "connect" to continue in order to start messaging!
+
+To send a message, follow these steps:
+
+- Open the "New message" tab.
+- Create two args.
+- Enter the roomId of the chat room you want to send the message to in "Arg 1".
+- Type the message you want to send in "Arg 2".
+
+![Chat Message](/v0.15/modules/chat/web_socket_message.png)
+
+
+To view the message you sent as a user, open the admin panel and navigate to the chat room where you sent the message.
+The message should be displayed in the chat room.
+
+![Admin Panel message](/v0.15/modules/chat/final_message.png)
+
+
