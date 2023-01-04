@@ -1,0 +1,53 @@
+---
+sidebar_label: 'Captcha'
+sidebar_position: 4
+---
+
+# Captcha
+
+:::caution
+Before proceeding, make sure you fully understand how Conduit handles [client validation](../../router/security#client-validation).
+:::
+
+In order to improve security and prevent automated bot attacks, endpoints related to user authentication should be protected by captcha.<br />
+Specifically, Conduit provides support for reCAPTCHA v2 and hCaptcha.
+
+In this demonstration, we'll configure and utilize captcha functionality using hCaptcha.
+
+## Configuration
+
+Start by enabling captcha support in the Authentication module's configuration, selecting your captcha provider as well as the platforms and client routes for which captcha should be utilized.
+
+Here's an example configuration that enables captcha support for login routes, using the hCaptcha provider on both web and Android platforms.
+
+- Navigate to the config tab in the admin panel.
+- Go to Captcha configuration and configure the captcha mechanism.
+- Fill the secret key section with the [testing hCaptcha secret key](https://docs.hcaptcha.com/#integration-testing-test-keys).
+
+![Configuring captcha](/v0.15/modules/authentication/tutorials/configure_captcha.png)
+
+## Testing
+
+The simplest approach to test the captcha middleware is by using the already generated [hCaptcha test keys](https://docs.hcaptcha.com/#integration-testing-test-keys).
+Let's make a login request using the [local authentication strategy](./local).
+
+``` bash title="Request"
+curl --location --request POST 'http://localhost:3000/authentication/local' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+"email": "example@mail.com",
+"password": "I_h4t3_p4ss_r3qu1r3m3nts",
+"captchaToken": "10000000-aaaa-bbbb-cccc-000000000001",  //hcaptcha test token
+}'
+```
+
+``` json title="Response"
+{
+  "userId": "6242f1bb10a09901827738fe",
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDJmMWJiMTBhMDk5MDE4Mjc3MzhmZSIsImlhdCI6MTY0ODU1NDUyNywiZXhwIjoxNzM0OTU0NTI3fQ.Fjqa7ORBBF2giwG7OgiWr2HMgHDL7R6ddFq2E730Djc",
+  "refreshToken": "BsKhe3ARhL/FfDfK1REphKkkqQaxRCj/LvvRHOg5wCXCBaUSOwafRHyFYIttaORY/NmHS7NAuT6+knBQegVOwQ=="
+}
+```
+
+As you can see, the token was verified by the captcha middleware and you received some authentication tokens.
+If the verification of the token fails, you will receive an error message.
