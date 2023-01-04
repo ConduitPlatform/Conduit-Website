@@ -1,42 +1,36 @@
 ---
 sidebar_label: 'Captcha'
-sidebar_position: 5
+sidebar_position: 4
 ---
-# Captcha in Conduit
 
-Conduit uses captcha as a middleware to improve security and prevent automated bot attacks.
-Captcha can be enabled or disabled based on the configuration. Currently, Conduit supports only recaptcha v2 and hcaptcha providers.
-In this tutorial, we will learn how to configure and use captcha in Conduit using the hcaptcha provider.
-
-## Configuring captcha
-
-To enable the captcha feature in Conduit, you need to patch the authentication configuration and set the **enabled** option to true. You can also specify which routes should have the captcha feature enabled using the routes option. The available options are **login, register, and oAuth2**.
-
-You can also specify which platforms the captcha feature is available for using the **acceptablePlatform**  option. The available options are android and web.
+# Captcha
 
 :::caution
-In order to continue to this tutorial you have to fully understand how [client validation](../../router/security#client-validation) works in conduit.
+Before proceeding, make sure you fully understand how Conduit handles [client validation](../../router/security#client-validation).
 :::
 
-To specify which captcha provider to use, you can set the provider option to either recaptcha or hcaptcha.
+In order to improve security and prevent automated bot attacks, endpoints related to user authentication to be protected by captcha.<br />
+Specifically, Conduit provides support for reCAPTCHA v2 and hCaptcha.
 
-Here is an example configuration that enables the captcha feature for the login routes, using the hcaptcha provider and allowing the captcha feature to be used on both the web and android platforms
-using hcaptcha provider.
+In this demonstration, we'll configure and utilize captcha functionality using hCaptcha.
+
+## Configuration
+
+Start by enabling captcha support in the Authentication module's configuration, selecting your captcha provider as well as the platforms and client routes for which captcha should be utilized.
+
+Here's an example configuration that enables captcha support for login routes, using the hCaptcha provider on both web and Android platforms.
 
 - Navigate to the config tab in the admin panel.
 - Go to Captcha configuration and configure the captcha mechanism.
-- Fill the secret key section with the [testing hcaptcha secret key](https://docs.hcaptcha.com/#integration-testing-test-keys).
+- Fill the secret key section with the [testing hCaptcha secret key](https://docs.hcaptcha.com/#integration-testing-test-keys).
 
 ![Configuring captcha](/v0.15/modules/authentication/tutorials/configure_captcha.png)
 
-##
-## Testing the captcha
+## Testing
 
-:::caution
-To continue, disable the client validation through [router's configuration](../../router/config).
-:::caution
-The simplest approach to test the captcha middleware is by using the already generated [hcaptcha test keys](https://docs.hcaptcha.com/#integration-testing-test-keys).
-Let's make a request to login by using the [local authentication strategy](./local).
+The simplest approach to test the captcha middleware is by using the already generated [hCaptcha test keys](https://docs.hcaptcha.com/#integration-testing-test-keys).
+Let's make a login request using the [local authentication strategy](./local).
+
 ``` bash title="Request"
 curl --location --request POST 'http://localhost:3000/authentication/local' \
 --header 'Content-Type: application/json' \
@@ -56,4 +50,4 @@ curl --location --request POST 'http://localhost:3000/authentication/local' \
 ```
 
 As you can see, the token was verified by the captcha middleware and you received some authentication tokens.
-If the verification of the token fails, you will receive a proper error message.
+If the verification of the token fails, you will receive an error message.
