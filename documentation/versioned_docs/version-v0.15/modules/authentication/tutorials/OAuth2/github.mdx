@@ -40,8 +40,7 @@ Then, fill the required fields you obtained from the GitHub App.
 To begin authenticating with GitHub you request a redirect url with the proper scopes<br />
 
 ```bash title="Request"
-curl --location --request GET 'http://localhost:3000/authentication/init/github' \
---header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTgwMjc0MCwiZXhwIjoxNjY5ODc0NzQwfQ._Q5rzo-FJ7gLesdaKV13dXi9aMNpGZA_nGpNJfkov3Y'
+curl --location --request GET 'http://localhost:3000/authentication/init/github'
 ```
 
 ```json title="Response"
