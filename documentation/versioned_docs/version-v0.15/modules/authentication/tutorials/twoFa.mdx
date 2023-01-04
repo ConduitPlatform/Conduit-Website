@@ -153,7 +153,7 @@ This will return a set of 10 backup codes that the user can use to log in.
 
 ```json title="Response"
 {
-    [
+    "codes": [
         "3892 3664",
         "3676 4634",
         "5810 6001",
@@ -168,10 +168,10 @@ This will return a set of 10 backup codes that the user can use to log in.
 }
 ```
 :::caution
-**This codes must be stored in a safe place and the user must be informed that they can only be used once.**
+**These codes must be stored in a safe place and the user must be informed that they can only be used once.**
 :::
 
-### Revover access with backup codes
+### Recover access with backup codes
 
 This endpoint is used to recover 2FA access with an 8 digit backup code.<br />
 A user can use one of the backup codes that were generated in the previous step.
