@@ -35,9 +35,9 @@ Then, fill the required fields you obtained from the Slack App.
 To begin authenticating with Slack you request a redirect url with the proper scopes<br />
 
 ``` bash title="Request"
-curl --location --request GET 'http://localhost:3000/authentication/init/slack' \
---header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U'
+curl --location --request GET 'http://localhost:3000/authentication/init/slack'
 ```
+
 ``` json title="Response"
 {
   "result": "https://slack.com/oauth/v2/authorize?client_id=1234567890.1234567890&scope=identity.basic&redirect_uri=http://localhost:3000/authentication/callback/slack&state=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyMzUzfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U"

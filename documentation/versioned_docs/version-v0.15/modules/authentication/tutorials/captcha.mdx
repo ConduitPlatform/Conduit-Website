@@ -33,12 +33,12 @@ Let's make a login request using the [local authentication strategy](./local).
 
 ``` bash title="Request"
 curl --location --request POST 'http://localhost:3000/authentication/local' \
---header 'Content-Type: application/json' \
---data-raw '{
-"email": "example@mail.com",
-"password": "I_h4t3_p4ss_r3qu1r3m3nts",
-"captchaToken": "10000000-aaaa-bbbb-cccc-000000000001",  //hcaptcha test token
-}'
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+    "email": "example@mail.com",
+    "password": "I_h4t3_p4ss_r3qu1r3m3nts",
+    "captchaToken": "10000000-aaaa-bbbb-cccc-000000000001",
+  }'
 ```
 
 ``` json title="Response"

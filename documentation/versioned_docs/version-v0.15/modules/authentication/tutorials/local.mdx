@@ -21,11 +21,11 @@ The Authentication module can then be used to verify the JWT token and retrieve 
 
 ``` bash title="Request"
 curl --location --request POST 'http://localhost:3000/authentication/local' \
-      --header 'Content-Type: application/json' \
-      --data-raw '{
-        "email": "example@mail.com",
-        "password": "I_h4t3_p4ss_r3qu1r3m3nts"
-      } '
+     --header 'Content-Type: application/json' \
+     --data-raw '{
+     "email": "example@mail.com",
+     "password": "I_h4t3_p4ss_r3qu1r3m3nts"
+     } '
 ```
 ``` json title="Response"
 {
@@ -42,11 +42,11 @@ Send a `POST` request to `/authentication/local`, passing in your user credentia
 
 ``` bash title="Request"
 curl --location --request POST 'http://localhost:3000/authentication/local' \
-      --header 'Content-Type: application/json' \
-      --data-raw '{
-        "email": "example@mail.com",
-        "password": "I_h4t3_p4ss_r3qu1r3m3nts"
-      }'
+     --header 'Content-Type: application/json' \
+     --data-raw '{
+     "email": "example@mail.com",
+     "password": "I_h4t3_p4ss_r3qu1r3m3nts"
+     }'
 ```
 ``` json title="Response"
 {
@@ -73,11 +73,8 @@ Meaning you can't reuse or refresh tokens across different clients.
 Let's finish off with an example on how to do just that.
 
 ``` bash title="Request"
-curl --location --request POST 'http://localhost:3000/authentication/renew' \
---header 'Authorization: Bearer YlwPQv1SvYY4um4G75zZfr5BBqwTx8rp0PsLtpLBmcqywnriAb06oF/luec0iyzCAZu1ftwQ/WZq+v/DHO+XJw==' \
---header 'Content-Type: application/json'
+curl --location --request POST 'http://localhost:3000/authentication/renew'
 ```
-
 
 ``` json title="Response"
 {
@@ -95,11 +92,11 @@ curl --location --request POST 'http://localhost:3000/authentication/renew' \
 # Used to resend email verification after new user is created.
 
 curl --location --request POST 'http://localhost:3000/authentication/local/resent-verification' \
---header 'Content-Type: application/json' \
---header 'Accept: application/json' \
---data-raw '{
-  "email": "example@mail.com"
-}'
+     --header 'Content-Type: application/json' \
+     --header 'Accept: application/json' \
+     --data-raw '{
+       "email": "example@mail.com"
+     }'
 ```
 
 ## Forgot Password
@@ -108,11 +105,11 @@ curl --location --request POST 'http://localhost:3000/authentication/local/resen
 # Generates a password reset token and forwards a verification link to the user's email address.
 
 curl --location --request POST 'http://localhost:3000/authentication/forgot-password' \
---header 'Content-Type: application/json' \
---header 'Accept: application/json' \
---data-raw '{
-  "email": "example@mail.com"
-}'
+     --header 'Content-Type: application/json' \
+     --header 'Accept: application/json' \
+     --data-raw '{
+       "email": "example@mail.com"
+     }'
 ```
 
 ## Reset Password
@@ -124,12 +121,12 @@ curl --location --request POST 'http://localhost:3000/authentication/forgot-pass
 # New password must not be the same as the old password.
 
 curl --location --request POST 'http://localhost:3000/authentication/reset-password' \
---header 'Content-Type: application/json' \
---header 'Accept: application/json' \
---data-raw '{
-  "passwordResetToken": "passwordResetToken",
-  "password": "pass"
-}'
+     --header 'Content-Type: application/json' \
+     --header 'Accept: application/json' \
+     --data-raw '{
+       "passwordResetToken": "passwordResetToken",
+       "password": "pass"
+     }'
 ```
 
 
@@ -143,13 +140,13 @@ curl --location --request POST 'http://localhost:3000/authentication/reset-passw
 # The new password can not be the same as the old password
 
 curl --location --request POST 'http:/localhost:3000/authentication/local/change-password' \
---header 'Content-Type: application/json' \
---header 'Accept: application/json' \
---header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTk4MTIwOSwiZXhwIjoxNjcwMDUzMjA5fQ.sxIQDgJv5zzZo8PV6logbvyLO0WbXgES9EWEtUo_kEg' \
---data-raw '{
-  "oldPassword": "your_old_password",
-  "newPassword": "your_new_password"
-}'
+     --header 'Content-Type: application/json' \
+     --header 'Accept: application/json' \
+     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTk4MTIwOSwiZXhwIjoxNjcwMDUzMjA5fQ.sxIQDgJv5zzZo8PV6logbvyLO0WbXgES9EWEtUo_kEg' \
+     --data-raw '{
+       "oldPassword": "your_old_password",
+       "newPassword": "your_new_password"
+     }'
 ```
 
 ## Change Email
@@ -161,12 +158,12 @@ curl --location --request POST 'http:/localhost:3000/authentication/local/change
 # The new email can not be the same as the old email
 
 curl --location --request POST 'http://localhost:3000/authentication/local/change-email' \
---header 'Content-Type: application/json' \
---header 'Accept: application/json' \
---header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTk4MTIwOSwiZXhwIjoxNjcwMDUzMjA5fQ.sxIQDgJv5zzZo8PV6logbvyLO0WbXgES9EWEtUo_kEg' \
---data-raw '{
-  "newEmail": "newEMail@mail.com"
-}'
+     --header 'Content-Type: application/json' \
+     --header 'Accept: application/json' \
+     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTk4MTIwOSwiZXhwIjoxNjcwMDUzMjA5fQ.sxIQDgJv5zzZo8PV6logbvyLO0WbXgES9EWEtUo_kEg' \
+     --data-raw '{
+       "newEmail": "newEMail@mail.com"
+     }'
 ```
 
 ## Verify Email
@@ -174,8 +171,7 @@ curl --location --request POST 'http://localhost:3000/authentication/local/chang
 ```bash title=" Verify Email Request"
 # A webhook used to verify user email. This bypasses the need for client id/secret.
 
-curl --location --request GET 'http://localhost:3000/hook/authentication/verify-email/:verificationToken' \
---header 'Accept: application/json'
+curl --location --request GET 'http://localhost:3000/hook/authentication/verify-email/:verificationToken'
 ```
 
 ## Verify Change Email
@@ -184,9 +180,7 @@ curl --location --request GET 'http://localhost:3000/hook/authentication/verify-
 
 # A webhook used to verify an email address change. This bypasses the need for client id/secret.
 
-curl --location --request GET 'http://localhost:3000/hook/authentication/verify-change-email/:verificationToken' \
---header 'Accept: application/json'
-
+curl --location --request GET 'http://localhost:3000/hook/authentication/verify-change-email/:verificationToken'
 ```
 
 ## Logout
@@ -195,8 +189,8 @@ curl --location --request GET 'http://localhost:3000/hook/authentication/verify-
 # logs out authenticated user and removes cookies
 
 curl --location --request POST 'http://localhost:3000/authentication/logout' \
---header 'Content-Type: application/json' \
---header 'Accept: application/json' \
---header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTk4MTIwOSwiZXhwIjoxNjcwMDUzMjA5fQ.sxIQDgJv5zzZo8PV6logbvyLO0WbXgES9EWEtUo_kEg' \
+     --header 'Content-Type: application/json' \
+     --header 'Accept: application/json' \
+     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTk4MTIwOSwiZXhwIjoxNjcwMDUzMjA5fQ.sxIQDgJv5zzZo8PV6logbvyLO0WbXgES9EWEtUo_kEg'
 }'
 ```
