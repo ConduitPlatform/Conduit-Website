@@ -51,7 +51,7 @@ export default function UsageSection() {
           imageComponent={<Document />}
           title={'Tons of Features'}
           subText={
-            'Mdules, covering the vast majority of features your applications could depend on. A modern SDK, allowing you to implement custom functionality as you see fit.'
+            'Modules, covering the vast majority of features your applications could depend on. A modern SDK, allowing you to implement custom functionality as you see fit.'
           }
         />
       </Box>
