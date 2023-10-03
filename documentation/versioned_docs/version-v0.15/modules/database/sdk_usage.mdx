@@ -1,0 +1,274 @@
+---
+sidebar_label: 'SDK Usage'
+sidebar_position: 100
+---
+
+# SDK Usage
+
+Since the database is up, its SDK comes up with a bunch of operations you could use.
+In order to explain the functionality of the database SDK, we're going to extend
+the [movie tutorial](./tutorials/cinema_ticket_booking).<br />
+To start operating on schemas, you need to create one first. Let's create a movie schema using the SDK.
+
+## Schema Creation
+
+Create schema from adapter accepts a JSON schema as an argument, and it stores into the database.
+Additional arguments are required such as:
+- Schema name
+- [Schema fields](./sdk_usage#schema-fields)
+- [Schema model options](./sdk_usage#model-options)
+- Owner module name // module that owns the module
+- Collection name ( name of the collection)
+
+### Schema fields
+Schema fields represent the whole schema. Each field may have:
+
+Name | Type | Description |
+| ---- | ---- | ----------- |
+| `type` | TYPE | Could be TYPE.(String,Number,Boolean etc.)|
+| `required` | boolean | Indicates whether a field is required. |
+| `unique` | boolean | Indicates whether a field is unique. |
+| `select` | boolean | Indicates whether a field could be retreived from a query. |
+| `description` | string | Description of the field, |
+| `default` | any | Default value of the field. |
+| `enum` | enum values |  When a field has enum values. |
+
+Assume that we want to create a movie schema. A movie may have **title** , **genre**, **duration**, **director** , **description**  and surely an **_id** field.
+So a possible schema could be this:
+
+```jsx title="Movie schema"
+enum MoviesGenreEnum {
+    THRILLER = "THRILLER",
+    COMEDY = "COMEDY",
+    ADVENTURE ="ADVENTURE",
+    SCIENCE_FICTION = "SCIFI"
+};
+
+const schema = {
+    _id: TYPE.ObjectId,
+    name: {
+        type: TYPE.String,
+        unique: true,
+        required: true,
+    },
+    director: {
+        type: TYPE.String,
+        required: true,
+    },
+    duration: {
+      type: TYPE.Number
+    },
+    genre: {
+        type: TYPE.String,
+        enum: Object.values(MoviesGenreEnum),
+        required: true,
+    },
+    description: {
+        type: TYPE.String,
+        required: false,
+        unique: false,
+    },
+    releaseDate: TYPE.Date,
+    createdAt: TYPE.Date,
+    updatedAt: TYPE.Date,
+}
+```
+### Model Options
+
+There is another argument that createSchemaFromAdapter() needs, and it is called modelOptions.
+Model options are objects that are stored in the database and contain some information about our schema.
+
+Name | Type | Description |
+| ---- | ---- | ----------- |
+| `type` | TYPE | Could be TYPE.(String,Number,Boolean etc.)|
+| `conduit.permissions` | object | Schema permissions |
+| `conduit.persmissions.extendable` | boolean | Indicates if a schema could be extend after its creation. |
+| `conduit.permissions.canCreate` | boolean | Indicates if a module can create documents of that schema. |
+| `conduit.permissions.canModify` | boolean | Indicates if a module can modify documents of that schema. |
+| `conduit.permissions.canDelete` | boolean | Indicates if a module can delete of that schema. |
+
+A modelOptions object could be this:
+
+```jsx title="Model options object"
+const modelOptions = {
+  timestamps: true,
+  conduit: {
+    permissions: {
+      extendable: true,
+      canCreate: false,
+      canModify: 'ExtensionOnly',
+      canDelete: false,
+    },
+  },
+} as const;
+```
+
+## Schema Creation
+
+```ts title="Request"
+await grpcSdk.database.createSchemaFromAdapter({
+    name: "Movies",
+    fields: schema,
+    modelOptions: modelOptions,
+    collectionName: "", // could be 'Movies' also
+});
+```
+
+## Schema Retrieval
+
+```ts title="Request"
+await grpcSdk.database.getSchemas({});
+```
+
+## Schema Deletion
+
+Deleting schemas could also be done by calling the SDK's deleteSchema() function. All you need is Schema's name.
+Remember that conduit allows you to delete the schema's created documents as well.
+
+```ts title="Request"
+await grpcSdk.database.deleteSchema({
+    name: "Movies",
+    deleteData: true // could be also false
+});
+```
+
+
+## Extending Schemas
+
+Most Conduit modules need to register schemas and perform database queries for their data.<br />
+These schemas are usually limited to the functionality that's required for their owner's internal operations.
+
+The Authentication module, for instance, registers a plain `User` schema, containing just enough descriptor fields for its authentication strategies.<br />
+The `User` schema doesn't make any assumptions in regard to how user-facing apps would account for additional user-related information.
+
+Suppose your use case requires that you keep track of a user's first and last names.<br />
+Traditionally, you would register your own `UserInfo` schema, including these fields as well as a relation field to the `User` entry they reference.<br />
+Instead, Conduit lets you extend the main `User` schema, appending the fields you deem necessary,
+as long as they are not part of the schema's base fields or otherwise already provided through another modules' extension on the same schema.
+
+```ts title="Request"
+await grpcSdk.database.setSchemaExtension({
+    schemaName: "Movies",
+    extOwner: "yourModule",
+    extFields:  {
+        firstName: {
+            type: "String",
+            required: "true",
+        },
+        lastName: {
+            type: "String",
+            required: "true",
+        },
+    },
+});
+```
+
+Now the User schema includes this new field called **recoverEmail**.
+
+## Database Operations
+
+Conduit models provide several static helper functions for CRUD operations.<br/>
+Queries are structured Mongoose-like. To see Conduit's query language click [here](./operators).
+
+### Document Retrieval
+
+Suppose we wish to find a record with a specific id.
+
+```ts title="Request"
+await grpcSdk.database
+    .findOne("Movies",{ _id: "someMovieId" });
+```
+
+### Multi-Document Retrieval
+
+Suppose we want to fetch all Movies that have a duration greater than 1 hour.
+
+```ts title="Request"
+await grpcSdk.database
+    .findMany("Movies", { duration: { $gt: 60 } });
+```
+
+### Document Creation
+
+Create operation is very simple. Just invoke the **create()** function through database sdk and fill the
+necessary fields for document creation.
+
+```ts title="Request"
+await grpcSdk.database
+    .create("Movies",{
+        title: "The Hobbit",
+        duration: 165,
+        genre: "scifi",
+        description: "Tolkien rocks",
+        director: "Peter Jackson",
+        releaseDate: "13/12/2012"
+    });
+```
+
+### Multi-Document Creation
+
+```ts title="Request"
+await grpcSdk.database.createMany("User",
+    [
+        {
+            title: "The Hobbit",
+            duration: 165,
+            genre: "scifi",
+            description: "Tolkien rocks",
+            director: "Peter Jackson",
+            releaseDate: "13/12/2012"
+        },
+        {
+            title: "The Spiderman",
+            duration: 200,
+            genre: "scifi",
+            description: "Marvel rocks",
+            director: "Sam Raimi",
+            releaseDate: "29/04/2002"
+        },
+    ]
+);
+```
+
+
+### Multi-Document Updates
+
+We can use `updateMany()`to update multiple documents given some optional constraints.<br />
+Suppose we wish to discontinue some movies from an online streaming service.
+
+```ts title="Request"
+const discontinuedMovies = [movieId2, movieId2,movieId3];
+await grpcSdk.database
+    .updaeteMany("Movies",{ _id: { $in: discontinuedMovies } }, { discontinued: true });
+```
+
+### Document Deletion
+
+The only thing we need is the document ID we want to delete.
+
+```ts title="Request"
+await grpcSdk.database
+    .deleteOne("Movies",{ _id : id });
+```
+
+### Multi-Document Deletion
+
+Like updateMany we can use `deleteMany` to delete documents given some constraints.
+
+```ts title="Request"
+const idArray = [movieid2, movieid2, movieid3];
+await grpcSdk.database
+    .deleteMany("Movies",{ _id :{ $in: idArray } });
+```
+
+### Document Count
+
+Sometimes we only need to count how many documents exist with specific features.
+For example, if we want to count how many movies are suitable only for.
+**countDocuments()** should be used.<br />
+An alternative but more complicated way of doing it is to use **findMany()** and calculate the length of the returned array.
+
+```ts title="Request"
+await grpcSdk.database
+    .countDocuments("Movies",{ genre: "SCIFI" });
+```

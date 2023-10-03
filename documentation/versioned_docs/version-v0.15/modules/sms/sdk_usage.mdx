@@ -1,0 +1,55 @@
+---
+sidebar_label: 'SDK Usage'
+sidebar_position: 100
+---
+
+# SDK Usage
+
+Underworld has to know about Conduit Platform. Just use sms module to do it.
+
+:::caution
+Sms module has to be configured with the proper provider.
+:::
+
+## Send Sms
+
+```ts title="Request"
+await grpcSdk.sms.sendSms({
+    to: "+6666666666",
+    message: "Hello. Conduit rocks!"
+})
+```
+
+## Verify via sms
+
+Conduit provides a verification mechanism by sending SMS. You can verify everything in two steps. <br/>
+The **sendVerificationCode** function will be used to send a verification code to the user in the first step.
+
+```ts title="Request"
+await grpcSdk.sms.sendVerificationCode({
+    to: "+6666666666",
+})
+```
+
+```ts title="Response"
+{
+    "verificationSid": string
+}
+```
+
+A verificationSid will be returned to you. Also, a code will be sent to the user.
+To proceed to the next and final step you have to use these to make the verification
+
+```ts title="Request"
+await grpcSdk.sms.verify({
+    verificationSid : "someverificationsid",
+    code: "verificationcode"
+})
+```
+
+```ts title="Response"
+{
+    "verfied": boolean,
+}
+```
+If verification process went well then the returned value will be true.
