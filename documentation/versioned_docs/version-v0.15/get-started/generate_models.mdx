@@ -1,0 +1,34 @@
+---
+sidebar_label: 'Generate API client'
+sidebar_position: 3
+title: 'Generate ALI client from Swagger'
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+After setting up Conduit and creating your first app you may wish to use types for faster coding with fewer typos and more comfort using code completion. Therefore it makes sense to use the schema Conduit creates and generate types for your project.
+
+On your Conduit installation, navigate to the Swagger button and download the App Swagger JSON file.
+
+Install the generator with `npm install -g @openapitools/openapi-generator-cli` and generate the necessary files with `openapi-generator-cli generate -i conduitSwagger.json -g <generator> -o ./<output folder>`. See these examples on how to generate the API client according to your needs.
+
+<Tabs>
+<TabItem value="ng" label="Angular">
+``` bash
+openapi-generator-cli generate -i conduitSwagger.json -g typescript-angular -o ./src/app/api
+```
+</TabItem>
+<TabItem value="axios" label="Axios">
+``` bash
+openapi-generator-cli generate -i conduitSwagger.json -g typescript-axios -o ./src/api
+```
+</TabItem>
+<TabItem value="fetch" label="Built-in fetch">
+``` bash
+openapi-generator-cli generate -i conduitSwagger.json -g typescript-fetch -o ./src/api
+```
+</TabItem>
+</Tabs>
+
+Please refer to the generated readme.md file in your api folder for further implementation details.

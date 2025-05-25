@@ -1,0 +1,18 @@
+---
+sidebar_label: 'Deploy with Kubernetes'
+sidebar_position: 1
+title: 'Deploy with Kubernetes'
+---
+
+# Introduction
+
+As Conduit was built with Kubernetes in mind, it is very easy to deploy Conduit to you Kubernetes cluster. You can deploy it to your rented or self-managed cluster or try it on your local machine to test it out.
+
+Make sure you have on your local machine `kubectl` and `helm` installed and configured to interact with your cluster.
+
+First of all, create a values file so you can configure Conduit at startup. See https://github.com/ConduitPlatform/Conduit/tree/main/deploy/k8s/values for example files. Just copy the main values file or the development values file to your working directory and edit it up to your needs. It is important that you change the hostnames for the ingresses.
+If you run Conduit locally, you can keep those and add the three domain names to your `/etc/hosts` file. Keep in mind that it could be that your Kubernetes software does not bind to localhost. If you use minikube, you can query the IP with the command `minikube ip`.
+
+Run now `helm install -f ./<your values file> conduit conduit-platform/conduit` to deploy.
+
+If you wish to update your values, run `helm upgrade -f ./<your values file> conduit conduit-platform/conduit`.
