@@ -1,0 +1,46 @@
+---
+sidebar_label: 'SDK Usage'
+sidebar_position: 100
+---
+
+# SDK Usage
+
+Using Conduit, it is simple to interact with storage systems. Storage SDK provides you with the ability
+of creating, updating, and getting files since the storage provider is configured. You can also fetch the
+data from an already existing file.
+
+## Create
+
+```ts title="Request"
+await grpcSdk.storage.createFile(name,mimeType,data,folder,isPublic)
+```
+
+```ts title="Response"
+{
+    "id": "fileid",
+    "url": "fileurl",
+    "name": "fileName"
+}
+```
+## Get a file
+
+```ts title="Request"
+await grpcSdk.storage.getFile(fileId)
+```
+
+## Get file's data
+
+```ts title="Request"
+await grpcSdk.storage.getFileData(fileId)
+```
+
+```ts title="Response"
+{
+    "data": "stringifiedFileData"
+}
+```
+## Update a file
+
+```ts title="Request"
+await grpcSdk.storage.updateFile(name,mimeType,data,folder,isPublic)
+```

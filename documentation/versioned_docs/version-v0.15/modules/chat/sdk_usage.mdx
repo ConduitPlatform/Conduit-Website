@@ -1,0 +1,57 @@
+---
+sidebar_label: 'SDK Usage'
+sidebar_position: 100
+---
+
+# SDK Usage
+
+## Room Creation
+
+Let's begin by creating a room. All you need is:
+- A participant array which include the participants user ids.
+- A room name.
+
+```ts title="Request"
+await grpcSdk.chat.createRoom({
+    name: "roomName",
+    participants: ["userId1", "userId2"],
+});
+```
+```ts title="Response"
+{
+    room: {
+      Id: "roomId",
+      name: "roomName",
+      participants: ["userId1", "userId2"]
+    }
+}
+```
+
+## Room Deletion
+
+```ts title="Request"
+await grpcSdk.chat.deleteRoom({
+    id: "roomId",
+});
+```
+```ts title="Response"
+{
+    room: {
+        Id: "roomId",
+        name: "roomName",
+        participants: ["userId1", "userId2"]
+    }
+}
+```
+
+## Sending Messages
+
+Before sending a message to a group, make sure the user you're sending it as is already a member of the group.
+
+```ts title="Request"
+await grpcSdk.chat.sendMessage({
+    userId: "userId",
+    roomId: "roomId",
+    message: "Hello Conduit users!"
+});
+```

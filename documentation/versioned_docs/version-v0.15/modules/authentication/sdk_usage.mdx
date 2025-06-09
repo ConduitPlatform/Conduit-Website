@@ -1,0 +1,66 @@
+---
+sidebar_label: 'SDK Usage'
+sidebar_position: 100
+---
+
+# SDK Usage
+
+## User Creation
+
+You may easily create users (utilizing the [Local Authentication](./strategies#local) strategy) through the SDK.<br />
+The `verify` boolean field specifies whether the newly created user **should verify themselves**.
+
+:::caution
+User authentication requires that the Email module is available and [configured](../email/config).<br />
+The Authentication module's Local Authentication strategy should also enable email verification.
+:::
+
+[//]: # (TODO: Update verify naming)
+
+```ts
+await grpcSdk.authentication.userCreate({
+    email: "somemail@example.com",
+    password : "P@$$w0rd",
+    verify: true,
+});
+```
+
+## User Login
+
+You may retrieve an access/refresh token pair for your users through the SDK.<br />
+Specifying a [security client](../router/security.mdx) id for your login request is required.
+
+[//]: # (TODO: Update this once security clients are optional in gRPC)
+
+```ts title="Request"
+await grpcSdk.authentication.userLogin({
+    userId: "someuserid",
+    clientId: "someclientid"
+});
+```
+
+```ts title="Response"
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDJmMWJiMTBhMDk5MDE4Mjc3MzhmZSIsImlhdCI6MTY0ODU1NDUyNywiZXhwIjoxNzM0OTU0NTI3fQ.Fjqa7ORBBF2giwG7OgiWr2HMgHDL7R6ddFq2E730Djc",
+  "refreshToken": "BsKhe3ARhL/FfDfK1REphKkkqQaxRCj/LvvRHOg5wCXCBaUSOwafRHyFYIttaORY/NmHS7NAuT6+knBQegVOwQ=="
+}
+```
+
+## User Deletion
+
+```ts title="Request"
+await grpcSdk.authentication.userDelete({
+    userId: "someuserid"
+});
+```
+
+## Changing Passwords
+
+You may update the passwords for any users utilizing [Local Authentication](./strategies#local).
+
+```ts title="Request"
+await grpcSdk.authentication.changePass({
+    email: "somemail@example.com",
+    password: "newP@$$w0rd"
+});
+```
