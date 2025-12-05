@@ -1,0 +1,31 @@
+# Forms
+
+![Forms List View](/v0.16/modules/forms/admin/forms_list_view.png)
+
+This module supports creating and submitting forms.
+
+## Features
+
+- Form creation
+- Form submission
+- File attachments
+- Spam detection
+
+## Dependencies
+
+- [Email](../email/email.mdx)
+- [Storage](../storage/storage.mdx) (optional: attachments)
+
+## Minimum Configuration
+
+This module is configurable. All features are enabled by default.<br />
+See [Configuration](config.mdx) section.
+
+## Environmental Variables {#env-variables}
+
+|  Name          | Required |  Description                                  |  Example      |
+| :------------: | :------: | :-------------------------------------------: | :-----------: |
+| CONDUIT_SERVER |  True    | Conduit Core's address and port               | 0.0.0.0:55152 |
+| SERVICE_URL    |  False   | This should be where this service listens on. If behind a LB it should point to the LB's IP/DNS | 0.0.0.0:56154 |
+| GRPC_PORT      |  False   | Port to be used by the gRPC server            | 56154         |
+| GRCP_KEY       |  False   | Specifying a secret enables [gRPC signed request protection](../../core#grpc-request-protection) | someRandomSecret |

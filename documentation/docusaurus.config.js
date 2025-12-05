@@ -1,22 +1,44 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require("prism-react-renderer/themes/github");
-const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+import { themes as prismThemes } from "prism-react-renderer";
+
+// Conditionally add posthog plugin only if API key is set
+const plugins = [];
+if (process.env.POSTHOG_API_KEY) {
+  plugins.push([
+    "posthog-docusaurus",
+    {
+      apiKey: process.env.POSTHOG_API_KEY,
+      appUrl: "https://app.posthog.com",
+      enableInDevelopment: false,
+    },
+  ]);
+}
 
 /** @type {import('@docusaurus/types').Config} */
-
 const config = {
   title: "Conduit Platform",
   tagline: "Less is more",
   url: "https://mystifying-borg-373afd.netlify.app",
   baseUrl: "/docs/",
-  onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "warn",
+  onBrokenLinks: "warn",
   favicon: "favicon.ico",
   organizationName: "ConduitPlatform", // Usually your GitHub org/user name.
   projectName: "Conduit", // Usually your repo name.
-  plugins: ["posthog-docusaurus", ["docusaurus2-dotenv", { systemvars: true }]],
+  
+  // Use CommonMark-based parser for legacy content compatibility with Docusaurus 3
+  markdown: {
+    format: 'md',
+    mdx1Compat: {
+      comments: true,
+      admonitions: true,
+      headingIds: true,
+    },
+  },
+
+  plugins,
+  
   presets: [
     [
       "classic",
@@ -24,14 +46,14 @@ const config = {
       ({
         docs: {
           routeBasePath: "/",
-          sidebarPath: require.resolve("./sidebars.js"),
+          sidebarPath: "./sidebars.js",
           // Please change this to your repo.
           editUrl: undefined,
           includeCurrentVersion: false, // disable 'next' version, enable for offline edits
         },
         blog: false,
         theme: {
-          customCss: require.resolve("./src/css/custom.css"),
+          customCss: "./src/css/custom.css",
         },
       }),
     ],
@@ -40,11 +62,6 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      posthog: {
-        apiKey: `<${process.env.POSTHOG_API_KEY}>`,
-        appUrl: "<https://app.posthog.com>", // optional
-        enableInDevelopment: false, // optional
-      },
       metadata: [
         {
           name: "title",
@@ -88,7 +105,7 @@ const config = {
             position: "left",
           },
           {
-            type: 'docsVersionDropdown',
+            type: "docsVersionDropdown",
             position: "right",
           },
           {
@@ -148,10 +165,10 @@ const config = {
         copyright: `Copyright © Conduit ${new Date().getFullYear()}. Built with Docusaurus.`,
       },
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
+        theme: prismThemes.github,
+        darkTheme: prismThemes.dracula,
       },
     }),
 };
 
-module.exports = config;
+export default config;

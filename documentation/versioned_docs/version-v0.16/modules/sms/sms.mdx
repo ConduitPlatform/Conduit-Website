@@ -1,0 +1,28 @@
+# SMS
+
+![Schema View](/v0.16/modules/sms/admin/send_sms.png)
+
+This module provides support for SMS messages.<br />
+Messages are delivered using third party providers.
+
+## Features
+
+- Sending SMS
+- Twilio support
+
+## Dependencies
+
+This module has no dependencies.
+
+## Minimum Configuration
+
+This module is disabled by default as it requires specifying SMS service credentials.<br />
+See [Configuration](config.mdx).
+
+## Environmental Variables
+
+|  Name          | Required |  Description                                  |  Example      |
+| :------------: | :------: | :-------------------------------------------: | :-----------: |
+| CONDUIT_SERVER |  True    | Conduit Core's address and port               | 0.0.0.0:55152 |
+| SERVICE_URL    |  False   | This should be where this service listens on. If behind a LB it should point to the LB's IP/DNS | 0.0.0.0:56154 |
+| GRPC_PORT      |  False   | Port to be used by the gRPC server            | 56154         |

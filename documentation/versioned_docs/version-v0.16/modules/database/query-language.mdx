@@ -1,0 +1,75 @@
+---
+sidebar_label: 'Query Language'
+sidebar_position: 2
+---
+
+# Query Language
+
+This module is capable of working with both SQL and NoSQL databases, through Sequelize and Mongoose respectively.<br />
+These ORMs were chosen due to their similar functions and architectures, allowing for the creation of a very consistent API.
+
+In order to maintain a compatibility layer between the two ORMS, certain operations may not be supported.<br />
+New features are being added on-demand and when they can be adapted to both systems.
+
+The query language used is BSON, since it is easy to serialize into string and deserialize back into
+query objects that can be easily manipulated in JS.<br />
+This means that the database module will almost always have better support for Mongo operations than SQL ones, 
+since the latter need to go through parsers that are otherwise unnecessary for Mongo.
+
+<!--
+TODO
+-------------------------------------------------
+
+## Implemented Operations
+
+**TODO**
+
+-------------------------------------------------
+-->
+
+## Supported Operators
+
+|  Operator                           | Description                                                                                                              |
+| :---------------------------------: | :----------------------------------------------------------------------------------------------------------------------- |
+| [**in**](./operators#in)              | Matches any of the values specified in an array                                                                          |
+| [**contains**](./operators#contains)  | Checks if a value is contained in an array or not.                                                                       |
+| [**nin**](./operators/#nin)           | Selects the documents where the value of a field is not equal any value in the specified array.                          |
+| [**eq**](./operators#eq)              | Matches documents where the value of a field equals the specified value.                                                 |
+| [**ne**](./operators#ne)              | Selects the documents where the value of the field is not equal to the specified value                                   |
+| [**lt**](./operators#lt)              | Selects the documents where the value of the field is less than (i.e. <) the specified value.                            |
+| [**gt**](./operators#gt)              | Selects the documents where the value of the field is greater than (i.e. >) the specified value.                         |
+| [**lte**](./operators#lte)            | Selects the documents where the value of the field is less or equal than (i.e. <=) the specified value.                  |
+| [**gte**](./operators#gte)            | Selects the documents where the value of the field is greater or equal than (i.e. >=) the specified value.               |
+| [**or**](./operators#or)              | Performs OR operation on an array of two or more expressions and selects the documents that satisfy at least one         |
+| [**and**](./operators#and)            | Performs AND operation on an array of two or more expressions and selects the documents that satisfy at least one        |
+| [**not**](./operators#not)            | Performs NOT operation on an array of two or more expressions and selects the documents that do not match the expression |
+| [**regex**](./operators#regex)        | Select the documents where the value of the field matches the regex.                                                     |
+
+These operators have been tested thoroughly in varying levels of complexity
+
+-------------------------------------------------
+
+## Populations & Relations
+
+Relations have been implemented with MongoDB in mind.<br />
+This means that they do not really exist inside the databases (for now).<br />
+Every relation is logical, and relation data is retrieved using Mongoose's population functionality.<br />
+The same reasoning has been carried over to Sequelize, but is not currently as efficient.
+
+### Getting related fields
+
+Each relation field can be filled (or populated) by supplying a relevant array, creating a join operation that gets all the objects.
+
+### Setting related fields
+
+While we advise creating each document seperately and setting the relation inside a model after the "child" document 
+has been created, the database module supports "create with population" operations, where if you supply an entire object 
+instead of an id in the place of the relation field, then the module will automatically create the associated document and 
+add its id in place of the data.
+
+## Sequelize Caveats
+
+Currently the Sequelize implementation has the following limitations:
+- No index creation
+- Update queries only update provided fields without the option to replace entire rows, unless all columns are provided.
+- Like operations do not work

@@ -1,0 +1,214 @@
+---
+sidebar_label: 'Get Started'
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Getting Started
+
+Conduit provides authorization for your application through role-based access control (RBAC) and resource-level rules.
+You can define roles, assign them to users, and create rules that determine what actions users can perform on specific resources.
+
+## Execution
+
+<Tabs>
+<TabItem value="cli" label="CLI">
+
+``` bash
+# Option A: Just give me a barebones setup of the latest Conduit release
+npx @conduitplatform/cli deploy
+
+# Option B: I wish to bring up extra modules and perform some basic configuration
+npx @conduitplatform/cli deploy --config
+```
+</TabItem>
+
+<TabItem value="docker" label="Docker">
+<details>
+<summary>Prerequisites</summary>
+
+
+``` bash
+# Set up the Container Network
+docker network create conduit
+
+# Start Redis
+docker run -d --name conduit-redis \
+              --network-alias redis \
+              --network "conduit" \
+              -h conduit-redis \
+              -p 6379:6379 \
+              docker.io/library/redis:latest
+
+# Start Conduit
+docker run -d --name conduit-core \
+              --network-alias conduit \
+              --network "conduit" \
+              -h conduit-core \
+              -p 55152:55152 -p 3030:3030 -p 3031:3031 \
+              -e REDIS_HOST="conduit-redis" -e REDIS_PORT="6379" \
+              ghcr.io/conduitplatform/conduit:latest
+
+# Start MongoDB
+docker run -d --name conduit-mongo \
+              --network-alias mongo \
+              --network "conduit" \
+              -h conduit-mongo \
+              -p 27017:27017 \
+              docker.io/library/mongo:latest
+
+# Start Database
+docker run -d --name conduit-database \
+              --network-alias database \
+              --network "conduit" \
+              -h conduit-database \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              -e DB_TYPE="mongodb" \
+              -e DB_CONN_URI="mongodb://conduit-mongo:27017" \
+              ghcr.io/conduitplatform/database:latest
+
+# Start Router
+docker run -d --name conduit-router \
+              --network-alias router \
+              --network "conduit" \
+              -h conduit-router \
+              -p 3000:3000 -p 3001:3001 \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              ghcr.io/conduitplatform/router:latest
+
+# Start Authentication (required dependency)
+docker run -d --name conduit-authentication \
+              --network-alias authentication \
+              --network "conduit" \
+              -h conduit-authentication \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              ghcr.io/conduitplatform/authentication:latest
+```
+
+</details>
+
+``` bash
+docker run -d --name conduit-authorization \
+              --network-alias authorization \
+              --network "conduit" \
+              -h conduit-authorization \
+              -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
+              ghcr.io/conduitplatform/authorization:latest
+```
+</TabItem>
+</Tabs>
+
+At this point, you should have a functional Authorization instance.<br />
+
+-------------------------------------------------
+
+**Now let's provide some basic information for using the Authorization module.**
+
+## Creating a Role
+
+Roles define a set of permissions that can be assigned to users.
+
+``` bash title="Create Role Request"
+curl --location --request POST 'http://localhost:3030/authorization/roles' \
+--header 'masterkey: M4ST3RK3Y' \
+--header 'Authorization: Bearer <admin_token>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "editor",
+    "description": "Can edit content"
+}'
+```
+
+``` json title="Create Role Response"
+{
+    "name": "editor",
+    "description": "Can edit content",
+    "_id": "6389f8d445d164a022897846",
+    "createdAt": "2022-12-02T13:08:36.696Z",
+    "updatedAt": "2022-12-02T13:08:36.696Z"
+}
+```
+
+## Creating an Authorization Rule
+
+Rules define what actions specific roles can perform on resources.
+
+``` bash title="Create Rule Request"
+curl --location --request POST 'http://localhost:3030/authorization/rules' \
+--header 'masterkey: M4ST3RK3Y' \
+--header 'Authorization: Bearer <admin_token>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "resource": "articles",
+    "action": "update",
+    "role": "editor"
+}'
+```
+
+``` json title="Create Rule Response"
+{
+    "resource": "articles",
+    "action": "update",
+    "role": "editor",
+    "_id": "6389f8d445d164a022897847",
+    "createdAt": "2022-12-02T13:08:36.696Z",
+    "updatedAt": "2022-12-02T13:08:36.696Z"
+}
+```
+
+## Assigning a Role to a User
+
+Once you have created roles, you can assign them to users.
+
+``` bash title="Assign Role Request"
+curl --location --request POST 'http://localhost:3030/authorization/users/<user_id>/roles' \
+--header 'masterkey: M4ST3RK3Y' \
+--header 'Authorization: Bearer <admin_token>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "role": "editor"
+}'
+```
+
+``` json title="Assign Role Response"
+{
+    "message": "Role assigned successfully"
+}
+```
+
+## Checking Authorization
+
+When a user makes a request to a protected resource, the Authorization module automatically checks if the user has the required permissions based on their assigned roles and the defined rules.
+
+:::tip
+
+The Authorization module integrates seamlessly with the Router module to automatically enforce authorization rules on your API endpoints.
+
+:::
+
+## Using the Admin Panel
+
+The Admin Panel can be used to manage roles and authorization rules.<br />
+Through the [Admin Panel](../../get-started/admin-panel), you can:
+
+- Create, edit, and delete roles
+- Define authorization rules for resources
+- Assign roles to users
+- View authorization metrics and logs
+
+-------------------------------------------------
+
+### Roles Management
+
+Create and manage roles that define sets of permissions.
+
+### Rules Management
+
+Create authorization rules that specify which roles can perform which actions on which resources.
+
+### User Role Assignment
+
+Assign roles to users through the Users section or via the API.
+

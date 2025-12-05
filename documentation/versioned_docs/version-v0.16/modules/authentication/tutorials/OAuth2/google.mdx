@@ -1,0 +1,55 @@
+---
+sidebar_label: 'Google'
+---
+
+# Google
+
+In this tutorial, we'll be setting up Google authentication for Conduit.<br />
+Before we begin, we'll need to create a Google Application.
+
+## Configure Google
+
+To begin the Google Authentication you need to get some credentials.<br />
+Go to your [Google Console](https://console.developers.google.com/apis/library) and create a new project.<br />
+Once you have a new project, you have to request your app credentials.
+
+![Google Credentials](/v0.16/modules/authentication/tutorials/google_credentials.png)
+
+Click the `CREATE CREDENTIALS` button at the top of the page.
+
+![Google Type Credentials](/v0.16/modules/authentication/tutorials/google_credentials_type.png)
+
+Choose **OAuth Client ID**.<br />
+You will also be asked for an application type. Choose `Web App`.<br />
+Your application credentials have been generated.<br />
+You will only need the client id and client secret.<br />
+
+You need to add an **Authorized redirect URI**.<br />
+Hit **http://localhost:<CONDUIT_PORT>/hook/authentication/google.**<br />
+
+![Google Authorized Uri](/v0.16/modules/authentication/tutorials/google_redirect_uri.png)
+
+A pop-up window will be displayed to you which contain your client id and client secret.<br />
+
+![Google Secrets](/v0.16/modules/authentication/tutorials/google_secrets.png)
+
+------------------------------------------------------------------------------------------------------------------------
+
+## Authenticate with Google
+
+
+To begin authenticating with Google you request a redirect url with the proper scopes<br />
+
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/init/google'
+```
+
+``` json title="Response"
+{
+    "result": "https://accounts.google.com/o/oauth2/v2/auth?client_id=CLIENT_ID&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fhook%2Fauthentication%2Fgoogle&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&access_type=offline&state=eyJpZCI6IjYzN
+}
+```
+
+Open a browser and navigate to the url returned to you from Conduit.<br />
+Now the `/hook/authentication` route has been triggered.<br />
+Once your browser has been redirected, your authentication has been completed.

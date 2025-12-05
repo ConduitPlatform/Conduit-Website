@@ -1,0 +1,40 @@
+# Email
+
+![Email Templates](/v0.16/modules/email/admin/templates.png)
+
+Most web applications typically require a way to send e-mails to users.<br />
+The Email module serves this very purpose.
+
+## Features
+
+- Sending emails
+- Creating your own email templates
+- Uploading your email templates to your email provider account
+- Synchronizing remotely created email templates from email provider to local database
+- Email variables
+
+## Supported Providers
+
+- Mailgun
+- Sendgrid
+- Mandrill
+- Smtp
+
+## Dependencies
+
+This module has no dependencies.
+
+## Minimum Configuration
+
+This module is disabled by default.<br />
+It requires provider configuration.<br />
+See [Configuration](config.mdx).
+
+## Environmental Variables {#env-variables}
+
+|  Name          | Required |  Description                                  |  Example      |
+| :------------: | :------: | :-------------------------------------------: | :-----------: |
+| CONDUIT_SERVER |  True    | Conduit Core's address and port               | 0.0.0.0:55152 |
+| SERVICE_URL    |  False   | This should be where this service listens on. If behind a LB it should point to the LB's IP/DNS | 0.0.0.0:56154 |
+| GRPC_PORT      |  False   | Port to be used by the gRPC server            | 56154         |
+| GRCP_KEY       |  False   | Specifying a secret enables [gRPC signed request protection](../../core#grpc-request-protection) | someRandomSecret |
