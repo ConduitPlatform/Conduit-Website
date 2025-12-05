@@ -1,0 +1,145 @@
+---
+sidebar_label: 'API Reference'
+sidebar_position: 3
+title: 'Chat API Reference'
+---
+
+API reference for the Chat module.
+
+## Rooms
+
+### Create Room
+
+```http
+POST /chat/rooms
+Authorization: Bearer {userToken}
+```
+
+**Request Body:**
+```json
+{
+  "roomName": "Project Discussion",
+  "users": ["userId1", "userId2"]
+}
+```
+
+**Response:**
+```json
+{
+  "roomId": "..."
+}
+```
+
+### Get Rooms
+
+```http
+GET /chat/rooms
+Authorization: Bearer {userToken}
+```
+
+### Get Room
+
+```http
+GET /chat/rooms/{roomId}
+Authorization: Bearer {userToken}
+```
+
+### Add Users to Room
+
+```http
+PUT /chat/rooms/{roomId}/addUsers
+Authorization: Bearer {userToken}
+```
+
+**Request Body:**
+```json
+{
+  "users": ["userId3", "userId4"]
+}
+```
+
+### Leave Room
+
+```http
+PUT /chat/leave/{roomId}
+Authorization: Bearer {userToken}
+```
+
+## Messages
+
+### Get Room Messages
+
+```http
+GET /chat/rooms/{roomId}/messages
+Authorization: Bearer {userToken}
+```
+
+### Delete Message
+
+```http
+DELETE /chat/messages/{messageId}
+Authorization: Bearer {userToken}
+```
+
+## WebSocket Events
+
+### Connect
+
+```javascript
+const socket = io('http://localhost:3001/chat/', {
+  path: '/realtime',
+  auth: { token: userAccessToken }
+});
+```
+
+### Send Message
+
+**Event:** `message`
+
+```javascript
+socket.emit('message', roomId, 'Hello!');
+```
+
+### Receive Message
+
+```javascript
+socket.on('message', (data) => {
+  console.log('New message:', data);
+});
+```
+
+### Join Room
+
+```javascript
+socket.emit('join', roomId);
+```
+
+### Leave Room
+
+```javascript
+socket.emit('leave', roomId);
+```
+
+## Admin API
+
+### Get All Rooms
+
+```http
+GET /admin/chat/rooms
+masterkey: {masterKey}
+```
+
+### Get Room Messages (Admin)
+
+```http
+GET /admin/chat/rooms/{roomId}/messages
+masterkey: {masterKey}
+```
+
+### Delete Room
+
+```http
+DELETE /admin/chat/rooms/{roomId}
+masterkey: {masterKey}
+```
+

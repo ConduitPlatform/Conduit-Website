@@ -1,0 +1,126 @@
+---
+sidebar_label: 'REST'
+sidebar_position: 1
+title: 'Admin REST API'
+---
+
+Administrative REST API for managing Conduit.
+
+## Base URL
+
+```
+http://localhost:3030
+```
+
+## Authentication
+
+### Admin Login
+
+```bash
+curl -X POST 'http://localhost:3030/login' \
+  -H 'masterkey: YOUR_MASTER_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "username": "admin",
+    "password": "admin"
+  }'
+```
+
+**Response:**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIs..."
+}
+```
+
+### Request Headers
+
+| Header | Description | Required |
+|--------|-------------|----------|
+| `masterkey` | Master key for admin access | Yes (or token) |
+| `Authorization` | Bearer token from login | Yes (or masterkey) |
+
+## API Documentation
+
+### Swagger UI
+
+Access interactive documentation at:
+```
+http://localhost:3030/swagger
+```
+
+### OpenAPI JSON
+
+Export schema from Admin Panel > Swagger button.
+
+## Common Endpoints
+
+### Config
+
+```bash
+# Get module config
+GET /config/{moduleName}
+
+# Update module config
+PUT /config/{moduleName}
+```
+
+### Database
+
+```bash
+# List schemas
+GET /database/schemas
+
+# Create schema
+POST /database/schemas
+
+# Get schema documents
+GET /database/{schemaName}
+```
+
+### Authentication
+
+```bash
+# List users
+GET /authentication/users
+
+# Create user
+POST /authentication/users
+
+# Block user
+PUT /authentication/users/{userId}/block
+```
+
+## Example: List Schemas
+
+```bash
+curl -X GET 'http://localhost:3030/database/schemas' \
+  -H 'Authorization: Bearer YOUR_TOKEN' \
+  -H 'masterkey: YOUR_MASTER_KEY'
+```
+
+**Response:**
+```json
+{
+  "schemas": [
+    {
+      "_id": "...",
+      "name": "Movies",
+      "fields": {...},
+      "ownerModule": "database"
+    }
+  ],
+  "count": 1
+}
+```
+
+## Error Responses
+
+| Status | Description |
+|--------|-------------|
+| 400 | Invalid request |
+| 401 | Unauthorized |
+| 403 | Forbidden |
+| 404 | Not found |
+| 500 | Server error |
+

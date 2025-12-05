@@ -1,0 +1,34 @@
+---
+sidebar_label: 'Figma'
+sidebar_position: 6
+title: 'Figma OAuth'
+---
+
+Set up Figma authentication for your Conduit application.
+
+## Configuration Steps
+
+1. Go to Figma Developer Settings
+2. Create new application
+3. Configure callback URL:
+   ```
+   http://localhost:3000/hook/authentication/figma
+   ```
+4. Note your Client ID and Client Secret
+5. In Conduit Admin Panel, enable Figma provider
+6. Enter your credentials and save
+
+## Test Authentication
+
+```bash
+curl -X GET 'http://localhost:3000/authentication/init/figma'
+```
+
+Navigate to the returned URL to complete the OAuth flow.
+
+## Production
+
+Update callback URL for production:
+```
+https://yourdomain.com/hook/authentication/figma
+```

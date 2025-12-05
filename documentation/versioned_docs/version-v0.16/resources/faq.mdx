@@ -1,0 +1,101 @@
+---
+sidebar_label: 'FAQ'
+sidebar_position: 2
+title: 'Frequently Asked Questions'
+---
+
+## General
+
+### What is Conduit?
+
+Conduit is a self-hosted Backend-as-a-Service (BaaS) platform. It provides ready-made backend modules (authentication, database, storage, etc.) while remaining fully customizable and extensible.
+
+### How is Conduit different from Firebase/Parse?
+
+- **Self-hosted** - Full control over your data and infrastructure
+- **Extensible** - Build custom modules in any gRPC-compatible language
+- **No vendor lock-in** - Your code, your servers
+- **Microservice architecture** - Scale and deploy modules independently
+
+### Is Conduit free?
+
+Yes, Conduit is open-source and free to use under the Apache 2.0 license.
+
+## Technical
+
+### What databases are supported?
+
+- MongoDB (recommended)
+- PostgreSQL
+
+### What language is Conduit written in?
+
+Conduit is primarily written in TypeScript/Node.js, but custom modules can be written in any language supporting gRPC.
+
+### Can I use Conduit with my existing database?
+
+Yes! Use the Database Introspection feature to import existing database schemas.
+
+### Does Conduit support GraphQL?
+
+Yes, all REST endpoints are automatically available via GraphQL as well.
+
+### How do I scale Conduit?
+
+Each module is a separate microservice that can be:
+- Scaled independently
+- Deployed across multiple servers
+- Load balanced
+
+## Deployment
+
+### Can I deploy to Kubernetes?
+
+Yes, Helm charts are available for Kubernetes deployment.
+
+### What are the minimum requirements?
+
+- Docker and Docker Compose
+- Redis (for session/cache)
+- MongoDB or PostgreSQL
+
+### How do I backup my data?
+
+Backup your database (MongoDB/PostgreSQL) using standard database backup tools. Configuration is stored in the database.
+
+## Development
+
+### How do I create a custom module?
+
+1. Use the TypeScript gRPC SDK, or
+2. Use proto files to build in any gRPC-compatible language
+3. Connect to Conduit Core
+4. Register routes and schemas
+
+### Can I modify existing modules?
+
+Yes, all modules are open-source. Fork and modify as needed, or create replacement modules.
+
+### How do I contribute?
+
+1. Read [Contributing Guide](./contributing)
+2. Check GitHub issues
+3. Join Discord for discussion
+4. Submit pull requests
+
+## Support
+
+### Where can I get help?
+
+- [Discord Community](https://discord.com/invite/fBqUQ23M7g)
+- [GitHub Issues](https://github.com/ConduitPlatform/Conduit/issues)
+- [Documentation](https://getconduit.dev/docs)
+
+### How do I report bugs?
+
+Open an issue on [GitHub](https://github.com/ConduitPlatform/Conduit/issues/new/choose) with:
+- Conduit version
+- Steps to reproduce
+- Expected vs actual behavior
+- Relevant logs
+

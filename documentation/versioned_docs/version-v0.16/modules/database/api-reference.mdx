@@ -1,0 +1,168 @@
+---
+sidebar_label: 'API Reference'
+sidebar_position: 3
+title: 'Database API Reference'
+---
+
+API reference for auto-generated Database endpoints.
+
+## CRUD Endpoints
+
+For each schema with CRUD enabled:
+
+### Create Document
+
+```http
+POST /database/{schemaName}
+Authorization: Bearer {token} (if authenticated)
+```
+
+**Request Body:**
+```json
+{
+  "field1": "value1",
+  "field2": "value2"
+}
+```
+
+### Get Documents
+
+```http
+GET /database/{schemaName}
+Authorization: Bearer {token} (if authenticated)
+```
+
+**Query Parameters:**
+- `skip` - Number of documents to skip
+- `limit` - Maximum documents to return
+- `sort` - Field to sort by (prefix `-` for descending)
+- `populate` - Relations to populate
+
+### Get Single Document
+
+```http
+GET /database/{schemaName}/{id}
+Authorization: Bearer {token} (if authenticated)
+```
+
+### Update Document
+
+```http
+PUT /database/{schemaName}/{id}
+Authorization: Bearer {token} (if authenticated)
+```
+
+**Request Body:**
+```json
+{
+  "field1": "newValue"
+}
+```
+
+### Delete Document
+
+```http
+DELETE /database/{schemaName}/{id}
+Authorization: Bearer {token} (if authenticated)
+```
+
+## Query Examples
+
+### Filtering
+
+```
+GET /database/Products?price<100
+GET /database/Products?category=electronics
+GET /database/Products?name[$contains]=phone
+```
+
+### Sorting
+
+```
+GET /database/Products?sort=price      # Ascending
+GET /database/Products?sort=-price     # Descending
+```
+
+### Pagination
+
+```
+GET /database/Products?skip=10&limit=5
+```
+
+### Population
+
+```
+GET /database/Orders?populate=customer,products
+```
+
+### Field Selection
+
+```
+GET /database/Products?select=name,price
+```
+
+## Custom Endpoints
+
+Custom endpoints are accessible at:
+
+```http
+GET /database/function/{endpointName}
+POST /database/function/{endpointName}
+```
+
+## GraphQL
+
+All schemas are available via GraphQL at:
+
+```
+POST /graphql
+```
+
+Query example:
+```graphql
+query {
+  Products(where: { price_lt: 100 }) {
+    _id
+    name
+    price
+  }
+}
+```
+
+## Admin API
+
+### List Schemas
+
+```http
+GET /admin/database/schemas
+masterkey: {masterKey}
+```
+
+### Get Schema
+
+```http
+GET /admin/database/schemas/{schemaId}
+masterkey: {masterKey}
+```
+
+### Create Schema
+
+```http
+POST /admin/database/schemas
+masterkey: {masterKey}
+```
+
+### Update Schema
+
+```http
+PUT /admin/database/schemas/{schemaId}
+masterkey: {masterKey}
+```
+
+### Delete Schema
+
+```http
+DELETE /admin/database/schemas/{schemaId}
+masterkey: {masterKey}
+```
+

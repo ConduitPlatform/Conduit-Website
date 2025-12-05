@@ -1,0 +1,73 @@
+---
+sidebar_label: 'Facebook'
+sidebar_position: 3
+title: 'Facebook OAuth'
+---
+
+Set up Facebook authentication for your Conduit application.
+
+## Prerequisites
+
+- Facebook Developer account
+- Conduit with Authentication module running
+
+## Step 1: Create Facebook App
+
+1. Go to [Facebook Developers](https://developers.facebook.com/)
+2. Click **My Apps** > **Create App**
+3. Select app type (Consumer or Business)
+4. Complete app setup
+
+## Step 2: Configure Facebook Login
+
+1. In app dashboard, click **Add Product**
+2. Select **Facebook Login** > **Set Up**
+3. Choose **Web**
+4. Add your site URL: `http://localhost:3000`
+
+## Step 3: Get Credentials
+
+1. Go to **Settings** > **Basic**
+2. Note your **App ID** (Client ID)
+3. Note your **App Secret** (Client Secret)
+
+## Step 4: Set Callback URL
+
+1. Go to **Facebook Login** > **Settings**
+2. Add Valid OAuth Redirect URI:
+   ```
+   http://localhost:3000/hook/authentication/facebook
+   ```
+
+## Step 5: Configure Conduit
+
+1. Open **Admin Panel** > **Authentication** > **Settings**
+2. Enable **Facebook** provider
+3. Enter App ID and App Secret
+4. Save configuration
+
+## Step 6: Test Authentication
+
+### Get Auth URL
+
+```bash
+curl -X GET 'http://localhost:3000/authentication/init/facebook'
+```
+
+### Complete Flow
+
+1. Navigate to returned URL
+2. Log in with Facebook
+3. Conduit handles callback
+
+## Production Notes
+
+- App must be in **Live** mode for public use
+- Complete Facebook's app review if required
+- Update callback URL for production domain
+
+## Scopes Requested
+
+- `email` - User's email address
+- `public_profile` - Basic profile information
+

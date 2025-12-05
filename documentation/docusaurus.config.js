@@ -26,7 +26,7 @@ const config = {
   favicon: "favicon.ico",
   organizationName: "ConduitPlatform", // Usually your GitHub org/user name.
   projectName: "Conduit", // Usually your repo name.
-  
+
   // Use CommonMark-based parser for legacy content compatibility with Docusaurus 3
   markdown: {
     format: 'md',
@@ -38,7 +38,7 @@ const config = {
   },
 
   plugins,
-  
+
   presets: [
     [
       "classic",
@@ -88,7 +88,7 @@ const config = {
         items: [
           {
             type: "doc",
-            docId: "overview/intro",
+            docId: "intro",
             position: "left",
             label: "Docs",
           },

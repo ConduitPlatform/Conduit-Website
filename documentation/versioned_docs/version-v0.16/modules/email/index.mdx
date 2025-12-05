@@ -1,0 +1,65 @@
+---
+sidebar_label: 'Overview'
+sidebar_position: 1
+title: 'Email'
+---
+
+![Email Templates](/v0.16/modules/email/admin/templates.png)
+
+The Email module provides transactional email capabilities for your application.
+
+## Features
+
+- **Send Emails** - Transactional email delivery
+- **Templates** - Create and manage email templates
+- **Provider Sync** - Sync templates with email providers
+- **Variables** - Dynamic content in templates
+
+## Supported Providers
+
+| Provider | Status |
+|----------|--------|
+| Mailgun | Supported |
+| SendGrid | Supported |
+| Mandrill | Supported |
+| SMTP | Supported |
+
+## Dependencies
+
+No module dependencies.
+
+## Minimum Configuration
+
+Requires provider configuration. Disabled by default.
+
+## Environment Variables
+
+| Name | Required | Description | Example |
+|:----:|:--------:|:-----------:|:-------:|
+| `CONDUIT_SERVER` | Yes | Conduit Core address | `0.0.0.0:55152` |
+| `SERVICE_URL` | No | Service address | `0.0.0.0:56154` |
+| `GRPC_PORT` | No | gRPC server port | `56154` |
+| `GRPC_KEY` | No | gRPC signed request protection | `someSecret` |
+
+## Quick Start
+
+1. Configure email provider in Admin Panel
+2. Create email template
+3. Send email via API
+
+```bash
+curl -X POST 'http://localhost:3030/email/send' \
+  -H 'masterkey: YOUR_MASTER_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "to": "user@example.com",
+    "subject": "Welcome!",
+    "body": "<h1>Hello!</h1>"
+  }'
+```
+
+## Next Steps
+
+- [Configuration](./configuration) - Set up email provider
+- [API Reference](./api-reference) - Available endpoints
+

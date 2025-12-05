@@ -1,0 +1,76 @@
+---
+sidebar_label: 'Architecture'
+sidebar_position: 1
+title: 'Architecture'
+---
+
+import ImageSwitcher from '/src/components/ImageSwitcher.js';
+
+## Overview
+
+Conduit runs on a microservice-based architecture, designed to accomplish two key goals:
+
+1. **Individual scaling** - Scale each service independently based on traffic patterns
+2. **Selective deployment** - Only spin up the services you actually need
+
+For example, you could use only Authentication, Database, and Core if you want Conduit to handle user authentication. Don't need the admin panel? Simply don't deploy it.
+
+## Core Structure
+
+<ImageSwitcher
+  lightImageSrc="/v0.16/overview/architecture/core_architecture.light.png"
+  darkImageSrc="/v0.16/overview/architecture/core_architecture.dark.png"
+  altText="Core Architecture View"
+/>
+
+Conduit Core consists of three main components:
+
+| Component | Purpose |
+|-----------|---------|
+| **Core** | Orchestrates Admin and Config startup |
+| **Admin** | Handles administrative requests |
+| **Config** | Configuration storage and service registry |
+
+### Request Flow
+
+- Application requests pass through **Router** (with security middleware)
+- Administrative requests pass through **Admin**
+- Both Router and Admin have gRPC functions for route registration from modules
+
+### Config Service
+
+The Config package serves as the service registry for every Conduit cluster:
+- Tracks all service locations
+- Monitors online/offline status
+- Manages service availability
+
+## General Architecture
+
+<ImageSwitcher
+  lightImageSrc="/v0.16/overview/architecture/general_architecture.light.png"
+  darkImageSrc="/v0.16/overview/architecture/general_architecture.dark.png"
+  altText="General Architecture View"
+/>
+
+All modules communicate with Core and with each other via gRPC.
+
+### Module Lifecycle
+
+1. Connect to Core's gRPC server
+2. Retrieve configuration from Config service
+3. Spin up own gRPC server (optional)
+4. Register as a module with name and exposed address
+
+### Route Registration
+
+After initialization, modules can register routes to:
+- **Router** - For client-facing endpoints
+- **Admin** - For admin-facing endpoints
+
+### Inter-Module Communication
+
+- Modules communicate directly via gRPC (without going through Core)
+- Core publishes module changes in real-time
+- When a module is deactivated, all others are notified instantly
+- The gRPC-SDK handles connection management automatically
+

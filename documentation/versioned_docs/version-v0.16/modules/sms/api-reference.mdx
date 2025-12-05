@@ -1,0 +1,84 @@
+---
+sidebar_label: 'API Reference'
+sidebar_position: 3
+title: 'SMS API Reference'
+---
+
+API reference for the SMS module.
+
+## Send SMS
+
+### Send Message
+
+```http
+POST /sms/send
+masterkey: {masterKey}
+```
+
+**Request Body:**
+```json
+{
+  "to": "+1234567890",
+  "message": "Your verification code is 123456"
+}
+```
+
+**Response:**
+```json
+{
+  "message": "SMS sent successfully",
+  "messageId": "..."
+}
+```
+
+### Send to Multiple Recipients
+
+```http
+POST /sms/sendMany
+masterkey: {masterKey}
+```
+
+**Request Body:**
+```json
+{
+  "to": ["+1234567890", "+0987654321"],
+  "message": "Broadcast message"
+}
+```
+
+## Configuration
+
+### Get Config
+
+```http
+GET /admin/sms/config
+masterkey: {masterKey}
+```
+
+### Update Config
+
+```http
+PUT /admin/sms/config
+masterkey: {masterKey}
+```
+
+**Request Body:**
+```json
+{
+  "provider": "twilio",
+  "twilio": {
+    "accountSid": "...",
+    "authToken": "...",
+    "phoneNumber": "+1..."
+  }
+}
+```
+
+## Error Handling
+
+| Status | Description |
+|--------|-------------|
+| 400 | Invalid phone number format |
+| 401 | Invalid credentials |
+| 500 | Provider error |
+

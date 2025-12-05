@@ -1,0 +1,69 @@
+---
+sidebar_label: 'Overview'
+sidebar_position: 1
+title: 'Authentication'
+---
+![Authentication Module](/v0.16/modules/authentication/admin/overview.png)
+
+The Authentication module provides user identity management for your application.
+
+## Features
+
+- **Local Authentication** - Email/password with optional verification
+- **OAuth Providers** - 13+ social login integrations
+- **Two-Factor Auth** - Phone OTP and QR code support
+- **Magic Links** - Passwordless login via email
+- **Token Management** - JWT access and refresh tokens
+- **Account Linking** - Connect multiple providers to one account
+
+## Supported OAuth Providers
+
+| Provider | Provider | Provider |
+|----------|----------|----------|
+| Apple | GitHub | Reddit |
+| Bitbucket | GitLab | Slack |
+| Facebook | Google | Twitch |
+| Figma | LinkedIn | Twitter |
+| | Microsoft | |
+
+## Dependencies
+
+| Module | Required | Purpose |
+|--------|----------|---------|
+| [Email](../email/index) | Optional | Email verification, password reset |
+| [SMS](../sms/index) | Optional | Phone-based 2FA |
+
+## Minimum Configuration
+
+This module works out of the box with local authentication. No initial configuration required.
+
+## Environment Variables
+
+| Name | Required | Description | Example |
+|:----:|:--------:|:-----------:|:-------:|
+| `CONDUIT_SERVER` | Yes | Conduit Core address | `0.0.0.0:55152` |
+| `SERVICE_URL` | No | Service address (for load balancers) | `0.0.0.0:56154` |
+| `GRPC_PORT` | No | gRPC server port | `56154` |
+| `GRPC_KEY` | No | gRPC signed request protection | `someSecret` |
+
+## Quick Start
+
+```bash
+# Create a user
+curl -X POST 'http://localhost:3000/authentication/local/new' \
+  -H 'Content-Type: application/json' \
+  -d '{"email": "user@example.com", "password": "password123"}'
+
+# Login
+curl -X POST 'http://localhost:3000/authentication/local' \
+  -H 'Content-Type: application/json' \
+  -d '{"email": "user@example.com", "password": "password123"}'
+```
+
+## Next Steps
+
+- [Configuration](./configuration) - Set up authentication options
+- [API Reference](./api-reference) - All available endpoints
+- [Strategies](./strategies/local) - Learn about authentication methods
+- [OAuth Setup](./oauth/google) - Configure social logins
+

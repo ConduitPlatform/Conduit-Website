@@ -1,0 +1,35 @@
+---
+sidebar_label: 'Slack'
+sidebar_position: 11
+title: 'Slack OAuth'
+---
+
+Set up Slack authentication for your Conduit application.
+
+## Configuration Steps
+
+1. Go to Slack API Apps
+2. Create new app
+3. Under OAuth & Permissions, add redirect URL:
+   ```
+   http://localhost:3000/hook/authentication/slack
+   ```
+4. Add required scopes: `users:read`, `users:read.email`
+5. Note your Client ID and Client Secret
+6. In Conduit Admin Panel, enable Slack provider
+7. Enter your credentials and save
+
+## Test Authentication
+
+```bash
+curl -X GET 'http://localhost:3000/authentication/init/slack'
+```
+
+Navigate to the returned URL to complete the OAuth flow.
+
+## Production
+
+Update callback URL for production:
+```
+https://yourdomain.com/hook/authentication/slack
+```

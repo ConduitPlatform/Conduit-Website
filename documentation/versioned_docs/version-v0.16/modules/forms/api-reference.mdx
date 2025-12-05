@@ -1,0 +1,104 @@
+---
+sidebar_label: 'API Reference'
+sidebar_position: 3
+title: 'Forms API Reference'
+---
+
+API reference for the Forms module.
+
+## Form Submission
+
+### Submit Form
+
+```http
+POST /forms/submit/{formId}
+```
+
+**Request Body:**
+```json
+{
+  "field1": "value1",
+  "field2": "value2"
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Form submitted successfully",
+  "submissionId": "..."
+}
+```
+
+## Admin API
+
+### List Forms
+
+```http
+GET /admin/forms
+masterkey: {masterKey}
+```
+
+### Get Form
+
+```http
+GET /admin/forms/{formId}
+masterkey: {masterKey}
+```
+
+### Create Form
+
+```http
+POST /admin/forms
+masterkey: {masterKey}
+```
+
+**Request Body:**
+```json
+{
+  "name": "contact",
+  "fields": [
+    {"name": "email", "type": "email", "required": true},
+    {"name": "message", "type": "textarea", "required": true}
+  ],
+  "enabled": true
+}
+```
+
+### Update Form
+
+```http
+PUT /admin/forms/{formId}
+masterkey: {masterKey}
+```
+
+### Delete Form
+
+```http
+DELETE /admin/forms/{formId}
+masterkey: {masterKey}
+```
+
+## Submissions
+
+### List Submissions
+
+```http
+GET /admin/forms/{formId}/submissions
+masterkey: {masterKey}
+```
+
+### Get Submission
+
+```http
+GET /admin/forms/submissions/{submissionId}
+masterkey: {masterKey}
+```
+
+### Delete Submission
+
+```http
+DELETE /admin/forms/submissions/{submissionId}
+masterkey: {masterKey}
+```
+

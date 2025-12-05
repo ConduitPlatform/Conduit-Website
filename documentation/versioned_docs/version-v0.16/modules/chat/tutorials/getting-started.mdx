@@ -1,0 +1,99 @@
+---
+sidebar_label: 'Getting Started'
+sidebar_position: 1
+title: 'Getting Started with Chat'
+---
+
+Learn how to implement real-time chat in your application.
+
+## Prerequisites
+
+- Conduit with Authentication and Chat modules
+- At least two registered users
+
+## Step 1: Create Users
+
+```bash
+# Create first user
+curl -X POST 'http://localhost:3000/authentication/local/new' \
+  -H 'Content-Type: application/json' \
+  -d '{"email": "alice@example.com", "password": "pass123"}'
+
+# Create second user  
+curl -X POST 'http://localhost:3000/authentication/local/new' \
+  -H 'Content-Type: application/json' \
+  -d '{"email": "bob@example.com", "password": "pass123"}'
+```
+
+## Step 2: Login
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/local' \
+  -H 'Content-Type: application/json' \
+  -d '{"email": "alice@example.com", "password": "pass123"}'
+```
+
+Save the returned `accessToken`.
+
+## Step 3: Create Room
+
+```bash
+curl -X POST 'http://localhost:3000/chat/rooms' \
+  -H 'Authorization: Bearer ALICE_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "roomName": "Chat Room",
+    "users": ["BOB_USER_ID"]
+  }'
+```
+
+## Step 4: Connect WebSocket
+
+```javascript
+import { io } from 'socket.io-client';
+
+const socket = io('http://localhost:3001/chat/', {
+  path: '/realtime',
+  auth: { token: accessToken }
+});
+
+socket.on('connect', () => {
+  console.log('Connected to chat');
+});
+```
+
+## Step 5: Send Messages
+
+```javascript
+// Send message
+socket.emit('message', roomId, 'Hello!');
+
+// Receive messages
+socket.on('message', (data) => {
+  console.log('Received:', data);
+});
+```
+
+## Room Management
+
+### Add Users
+
+```bash
+curl -X PUT 'http://localhost:3000/chat/rooms/ROOM_ID/addUsers' \
+  -H 'Authorization: Bearer TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{"users": ["newUserId"]}'
+```
+
+### Leave Room
+
+```bash
+curl -X PUT 'http://localhost:3000/chat/leave/ROOM_ID' \
+  -H 'Authorization: Bearer TOKEN'
+```
+
+## Next Steps
+
+- See [Real-Time Chat Guide](../../../guides/real-time-chat) for full implementation
+- Explore [Chat API Reference](../api-reference)
+

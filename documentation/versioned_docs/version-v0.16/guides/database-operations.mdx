@@ -1,0 +1,208 @@
+---
+sidebar_label: 'Database Operations'
+sidebar_position: 3
+title: 'Database Operations'
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+This guide covers working with the Database module to create schemas, manage data, and build custom queries.
+
+## Prerequisites
+
+- Conduit [installed and running](../quickstart/installation)
+- Database module deployed (MongoDB or PostgreSQL)
+
+## Creating Schemas
+
+### Using Admin Panel
+
+1. Navigate to **Database** > **Schemas**
+2. Click **Create New**
+3. Add fields by dragging from the field palette
+
+### Field Types
+
+| Type | Description |
+|------|-------------|
+| Text | Strings and characters |
+| Number | Integers and floats |
+| Date | Date/time values |
+| Boolean | True/false |
+| Enum | Predefined options |
+| ObjectId | Reference IDs |
+| Group | Nested object |
+| Relation | Link to another schema |
+
+### Example: Products Schema
+
+```
+Products
+├── name (Text, required, unique)
+├── price (Number, required)
+├── description (Text)
+├── category (Enum: electronics, clothing, food)
+├── inStock (Boolean, default: true)
+└── createdAt (Date, auto)
+```
+
+## CRUD Operations
+
+### Enable CRUD Routes
+
+In the schema editor, configure:
+- **Create**: Enable/Disable, Authenticated/Public
+- **Read**: Enable/Disable, Authenticated/Public
+- **Update**: Enable/Disable, Authenticated/Public
+- **Delete**: Enable/Disable, Authenticated/Public
+
+### Create Document
+
+```bash
+curl -X POST 'http://localhost:3000/database/Products' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer TOKEN' \
+  -d '{
+    "name": "Laptop",
+    "price": 999.99,
+    "category": "electronics"
+  }'
+```
+
+### Read Documents
+
+```bash
+# Get all products
+curl 'http://localhost:3000/database/Products'
+
+# Get single product
+curl 'http://localhost:3000/database/Products/DOCUMENT_ID'
+```
+
+### Update Document
+
+```bash
+curl -X PUT 'http://localhost:3000/database/Products/DOCUMENT_ID' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer TOKEN' \
+  -d '{
+    "price": 899.99
+  }'
+```
+
+### Delete Document
+
+```bash
+curl -X DELETE 'http://localhost:3000/database/Products/DOCUMENT_ID' \
+  -H 'Authorization: Bearer TOKEN'
+```
+
+## Query Language
+
+### Filtering
+
+```bash
+# Products under $100
+curl 'http://localhost:3000/database/Products?price<100'
+
+# Electronics only
+curl 'http://localhost:3000/database/Products?category=electronics'
+```
+
+### Sorting
+
+```bash
+# Sort by price ascending
+curl 'http://localhost:3000/database/Products?sort=price'
+
+# Sort by price descending
+curl 'http://localhost:3000/database/Products?sort=-price'
+```
+
+### Pagination
+
+```bash
+# Skip 10, limit 5
+curl 'http://localhost:3000/database/Products?skip=10&limit=5'
+```
+
+### Field Selection
+
+```bash
+# Only return name and price
+curl 'http://localhost:3000/database/Products?select=name,price'
+```
+
+## Relations
+
+### One-to-One
+
+```
+User
+└── profile (Relation: Profile)
+```
+
+### One-to-Many
+
+```
+Author
+└── books (Relation: Book, array)
+```
+
+### Populating Relations
+
+```bash
+# Include related documents
+curl 'http://localhost:3000/database/Authors?populate=books'
+```
+
+## Managing Data (Admin Panel)
+
+### View Documents
+
+1. Go to **Database** > **Documents**
+2. Select a schema
+3. Browse, search, and filter entries
+
+### Edit Documents
+
+- Click edit icon on any document
+- Use JSON editor for complex modifications
+- Changes save immediately
+
+### Bulk Operations
+
+Select multiple documents for:
+- Bulk delete
+- Export
+- Batch updates
+
+## Database Introspection
+
+Import existing database schemas:
+
+1. Go to **Database** > **Introspection**
+2. Connect to external database
+3. Select tables/collections to import
+4. Schemas are created automatically
+
+See [Introspection documentation](../modules/database/introspection) for details.
+
+## Custom Endpoints
+
+Create custom API endpoints for complex queries:
+
+1. Go to **Database** > **Custom Endpoints**
+2. Define endpoint path and method
+3. Write custom query logic
+4. Test and deploy
+
+See [Custom Endpoints documentation](../modules/database/custom-endpoints) for details.
+
+## Next Steps
+
+- Learn about [Query Operators](../modules/database/operators)
+- Explore the [Cinema Booking Tutorial](../modules/database/tutorials/cinema-booking)
+- Set up [Authentication](./authentication-setup) to protect your data
+

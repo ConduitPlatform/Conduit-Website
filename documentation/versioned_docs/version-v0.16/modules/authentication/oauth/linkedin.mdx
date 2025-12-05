@@ -1,0 +1,35 @@
+---
+sidebar_label: 'LinkedIn'
+sidebar_position: 8
+title: 'LinkedIn OAuth'
+---
+
+Set up LinkedIn authentication for your Conduit application.
+
+## Configuration Steps
+
+1. Go to LinkedIn Developer Portal
+2. Create new application
+3. Configure OAuth 2.0 redirect URL:
+   ```
+   http://localhost:3000/hook/authentication/linkedin
+   ```
+4. Request required products (Sign In with LinkedIn)
+5. Note your Client ID and Client Secret
+6. In Conduit Admin Panel, enable LinkedIn provider
+7. Enter your credentials and save
+
+## Test Authentication
+
+```bash
+curl -X GET 'http://localhost:3000/authentication/init/linkedin'
+```
+
+Navigate to the returned URL to complete the OAuth flow.
+
+## Production
+
+Update callback URL for production:
+```
+https://yourdomain.com/hook/authentication/linkedin
+```

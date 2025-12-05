@@ -1,0 +1,35 @@
+---
+sidebar_label: 'Microsoft'
+sidebar_position: 9
+title: 'Microsoft OAuth'
+---
+
+Set up Microsoft authentication for your Conduit application.
+
+## Configuration Steps
+
+1. Go to Azure Portal > App registrations
+2. Create new registration
+3. Add Redirect URI (Web):
+   ```
+   http://localhost:3000/hook/authentication/microsoft
+   ```
+4. Create client secret under Certificates & secrets
+5. Note your Application (client) ID and Secret
+6. In Conduit Admin Panel, enable Microsoft provider
+7. Enter your credentials and save
+
+## Test Authentication
+
+```bash
+curl -X GET 'http://localhost:3000/authentication/init/microsoft'
+```
+
+Navigate to the returned URL to complete the OAuth flow.
+
+## Production
+
+Update callback URL for production:
+```
+https://yourdomain.com/hook/authentication/microsoft
+```

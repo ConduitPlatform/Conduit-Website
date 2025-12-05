@@ -1,0 +1,35 @@
+---
+sidebar_label: 'Twitter'
+sidebar_position: 13
+title: 'Twitter OAuth'
+---
+
+Set up Twitter authentication for your Conduit application.
+
+## Configuration Steps
+
+1. Go to Twitter Developer Portal
+2. Create new project and app
+3. Enable OAuth 2.0
+4. Configure callback URL:
+   ```
+   http://localhost:3000/hook/authentication/twitter
+   ```
+5. Note your Client ID and Client Secret
+6. In Conduit Admin Panel, enable Twitter provider
+7. Enter your credentials and save
+
+## Test Authentication
+
+```bash
+curl -X GET 'http://localhost:3000/authentication/init/twitter'
+```
+
+Navigate to the returned URL to complete the OAuth flow.
+
+## Production
+
+Update callback URL for production:
+```
+https://yourdomain.com/hook/authentication/twitter
+```

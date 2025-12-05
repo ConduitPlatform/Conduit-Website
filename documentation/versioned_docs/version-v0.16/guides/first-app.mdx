@@ -1,0 +1,237 @@
+---
+sidebar_label: 'Build Your First App'
+sidebar_position: 1
+title: 'Build Your First App'
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+In this tutorial, we'll build a React app that:
+
+- Registers new users
+- Authenticates users
+- Creates and retrieves data from a custom schema
+
+## Prerequisites
+
+- Conduit [installed and running](../quickstart/installation)
+- Node.js installed
+- Basic knowledge of React
+
+## Step 1: Set Up Conduit
+
+Bootstrap Conduit with Authentication and Database modules:
+
+```bash
+npx @conduitplatform/cli deploy setup
+```
+
+Log into the Admin Panel at `http://localhost:8080` with `admin/admin`.
+
+## Step 2: Create a Schema
+
+Navigate to **Database** > **Schemas** > **Create New**.
+
+Create a `Movies` schema with these fields:
+
+| Field | Type | Required | Unique |
+|-------|------|----------|--------|
+| `name` | Text | Yes | Yes |
+| `director` | Text | Yes | No |
+| `duration` | Number | No | No |
+| `releaseDate` | Date | No | No |
+
+Enable CRUD operations:
+- **Create**: Enabled, Authenticated
+- **Read**: Enabled, Not Authenticated (public)
+
+## Step 3: Initialize React App
+
+```bash
+npx create-react-app my-app
+cd my-app
+npm install react-router-dom
+npm start
+```
+
+## Step 4: User Registration
+
+Create `src/components/Register.js`:
+
+```jsx
+import React, { useState } from 'react';
+
+async function registerUser(credentials) {
+  return fetch('http://localhost:3000/authentication/local/new', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(credentials),
+  }).then(data => data.json());
+}
+
+export default function Register() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await registerUser({ email, password });
+    console.log(response);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2>Register</h2>
+      <input type="email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
+      <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
+      <button type="submit">Register</button>
+    </form>
+  );
+}
+```
+
+## Step 5: User Login
+
+Create `src/components/Login.js`:
+
+```jsx
+import React, { useState } from 'react';
+
+async function loginUser(credentials) {
+  return fetch('http://localhost:3000/authentication/local', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(credentials),
+  }).then(data => data.json());
+}
+
+export default function Login({ onLogin }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await loginUser({ email, password });
+    if (response.accessToken) {
+      onLogin(response.accessToken);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2>Login</h2>
+      <input type="email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
+      <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
+      <button type="submit">Login</button>
+    </form>
+  );
+}
+```
+
+## Step 6: Create Movies
+
+Create `src/components/CreateMovie.js`:
+
+```jsx
+import React, { useState } from 'react';
+
+async function createMovie(token, movie) {
+  return fetch('http://localhost:3000/database/Movies', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(movie),
+  }).then(data => data.json());
+}
+
+export default function CreateMovie({ token }) {
+  const [name, setName] = useState('');
+  const [director, setDirector] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await createMovie(token, { name, director });
+    console.log(response);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2>Add Movie</h2>
+      <input type="text" placeholder="Name" onChange={e => setName(e.target.value)} />
+      <input type="text" placeholder="Director" onChange={e => setDirector(e.target.value)} />
+      <button type="submit">Create</button>
+    </form>
+  );
+}
+```
+
+## Step 7: List Movies
+
+Create `src/components/ListMovies.js`:
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+async function fetchMovies() {
+  return fetch('http://localhost:3000/database/Movies')
+    .then(data => data.json());
+}
+
+export default function ListMovies() {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    fetchMovies().then(response => setMovies(response.documents || []));
+  }, []);
+
+  return (
+    <div>
+      <h2>Movies</h2>
+      <ul>
+        {movies.map(movie => (
+          <li key={movie._id}>{movie.name} - {movie.director}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+## Step 8: Wire Up Routes
+
+Update `src/App.js`:
+
+```jsx
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Register from './components/Register';
+import Login from './components/Login';
+import CreateMovie from './components/CreateMovie';
+import ListMovies from './components/ListMovies';
+
+function App() {
+  const [token, setToken] = useState(null);
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login onLogin={setToken} />} />
+        <Route path="/movies/new" element={<CreateMovie token={token} />} />
+        <Route path="/movies" element={<ListMovies />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+```
+
+## Next Steps
+
+- Add [OAuth authentication](./authentication-setup) for social logins
+- Explore [Database operations](./database-operations) for advanced queries
+- Deploy to production with [Kubernetes](./deploy-kubernetes)
+

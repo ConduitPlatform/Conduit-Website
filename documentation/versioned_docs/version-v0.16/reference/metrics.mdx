@@ -1,0 +1,111 @@
+---
+sidebar_label: 'Metrics'
+sidebar_position: 3
+title: 'Metrics Reference'
+---
+
+Conduit exposes Prometheus metrics for monitoring your deployment.
+
+## Configuration
+
+### CLI Deployments
+
+Metrics enabled by default. Prometheus at `http://localhost:9090`.
+
+### Manual Deployments
+
+1. Set `METRICS_PORT` environment variable for each service
+2. Configure Prometheus to scrape `/metrics` endpoints
+3. Set `PROMETHEUS_URL` for Admin Panel
+
+## Prometheus Configuration
+
+```yaml
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: prometheus
+    metrics_path: /metrics
+    static_configs:
+      - labels:
+          module: 'Core'
+        targets: ['conduit:9091']
+      - labels:
+          module: 'Database'
+        targets: ['conduit-database:9092']
+      - labels:
+          module: 'Router'
+        targets: ['conduit-router:9093']
+      - labels:
+          module: 'Authentication'
+        targets: ['conduit-authentication:9094']
+```
+
+## Available Metrics
+
+### Base Metrics (All Services)
+
+| Metric | Description |
+|--------|-------------|
+| `conduit_internal_grpc_requests_total` | Internal gRPC requests |
+| `conduit_client_grpc_requests_total` | Client gRPC requests |
+| `conduit_admin_grpc_requests_total` | Admin gRPC requests |
+| `conduit_module_health_state` | Module health status |
+| `conduit_grpc_request_latency_seconds` | Request latency |
+
+### Core
+
+| Metric | Description |
+|--------|-------------|
+| `conduit_admin_routes_total` | Registered admin routes |
+
+### Authentication
+
+| Metric | Description |
+|--------|-------------|
+| `conduit_login_requests_total` | Login attempts |
+| `conduit_logged_in_users_total` | Logged-in users |
+
+### Authorization
+
+| Metric | Description |
+|--------|-------------|
+| `conduit_authorization_requests_total` | Auth requests |
+| `conduit_authorization_denials` | Denied requests |
+
+### Database
+
+| Metric | Description |
+|--------|-------------|
+| `conduit_database_queries_total` | Database queries |
+| `conduit_registered_schemas_total` | Registered schemas |
+
+### Chat
+
+| Metric | Description |
+|--------|-------------|
+| `conduit_chat_rooms_total` | Chat rooms |
+| `conduit_messages_sent_total` | Messages sent |
+
+### Router
+
+| Metric | Description |
+|--------|-------------|
+| `conduit_client_routes_total` | Client routes |
+| `conduit_security_clients_total` | Security clients |
+
+### Storage
+
+| Metric | Description |
+|--------|-------------|
+| `conduit_files_total` | Total files |
+| `conduit_storage_size_bytes_total` | Total storage size |
+
+## Visualization
+
+Use Grafana or any Prometheus-compatible tool:
+- Connect to Prometheus data source
+- Build dashboards with available metrics
+- Set up alerting rules
+

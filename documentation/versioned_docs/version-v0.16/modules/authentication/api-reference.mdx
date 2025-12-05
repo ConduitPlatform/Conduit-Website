@@ -1,0 +1,276 @@
+---
+sidebar_label: 'API Reference'
+sidebar_position: 3
+title: 'Authentication API Reference'
+---
+
+Complete API reference for the Authentication module.
+
+## User Registration
+
+### Create User (Local)
+
+```http
+POST /authentication/local/new
+```
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+**Response:**
+```json
+{
+  "user": {
+    "email": "user@example.com",
+    "active": true,
+    "isVerified": false,
+    "_id": "..."
+  }
+}
+```
+
+## Authentication
+
+### Login (Local)
+
+```http
+POST /authentication/local
+```
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+**Response:**
+```json
+{
+  "userId": "...",
+  "accessToken": "eyJhbGciOiJIUzI1NiIs...",
+  "refreshToken": "aDYLqHPw6yK+GTNsWApA..."
+}
+```
+
+### Logout
+
+```http
+POST /authentication/logout
+Authorization: Bearer {accessToken}
+```
+
+### Refresh Token
+
+```http
+POST /authentication/renew
+Authorization: Bearer {refreshToken}
+```
+
+**Response:**
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIs...",
+  "refreshToken": "aDYLqHPw6yK+GTNsWApA..."
+}
+```
+
+## Password Management
+
+### Forgot Password
+
+```http
+POST /authentication/forgot-password
+```
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com"
+}
+```
+
+### Reset Password
+
+```http
+POST /authentication/reset-password
+```
+
+**Request Body:**
+```json
+{
+  "passwordResetToken": "token-from-email",
+  "password": "newPassword123"
+}
+```
+
+### Change Password
+
+```http
+POST /authentication/local/change-password
+Authorization: Bearer {accessToken}
+```
+
+**Request Body:**
+```json
+{
+  "oldPassword": "currentPassword",
+  "newPassword": "newPassword123"
+}
+```
+
+## Email Management
+
+### Change Email
+
+```http
+POST /authentication/local/change-email
+Authorization: Bearer {accessToken}
+```
+
+**Request Body:**
+```json
+{
+  "newEmail": "newemail@example.com"
+}
+```
+
+### Resend Verification
+
+```http
+POST /authentication/local/resend-verification
+```
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com"
+}
+```
+
+## Verification Webhooks
+
+### Verify Email
+
+```http
+GET /hook/authentication/verify-email/{verificationToken}
+```
+
+### Verify Email Change
+
+```http
+GET /hook/authentication/verify-change-email/{verificationToken}
+```
+
+## OAuth Endpoints
+
+### Initialize OAuth
+
+```http
+GET /authentication/init/{provider}
+```
+
+**Providers:** `google`, `facebook`, `github`, `apple`, `microsoft`, `twitter`, `linkedin`, `slack`, `twitch`, `gitlab`, `bitbucket`, `reddit`, `figma`
+
+**Response:**
+```json
+{
+  "result": "https://accounts.google.com/o/oauth2/v2/auth?..."
+}
+```
+
+### OAuth Callback
+
+```http
+GET /hook/authentication/{provider}
+```
+
+Handled automatically after OAuth flow.
+
+## Two-Factor Authentication
+
+### Enable 2FA
+
+```http
+POST /authentication/twoFa/enable
+Authorization: Bearer {accessToken}
+```
+
+### Verify 2FA
+
+```http
+POST /authentication/twoFa/verify
+```
+
+**Request Body:**
+```json
+{
+  "code": "123456"
+}
+```
+
+### Generate Backup Codes
+
+```http
+POST /authentication/twoFa/backup-codes
+Authorization: Bearer {accessToken}
+```
+
+## Magic Link
+
+### Request Magic Link
+
+```http
+POST /authentication/magic-link
+```
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com"
+}
+```
+
+### Verify Magic Link
+
+```http
+GET /hook/authentication/magic-link/{token}
+```
+
+## User Information
+
+### Get Current User
+
+```http
+GET /authentication/user
+Authorization: Bearer {accessToken}
+```
+
+**Response:**
+```json
+{
+  "user": {
+    "email": "user@example.com",
+    "active": true,
+    "isVerified": true,
+    "hasTwoFA": false,
+    "_id": "..."
+  }
+}
+```
+
+## Error Responses
+
+| Status | Description |
+|--------|-------------|
+| 400 | Invalid request body |
+| 401 | Invalid credentials or token |
+| 403 | Account blocked or unverified |
+| 429 | Rate limit exceeded |
+

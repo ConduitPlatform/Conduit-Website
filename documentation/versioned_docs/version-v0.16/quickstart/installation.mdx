@@ -1,0 +1,73 @@
+---
+sidebar_label: 'Installation'
+sidebar_position: 2
+title: 'Installation'
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## Prerequisites
+
+Before installing Conduit, ensure you have:
+
+1. **Docker** - [Install Docker](https://docs.docker.com/get-docker/) and configure it to run without sudo
+2. **Docker Compose** - Conduit's CLI supports both v2 and v1 (v2 comes pre-installed with Docker Desktop)
+
+## Quick Install with CLI
+
+The fastest way to get Conduit running locally:
+
+<Tabs>
+<TabItem value="npx" label="npx (Recommended)">
+
+```bash
+# Basic setup with latest stable release
+npx @conduitplatform/cli deploy setup
+
+# Interactive setup with module selection
+npx @conduitplatform/cli deploy setup --config
+```
+
+</TabItem>
+<TabItem value="native" label="Native Package">
+
+```bash
+# Install CLI
+sh <(curl -s https://getconduit.dev/bootstrap)
+
+# Deploy Conduit
+conduit deploy setup --config
+```
+
+</TabItem>
+</Tabs>
+
+Upon completion, the admin panel will open in your browser.
+
+**Default credentials:** `admin` / `admin`
+
+## Alternative Installation Methods
+
+- **From Source** - [Build from source](https://github.com/ConduitPlatform/Conduit#running-from-source-)
+- **Container Images** - [Pre-built images](https://github.com/orgs/ConduitPlatform/packages?sort_by=downloads_desc&visibility=public) on DockerHub and GitHub Container Registry
+- **Kubernetes** - See [Deploy with Kubernetes](../guides/deploy-kubernetes) guide
+
+:::caution Version Compatibility
+Don't mix different major versions of Conduit, modules, or the Admin Panel.
+:::
+
+## Verify Installation
+
+After installation, verify Conduit is running:
+
+1. Open the Admin Panel at `http://localhost:8080`
+2. Login with `admin` / `admin`
+3. You should see the dashboard with available modules
+
+## What's Next?
+
+- Explore the [Admin Panel](../learn/admin-panel) interface
+- Build your [First App](../guides/first-app)
+- Learn about [Core Concepts](../learn/core-concepts)
+

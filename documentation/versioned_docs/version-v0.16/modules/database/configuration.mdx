@@ -1,0 +1,81 @@
+---
+sidebar_label: 'Configuration'
+sidebar_position: 2
+title: 'Database Configuration'
+---
+
+Configure the Database module for your environment.
+
+## Database Connection
+
+Set via environment variables:
+
+```bash
+DB_TYPE=mongodb
+DB_CONN_URI=mongodb://localhost:27017/conduit
+```
+
+### MongoDB
+
+```bash
+# Local
+DB_CONN_URI=mongodb://localhost:27017/conduit
+
+# Atlas
+DB_CONN_URI=mongodb+srv://user:pass@cluster.mongodb.net/conduit
+```
+
+### PostgreSQL
+
+```bash
+DB_TYPE=postgres
+DB_CONN_URI=postgres://user:pass@localhost:5432/conduit
+```
+
+:::caution
+PostgreSQL is fully supported but MongoDB is recommended for production.
+:::
+
+## Schema Configuration
+
+### CRUD Options
+
+When creating schemas, configure auto-generated endpoints:
+
+| Option | Description |
+|--------|-------------|
+| Create | Enable POST endpoint |
+| Read | Enable GET endpoints |
+| Update | Enable PUT/PATCH endpoints |
+| Delete | Enable DELETE endpoint |
+
+### Authentication
+
+For each CRUD operation, specify:
+- **Authenticated** - Requires user token
+- **Public** - No authentication needed
+
+### Field Options
+
+| Option | Description |
+|--------|-------------|
+| Required | Field must have a value |
+| Unique | Value must be unique in collection |
+| Select | Include field in query results |
+| Array | Field contains multiple values |
+
+## Admin Panel Settings
+
+Access via **Database** > **Settings**:
+
+- View database connection status
+- Monitor schema health
+- Configure global settings
+
+## Best Practices
+
+1. **Use indexes** for frequently queried fields
+2. **Enable authentication** for write operations
+3. **Use relations** instead of embedding for large objects
+4. **Test queries** before deploying custom endpoints
+

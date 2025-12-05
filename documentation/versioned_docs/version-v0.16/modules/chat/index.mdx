@@ -1,0 +1,56 @@
+---
+sidebar_label: 'Overview'
+sidebar_position: 1
+title: 'Chat'
+---
+
+![Chat Room View](/v0.16/modules/chat/admin/room_view.png)
+
+The Chat module provides real-time messaging capabilities via WebSockets.
+
+## Features
+
+- **Chat Rooms** - Create and manage conversation spaces
+- **Real-time Messages** - Instant message delivery via WebSockets
+- **Message Status** - Track read/unread status
+- **Message Editing** - Allow users to edit sent messages
+- **Message Deletion** - Allow users to delete messages
+
+## Dependencies
+
+| Module | Required | Purpose |
+|--------|----------|---------|
+| [Authentication](../authentication/index) | Yes | User identity |
+
+## Minimum Configuration
+
+All features enabled by default. Optional configuration available.
+
+## Environment Variables
+
+| Name | Required | Description | Example |
+|:----:|:--------:|:-----------:|:-------:|
+| `CONDUIT_SERVER` | Yes | Conduit Core address | `0.0.0.0:55152` |
+| `SERVICE_URL` | No | Service address | `0.0.0.0:56154` |
+| `GRPC_PORT` | No | gRPC server port | `56154` |
+| `GRPC_KEY` | No | gRPC signed request protection | `someSecret` |
+
+## Quick Start
+
+```bash
+# Create a chat room (as authenticated user)
+curl -X POST 'http://localhost:3000/chat/rooms' \
+  -H 'Authorization: Bearer USER_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "roomName": "General",
+    "users": ["user2Id", "user3Id"]
+  }'
+```
+
+## Next Steps
+
+- [Configuration](./configuration) - Configure chat settings
+- [API Reference](./api-reference) - All available endpoints
+- [Getting Started Tutorial](./tutorials/getting-started) - Build real-time chat
+

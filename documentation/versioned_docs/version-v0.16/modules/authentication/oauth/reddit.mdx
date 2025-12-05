@@ -1,0 +1,34 @@
+---
+sidebar_label: 'Reddit'
+sidebar_position: 10
+title: 'Reddit OAuth'
+---
+
+Set up Reddit authentication for your Conduit application.
+
+## Configuration Steps
+
+1. Go to Reddit App Preferences
+2. Create new application (web app)
+3. Configure redirect URI:
+   ```
+   http://localhost:3000/hook/authentication/reddit
+   ```
+4. Note your Client ID (under app name) and Secret
+5. In Conduit Admin Panel, enable Reddit provider
+6. Enter your credentials and save
+
+## Test Authentication
+
+```bash
+curl -X GET 'http://localhost:3000/authentication/init/reddit'
+```
+
+Navigate to the returned URL to complete the OAuth flow.
+
+## Production
+
+Update callback URL for production:
+```
+https://yourdomain.com/hook/authentication/reddit
+```

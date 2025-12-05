@@ -1,0 +1,55 @@
+---
+sidebar_label: 'Overview'
+sidebar_position: 1
+title: 'Authorization'
+---
+
+The Authorization module provides role-based access control (RBAC) for your application.
+
+## Features
+
+- **Role-based Access Control** - Define roles with specific permissions
+- **Resource-level Rules** - Fine-grained access control per resource
+- **CRUD Authorization** - Control Create, Read, Update, Delete operations
+- **Role Hierarchy** - Organize roles with inheritance
+- **Rule Engine** - Flexible rule-based evaluation
+
+## Dependencies
+
+| Module | Required | Purpose |
+|--------|----------|---------|
+| [Authentication](../authentication/index) | Yes | User identity verification |
+| [Database](../database/index) | Yes | Storage for roles and rules |
+
+## Minimum Configuration
+
+Works out of the box with default roles (`admin`, `user`).
+
+## Environment Variables
+
+| Name | Required | Description | Example |
+|:----:|:--------:|:-----------:|:-------:|
+| `CONDUIT_SERVER` | Yes | Conduit Core address | `0.0.0.0:55152` |
+| `SERVICE_URL` | No | Service address | `0.0.0.0:56154` |
+| `GRPC_PORT` | No | gRPC server port | `56154` |
+| `GRPC_KEY` | No | gRPC signed request protection | `someSecret` |
+
+## Default Roles
+
+| Role | Description |
+|------|-------------|
+| `admin` | Full access to all resources |
+| `user` | Basic access for authenticated users |
+
+## Metrics
+
+- `conduit_authorization_requests_total` - Total authorization requests
+- `conduit_authorization_rules_total` - Total stored rules
+- `conduit_authorization_roles_total` - Total stored roles
+- `conduit_authorization_denials` - Total denied requests
+
+## Next Steps
+
+- [Configuration](./configuration) - Set up roles and rules
+- [API Reference](./api-reference) - Available endpoints
+

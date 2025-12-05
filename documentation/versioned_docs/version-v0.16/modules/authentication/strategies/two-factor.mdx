@@ -1,0 +1,129 @@
+---
+sidebar_label: 'Two-Factor'
+sidebar_position: 3
+title: 'Two-Factor Authentication'
+---
+
+Two-Factor Authentication (2FA) adds an extra layer of security to user accounts.
+
+## Methods
+
+| Method | Description |
+|--------|-------------|
+| **Phone OTP** | One-time password sent via SMS |
+| **QR Code** | TOTP via authenticator app |
+
+## Enable 2FA (Admin)
+
+1. Go to **Admin Panel** > **Authentication** > **Settings**
+2. Enable **Two-Factor Authentication**
+3. Select preferred methods
+
+![Enable 2FA](/v0.16/modules/authentication/tutorials/enable-2-fa.png)
+
+:::caution SMS Module Required
+Phone-based 2FA requires the [SMS module](../../sms/index) to be configured.
+:::
+
+## User Flow
+
+### Enable 2FA for Account
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/twoFa/enable' \
+  -H 'Authorization: Bearer YOUR_TOKEN'
+```
+
+**Response (QR Code method):**
+```json
+{
+  "qrCode": "data:image/png;base64,...",
+  "secret": "JBSWY3DPEHPK3PXP"
+}
+```
+
+### Login with 2FA
+
+1. **Initial Login:**
+```bash
+curl -X POST 'http://localhost:3000/authentication/local' \
+  -H 'Content-Type: application/json' \
+  -d '{"email": "user@example.com", "password": "password"}'
+```
+
+2. **Response indicates 2FA required:**
+```json
+{
+  "message": "2FA required",
+  "twoFaRequired": true
+}
+```
+
+3. **Submit 2FA code:**
+```bash
+curl -X POST 'http://localhost:3000/authentication/twoFa/verify' \
+  -H 'Content-Type: application/json' \
+  -d '{"code": "123456"}'
+```
+
+## Backup Codes
+
+Generate backup codes for account recovery:
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/twoFa/backup-codes' \
+  -H 'Authorization: Bearer YOUR_TOKEN'
+```
+
+**Response:**
+```json
+{
+  "backupCodes": [
+    "ABC12345",
+    "DEF67890",
+    "GHI11223",
+    ...
+  ]
+}
+```
+
+:::warning
+Backup codes are one-time use. Store them securely.
+:::
+
+## Disable 2FA
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/twoFa/disable' \
+  -H 'Authorization: Bearer YOUR_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{"code": "123456"}'
+```
+
+## Phone OTP Setup
+
+1. User must have phone number on account
+2. Enable phone 2FA in settings
+3. OTP sent via configured SMS provider
+
+## QR Code Setup
+
+1. Enable QR/TOTP in settings
+2. User scans QR code with authenticator app
+3. App generates time-based codes
+
+### Supported Apps
+
+- Google Authenticator
+- Authy
+- Microsoft Authenticator
+- 1Password
+- Any TOTP-compatible app
+
+## Security Best Practices
+
+1. **Require 2FA** for admin accounts
+2. **Offer backup codes** during setup
+3. **Allow multiple methods** for flexibility
+4. **Log 2FA events** for security auditing
+

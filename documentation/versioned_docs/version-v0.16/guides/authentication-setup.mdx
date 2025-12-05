@@ -1,0 +1,164 @@
+---
+sidebar_label: 'Authentication Setup'
+sidebar_position: 2
+title: 'Authentication Setup'
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+This guide covers setting up user authentication with Conduit, including local authentication and OAuth providers.
+
+## Prerequisites
+
+- Conduit [installed and running](../quickstart/installation)
+- Authentication module deployed
+
+## Local Authentication
+
+### Create a User
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/local/new' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "email": "user@example.com",
+    "password": "securepassword"
+  }'
+```
+
+Response:
+```json
+{
+  "user": {
+    "email": "user@example.com",
+    "active": true,
+    "isVerified": false,
+    "_id": "..."
+  }
+}
+```
+
+### Login
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/local' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "email": "user@example.com",
+    "password": "securepassword"
+  }'
+```
+
+Response:
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIs...",
+  "refreshToken": "aDYLqHPw6yK+GTNsWApA..."
+}
+```
+
+### Making Authenticated Requests
+
+Include the access token in the `Authorization` header:
+
+```bash
+curl -X GET 'http://localhost:3000/some-protected-route' \
+  -H 'Authorization: Bearer YOUR_ACCESS_TOKEN'
+```
+
+### Logout
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/logout' \
+  -H 'Authorization: Bearer YOUR_ACCESS_TOKEN'
+```
+
+## OAuth Configuration
+
+### Enable OAuth Provider
+
+1. Open Admin Panel > Authentication > Settings
+2. Navigate to OAuth providers section
+3. Enable your desired provider
+4. Enter your OAuth credentials (Client ID, Client Secret)
+
+### Supported Providers
+
+- Google
+- Facebook
+- GitHub
+- Microsoft
+- Apple
+- Twitter
+- LinkedIn
+- Slack
+- Twitch
+- GitLab
+- Bitbucket
+- Reddit
+- Figma
+
+### OAuth Flow Example (Google)
+
+1. **Initiate OAuth:**
+   ```
+   GET http://localhost:3000/authentication/google
+   ```
+
+2. **User authenticates** with Google
+
+3. **Callback returns tokens:**
+   ```json
+   {
+     "accessToken": "...",
+     "refreshToken": "..."
+   }
+   ```
+
+## Two-Factor Authentication
+
+### Enable 2FA
+
+1. Configure SMS module (required for OTP)
+2. Enable 2FA in Authentication settings
+3. Users can enable 2FA from their profile
+
+### 2FA Flow
+
+1. User logs in with credentials
+2. Server responds with 2FA required
+3. User enters OTP code
+4. Access granted
+
+## Managing Users (Admin Panel)
+
+### Create User
+
+Navigate to **Authentication** > **Users** > **Add User**
+
+### Edit User
+
+- Change email
+- Add phone number
+- Enable/disable 2FA
+- Reset password
+
+### Block/Unblock Users
+
+Select users and use the Block/Unblock action for access control.
+
+## Best Practices
+
+1. **Enable email verification** for production
+2. **Use HTTPS** in production environments
+3. **Store tokens securely** on the client side
+4. **Implement token refresh** logic
+5. **Set appropriate token expiration** times
+
+## Next Steps
+
+- Configure [Authorization](../modules/authorization/index) for role-based access
+- Set up [Email](../modules/email/index) for verification emails
+- Learn about [Magic Links](../modules/authentication/strategies/magic-link) for passwordless auth
+

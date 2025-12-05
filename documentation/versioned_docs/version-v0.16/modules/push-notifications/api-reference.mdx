@@ -1,0 +1,131 @@
+---
+sidebar_label: 'API Reference'
+sidebar_position: 3
+title: 'Push Notifications API Reference'
+---
+
+API reference for the Push Notifications module.
+
+## Device Management
+
+### Register Token
+
+```http
+POST /pushNotifications/token
+Authorization: Bearer {userToken}
+```
+
+**Request Body:**
+```json
+{
+  "token": "FCM_DEVICE_TOKEN",
+  "platform": "android"
+}
+```
+
+### Unregister Token
+
+```http
+DELETE /pushNotifications/token
+Authorization: Bearer {userToken}
+```
+
+## Topic Subscriptions
+
+### Subscribe to Topic
+
+```http
+POST /pushNotifications/subscribe
+Authorization: Bearer {userToken}
+```
+
+**Request Body:**
+```json
+{
+  "topic": "news"
+}
+```
+
+### Unsubscribe from Topic
+
+```http
+POST /pushNotifications/unsubscribe
+Authorization: Bearer {userToken}
+```
+
+**Request Body:**
+```json
+{
+  "topic": "news"
+}
+```
+
+## Sending Notifications
+
+### Send to User
+
+```http
+POST /admin/pushNotifications/send
+masterkey: {masterKey}
+```
+
+**Request Body:**
+```json
+{
+  "userId": "...",
+  "title": "Notification Title",
+  "body": "Notification message",
+  "data": {
+    "customKey": "customValue"
+  }
+}
+```
+
+### Send to Topic
+
+```http
+POST /admin/pushNotifications/sendToTopic
+masterkey: {masterKey}
+```
+
+**Request Body:**
+```json
+{
+  "topic": "news",
+  "title": "Breaking News",
+  "body": "Check out the latest update"
+}
+```
+
+### Send to Multiple Users
+
+```http
+POST /admin/pushNotifications/sendMany
+masterkey: {masterKey}
+```
+
+**Request Body:**
+```json
+{
+  "userIds": ["userId1", "userId2"],
+  "title": "Announcement",
+  "body": "New feature available"
+}
+```
+
+## Configuration
+
+### Get Config
+
+```http
+GET /admin/pushNotifications/config
+masterkey: {masterKey}
+```
+
+### Update Config
+
+```http
+PUT /admin/pushNotifications/config
+masterkey: {masterKey}
+```
+

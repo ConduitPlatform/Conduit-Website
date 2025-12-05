@@ -1,0 +1,34 @@
+---
+sidebar_label: 'Bitbucket'
+sidebar_position: 5
+title: 'Bitbucket OAuth'
+---
+
+Set up Bitbucket authentication for your Conduit application.
+
+## Configuration Steps
+
+1. Go to Bitbucket Settings > OAuth consumers
+2. Create new OAuth consumer
+3. Configure callback URL:
+   ```
+   http://localhost:3000/hook/authentication/bitbucket
+   ```
+4. Note your Key (Client ID) and Secret
+5. In Conduit Admin Panel, enable Bitbucket provider
+6. Enter your credentials and save
+
+## Test Authentication
+
+```bash
+curl -X GET 'http://localhost:3000/authentication/init/bitbucket'
+```
+
+Navigate to the returned URL to complete the OAuth flow.
+
+## Production
+
+Update callback URL for production:
+```
+https://yourdomain.com/hook/authentication/bitbucket
+```

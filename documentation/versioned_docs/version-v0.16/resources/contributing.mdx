@@ -1,0 +1,122 @@
+---
+sidebar_label: 'Contributing'
+sidebar_position: 3
+title: 'Contributing to Conduit'
+---
+
+Thank you for your interest in contributing to Conduit!
+
+## Ways to Contribute
+
+### Code Contributions
+
+- Fix bugs
+- Implement new features
+- Improve performance
+- Write tests
+
+### Documentation
+
+- Fix typos and errors
+- Improve explanations
+- Add examples
+- Translate documentation
+
+### Community
+
+- Answer questions on Discord
+- Help triage issues
+- Share Conduit with others
+- Write blog posts/tutorials
+
+## Getting Started
+
+### 1. Fork the Repository
+
+```bash
+git clone https://github.com/ConduitPlatform/Conduit.git
+cd Conduit
+```
+
+### 2. Set Up Development Environment
+
+```bash
+# Install dependencies
+yarn install
+
+# Set up environment
+cp .env.example .env
+```
+
+### 3. Run Conduit Locally
+
+```bash
+# Start dependencies
+docker-compose up -d redis mongo
+
+# Start Core
+yarn start:core
+
+# Start modules as needed
+yarn start:database
+yarn start:authentication
+```
+
+## Contribution Guidelines
+
+### Code Style
+
+- Follow existing code patterns
+- Use TypeScript
+- Write meaningful commit messages
+- Add tests for new features
+
+### Pull Request Process
+
+1. Create feature branch from `main`
+2. Make your changes
+3. Write/update tests
+4. Update documentation
+5. Submit pull request
+
+### Commit Messages
+
+Use conventional commits:
+```
+feat: add new authentication method
+fix: resolve database connection issue
+docs: update installation guide
+```
+
+## Areas We Need Help
+
+- SDKs for other languages (Python, Go, etc.)
+- Additional authentication providers
+- Performance improvements
+- Documentation translations
+- Integration examples
+
+## Community
+
+### Discord
+
+Join our [Discord server](https://discord.com/invite/fBqUQ23M7g) to:
+- Discuss ideas before implementing
+- Get help with contribution setup
+- Connect with other contributors
+
+### Code of Conduct
+
+Be respectful and constructive. We welcome contributors of all backgrounds and experience levels.
+
+## Recognition
+
+All contributors are recognized in:
+- Release notes
+- Contributors list
+- Special Discord role
+
+## License
+
+By contributing, you agree that your contributions will be licensed under the Apache 2.0 License.
+

@@ -1,0 +1,87 @@
+---
+sidebar_label: 'Configuration'
+sidebar_position: 2
+title: 'Storage Configuration'
+---
+
+Configure the Storage module with your preferred provider.
+
+## Provider Setup
+
+1. Go to **Admin Panel** > **Storage** > **Settings**
+2. Select provider
+3. Enter credentials
+4. Save
+
+## Provider Configuration
+
+### Local Storage
+
+| Setting | Description |
+|---------|-------------|
+| Storage Path | Local filesystem path |
+
+### Amazon S3
+
+| Setting | Description |
+|---------|-------------|
+| Access Key ID | AWS access key |
+| Secret Access Key | AWS secret key |
+| Region | S3 region |
+| Bucket | S3 bucket name |
+
+### Google Cloud Storage
+
+| Setting | Description |
+|---------|-------------|
+| Service Account | JSON key file contents |
+| Bucket | GCS bucket name |
+
+### Microsoft Azure
+
+| Setting | Description |
+|---------|-------------|
+| Connection String | Azure storage connection string |
+| Container | Azure container name |
+
+### Alibaba Cloud
+
+| Setting | Description |
+|---------|-------------|
+| Access Key ID | Aliyun access key |
+| Access Key Secret | Aliyun secret key |
+| Region | OSS region |
+| Bucket | OSS bucket name |
+
+## Access Control
+
+### Public Files
+
+Files accessible without authentication:
+- Direct URL access
+- CDN-friendly
+
+### Private Files
+
+Files requiring authentication:
+- Signed URLs
+- Token-based access
+
+## Folder Management
+
+Organize files in folders:
+
+```bash
+curl -X POST 'http://localhost:3000/storage/folder' \
+  -H 'Authorization: Bearer USER_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{"name": "documents", "isPublic": false}'
+```
+
+## Best Practices
+
+1. **Use cloud storage** for scalability
+2. **Set appropriate access** levels
+3. **Organize with folders** for maintainability
+4. **Configure CDN** for public files
+

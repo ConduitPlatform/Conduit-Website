@@ -1,0 +1,141 @@
+---
+sidebar_label: 'API Reference'
+sidebar_position: 3
+title: 'Authorization API Reference'
+---
+
+API reference for the Authorization module.
+
+## Roles
+
+### List Roles
+
+```http
+GET /authorization/roles
+Authorization: Bearer {adminToken}
+```
+
+### Create Role
+
+```http
+POST /authorization/roles
+Authorization: Bearer {adminToken}
+```
+
+**Request Body:**
+```json
+{
+  "name": "editor",
+  "permissions": ["posts:read", "posts:update"]
+}
+```
+
+### Update Role
+
+```http
+PUT /authorization/roles/{roleId}
+Authorization: Bearer {adminToken}
+```
+
+### Delete Role
+
+```http
+DELETE /authorization/roles/{roleId}
+Authorization: Bearer {adminToken}
+```
+
+## Rules
+
+### List Rules
+
+```http
+GET /authorization/rules
+Authorization: Bearer {adminToken}
+```
+
+### Create Rule
+
+```http
+POST /authorization/rules
+Authorization: Bearer {adminToken}
+```
+
+**Request Body:**
+```json
+{
+  "resource": "Posts",
+  "action": "read",
+  "role": "user",
+  "conditions": {}
+}
+```
+
+### Update Rule
+
+```http
+PUT /authorization/rules/{ruleId}
+Authorization: Bearer {adminToken}
+```
+
+### Delete Rule
+
+```http
+DELETE /authorization/rules/{ruleId}
+Authorization: Bearer {adminToken}
+```
+
+## User Role Management
+
+### Assign Role to User
+
+```http
+POST /authorization/users/{userId}/roles
+Authorization: Bearer {adminToken}
+```
+
+**Request Body:**
+```json
+{
+  "role": "editor"
+}
+```
+
+### Remove Role from User
+
+```http
+DELETE /authorization/users/{userId}/roles/{roleId}
+Authorization: Bearer {adminToken}
+```
+
+### Get User Roles
+
+```http
+GET /authorization/users/{userId}/roles
+Authorization: Bearer {adminToken}
+```
+
+## Authorization Check
+
+### Check Permission
+
+```http
+POST /authorization/check
+Authorization: Bearer {userToken}
+```
+
+**Request Body:**
+```json
+{
+  "resource": "Posts",
+  "action": "update",
+  "resourceId": "post-123"
+}
+```
+
+**Response:**
+```json
+{
+  "allowed": true
+}
+```
+

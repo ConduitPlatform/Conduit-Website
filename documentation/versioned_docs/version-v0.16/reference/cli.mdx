@@ -1,0 +1,120 @@
+---
+sidebar_label: 'CLI'
+sidebar_position: 1
+title: 'CLI Reference'
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Conduit's CLI facilitates deployment, development, and code generation.
+
+## Installation
+
+<Tabs>
+<TabItem value="native" label="Native Package">
+
+```bash
+sh <(curl -s https://getconduit.dev/bootstrap)
+```
+
+:::caution
+Windows users should install through WSL.
+:::
+
+</TabItem>
+<TabItem value="npm" label="npm">
+
+```bash
+npm install -g @conduitplatform/cli
+```
+
+</TabItem>
+</Tabs>
+
+## Requirements
+
+- Docker installed and configured (without sudo)
+- Docker Compose (v2 recommended, v1 supported)
+
+## Commands
+
+### deploy
+
+Deploy local Conduit instances using containers.
+
+```bash
+# Basic deployment
+conduit deploy setup
+
+# Interactive configuration
+conduit deploy setup --config
+
+# Specify version
+conduit deploy setup --version v0.16.0
+```
+
+**Options:**
+| Flag | Description |
+|------|-------------|
+| `--config` | Interactive module selection |
+| `--version` | Target Conduit version |
+
+### generateClient
+
+Generate API client libraries.
+
+```bash
+conduit generateClient --help
+```
+
+Supports REST and GraphQL APIs.
+
+### generateSchema
+
+Generate TypeScript schema files from deployed schemas.
+
+```bash
+conduit generateSchema --help
+```
+
+Useful for custom module development.
+
+## Using with npx
+
+Run commands without global installation:
+
+```bash
+npx @conduitplatform/cli deploy setup
+npx @conduitplatform/cli generateClient --help
+npx @conduitplatform/cli generateSchema --help
+```
+
+## Examples
+
+### Quick Start
+
+```bash
+# Deploy latest Conduit with defaults
+npx @conduitplatform/cli deploy setup
+
+# Open Admin Panel
+open http://localhost:8080
+```
+
+### Custom Module Selection
+
+```bash
+npx @conduitplatform/cli deploy setup --config
+# Follow interactive prompts to select:
+# - Database type (MongoDB/PostgreSQL)
+# - Additional modules
+# - Basic configuration
+```
+
+## Compatibility
+
+:::caution
+Some commands may not work on outdated Conduit deployments. Use matching CLI and Conduit versions.
+:::
+
