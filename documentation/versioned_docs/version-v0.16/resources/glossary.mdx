@@ -1,0 +1,142 @@
+---
+sidebar_label: 'Glossary'
+sidebar_position: 6
+title: 'Glossary'
+---
+
+# Glossary
+
+Common terms and concepts used throughout the Conduit documentation.
+
+---
+
+## A
+
+### Access Token
+A JWT (JSON Web Token) issued after successful authentication. Used to authorize API requests. Access tokens are short-lived and can be refreshed using a refresh token.
+
+**Related:** [Authentication Module](../modules/authentication/index)
+
+### Admin API
+The administrative interface for managing Conduit. Accessible via REST at `/admin` or through the Admin Panel. Requires admin authentication.
+
+**Related:** [Admin API Reference](../reference/admin-api/rest)
+
+### Admin Panel
+The web-based dashboard for managing your Conduit instance. Provides a visual interface for configuring modules, managing users, and monitoring your backend.
+
+**Related:** [Admin Panel Guide](../learn/admin-panel)
+
+---
+
+## C
+
+### Conduit Core
+The central component of Conduit that orchestrates all modules. Handles service registration, configuration storage, and inter-module communication.
+
+**Related:** [Architecture](../learn/architecture)
+
+### Config Service
+Part of Conduit Core responsible for storing and distributing configuration to all modules. Acts as the service registry for the cluster.
+
+### Custom Endpoint
+A user-defined API endpoint created through the Database module without writing code. Allows complex queries and operations via configuration.
+
+**Related:** [Database Custom Endpoints](../modules/database/custom-endpoints)
+
+---
+
+## G
+
+### gRPC
+Google Remote Procedure Call - the high-performance protocol used for communication between Conduit services. Enables language-agnostic module development.
+
+**Related:** [gRPC SDK](../reference/grpc-sdk)
+
+### gRPC SDK
+The TypeScript SDK for building custom Conduit modules. Provides helper functions, type definitions, and lifecycle management.
+
+---
+
+## I
+
+### Introspection
+The Database module feature that imports existing database schemas into Conduit. Supports both MongoDB and PostgreSQL.
+
+**Related:** [Database Introspection](../modules/database/introspection)
+
+---
+
+## M
+
+### Magic Link
+A passwordless authentication method where users receive a login link via email. Provides secure authentication without passwords.
+
+**Related:** [Magic Link Strategy](../modules/authentication/strategies/magic-link)
+
+### Module
+A microservice that extends Conduit's functionality. Each module handles a specific domain (authentication, storage, etc.) and communicates via gRPC.
+
+**Related:** [Modules Overview](../modules/overview)
+
+---
+
+## O
+
+### OAuth
+Open Authorization - a standard for third-party authentication. Conduit supports 13+ OAuth providers for social login.
+
+**Related:** [OAuth Providers](../modules/authentication/oauth/google)
+
+---
+
+## R
+
+### Refresh Token
+A long-lived token used to obtain new access tokens without re-authentication. Stored securely and rotated on use.
+
+### Router
+The module responsible for exposing HTTP endpoints (REST, GraphQL, WebSocket) to the outside world. Handles security, rate limiting, and CORS.
+
+**Related:** [Router Module](../modules/router/index)
+
+---
+
+## S
+
+### Schema
+A data structure definition in the Database module. Defines fields, types, and validation rules. Auto-generates CRUD endpoints.
+
+**Related:** [Database Module](../modules/database/index)
+
+### Service URL
+The address where a module's gRPC server is accessible. Used for inter-module communication and load balancing.
+
+---
+
+## T
+
+### Two-Factor Authentication (2FA)
+An additional security layer requiring a second verification step. Conduit supports phone OTP and authenticator app methods.
+
+**Related:** [Two-Factor Strategy](../modules/authentication/strategies/two-factor)
+
+---
+
+## Acronyms
+
+| Acronym | Meaning |
+|---------|---------|
+| API | Application Programming Interface |
+| BaaS | Backend as a Service |
+| CORS | Cross-Origin Resource Sharing |
+| CRUD | Create, Read, Update, Delete |
+| FCM | Firebase Cloud Messaging |
+| JWT | JSON Web Token |
+| OTP | One-Time Password |
+| REST | Representational State Transfer |
+| SDK | Software Development Kit |
+| SSO | Single Sign-On |
+| TLS | Transport Layer Security |
+| URI | Uniform Resource Identifier |
+

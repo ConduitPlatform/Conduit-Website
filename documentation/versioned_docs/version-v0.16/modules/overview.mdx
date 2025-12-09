@@ -8,18 +8,68 @@ Conduit's functionality comes from its modular architecture. Each module provide
 
 ## Official Modules
 
-| Module | Description |
-|--------|-------------|
-| [Authentication](./authentication/index) | User login, registration, OAuth, 2FA |
-| [Authorization](./authorization/index) | Role-based access control |
-| [Chat](./chat/index) | Real-time messaging via WebSockets |
-| [Database](./database/index) | Data storage, schemas, CMS |
-| [Email](./email/index) | Transactional email delivery |
-| [Forms](./forms/index) | Form submission and management |
-| [Push Notifications](./push-notifications/index) | Mobile push via FCM |
-| [Router](./router/index) | API routing, REST, GraphQL, WebSockets |
-| [SMS](./sms/index) | Text message delivery |
-| [Storage](./storage/index) | File storage (S3, GCS, Azure) |
+<ModuleGrid>
+  <ModuleCard
+    title="Authentication"
+    icon="🔐"
+    url="./authentication/index"
+    description="User login, registration, OAuth providers, two-factor authentication, and magic links."
+  />
+  <ModuleCard
+    title="Authorization"
+    icon="🛡️"
+    url="./authorization/index"
+    description="Role-based access control and permission management."
+  />
+  <ModuleCard
+    title="Database"
+    icon="🗄️"
+    url="./database/index"
+    description="Data storage, schema management, CMS capabilities, and custom endpoints."
+  />
+  <ModuleCard
+    title="Router"
+    icon="🔀"
+    url="./router/index"
+    description="API routing for REST, GraphQL, and WebSocket connections."
+  />
+  <ModuleCard
+    title="Storage"
+    icon="📦"
+    url="./storage/index"
+    description="File storage with support for S3, Google Cloud, Azure, and Alibaba Cloud."
+  />
+  <ModuleCard
+    title="Email"
+    icon="📧"
+    url="./email/index"
+    description="Transactional email delivery with template support."
+  />
+  <ModuleCard
+    title="SMS"
+    icon="📱"
+    url="./sms/index"
+    description="Text message delivery via multiple providers."
+  />
+  <ModuleCard
+    title="Push Notifications"
+    icon="🔔"
+    url="./push-notifications/index"
+    description="Mobile push notifications via Firebase Cloud Messaging."
+  />
+  <ModuleCard
+    title="Chat"
+    icon="💬"
+    url="./chat/index"
+    description="Real-time messaging with rooms and direct messages."
+  />
+  <ModuleCard
+    title="Forms"
+    icon="📝"
+    url="./forms/index"
+    description="Form submission and management system."
+  />
+</ModuleGrid>
 
 ## Module Characteristics
 
@@ -32,22 +82,22 @@ All modules are optional. Deploy only what you need:
 ### Configurable
 
 Each module has its own configuration accessible via:
-- Admin Panel (visual interface)
-- Admin API (programmatic access)
+- **Admin Panel** - Visual interface for configuration
+- **Admin API** - Programmatic access for automation
 
 ### Independent Scaling
 
 Since each module runs as a separate microservice, you can:
-- Scale modules independently
+- Scale modules independently based on load
 - Deploy modules across different servers
 - Adjust resources per module
 
 ## Module Communication
 
 Modules communicate via gRPC:
-- High-performance inter-service calls
-- Type-safe communication
-- Language-agnostic (any gRPC-compatible language)
+- **High-performance** inter-service calls
+- **Type-safe** communication with protocol buffers
+- **Language-agnostic** - build in any gRPC-compatible language
 
 ## Custom Modules
 
@@ -55,7 +105,7 @@ Build your own modules in any language supporting gRPC.
 
 **TypeScript SDK available** - Use our gRPC SDK for easier development:
 - Pre-built type definitions
-- Helper functions
+- Helper functions for common operations
 - Lifecycle management
 
 See [gRPC SDK Reference](../reference/grpc-sdk) for details.
@@ -78,3 +128,17 @@ Push Notifications
 
 Check individual module documentation for specific requirements.
 
+## Quick Reference
+
+| Module | Required Dependencies | Optional Dependencies |
+|--------|----------------------|----------------------|
+| Authentication | None | Email, SMS |
+| Authorization | None | None |
+| Database | None | None |
+| Router | None | None |
+| Storage | None | None |
+| Email | None | None |
+| SMS | None | None |
+| Push Notifications | Authentication | None |
+| Chat | Authentication | None |
+| Forms | None | Email |

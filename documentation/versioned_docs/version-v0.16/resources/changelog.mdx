@@ -1,0 +1,129 @@
+---
+sidebar_label: 'Changelog'
+sidebar_position: 5
+title: 'Changelog'
+---
+
+# Changelog
+
+All notable changes to Conduit are documented here.
+
+For detailed release notes, see [GitHub Releases](https://github.com/ConduitPlatform/Conduit/releases).
+
+## v0.16.0
+
+**Release Date:** 2024
+
+### Highlights
+
+- Enhanced Admin Panel with improved UX
+- Standardized token response format
+- Improved query language consistency
+- Performance optimizations across all modules
+
+### Breaking Changes
+
+- Authentication token response uses `accessToken` instead of `token`
+- Query operators renamed for consistency (`$like` → `$regex`, `$nin` → `$notIn`)
+- CORS configuration moved from environment variables to module config
+
+See [Migration Guide](./migration-guide) for upgrade instructions.
+
+### New Features
+
+#### Core
+- Added experimental multi-tenancy support
+- Improved service health monitoring
+- Enhanced gRPC connection handling
+
+#### Authentication
+- Added support for PKCE in OAuth flows
+- Improved token rotation security
+- Added session management APIs
+
+#### Database
+- New bulk operations for better performance
+- Improved introspection for PostgreSQL
+- Added schema versioning
+
+#### Router
+- GraphQL subscriptions support
+- Enhanced rate limiting options
+- Improved request validation
+
+#### Admin Panel
+- Redesigned navigation
+- New schema visual editor
+- Real-time logs viewer
+- Enhanced user management
+
+### Bug Fixes
+
+- Fixed memory leak in WebSocket connections
+- Resolved race condition in token refresh
+- Fixed PostgreSQL connection pooling issues
+- Corrected schema validation edge cases
+
+### Performance
+
+- 30% faster database queries with optimized ORM
+- Reduced memory footprint for idle modules
+- Improved startup time
+
+---
+
+## v0.15.0
+
+### Highlights
+
+- GraphQL support
+- Push Notifications module
+- Improved CLI experience
+
+### New Features
+
+- Full GraphQL API alongside REST
+- Firebase Cloud Messaging integration
+- Interactive CLI setup wizard
+- Database introspection
+
+### Bug Fixes
+
+- Fixed OAuth state validation
+- Resolved file upload size limits
+- Corrected email template rendering
+
+---
+
+## v0.14.0
+
+### Highlights
+
+- Initial stable release
+- Core module architecture
+- Essential modules included
+
+### Features
+
+- Authentication with local and OAuth
+- Database with MongoDB/PostgreSQL
+- Storage with cloud provider support
+- Email and SMS delivery
+- Admin Panel
+
+---
+
+## Versioning Policy
+
+Conduit follows [Semantic Versioning](https://semver.org/):
+
+- **Major** (X.0.0): Breaking changes
+- **Minor** (0.X.0): New features, backward compatible
+- **Patch** (0.0.X): Bug fixes
+
+## Stay Updated
+
+- Watch the [GitHub repository](https://github.com/ConduitPlatform/Conduit)
+- Join [Discord](https://discord.com/invite/fBqUQ23M7g) for announcements
+- Follow [@ConduitPlatform](https://twitter.com/ConduitPlatform) on Twitter
+

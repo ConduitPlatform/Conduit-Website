@@ -4,52 +4,80 @@ import styles from './HomepageFeatures.module.css';
 
 type FeatureItem = {
   title: string;
-  image: string;
+  icon: string;
   description: JSX.Element;
 };
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
-    image: '/docusaurus/undraw_docusaurus_mountain.svg',
+    title: 'Ready-Made Modules',
+    icon: '🧩',
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Authentication, Database, Storage, Email, SMS, Push Notifications, and more.
+        All the backend functionality you need, ready to deploy in minutes.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    image: '/docusaurus/undraw_docusaurus_tree.svg',
+    title: 'Fully Extensible',
+    icon: '🔧',
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Build custom modules in any language that supports gRPC. TypeScript SDK available
+        for rapid development. Replace or extend any module to fit your needs.
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    image: '/docusaurus/undraw_docusaurus_react.svg',
+    title: 'Self-Hosted Freedom',
+    icon: '🏠',
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Full control over your data and infrastructure. No vendor lock-in.
+        Deploy on your own servers, Kubernetes, or any cloud provider.
+      </>
+    ),
+  },
+  {
+    title: 'Auto-Generated APIs',
+    icon: '⚡',
+    description: (
+      <>
+        REST, GraphQL, and WebSocket endpoints generated automatically.
+        Swagger documentation included. Build schemas, get APIs instantly.
+      </>
+    ),
+  },
+  {
+    title: 'Microservice Architecture',
+    icon: '🔀',
+    description: (
+      <>
+        Scale each module independently. Deploy only what you need.
+        High-performance gRPC communication between services.
+      </>
+    ),
+  },
+  {
+    title: 'Admin Panel Included',
+    icon: '🎛️',
+    description: (
+      <>
+        Beautiful admin dashboard for managing your backend. Configure modules,
+        manage users, create schemas, and monitor your application.
       </>
     ),
   },
 ];
 
-function Feature({title, image, description}: FeatureItem) {
+function Feature({title, icon, description}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <img className={styles.featureSvg} alt={title} src={image} />
-      </div>
       <div className="text--center padding-horiz--md">
-        <h3>{title}</h3>
-        <p>{description}</p>
+        <div className={styles.featureIcon}>{icon}</div>
+        <h3 className={styles.featureTitle}>{title}</h3>
+        <p className={styles.featureDescription}>{description}</p>
       </div>
     </div>
   );

@@ -29,34 +29,30 @@ Create a `values.yaml` file with your configuration:
 ```yaml
 # values.yaml
 global:
-  conduit:
-    version: "latest"
-
-core:
-  replicas: 1
-  env:
-    REDIS_HOST: "redis"
-    REDIS_PORT: "6379"
-
-database:
+  image:
+    tag: "latest"
+install:
+  authentication:
+    enabled: true
+mongodb:
   enabled: true
-  type: mongodb
-  connectionUri: "mongodb://mongo:27017/conduit"
-
+# or if you want to use an external db
+externalDatabase:
+    type: "mongodb"
+    # -- URL for external Mongo or Postgres DB. Must be given in b64 format.
+    url: "...."
 authentication:
   enabled: true
 
 router:
-  enabled: true
   ingress:
     enabled: true
-    host: api.yourdomain.com
+    hostName: api.yourdomain.com
 
-adminPanel:
-  enabled: true
+admin:
   ingress:
     enabled: true
-    host: admin.yourdomain.com
+    hostName: admin.yourdomain.com
 ```
 
 ### 3. Deploy
@@ -87,9 +83,6 @@ core:
     limits:
       memory: "512Mi"
       cpu: "500m"
-  env:
-    MASTER_KEY: "your-secure-master-key"
-    GRPC_KEY: "your-grpc-secret"
 ```
 
 ### Module Configuration
@@ -97,21 +90,22 @@ core:
 Enable/disable modules as needed:
 
 ```yaml
-authentication:
-  enabled: true
-  replicas: 2
+install:
+    authentication:
+      enabled: true
+      replicas: 2
 
-database:
-  enabled: true
-  
-chat:
-  enabled: true
+    database:
+      enabled: true
 
-email:
-  enabled: false
+    chat:
+      enabled: true
 
-storage:
-  enabled: true
+    email:
+      enabled: false
+
+    storage:
+      enabled: true
 ```
 
 ### Ingress Configuration
@@ -120,10 +114,10 @@ storage:
 router:
   ingress:
     enabled: true
-    host: api.yourdomain.com
+    hostName: api.yourdomain.com
     annotations:
       kubernetes.io/ingress.class: nginx
-      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/cluster-issuer: letsencrypt-produdction
     tls:
       enabled: true
       secretName: api-tls
@@ -159,11 +153,11 @@ Add these entries (replace IP with minikube IP):
 # values-local.yaml
 router:
   ingress:
-    host: api.conduit.local
+    hostName: api.conduit.local
 
-adminPanel:
+admin:
   ingress:
-    host: admin.conduit.local
+    hostName: admin.conduit.local
 ```
 
 ```bash
@@ -185,21 +179,7 @@ helm install conduit conduit-platform/conduit -f values-local.yaml
 - [ ] Run multiple replicas of each service
 - [ ] Use external Redis cluster
 - [ ] Use managed database service
-- [ ] Configure health checks
-- [ ] Set up pod disruption budgets
 
-### Monitoring
-
-- [ ] Enable metrics endpoints
-- [ ] Configure Prometheus scraping
-- [ ] Set up Grafana dashboards
-- [ ] Configure alerting
-
-### Backup
-
-- [ ] Database backup strategy
-- [ ] Redis persistence (if needed)
-- [ ] Configuration backup
 
 ## Upgrading
 
@@ -240,48 +220,46 @@ kubectl exec -it POD_NAME -- /bin/sh
 
 ```yaml
 global:
-  conduit:
-    version: "v0.16.0"
-
-core:
-  replicas: 2
-  env:
-    REDIS_HOST: "redis-cluster"
-    REDIS_PORT: "6379"
-    MASTER_KEY: "${MASTER_KEY}"
-    GRPC_KEY: "${GRPC_KEY}"
-  resources:
-    requests:
-      memory: "512Mi"
-      cpu: "500m"
+  image:
+    tag: "v0.16.20"
+  secret:
+    # b64 encoded
+    MASTER_KEY: ....
+    grpc_enable: true
+    # b64 encoded
+    GRPC_KEY: ...
+install:
+    authentication:
+      replicas: 2
+      enabled: true
+module-settings:
+    resources:
+      requests:
+        memory: "150Mi"
+        cpu: "0"
+      limits:
+        memory: "500Mi"
+        cpu: "200m"
 
 database:
-  enabled: true
-  replicas: 2
-  env:
-    DB_TYPE: "mongodb"
-    DB_CONN_URI: "${MONGODB_URI}"
-
-authentication:
-  enabled: true
   replicas: 2
 
 router:
-  enabled: true
   replicas: 2
   ingress:
     enabled: true
-    host: api.yourapp.com
+    hostName: api.yourapp.com
     tls:
       enabled: true
+      #..
 
-adminPanel:
-  enabled: true
+admin:
   ingress:
     enabled: true
-    host: admin.yourapp.com
+    hostName: admin.yourapp.com
     tls:
       enabled: true
+      #....
 ```
 
 ## Next Steps

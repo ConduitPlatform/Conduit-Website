@@ -19,17 +19,17 @@ if (process.env.POSTHOG_API_KEY) {
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Conduit Platform",
-  tagline: "Less is more",
-  url: "https://mystifying-borg-373afd.netlify.app",
+  tagline: "The only Backend you'll ever need",
+  url: "https://getconduit.dev",
   baseUrl: "/docs/",
   onBrokenLinks: "warn",
   favicon: "favicon.ico",
   organizationName: "ConduitPlatform", // Usually your GitHub org/user name.
   projectName: "Conduit", // Usually your repo name.
 
-  // Use CommonMark-based parser for legacy content compatibility with Docusaurus 3
+  // Auto-detect format: .mdx files support JSX, .md files use CommonMark
   markdown: {
-    format: 'md',
+    format: 'detect',
     mdx1Compat: {
       comments: true,
       admonitions: true,
@@ -47,13 +47,17 @@ const config = {
         docs: {
           routeBasePath: "/",
           sidebarPath: "./sidebars.js",
-          // Please change this to your repo.
-          editUrl: undefined,
+          editUrl: "https://github.com/ConduitPlatform/Conduit-Website/tree/main/documentation/",
           includeCurrentVersion: false, // disable 'next' version, enable for offline edits
+          showLastUpdateTime: true,
+          showLastUpdateAuthor: true,
         },
         blog: false,
         theme: {
-          customCss: "./src/css/custom.css",
+          customCss: [
+            "./src/css/custom.css",
+            "./src/css/components.css",
+          ],
         },
       }),
     ],
@@ -62,6 +66,21 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      announcementBar: {
+        id: "v016_release",
+        content:
+          'Conduit v0.16 is now available! <a href="/docs/quickstart/installation">Get started</a>',
+        backgroundColor: "#07d9c4",
+        textColor: "#1F2034",
+        isCloseable: true,
+      },
+      // Algolia DocSearch - apply at https://docsearch.algolia.com/
+      // algolia: {
+      //   appId: 'YOUR_APP_ID',
+      //   apiKey: 'YOUR_SEARCH_API_KEY',
+      //   indexName: 'conduit',
+      //   contextualSearch: true,
+      // },
       metadata: [
         {
           name: "title",
@@ -123,16 +142,16 @@ const config = {
             title: "Docs",
             items: [
               {
-                label: "Overview",
-                to: "/overview/intro",
+                label: "Introduction",
+                to: "/intro",
               },
               {
-                label: "Get Started",
-                to: "/get-started",
+                label: "Quick Start",
+                to: "/quickstart/installation",
               },
               {
                 label: "Modules",
-                to: "/modules",
+                to: "/modules/overview",
               },
             ],
           },
@@ -143,6 +162,10 @@ const config = {
                 label: "Discord",
                 href: "https://discord.com/invite/fBqUQ23M7g",
               },
+              {
+                label: "Twitter",
+                href: "https://twitter.com/ConduitPlatform",
+              },
             ],
           },
           {
@@ -151,6 +174,10 @@ const config = {
               {
                 label: "GitHub",
                 href: "https://github.com/ConduitPlatform/Conduit",
+              },
+              {
+                label: "Contributing",
+                to: "/resources/contributing",
               },
             ],
           },

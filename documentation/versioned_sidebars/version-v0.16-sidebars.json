@@ -21,7 +21,8 @@
         "learn/architecture",
         "learn/core-concepts",
         "learn/admin-panel",
-        "learn/configuration"
+        "learn/configuration",
+        "learn/comparison"
       ]
     },
     {
@@ -61,19 +62,19 @@
               "type": "category",
               "label": "OAuth Providers",
               "items": [
-                "modules/authentication/oauth/apple",
-                "modules/authentication/oauth/bitbucket",
-                "modules/authentication/oauth/facebook",
-                "modules/authentication/oauth/figma",
-                "modules/authentication/oauth/github",
-                "modules/authentication/oauth/gitlab",
                 "modules/authentication/oauth/google",
-                "modules/authentication/oauth/linkedin",
+                "modules/authentication/oauth/github",
+                "modules/authentication/oauth/apple",
+                "modules/authentication/oauth/facebook",
                 "modules/authentication/oauth/microsoft",
-                "modules/authentication/oauth/reddit",
+                "modules/authentication/oauth/linkedin",
+                "modules/authentication/oauth/twitter",
+                "modules/authentication/oauth/gitlab",
+                "modules/authentication/oauth/bitbucket",
                 "modules/authentication/oauth/slack",
                 "modules/authentication/oauth/twitch",
-                "modules/authentication/oauth/twitter"
+                "modules/authentication/oauth/reddit",
+                "modules/authentication/oauth/figma"
               ]
             }
           ]
@@ -85,22 +86,6 @@
             "modules/authorization/index",
             "modules/authorization/configuration",
             "modules/authorization/api-reference"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Chat",
-          "items": [
-            "modules/chat/index",
-            "modules/chat/configuration",
-            "modules/chat/api-reference",
-            {
-              "type": "category",
-              "label": "Tutorials",
-              "items": [
-                "modules/chat/tutorials/getting-started"
-              ]
-            }
           ]
         },
         {
@@ -124,33 +109,6 @@
         },
         {
           "type": "category",
-          "label": "Email",
-          "items": [
-            "modules/email/index",
-            "modules/email/configuration",
-            "modules/email/api-reference"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Forms",
-          "items": [
-            "modules/forms/index",
-            "modules/forms/configuration",
-            "modules/forms/api-reference"
-          ]
-        },
-        {
-          "type": "category",
-          "label": "Push Notifications",
-          "items": [
-            "modules/push-notifications/index",
-            "modules/push-notifications/configuration",
-            "modules/push-notifications/api-reference"
-          ]
-        },
-        {
-          "type": "category",
           "label": "Router",
           "items": [
             "modules/router/index",
@@ -164,6 +122,24 @@
         },
         {
           "type": "category",
+          "label": "Storage",
+          "items": [
+            "modules/storage/index",
+            "modules/storage/configuration",
+            "modules/storage/api-reference"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Email",
+          "items": [
+            "modules/email/index",
+            "modules/email/configuration",
+            "modules/email/api-reference"
+          ]
+        },
+        {
+          "type": "category",
           "label": "SMS",
           "items": [
             "modules/sms/index",
@@ -173,11 +149,36 @@
         },
         {
           "type": "category",
-          "label": "Storage",
+          "label": "Push Notifications",
           "items": [
-            "modules/storage/index",
-            "modules/storage/configuration",
-            "modules/storage/api-reference"
+            "modules/push-notifications/index",
+            "modules/push-notifications/configuration",
+            "modules/push-notifications/api-reference"
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Chat",
+          "items": [
+            "modules/chat/index",
+            "modules/chat/configuration",
+            "modules/chat/api-reference",
+            {
+              "type": "category",
+              "label": "Tutorials",
+              "items": [
+                "modules/chat/tutorials/getting-started"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Forms",
+          "items": [
+            "modules/forms/index",
+            "modules/forms/configuration",
+            "modules/forms/api-reference"
           ]
         }
       ]
@@ -205,7 +206,10 @@
       "items": [
         "resources/troubleshooting",
         "resources/faq",
-        "resources/contributing"
+        "resources/contributing",
+        "resources/migration-guide",
+        "resources/changelog",
+        "resources/glossary"
       ]
     }
   ]

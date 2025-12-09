@@ -1,11 +1,14 @@
 /**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
+ * Conduit Documentation - Custom Styles
+ * Enhanced styling with custom typography and improved visual hierarchy
  */
 
-/* You can override the default Infima variables here. */
+/* Import custom fonts */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* Light theme variables */
 :root {
+  /* Primary brand colors */
   --ifm-color-primary: #5b44f2;
   --ifm-color-primary-dark: #4227f0;
   --ifm-color-primary-darker: #3519ef;
@@ -13,15 +16,31 @@
   --ifm-color-primary-light: #7461f4;
   --ifm-color-primary-lighter: #816ff5;
   --ifm-color-primary-lightest: #a79bf8;
-  --ifm-code-font-size: 95%;
+
+  /* Typography */
+  --ifm-font-family-base: 'Outfit', system-ui, -apple-system, sans-serif;
+  --ifm-heading-font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --ifm-code-font-size: 90%;
+  
+  /* Spacing and sizing */
+  --ifm-spacing-horizontal: 1.5rem;
+  --doc-sidebar-width: 280px;
+  
+  /* Custom accent colors */
+  --conduit-accent: #07d9c4;
+  --conduit-accent-light: #2bf8e4;
+  --conduit-surface: #f8f9fc;
 }
 
+/* Dark theme variables */
 html[data-theme='dark'] {
   --ifm-background-color: #1F2034;
   --ifm-background-surface-color: #262840;
-  --ifm-navbar-background-color:#1F2034;
-  --ifm-footer-background-color:#1F2034;
-  --ifm-table-stripe-background:#1F2034;
+  --ifm-navbar-background-color: #1F2034;
+  --ifm-footer-background-color: #1F2034;
+  --ifm-table-stripe-background: #262840;
+  --ifm-toc-border-color: #3a3d5c;
 
   --ifm-color-primary: #07d9c4;
   --ifm-color-primary-dark: #06c3b0;
@@ -30,14 +49,64 @@ html[data-theme='dark'] {
   --ifm-color-primary-light: #08efd8;
   --ifm-color-primary-lighter: #0af7df;
   --ifm-color-primary-lightest: #2bf8e4;
+  
+  --conduit-surface: #262840;
 }
 
+/* Dark theme background gradient */
 html[data-theme='dark'] footer {
   background-color: #1F2034;
 }
 
-html[data-theme='dark'] main{
-  background:linear-gradient(180deg, var(--ifm-background-color) 27%, var(--ifm-background-surface-color) 89%);
+html[data-theme='dark'] main {
+  background: linear-gradient(180deg, var(--ifm-background-color) 27%, var(--ifm-background-surface-color) 89%);
+}
+
+/* ========================================
+   TYPOGRAPHY ENHANCEMENTS
+   ======================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+  margin-top: 2.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+article p {
+  line-height: 1.75;
+}
+
+/* ========================================
+   CODE BLOCK STYLING
+   ======================================== */
+
+.prism-code {
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+
+html[data-theme='dark'] .prism-code {
+  border: 1px solid #3a3d5c;
+}
+
+html[data-theme='light'] .prism-code {
+  border: 1px solid #e0e4eb;
+}
+
+code {
+  border-radius: 4px;
+  padding: 0.15rem 0.4rem;
+  font-size: 0.875em;
 }
 
 .docusaurus-highlight-code-line {
@@ -47,17 +116,435 @@ html[data-theme='dark'] main{
   padding: 0 var(--ifm-pre-padding);
 }
 
+html[data-theme='dark'] .docusaurus-highlight-code-line {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Code block title/filename */
+.codeBlockTitle_node_modules-\@docusaurus-theme-classic-lib-theme-CodeBlock-Content-styles-module {
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* ========================================
+   ADMONITION STYLING
+   ======================================== */
+
+.alert {
+  border-radius: 8px;
+  border-left: 4px solid;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+.alert--info {
+  --ifm-alert-background-color: rgba(7, 217, 196, 0.1);
+  --ifm-alert-border-color: var(--conduit-accent);
+}
+
+html[data-theme='dark'] .alert--info {
+  --ifm-alert-background-color: rgba(7, 217, 196, 0.15);
+}
+
+.alert--warning {
+  border-left-color: #f0ad4e;
+}
+
+.alert--danger {
+  border-left-color: #d9534f;
+}
+
+/* ========================================
+   TABLE STYLING
+   ======================================== */
+
+table {
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+table thead tr {
+  background-color: var(--conduit-surface);
+}
+
+html[data-theme='dark'] table thead tr {
+  background-color: #2a2d4a;
+}
+
+table th {
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid var(--ifm-toc-border-color);
+}
+
+table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+table tbody tr:hover {
+  background-color: var(--conduit-surface);
+}
+
+html[data-theme='dark'] table tbody tr:hover {
+  background-color: rgba(7, 217, 196, 0.05);
+}
+
+/* ========================================
+   SIDEBAR STYLING
+   ======================================== */
+
+.menu__link {
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.menu__link--active {
+  font-weight: 600;
+}
+
+.menu__list-item-collapsible:hover {
+  background-color: var(--conduit-surface);
+}
+
+html[data-theme='dark'] .menu__list-item-collapsible:hover {
+  background-color: rgba(7, 217, 196, 0.1);
+}
+
+/* ========================================
+   NAVBAR STYLING
+   ======================================== */
+
+.navbar {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme='dark'] .navbar {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.navbar__link {
+  font-weight: 500;
+}
+
+/* ========================================
+   BREADCRUMBS
+   ======================================== */
+
+.breadcrumbs {
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.breadcrumbs__link {
+  color: var(--ifm-color-primary);
+}
+
+/* ========================================
+   CARDS AND GRID LAYOUTS
+   ======================================== */
 
 .wrap-row-container {
-  display:flex;
+  display: flex;
   flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.card {
+  border-radius: 8px;
+  border: 1px solid var(--ifm-toc-border-color);
+  transition: all 0.2s ease;
 }
 
 .card:hover {
-  transition:0.2s;
-  box-shadow: 0px 0px 1px 1px var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
-html[data-theme='dark'] .docusaurus-highlight-code-line {
-  background-color: rgba(0, 0, 0, 0.3);
+html[data-theme='dark'] .card:hover {
+  box-shadow: 0 4px 12px rgba(7, 217, 196, 0.15);
+}
+
+/* Module card grid */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.module-card {
+  padding: 1.25rem;
+  border-radius: 8px;
+  border: 1px solid var(--ifm-toc-border-color);
+  background: var(--ifm-background-surface-color);
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.module-card:hover {
+  border-color: var(--ifm-color-primary);
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: inherit;
+}
+
+.module-card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.module-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ifm-color-content-secondary);
+  line-height: 1.5;
+}
+
+/* Next steps grid */
+.next-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.next-step-card {
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--ifm-toc-border-color);
+  background: var(--ifm-background-surface-color);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+
+.next-step-card:hover {
+  border-color: var(--ifm-color-primary);
+  text-decoration: none;
+  color: inherit;
+}
+
+.next-step-card h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+  color: var(--ifm-color-primary);
+}
+
+.next-step-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--ifm-color-content-secondary);
+}
+
+/* Provider grid for OAuth */
+.provider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.provider-card {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--ifm-toc-border-color);
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.provider-card:hover {
+  border-color: var(--ifm-color-primary);
+  background: var(--conduit-surface);
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ========================================
+   ANNOUNCEMENT BAR
+   ======================================== */
+
+div[class*='announcementBar'] {
+  font-weight: 500;
+}
+
+div[class*='announcementBar'] a {
+  font-weight: 600;
+  text-decoration: underline;
+  margin-left: 0.5rem;
+}
+
+/* ========================================
+   TOC (Table of Contents)
+   ======================================== */
+
+.table-of-contents {
+  font-size: 0.85rem;
+}
+
+.table-of-contents__link--active {
+  font-weight: 600;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+.footer {
+  padding: 3rem 0;
+}
+
+.footer__title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.footer__link-item {
+  font-size: 0.9rem;
+  line-height: 2;
+}
+
+/* ========================================
+   MISC UTILITIES
+   ======================================== */
+
+/* Version badge */
+.version-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--conduit-surface);
+  color: var(--ifm-color-primary);
+  border: 1px solid var(--ifm-color-primary);
+}
+
+/* Feature list */
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+
+.feature-list li {
+  padding: 0.5rem 0;
+  padding-left: 1.75rem;
+  position: relative;
+}
+
+.feature-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--ifm-color-primary);
+  font-weight: bold;
+}
+
+/* API endpoint styling */
+.api-endpoint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--conduit-surface);
+  border-radius: 6px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.875rem;
+  margin: 0.5rem 0;
+}
+
+.api-method {
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.api-method--get {
+  background: #61affe;
+  color: white;
+}
+
+.api-method--post {
+  background: #49cc90;
+  color: white;
+}
+
+.api-method--put {
+  background: #fca130;
+  color: white;
+}
+
+.api-method--delete {
+  background: #f93e3e;
+  color: white;
+}
+
+/* Comparison table enhancements */
+.comparison-table {
+  margin: 2rem 0;
+}
+
+.comparison-table th:first-child {
+  width: 30%;
+}
+
+.comparison-check {
+  color: #49cc90;
+  font-size: 1.25rem;
+}
+
+.comparison-cross {
+  color: #f93e3e;
+  font-size: 1.25rem;
+}
+
+.comparison-partial {
+  color: #fca130;
+  font-size: 1.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  .module-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .provider-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

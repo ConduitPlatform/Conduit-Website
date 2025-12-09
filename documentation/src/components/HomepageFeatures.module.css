@@ -1,11 +1,42 @@
 .features {
   display: flex;
-  align-items: center;
-  padding: 2rem 0;
+  align-items: flex-start;
+  padding: 3rem 0;
   width: 100%;
 }
 
-.featureSvg {
-  height: 200px;
-  width: 200px;
+.featureIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.featureDescription {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ifm-color-content-secondary);
+}
+
+/* Add spacing between rows */
+.features .row {
+  row-gap: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .featureIcon {
+    font-size: 2rem;
+  }
+  
+  .featureTitle {
+    font-size: 1.1rem;
+  }
+  
+  .features .row {
+    row-gap: 2rem;
+  }
 }
