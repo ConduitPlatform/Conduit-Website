@@ -6,11 +6,20 @@ This directory contains **legacy** Conduit documentation for **v0.14**, **v0.15*
 
 | Setting | Value |
 |---------|-------|
-| **Root directory** | `documentation` |
-| **Build command** | `yarn install && yarn build` |
-| **Output directory** | `build` |
+| **Root directory** | `/` (repository root — not `documentation/`) |
+| **Build command** | `yarn install --frozen-lockfile && cd documentation && yarn build` |
+| **Output directory** | `documentation/build` |
 | **Node** | 24 |
 | **Custom domain** | `archive.getconduit.dev` |
+
+**Environment variables** (Settings → Environment variables):
+
+| Variable | Value |
+|----------|-------|
+| `SKIP_DEPENDENCY_INSTALL` | `true` |
+| `NODE_VERSION` | `24` |
+
+`SKIP_DEPENDENCY_INSTALL` prevents Cloudflare from auto-running `pnpm install` at the repo root. The build command uses Yarn for the monorepo, then builds Docusaurus from `documentation/`.
 
 Add a **Bulk Redirect** in Cloudflare: `/` → `/v0.16/intro` (302).
 
