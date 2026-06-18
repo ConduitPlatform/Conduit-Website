@@ -9,6 +9,7 @@
     "build:cf": "opennextjs-cloudflare build",
     "preview:cf": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy:cf": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "deploy:cf-only": "opennextjs-cloudflare deploy",
     "start": "next start",
     "lint": "eslint",
     "check:links": "node scripts/check-doc-links.mjs",
@@ -30,10 +31,11 @@
     "next-themes": "^0.4.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "tailwind-merge": "^3.6.0"
+    "tailwind-merge": "^3.6.0",
+    "@opennextjs/cloudflare": "^1.0.0",
+    "wrangler": "^4.0.0"
   },
   "devDependencies": {
-    "@opennextjs/cloudflare": "^1.0.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -41,7 +43,6 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
-    "typescript": "^5",
-    "wrangler": "^4.0.0"
+    "typescript": "^5"
   }
 }
