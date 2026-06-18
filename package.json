@@ -3,7 +3,6 @@
   "private": true,
   "workspaces": [
     "apps/web",
-    "www",
     "documentation"
   ],
   "scripts": {

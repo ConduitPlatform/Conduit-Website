@@ -1,6 +1,5 @@
 {
   "packages": [
-    "www",
     "documentation"
   ],
   "version": "independent",

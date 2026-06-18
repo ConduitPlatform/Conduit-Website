@@ -6,9 +6,8 @@ Unified **Next.js 16** marketing site and **v0.17 documentation** for [getcondui
 
 | Path | Purpose |
 |------|---------|
-| `apps/web/` | **New unified site** — marketing + Fumadocs MDX docs |
-| `www/` | Legacy marketing (Next 12) — retire after cutover |
-| `documentation/` | Legacy Docusaurus docs — retire after cutover |
+| `apps/web/` | **Unified site** — marketing + Fumadocs MDX docs |
+| `documentation/` | Legacy Docusaurus archive (v0.14–v0.16) for `archive.getconduit.dev` |
 
 ## Development
 
@@ -35,6 +34,6 @@ Node.js **24+** recommended.
 
 ## Deploy
 
-Build `apps/web` and deploy as a single static/SSR site. Legacy Netlify split (`www` + `documentation` proxy) is replaced by one app.
+Build `apps/web` and deploy as a single site (Cloudflare Workers). Legacy Docusaurus docs deploy separately to `archive.getconduit.dev`.
 
 See `apps/web/public/_redirects` for legacy URL mappings. Deployment cutover is documented in maintainer channels, not in this repo.
