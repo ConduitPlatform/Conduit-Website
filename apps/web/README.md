@@ -64,7 +64,7 @@ npm run deploy:cf     # Deploy to Cloudflare Workers
 
 Configure custom domain in **Workers & Pages** → your worker → **Custom domains**.
 
-Legacy path redirects ship via `public/_redirects`. Full cutover: [`CUTOVER.md`](../../CUTOVER.md).
+Legacy path redirects ship via `public/_redirects`.
 
 ### Docker (standalone)
 

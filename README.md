@@ -37,4 +37,4 @@ Node.js **24+** recommended.
 
 Build `apps/web` and deploy as a single static/SSR site. Legacy Netlify split (`www` + `documentation` proxy) is replaced by one app.
 
-See `apps/web/public/_redirects` for legacy URL mappings.
+See `apps/web/public/_redirects` for legacy URL mappings. Deployment cutover is documented in maintainer channels, not in this repo.

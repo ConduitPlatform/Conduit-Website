@@ -37,4 +37,4 @@ Built output is in `build/`. Versioned paths: `/v0.16/...`, `/v0.15/...`, `/v0.1
 
 ## Do not delete
 
-This archive is retained intentionally. See [CUTOVER.md](../CUTOVER.md) for the unified site cutover plan.
+This archive is retained intentionally. The main site at getconduit.dev redirects versioned doc paths here.
