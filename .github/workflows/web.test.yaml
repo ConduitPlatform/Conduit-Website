@@ -1,3 +1,5 @@
+name: Web (legacy www)
+
 on:
   pull_request:
     types:
@@ -6,6 +8,7 @@ on:
       - reopened
     paths:
       - "www/**"
+      - ".github/workflows/web.test.yaml"
 
 jobs:
   build-test:
@@ -16,7 +19,12 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "24"
+          cache: "yarn"
+          cache-dependency-path: yarn.lock
 
-      - run: yarn
-      - run: cd www && yarn build
+      - run: yarn install --frozen-lockfile
+
+      - name: Build legacy marketing site
+        run: yarn build
+        working-directory: www
