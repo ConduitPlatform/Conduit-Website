@@ -55,11 +55,31 @@ npm run generate:llms
 
 DNS for `getconduit.dev` should be on Cloudflare. Uses [@opennextjs/cloudflare](https://opennext.js.org/cloudflare).
 
+#### Git-connected Worker (Cloudflare dashboard)
+
+| Setting | Value |
+|---------|-------|
+| **Root directory** | `apps/web` |
+| **Build command** | `npm ci --workspaces=false --install-strategy=nested && npm run build:cf` |
+| **Deploy command** | `npx wrangler deploy` |
+| **Node.js version** | 24 |
+
+**Environment variables:**
+
+| Variable | Value |
+|----------|-------|
+| `SKIP_DEPENDENCY_INSTALL` | `true` |
+| `NODE_VERSION` | `24` |
+
+`SKIP_DEPENDENCY_INSTALL` is required — the monorepo root has a Yarn lockfile; without this, Cloudflare auto-runs Yarn 4 and the build fails before your npm command runs.
+
+#### CLI deploy
+
 ```bash
 npm ci --workspaces=false --install-strategy=nested
 npm run build:cf      # Next.js build + OpenNext bundle
 npm run preview:cf    # Local preview in Workers runtime
-npm run deploy:cf     # Deploy to Cloudflare Workers
+npm run deploy:cf     # build + wrangler deploy
 ```
 
 Configure custom domain in **Workers & Pages** → your worker → **Custom domains**.
