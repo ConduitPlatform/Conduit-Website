@@ -1,0 +1,48 @@
+---
+title: Container Images
+description: How Conduit publishes multi-arch images to GHCR and Docker Hub.
+agent_summary: "GHCR :dev on main; version tags on release; :latest stable only; amd64+arm64 via images.build.yml."
+---
+
+Conduit module images are built and published by CI. Use tagged releases in production; `dev` tracks `main`.
+
+## Workflows
+
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| [images.build.yml](https://github.com/ConduitPlatform/Conduit/blob/main/.github/workflows/images.build.yml) | `push` to `main`, `release`, `workflow_dispatch` | Multi-arch (`linux/amd64`, `linux/arm64`) images to GHCR; release also pushes Docker Hub |
+| [production.yaml](https://github.com/ConduitPlatform/Conduit/blob/main/.github/workflows/production.yaml) | `release` | **npm SDK publish only** — does not build container images |
+
+On release, `production.yaml` and `images.build.yml` run independently.
+
+## Image tags
+
+| Channel | GHCR | Docker Hub | `:latest` |
+|---------|------|------------|-----------|
+| `main` push | `ghcr.io/conduitplatform/<image>:dev` | — | — |
+| Stable release | `:<version>` | `conduitplatform/<image>:<version>` | yes |
+| Prerelease / alpha / beta / rc | `:<version>` | `:<version>` | no |
+
+Example: `ghcr.io/conduitplatform/database:0.17.0-alpha.2` or `docker.io/conduitplatform/router:0.16.26`.
+
+Compose and Helm charts typically set `IMAGE_TAG` or chart `appVersion` to pin a channel. See [Docker Compose](/docs/deployment/docker-compose) and [Kubernetes / Helm](/docs/deployment/kubernetes-helm).
+
+## Post-change validation
+
+After workflow or Dockerfile changes:
+
+1. **Manifest list:** `docker buildx imagetools inspect ghcr.io/conduitplatform/database:dev` — expect `linux/amd64` and `linux/arm64`.
+2. **Release:** repeat for a version tag after a green release workflow.
+3. **arm64:** watch the `database` job first (QEMU arm64 build; native Alpine deps).
+4. **Concurrency:** two pushes touching the same module cancel only that image's job; pushes touching different modules run in parallel.
+
+## Local builds
+
+From the Conduit repo root:
+
+```bash
+docker buildx bake --file docker-bake.hcl --print database
+./scripts/docker-build.sh database
+```
+
+For full stack setup from images, see [Install](/docs/getting-started/install).

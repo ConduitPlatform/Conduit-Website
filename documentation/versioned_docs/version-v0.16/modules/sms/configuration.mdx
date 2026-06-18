@@ -1,0 +1,55 @@
+---
+sidebar_label: 'Configuration'
+sidebar_position: 2
+title: 'SMS Configuration'
+---
+
+Configure the SMS module with your provider credentials.
+
+## Twilio Setup
+
+### Prerequisites
+
+1. Twilio account
+2. Twilio phone number
+3. Account SID and Auth Token
+
+### Configuration Steps
+
+1. Go to **Admin Panel** > **SMS** > **Settings**
+2. Enable module
+3. Enter Twilio credentials:
+   - Account SID
+   - Auth Token
+   - Phone Number (sender)
+4. Save
+
+## Twilio Credentials
+
+Find credentials in Twilio Console:
+1. Log into [Twilio Console](https://www.twilio.com/console)
+2. Copy **Account SID**
+3. Copy **Auth Token**
+4. Get a Twilio phone number
+
+## Testing
+
+Test your configuration:
+
+```bash
+curl -X POST 'http://localhost:3030/sms/send' \
+  -H 'masterkey: YOUR_MASTER_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "to": "+1234567890",
+    "message": "Test message from Conduit"
+  }'
+```
+
+## Best Practices
+
+1. **Verify phone numbers** before sending
+2. **Handle delivery failures** gracefully
+3. **Monitor usage** to control costs
+4. **Use templates** for consistent messaging
+

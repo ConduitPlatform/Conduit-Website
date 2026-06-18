@@ -1,0 +1,27 @@
+---
+title: CLI Reference
+description: Conduit CLI install and deploy commands.
+agent_summary: "Bootstrap via getconduit.dev/bootstrap; conduit deploy setup --config for local stack."
+---
+
+## Bootstrap
+
+```bash
+sh <(curl -s https://getconduit.dev/bootstrap)
+```
+
+## Deploy
+
+```bash
+conduit deploy setup --config
+```
+
+Or without global install:
+
+```bash
+npx @conduitplatform/cli deploy setup
+```
+
+See [Install](/docs/getting-started/install) for Docker alternatives.
+
+Repository: [ConduitPlatform/CLI](https://github.com/ConduitPlatform/CLI).

@@ -1,0 +1,64 @@
+---
+sidebar_label: 'Configuration'
+sidebar_position: 2
+title: 'Push Notifications Configuration'
+---
+
+Configure push notifications through the Admin Panel.
+
+## FCM Setup
+
+### Prerequisites
+
+1. Firebase project
+2. FCM service account credentials
+
+### Configuration Steps
+
+1. Go to **Admin Panel** > **Push Notifications** > **Settings**
+2. Enable module
+3. Upload Firebase service account JSON
+4. Save
+
+## Service Account JSON
+
+Get from Firebase Console:
+1. Go to **Project Settings** > **Service Accounts**
+2. Click **Generate new private key**
+3. Download JSON file
+4. Upload to Conduit
+
+## Device Registration
+
+Mobile apps must register device tokens:
+
+```bash
+curl -X POST 'http://localhost:3000/pushNotifications/token' \
+  -H 'Authorization: Bearer USER_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "token": "FCM_DEVICE_TOKEN",
+    "platform": "android"
+  }'
+```
+
+## Topics
+
+Users can subscribe to topics for group notifications:
+
+```bash
+curl -X POST 'http://localhost:3000/pushNotifications/subscribe' \
+  -H 'Authorization: Bearer USER_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "topic": "news"
+  }'
+```
+
+## Best Practices
+
+1. **Request permission** before registering tokens
+2. **Handle token refresh** on mobile apps
+3. **Use topics** for broadcast notifications
+4. **Include data** for app-specific handling
+

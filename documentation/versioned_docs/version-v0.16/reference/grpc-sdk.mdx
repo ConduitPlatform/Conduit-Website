@@ -1,0 +1,92 @@
+---
+sidebar_label: 'gRPC SDK'
+sidebar_position: 2
+title: 'gRPC SDK Reference'
+---
+
+The gRPC SDK provides TypeScript utilities for building Conduit modules.
+
+## Overview
+
+The SDK handles:
+- Module lifecycle management
+- Service-to-service communication
+- Schema definitions
+- Route registration
+
+## Installation
+
+```bash
+npm install @conduitplatform/grpc-sdk
+```
+
+## Features
+
+- **Module Interface** - Standard module implementation
+- **Model Constructors** - Schema definition helpers
+- **Utilities** - Common operations
+- **Type Definitions** - Full TypeScript support
+
+## Usage
+
+### Creating a Module
+
+```typescript
+import { ConduitModule } from '@conduitplatform/grpc-sdk';
+
+class MyModule extends ConduitModule {
+  async initialize() {
+    // Module initialization
+  }
+}
+```
+
+### Defining Schemas
+
+```typescript
+import { ConduitSchema } from '@conduitplatform/grpc-sdk';
+
+const MySchema = new ConduitSchema('MySchema', {
+  name: { type: 'String', required: true },
+  value: { type: 'Number' }
+});
+```
+
+### Registering Routes
+
+```typescript
+this.routeManager.registerRoute({
+  path: '/my-route',
+  method: 'GET',
+  handler: async (req, res) => {
+    // Handle request
+  }
+});
+```
+
+## Language Support
+
+While the SDK is TypeScript, Conduit supports any gRPC-compatible language:
+
+- Use proto files for your language
+- Implement required interfaces
+- Connect via gRPC
+
+## Proto Files
+
+Proto definitions available in the Conduit repository:
+```
+https://github.com/ConduitPlatform/Conduit/tree/main/packages/commons/src/protofiles
+```
+
+## Building Custom Modules
+
+1. Use the SDK for TypeScript modules
+2. Or use proto files for other languages
+3. Connect to Conduit Core via gRPC
+4. Register routes and schemas
+
+## Documentation
+
+Full SDK documentation in progress. Join [Discord](https://discord.com/invite/fBqUQ23M7g) for help.
+

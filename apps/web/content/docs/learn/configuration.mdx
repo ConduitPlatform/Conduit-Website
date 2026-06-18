@@ -1,0 +1,34 @@
+---
+title: Configuration
+description: Module config via Admin API, config bus, and environment variables.
+agent_summary: "Modules react to config via Redis config bus; patch via Admin API or MCP patch_config_<module>."
+---
+
+Conduit stores module configuration in core. Changes propagate over the **config bus** (Redis pub/sub). Modules implement `onConfig` lifecycle hooks.
+
+## Reading config
+
+- Admin panel UI
+- Admin API `GET /config` and `GET /config/{module}`
+- MCP: `get_config`, `get_config_{module}`
+
+## Updating config
+
+- Admin panel
+- MCP: `patch_config_{module}` with a `config` body
+- Admin API `PATCH /config/{module}`
+
+Never patch production config from application runtime code.
+
+## Environment variables
+
+Every module process requires:
+
+| Variable | Purpose |
+|----------|---------|
+| `CONDUIT_SERVER` | Core gRPC address (`host:port`) — **required** |
+| `SERVICE_URL` | This module's reachable address for discovery |
+| `GRPC_PORT` | gRPC bind port (default `5000`) |
+| `GRPC_KEY` | Shared secret for inter-module gRPC |
+
+See [Environment variables reference](/docs/reference/env-vars) for the full list.

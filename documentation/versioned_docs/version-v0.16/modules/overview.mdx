@@ -1,0 +1,144 @@
+---
+sidebar_label: 'Overview'
+sidebar_position: 1
+title: 'Modules Overview'
+---
+
+Conduit's functionality comes from its modular architecture. Each module provides specific capabilities that you can enable based on your project's needs.
+
+## Official Modules
+
+<ModuleGrid>
+  <ModuleCard
+    title="Authentication"
+    icon="🔐"
+    url="./authentication/index"
+    description="User login, registration, OAuth providers, two-factor authentication, and magic links."
+  />
+  <ModuleCard
+    title="Authorization"
+    icon="🛡️"
+    url="./authorization/index"
+    description="Role-based access control and permission management."
+  />
+  <ModuleCard
+    title="Database"
+    icon="🗄️"
+    url="./database/index"
+    description="Data storage, schema management, CMS capabilities, and custom endpoints."
+  />
+  <ModuleCard
+    title="Router"
+    icon="🔀"
+    url="./router/index"
+    description="API routing for REST, GraphQL, and WebSocket connections."
+  />
+  <ModuleCard
+    title="Storage"
+    icon="📦"
+    url="./storage/index"
+    description="File storage with support for S3, Google Cloud, Azure, and Alibaba Cloud."
+  />
+  <ModuleCard
+    title="Email"
+    icon="📧"
+    url="./email/index"
+    description="Transactional email delivery with template support."
+  />
+  <ModuleCard
+    title="SMS"
+    icon="📱"
+    url="./sms/index"
+    description="Text message delivery via multiple providers."
+  />
+  <ModuleCard
+    title="Push Notifications"
+    icon="🔔"
+    url="./push-notifications/index"
+    description="Mobile push notifications via Firebase Cloud Messaging."
+  />
+  <ModuleCard
+    title="Chat"
+    icon="💬"
+    url="./chat/index"
+    description="Real-time messaging with rooms and direct messages."
+  />
+  <ModuleCard
+    title="Forms"
+    icon="📝"
+    url="./forms/index"
+    description="Form submission and management system."
+  />
+</ModuleGrid>
+
+## Module Characteristics
+
+### Optional and Replaceable
+
+All modules are optional. Deploy only what you need:
+- Don't need Chat? Don't deploy it.
+- Want custom authentication? Replace ours.
+
+### Configurable
+
+Each module has its own configuration accessible via:
+- **Admin Panel** - Visual interface for configuration
+- **Admin API** - Programmatic access for automation
+
+### Independent Scaling
+
+Since each module runs as a separate microservice, you can:
+- Scale modules independently based on load
+- Deploy modules across different servers
+- Adjust resources per module
+
+## Module Communication
+
+Modules communicate via gRPC:
+- **High-performance** inter-service calls
+- **Type-safe** communication with protocol buffers
+- **Language-agnostic** - build in any gRPC-compatible language
+
+## Custom Modules
+
+Build your own modules in any language supporting gRPC.
+
+**TypeScript SDK available** - Use our gRPC SDK for easier development:
+- Pre-built type definitions
+- Helper functions for common operations
+- Lifecycle management
+
+See [gRPC SDK Reference](../reference/grpc-sdk) for details.
+
+## Module Dependencies
+
+Some modules have dependencies on others:
+
+```
+Authentication
+├── Email (optional: verification emails)
+└── SMS (optional: 2FA via phone)
+
+Chat
+└── Authentication (required: user identity)
+
+Push Notifications
+└── Authentication (required: user targeting)
+```
+
+Check individual module documentation for specific requirements.
+
+## Quick Reference
+
+| Module | Required Dependencies | Optional Dependencies |
+|--------|----------------------|----------------------|
+| Authentication | None | Email, SMS |
+| Authorization | None | None |
+| Database | None | None |
+| Router | None | None |
+| Storage | None | None |
+| Email | None | None |
+| SMS | None | None |
+| Push Notifications | Authentication | None |
+| Chat | Authentication | None |
+| Forms | None | Email |

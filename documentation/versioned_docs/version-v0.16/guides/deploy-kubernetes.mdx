@@ -1,0 +1,270 @@
+---
+sidebar_label: 'Deploy with Kubernetes'
+sidebar_position: 5
+title: 'Deploy with Kubernetes'
+---
+
+This guide covers deploying Conduit to a Kubernetes cluster for production use.
+
+## Prerequisites
+
+- Kubernetes cluster (local or cloud)
+- `kubectl` installed and configured
+- `helm` installed
+- Docker installed (for local testing)
+
+## Quick Start
+
+### 1. Add Helm Repository
+
+```bash
+helm repo add conduit-platform https://conduitplatform.github.io/helm-charts
+helm repo update
+```
+
+### 2. Create Values File
+
+Create a `values.yaml` file with your configuration:
+
+```yaml
+# values.yaml
+global:
+  image:
+    tag: "latest"
+install:
+  authentication:
+    enabled: true
+mongodb:
+  enabled: true
+# or if you want to use an external db
+externalDatabase:
+    type: "mongodb"
+    # -- URL for external Mongo or Postgres DB. Must be given in b64 format.
+    url: "...."
+authentication:
+  enabled: true
+
+router:
+  ingress:
+    enabled: true
+    hostName: api.yourdomain.com
+
+admin:
+  ingress:
+    enabled: true
+    hostName: admin.yourdomain.com
+```
+
+### 3. Deploy
+
+```bash
+helm install conduit conduit-platform/conduit -f values.yaml
+```
+
+### 4. Verify Deployment
+
+```bash
+kubectl get pods
+kubectl get services
+kubectl get ingress
+```
+
+## Configuration Options
+
+### Core Settings
+
+```yaml
+core:
+  replicas: 2
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+```
+
+### Module Configuration
+
+Enable/disable modules as needed:
+
+```yaml
+install:
+    authentication:
+      enabled: true
+      replicas: 2
+
+    database:
+      enabled: true
+
+    chat:
+      enabled: true
+
+    email:
+      enabled: false
+
+    storage:
+      enabled: true
+```
+
+### Ingress Configuration
+
+```yaml
+router:
+  ingress:
+    enabled: true
+    hostName: api.yourdomain.com
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: letsencrypt-produdction
+    tls:
+      enabled: true
+      secretName: api-tls
+```
+
+## Local Development (Minikube)
+
+### 1. Start Minikube
+
+```bash
+minikube start
+minikube addons enable ingress
+```
+
+### 2. Get Minikube IP
+
+```bash
+minikube ip
+```
+
+### 3. Update /etc/hosts
+
+Add these entries (replace IP with minikube IP):
+
+```
+192.168.49.2  api.conduit.local
+192.168.49.2  admin.conduit.local
+```
+
+### 4. Deploy with Local Values
+
+```yaml
+# values-local.yaml
+router:
+  ingress:
+    hostName: api.conduit.local
+
+admin:
+  ingress:
+    hostName: admin.conduit.local
+```
+
+```bash
+helm install conduit conduit-platform/conduit -f values-local.yaml
+```
+
+## Production Checklist
+
+### Security
+
+- [ ] Set strong `MASTER_KEY`
+- [ ] Enable `GRPC_KEY` for internal communication
+- [ ] Use TLS for all ingress
+- [ ] Configure network policies
+- [ ] Set resource limits
+
+### High Availability
+
+- [ ] Run multiple replicas of each service
+- [ ] Use external Redis cluster
+- [ ] Use managed database service
+
+
+## Upgrading
+
+### Update Values
+
+```bash
+helm upgrade conduit conduit-platform/conduit -f values.yaml
+```
+
+### Check Status
+
+```bash
+kubectl rollout status deployment/conduit-core
+```
+
+## Troubleshooting
+
+### View Logs
+
+```bash
+kubectl logs -l app=conduit-core
+kubectl logs -l app=conduit-authentication
+```
+
+### Check Events
+
+```bash
+kubectl get events --sort-by='.lastTimestamp'
+```
+
+### Access Pod Shell
+
+```bash
+kubectl exec -it POD_NAME -- /bin/sh
+```
+
+## Example: Full Production Values
+
+```yaml
+global:
+  image:
+    tag: "v0.16.20"
+  secret:
+    # b64 encoded
+    MASTER_KEY: ....
+    grpc_enable: true
+    # b64 encoded
+    GRPC_KEY: ...
+install:
+    authentication:
+      replicas: 2
+      enabled: true
+module-settings:
+    resources:
+      requests:
+        memory: "150Mi"
+        cpu: "0"
+      limits:
+        memory: "500Mi"
+        cpu: "200m"
+
+database:
+  replicas: 2
+
+router:
+  replicas: 2
+  ingress:
+    enabled: true
+    hostName: api.yourapp.com
+    tls:
+      enabled: true
+      #..
+
+admin:
+  ingress:
+    enabled: true
+    hostName: admin.yourapp.com
+    tls:
+      enabled: true
+      #....
+```
+
+## Next Steps
+
+- Configure [Metrics](../reference/metrics) for monitoring
+- Set up [Environment Variables](../reference/environment-variables) for all modules
+- Review [Security](../modules/router/security) best practices
+

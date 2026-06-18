@@ -1,0 +1,64 @@
+---
+sidebar_label: 'Overview'
+sidebar_position: 1
+title: 'SMS'
+---
+
+The SMS module provides text message delivery capabilities.
+
+## Features
+
+- **Send SMS** - Transactional text messages
+- **Provider Support** - Multiple SMS providers
+- **Templates** - SMS templates (coming soon)
+
+## Supported Providers
+
+| Provider | Status |
+|----------|--------|
+| Twilio | Supported |
+
+## Dependencies
+
+No module dependencies.
+
+## Minimum Configuration
+
+Requires provider configuration. Disabled by default.
+
+## Environment Variables
+
+| Name | Required | Description | Example |
+|:----:|:--------:|:-----------:|:-------:|
+| `CONDUIT_SERVER` | Yes | Conduit Core address | `0.0.0.0:55152` |
+| `SERVICE_URL` | No | Service address | `0.0.0.0:56154` |
+| `GRPC_PORT` | No | gRPC server port | `56154` |
+| `GRPC_KEY` | No | gRPC signed request protection | `someSecret` |
+
+## Quick Start
+
+1. Configure Twilio in Admin Panel
+2. Send SMS via API
+
+```bash
+curl -X POST 'http://localhost:3030/sms/send' \
+  -H 'masterkey: YOUR_MASTER_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "to": "+1234567890",
+    "message": "Your verification code is 123456"
+  }'
+```
+
+## Use Cases
+
+- Two-factor authentication
+- Order notifications
+- Appointment reminders
+- Marketing messages
+
+## Next Steps
+
+- [Configuration](./configuration) - Set up SMS provider
+- [API Reference](./api-reference) - Available endpoints
+

@@ -1,0 +1,130 @@
+---
+sidebar_label: 'API Reference'
+sidebar_position: 3
+title: 'Storage API Reference'
+---
+
+API reference for the Storage module.
+
+## File Operations
+
+### Upload File
+
+```http
+POST /storage/upload
+Authorization: Bearer {userToken}
+Content-Type: multipart/form-data
+```
+
+**Form Data:**
+- `file` - File to upload
+- `folder` - Target folder (optional)
+- `isPublic` - Public access (optional)
+
+**Response:**
+```json
+{
+  "id": "...",
+  "url": "https://...",
+  "name": "file.jpg",
+  "size": 12345
+}
+```
+
+### Get File
+
+```http
+GET /storage/file/{fileId}
+Authorization: Bearer {userToken}
+```
+
+### Download File
+
+```http
+GET /storage/download/{fileId}
+Authorization: Bearer {userToken}
+```
+
+### Delete File
+
+```http
+DELETE /storage/file/{fileId}
+Authorization: Bearer {userToken}
+```
+
+### Get Public URL
+
+```http
+GET /storage/getUrl/{fileId}
+```
+
+## Folder Operations
+
+### Create Folder
+
+```http
+POST /storage/folder
+Authorization: Bearer {userToken}
+```
+
+**Request Body:**
+```json
+{
+  "name": "documents",
+  "isPublic": false
+}
+```
+
+### List Folder Contents
+
+```http
+GET /storage/folder/{folderId}
+Authorization: Bearer {userToken}
+```
+
+### Delete Folder
+
+```http
+DELETE /storage/folder/{folderId}
+Authorization: Bearer {userToken}
+```
+
+## Admin API
+
+### List All Files
+
+```http
+GET /admin/storage/files
+masterkey: {masterKey}
+```
+
+### List All Folders
+
+```http
+GET /admin/storage/folders
+masterkey: {masterKey}
+```
+
+### Get Storage Stats
+
+```http
+GET /admin/storage/stats
+masterkey: {masterKey}
+```
+
+## Configuration
+
+### Get Config
+
+```http
+GET /admin/storage/config
+masterkey: {masterKey}
+```
+
+### Update Config
+
+```http
+PUT /admin/storage/config
+masterkey: {masterKey}
+```
+

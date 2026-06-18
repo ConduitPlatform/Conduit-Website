@@ -1,0 +1,65 @@
+---
+sidebar_label: 'GitHub'
+sidebar_position: 2
+title: 'GitHub OAuth'
+---
+
+Set up GitHub authentication for your Conduit application.
+
+## Prerequisites
+
+- GitHub account
+- Conduit with Authentication module running
+
+## Step 1: Create GitHub OAuth App
+
+1. Go to **GitHub** > **Settings** > **Developer settings**
+2. Click **OAuth Apps** > **New OAuth App**
+3. Fill in application details:
+   - **Application name**: Your app name
+   - **Homepage URL**: `http://localhost:3000`
+   - **Authorization callback URL**: `http://localhost:3000/hook/authentication/github`
+4. Click **Register application**
+
+## Step 2: Get Credentials
+
+After registration:
+1. Note your **Client ID**
+2. Click **Generate a new client secret**
+3. Save the **Client Secret** (shown only once)
+
+## Step 3: Configure Conduit
+
+1. Open **Admin Panel** > **Authentication** > **Settings**
+2. Enable **GitHub** provider
+3. Enter Client ID and Client Secret
+4. Save configuration
+
+## Step 4: Test Authentication
+
+### Get Auth URL
+
+```bash
+curl -X GET 'http://localhost:3000/authentication/init/github'
+```
+
+### Complete Flow
+
+1. Navigate to returned URL
+2. Authorize with GitHub
+3. Conduit handles callback
+
+## Production Configuration
+
+Update callback URL for production:
+```
+https://yourdomain.com/hook/authentication/github
+```
+
+## Scopes Requested
+
+- `user:email` - Access email addresses
+- `read:user` - Access profile information
+
+<OtherProviders currentProvider="github" />
+

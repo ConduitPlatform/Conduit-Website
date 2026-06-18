@@ -1,22 +1,44 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require("prism-react-renderer/themes/github");
-const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+import { themes as prismThemes } from "prism-react-renderer";
+
+// Conditionally add posthog plugin only if API key is set
+const plugins = [];
+if (process.env.POSTHOG_API_KEY) {
+  plugins.push([
+    "posthog-docusaurus",
+    {
+      apiKey: process.env.POSTHOG_API_KEY,
+      appUrl: "https://app.posthog.com",
+      enableInDevelopment: false,
+    },
+  ]);
+}
 
 /** @type {import('@docusaurus/types').Config} */
-
 const config = {
   title: "Conduit Platform",
-  tagline: "Less is more",
-  url: "https://mystifying-borg-373afd.netlify.app",
-  baseUrl: "/docs/",
-  onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "warn",
+  tagline: "The only Backend you'll ever need",
+  url: "https://archive.getconduit.dev",
+  baseUrl: "/",
+  onBrokenLinks: "warn",
   favicon: "favicon.ico",
   organizationName: "ConduitPlatform", // Usually your GitHub org/user name.
   projectName: "Conduit", // Usually your repo name.
-  plugins: ["posthog-docusaurus", ["docusaurus2-dotenv", { systemvars: true }]],
+
+  // Auto-detect format: .mdx files support JSX, .md files use CommonMark
+  markdown: {
+    format: 'detect',
+    mdx1Compat: {
+      comments: true,
+      admonitions: true,
+      headingIds: true,
+    },
+  },
+
+  plugins,
+
   presets: [
     [
       "classic",
@@ -24,14 +46,24 @@ const config = {
       ({
         docs: {
           routeBasePath: "/",
-          sidebarPath: require.resolve("./sidebars.js"),
-          // Please change this to your repo.
-          editUrl: undefined,
+          sidebarPath: "./sidebars.js",
+          editUrl: "https://github.com/ConduitPlatform/Conduit-Website/tree/main/documentation/",
           includeCurrentVersion: false, // disable 'next' version, enable for offline edits
+          showLastUpdateTime: true,
+          showLastUpdateAuthor: true,
+          lastVersion: "v0.16",
+          versions: {
+            "v0.16": { path: "v0.16", label: "v0.16" },
+            "v0.15": { path: "v0.15", label: "v0.15" },
+            "v0.14": { path: "v0.14", label: "v0.14" },
+          },
         },
         blog: false,
         theme: {
-          customCss: require.resolve("./src/css/custom.css"),
+          customCss: [
+            "./src/css/custom.css",
+            "./src/css/components.css",
+          ],
         },
       }),
     ],
@@ -40,17 +72,27 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      posthog: {
-        apiKey: `<${process.env.POSTHOG_API_KEY}>`,
-        appUrl: "<https://app.posthog.com>", // optional
-        enableInDevelopment: false, // optional
+      announcementBar: {
+        id: "legacy_docs_archive",
+        content:
+          'You are viewing legacy documentation (v0.14–v0.16). <a href="https://getconduit.dev/docs/intro">Current v0.17 docs →</a>',
+        backgroundColor: "#07d9c4",
+        textColor: "#1F2034",
+        isCloseable: true,
       },
+      // Algolia DocSearch - apply at https://docsearch.algolia.com/
+      // algolia: {
+      //   appId: 'YOUR_APP_ID',
+      //   apiKey: 'YOUR_SEARCH_API_KEY',
+      //   indexName: 'conduit',
+      //   contextualSearch: true,
+      // },
       metadata: [
         {
           name: "title",
           content: "Conduit | Documentation",
         },
-        { name: "canonical", content: "https://www.getconduit.dev/docs" },
+        { name: "canonical", content: "https://archive.getconduit.dev" },
         { name: "image", content: "https://getconduit.dev/og/branding.png" },
         { name: "description", content: "Learn about Conduit" },
         { name: "og:title ", content: "Conduit | Documentation" },
@@ -65,30 +107,35 @@ const config = {
         logo: {
           alt: "Conduit Logo",
           src: "logo.dark.svg",
-          href: "https://www.getconduit.dev",
+          href: "https://getconduit.dev",
           target: "_self",
         },
         items: [
           {
-            type: "doc",
-            docId: "overview/intro",
+            to: "/v0.16/intro",
             position: "left",
             label: "Docs",
           },
           {
-            to: "https://www.getconduit.dev/blog",
+            to: "https://getconduit.dev/docs/intro",
             target: "_self",
-            label: "Blog",
+            label: "v0.17 Docs",
             position: "left",
           },
           {
-            to: "https://www.getconduit.dev/contribute",
+            to: "https://getconduit.dev/docs/resources/changelog",
+            target: "_self",
+            label: "Changelog",
+            position: "left",
+          },
+          {
+            to: "https://getconduit.dev/contribute",
             target: "_self",
             label: "Contribute",
             position: "left",
           },
           {
-            type: 'docsVersionDropdown',
+            type: "docsVersionDropdown",
             position: "right",
           },
           {
@@ -106,16 +153,16 @@ const config = {
             title: "Docs",
             items: [
               {
-                label: "Overview",
-                to: "/overview/intro",
+                label: "Introduction",
+                to: "/v0.16/intro",
               },
               {
-                label: "Get Started",
-                to: "/get-started",
+                label: "Quick Start",
+                to: "/v0.16/quickstart/installation",
               },
               {
                 label: "Modules",
-                to: "/modules",
+                to: "/v0.16/modules/overview",
               },
             ],
           },
@@ -126,6 +173,10 @@ const config = {
                 label: "Discord",
                 href: "https://discord.com/invite/fBqUQ23M7g",
               },
+              {
+                label: "Twitter",
+                href: "https://twitter.com/ConduitPlatform",
+              },
             ],
           },
           {
@@ -135,23 +186,27 @@ const config = {
                 label: "GitHub",
                 href: "https://github.com/ConduitPlatform/Conduit",
               },
+              {
+                label: "Contributing",
+                to: "/resources/contributing",
+              },
             ],
           },
         ],
         logo: {
           alt: "Conduit Logo",
           src: "logo.light.svg",
-          href: "https://www.getconduit.dev",
+          href: "https://getconduit.dev",
           width: 160,
           height: 51,
         },
         copyright: `Copyright © Conduit ${new Date().getFullYear()}. Built with Docusaurus.`,
       },
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
+        theme: prismThemes.github,
+        darkTheme: prismThemes.dracula,
       },
     }),
 };
 
-module.exports = config;
+export default config;

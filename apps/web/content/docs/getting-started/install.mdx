@@ -1,0 +1,64 @@
+---
+title: Install Conduit
+description: Install via CLI, Docker Compose microservices, or standalone image.
+agent_summary: "Bootstrap with npx @conduitplatform/cli deploy setup or docker compose in Conduit/docker/."
+---
+
+## Prerequisites
+
+- **Docker** and **Docker Compose**
+- For source development: **Node.js 24+**, **pnpm**, Redis, MongoDB or PostgreSQL
+
+## Option 1 — CLI (recommended)
+
+```bash
+npx @conduitplatform/cli deploy setup
+```
+
+The CLI downloads images, writes config, and starts the stack. Follow the prompts for database profile (MongoDB or PostgreSQL).
+
+Alternative bootstrap:
+
+```bash
+sh <(curl -s https://getconduit.dev/bootstrap)
+conduit deploy setup --config
+```
+
+## Option 2 — Docker Compose (microservices)
+
+From the [Conduit repository](https://github.com/ConduitPlatform/Conduit) `docker/` directory:
+
+```bash
+git clone https://github.com/ConduitPlatform/Conduit.git
+cd Conduit/docker
+cp .env.example .env   # if present; set GRPC_KEY, DB_CONN_URI
+docker compose --profile mongodb up -d
+```
+
+Images: `docker.io/conduitplatform/{module}:${IMAGE_TAG}`.
+
+## Option 3 — Standalone (fastest for app dev)
+
+Single `conduit-standalone` image bundles core + default modules:
+
+```bash
+cd Conduit/docker
+docker compose -f docker-compose.standalone.yml up -d
+```
+
+Admin UI container (`conduit-ui`) typically runs on port **8080**, pointed at core via `CONDUIT_URL`.
+
+## Verify
+
+<APIExample
+  title="Health check"
+  curl={`curl http://localhost:3030/ready`}
+/>
+
+## Next
+
+<NextSteps steps={[
+  { title: "MCP setup", href: "/docs/getting-started/mcp-setup" },
+  { title: "First app", href: "/docs/getting-started/first-app" },
+  { title: "Docker Compose details", href: "/docs/deployment/docker-compose" },
+]} />

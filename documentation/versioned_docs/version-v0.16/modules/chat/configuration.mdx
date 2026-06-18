@@ -1,0 +1,49 @@
+---
+sidebar_label: 'Configuration'
+sidebar_position: 2
+title: 'Chat Configuration'
+---
+
+Configure the Chat module through the Admin Panel.
+
+## Access Configuration
+
+1. Open **Admin Panel**
+2. Navigate to **Chat** > **Settings**
+
+![Chat Configuration](/v0.16/modules/chat/admin/config_view.png)
+
+## Available Options
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| Allow Message Edit | Users can edit their messages | Enabled |
+| Allow Message Delete | Users can delete their messages | Enabled |
+
+## Updating Configuration
+
+1. Modify desired settings
+2. Click **Save**
+
+![Configuration Edit](/v0.16/modules/chat/admin/config_edit.png)
+
+Changes take effect immediately.
+
+## WebSocket Configuration
+
+Chat uses WebSockets on Router's socket port:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `CLIENT_SOCKET_PORT` | 3001 | WebSocket server port |
+
+## Connection Settings
+
+When connecting via WebSocket:
+
+| Setting | Value |
+|---------|-------|
+| URL | `http://localhost:3001/chat/` |
+| Handshake Path | `/realtime` |
+| Authorization | Bearer token in header |
+

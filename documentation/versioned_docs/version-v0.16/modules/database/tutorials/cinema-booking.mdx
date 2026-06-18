@@ -1,0 +1,97 @@
+---
+sidebar_label: 'Cinema Booking'
+sidebar_position: 1
+title: 'Cinema Ticket Booking Tutorial'
+---
+
+Build a cinema ticket booking system using Conduit's Database module.
+
+## Overview
+
+We'll create schemas for:
+- Movies
+- Theaters
+- Showtimes
+- Bookings
+
+## Step 1: Create Movies Schema
+
+1. Go to **Database** > **Schemas** > **Create New**
+2. Name: `Movies`
+3. Add fields:
+
+| Field | Type | Required |
+|-------|------|----------|
+| title | Text | Yes |
+| description | Text | No |
+| duration | Number | Yes |
+| releaseDate | Date | No |
+
+4. Enable CRUD: Create (Auth), Read (Public)
+
+## Step 2: Create Theaters Schema
+
+Name: `Theaters`
+
+| Field | Type | Required |
+|-------|------|----------|
+| name | Text | Yes |
+| location | Text | Yes |
+| seats | Number | Yes |
+
+## Step 3: Create Showtimes Schema
+
+Name: `Showtimes`
+
+| Field | Type | Required |
+|-------|------|----------|
+| movie | Relation (Movies) | Yes |
+| theater | Relation (Theaters) | Yes |
+| datetime | Date | Yes |
+| price | Number | Yes |
+| availableSeats | Number | Yes |
+
+## Step 4: Create Bookings Schema
+
+Name: `Bookings`
+
+| Field | Type | Required |
+|-------|------|----------|
+| showtime | Relation (Showtimes) | Yes |
+| user | Relation (Users) | Yes |
+| seats | Number | Yes |
+| totalPrice | Number | Yes |
+
+## Usage
+
+### List Movies
+
+```bash
+curl 'http://localhost:3000/database/Movies'
+```
+
+### Get Showtimes with Movie Details
+
+```bash
+curl 'http://localhost:3000/database/Showtimes?populate=movie,theater'
+```
+
+### Create Booking
+
+```bash
+curl -X POST 'http://localhost:3000/database/Bookings' \
+  -H 'Authorization: Bearer TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "showtime": "showtimeId",
+    "seats": 2,
+    "totalPrice": 25.00
+  }'
+```
+
+## Next Steps
+
+- Add validation with custom endpoints
+- Implement seat selection logic
+- Add payment integration
+

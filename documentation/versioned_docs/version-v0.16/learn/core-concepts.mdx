@@ -1,0 +1,80 @@
+---
+sidebar_label: 'Core Concepts'
+sidebar_position: 2
+title: 'Core Concepts'
+---
+
+## Modules
+
+Conduit is built around microservices called **modules**. Each module provides specific functionality:
+
+- **Authentication** - User login and identity management
+- **Database** - Data storage with CMS capabilities
+- **Router** - API routing and security
+- **Email/SMS** - Messaging services
+- And many more...
+
+Modules are:
+- **Optional** - Only deploy what you need
+- **Replaceable** - Swap implementations while maintaining compatibility
+- **Configurable** - Each has its own settings
+
+Learn more in the [Modules overview](../modules/overview).
+
+## Routing
+
+Conduit offers multiple API transport options without code duplication:
+
+| Transport | Use Case |
+|-----------|----------|
+| **REST** | Standard HTTP requests |
+| **GraphQL** | Flexible queries with auto-generated schema |
+| **WebSockets** | Real-time bidirectional communication |
+
+All transports support:
+- Application-level requests (client-facing)
+- Administration requests (internal management)
+- Auto-generated documentation (Swagger for REST, GraphQL introspection)
+
+Learn more in the [Router module](../modules/router/index).
+
+## Configuration
+
+Conduit provides centralized module configuration. Key points:
+
+- All module settings are managed through Conduit Core
+- Modules can function with defaults or require explicit configuration
+- Some modules need third-party credentials before activation
+
+### Configuration Methods
+
+1. **Admin Panel** - Visual interface for all settings
+2. **Admin API** - Programmatic configuration via REST/GraphQL
+
+:::note
+Modules must be **online** for their configuration to be accessible.
+:::
+
+Learn more in the [Configuration guide](./configuration).
+
+## Security
+
+Application APIs include built-in security features:
+
+- **Client ID/Secret** - Optional request authentication
+- **Rate Limiting** - Protect against abuse
+- **Security Headers** - Via Helmet middleware
+
+Learn more in [Router Security](../modules/router/security).
+
+## gRPC Communication
+
+All internal communication uses [gRPC](https://grpc.io/):
+
+- High-performance inter-service calls
+- Health checking protocol support
+- Optional signed request protection
+- Language-agnostic (works with any gRPC-compatible language)
+
+This means you can write custom modules in any language that supports gRPC.
+

@@ -1,0 +1,84 @@
+---
+sidebar_label: 'Environment Variables'
+sidebar_position: 4
+title: 'Environment Variables Reference'
+---
+
+Complete reference of environment variables for Conduit Core and modules.
+
+## Core
+
+| Variable | Required | Description | Default |
+|----------|----------|-------------|---------|
+| `REDIS_HOST` | Yes | Redis host | - |
+| `REDIS_PORT` | Yes | Redis port | - |
+| `ADMIN_HTTP_PORT` | No | Admin REST/GraphQL port | `3030` |
+| `ADMIN_SOCKET_PORT` | No | Admin WebSocket port | `3031` |
+| `GRPC_PORT` | No | gRPC server port | `55152` |
+| `MASTER_KEY` | No | Admin request authorization | - |
+| `GRPC_KEY` | No | gRPC signed request protection | - |
+| `METRICS_PORT` | No | Prometheus metrics port | - |
+
+## Common Module Variables
+
+All modules support:
+
+| Variable | Required | Description | Default |
+|----------|----------|-------------|---------|
+| `CONDUIT_SERVER` | Yes | Core address | - |
+| `SERVICE_URL` | No | Service address for LB | - |
+| `GRPC_PORT` | No | Module gRPC port | - |
+| `GRPC_KEY` | No | gRPC signed request protection | - |
+| `METRICS_PORT` | No | Prometheus metrics port | - |
+
+## Database
+
+| Variable | Required | Description | Default |
+|----------|----------|-------------|---------|
+| `DB_TYPE` | No | Database type | `mongodb` |
+| `DB_CONN_URI` | No | Connection string | - |
+
+## Router
+
+| Variable | Required | Description | Default |
+|----------|----------|-------------|---------|
+| `CLIENT_HTTP_PORT` | No | REST/GraphQL port | `3000` |
+| `CLIENT_SOCKET_PORT` | No | WebSocket port | `3001` |
+
+## Admin Panel (UI)
+
+| Variable | Required | Description | Default |
+|----------|----------|-------------|---------|
+| `CONDUIT_URL` | Yes | Core admin URL | - |
+| `PROMETHEUS_URL` | No | Prometheus URL for metrics | - |
+
+## Example Configuration
+
+```bash
+# Core
+REDIS_HOST=localhost
+REDIS_PORT=6379
+MASTER_KEY=your-secure-key
+GRPC_KEY=your-grpc-secret
+
+# Database
+CONDUIT_SERVER=localhost:55152
+DB_TYPE=mongodb
+DB_CONN_URI=mongodb://localhost:27017/conduit
+
+# Router
+CONDUIT_SERVER=localhost:55152
+CLIENT_HTTP_PORT=3000
+CLIENT_SOCKET_PORT=3001
+
+# Authentication
+CONDUIT_SERVER=localhost:55152
+```
+
+## Security Notes
+
+1. **Always set `MASTER_KEY`** in production
+2. **Use `GRPC_KEY`** for inter-service security
+3. **Don't expose** internal ports publicly
+4. **Use secrets management** for sensitive values
+

@@ -1,0 +1,34 @@
+---
+sidebar_label: 'Twitch'
+sidebar_position: 12
+title: 'Twitch OAuth'
+---
+
+Set up Twitch authentication for your Conduit application.
+
+## Configuration Steps
+
+1. Go to Twitch Developer Console
+2. Create new application
+3. Configure OAuth Redirect URL:
+   ```
+   http://localhost:3000/hook/authentication/twitch
+   ```
+4. Note your Client ID and Client Secret
+5. In Conduit Admin Panel, enable Twitch provider
+6. Enter your credentials and save
+
+## Test Authentication
+
+```bash
+curl -X GET 'http://localhost:3000/authentication/init/twitch'
+```
+
+Navigate to the returned URL to complete the OAuth flow.
+
+## Production
+
+Update callback URL for production:
+```
+https://yourdomain.com/hook/authentication/twitch
+```

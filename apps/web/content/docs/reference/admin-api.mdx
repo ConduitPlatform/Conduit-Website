@@ -1,0 +1,72 @@
+---
+title: Admin API
+description: REST, GraphQL, and WebSocket admin surface on core — auth, scope, and MCP relationship.
+agent_summary: "ADMIN_BASE_URL :3030; masterkey, admin JWT, or cdt_ tokens; provisioning only — not for app runtime."
+---
+
+The **Admin API** runs on **core** (default `ADMIN_BASE_URL` → port **3030**). It powers the Conduit Admin Panel, CI provisioning scripts, and the [MCP server](/docs/getting-started/mcp-setup). Application code must **not** call it from user-facing paths.
+
+<AgentHint>
+  Apps use the **Client API** on the router (`:3000`) with user bearer tokens. See [Client vs Admin API](/docs/learn/client-vs-admin-api).
+</AgentHint>
+
+## Comparison
+
+| | **Admin API** | **Client API** |
+|--|---------------|----------------|
+| **Host** | Core (`:3030`) | Router module (`:3000`) |
+| **Consumers** | Admin panel, MCP, operators, CI | Web/mobile apps, user-scoped server routes |
+| **Auth** | `masterkey` header, admin JWT (`Bearer`), or `cdt_` API tokens | User tokens from authentication module |
+| **Database** | Schema/endpoint/index admin, extensions | `/database/{Schema}`, `/database/function/{name}` |
+| **Response shape** | Paginated lists, admin metadata, detailed errors | Streamlined payloads for app consumption |
+| **MCP** | Subset exposed as MCP tools | Not exposed through MCP |
+
+Response formats are **not interchangeable** between Admin and Client APIs.
+
+## Authentication
+
+| Method | Usage |
+|--------|--------|
+| `masterkey` | Header on trusted bootstrap/ops scripts |
+| Admin JWT | `Authorization: Bearer <token>` after admin login |
+| `cdt_` API tokens | Long-lived tokens for automation and MCP clients |
+
+Never embed admin credentials in application code, browser env vars, or client bundles.
+
+## Surfaces
+
+Core exposes Admin API over:
+
+- **REST** — module routes registered via `RoutingManager` (e.g. `/database/schemas`, `/config/{module}`)
+- **GraphQL** — admin schema aggregation
+- **WebSockets** — admin realtime where modules register handlers
+
+Interactive reference: Admin API **Swagger** (available on a running instance). MCP also exposes `conduit://docs/admin-api/swagger` as a resource when connected.
+
+## MCP relationship
+
+The MCP server at `{ADMIN_BASE_URL}/mcp` wraps a **subset** of Admin API operations as tools. Authentication is handled by the MCP connection — tools run with admin privileges.
+
+- Call `list_modules` to see loaded modules
+- Enable more tools via `/mcp?modules=authentication,database,storage`
+- Tool naming: HTTP method + path with `/` → `_` (see [MCP tools](/docs/reference/mcp-tools))
+
+MCP is for **development and deploy-time provisioning** only. Do not substitute MCP calls for Client API calls in application runtime.
+
+## When to use Admin API
+
+| Task | Surface |
+|------|---------|
+| Create or patch schemas, indexes, custom endpoints | Admin API or MCP |
+| Patch module config (auth providers, storage buckets, email templates) | Admin API or MCP |
+| Manage admin users, API tokens, teams (operator workflows) | Admin API or MCP |
+| Export/import platform state (GitOps) | `GET /state/export`, `POST /state/import` — [GitOps guide](/docs/guides/gitops-state-export) |
+| End-user login, CRUD, permission checks | **Client API** only |
+| Application file upload/download | **Client API** with user token |
+
+## Rules
+
+1. **Never** call Admin API from user-facing request paths.
+2. **Never** expose `masterkey`, admin JWTs, or `cdt_` tokens to browsers.
+3. Provision schemas, endpoints, and config at **dev/deploy time** — not on app startup or per user action.
+4. For filtered or authorization-sensitive queries in apps, provision [custom endpoints](/docs/modules/database) and call them on the Client API.

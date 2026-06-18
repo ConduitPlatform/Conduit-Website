@@ -1,0 +1,142 @@
+---
+title: ReBAC Team Scoping
+description: Enable authorization, define resources, and scope all creates.
+agent_summary: "authorization.enabled on schema; Team resource built-in; scope query param on POST; /authorization/check before mutations; MCP ?modules=authorization,database,authentication."
+---
+
+Implement team-scoped multi-tenant data with the **authorization** module. This guide walks through enabling ReBAC on a schema, creating team-owned records, and checking permissions before mutations.
+
+## Prerequisites
+
+- Authentication module with teams enabled
+- Authorization module enabled in deployment
+- MCP URL includes `?modules=authorization,database,authentication`
+
+## Step 1 — Enable authorization on the schema
+
+Patch your schema via MCP `patch_database_schemas_id`:
+
+```json
+{
+  "conduitOptions": {
+    "authorization": { "enabled": true },
+    "cms": {
+      "enabled": true,
+      "crudOperations": {
+        "create": { "enabled": true, "authenticated": true },
+        "read": { "enabled": true, "authenticated": true },
+        "update": { "enabled": true, "authenticated": true },
+        "delete": { "enabled": true, "authenticated": true }
+      }
+    }
+  }
+}
+```
+
+When authorization is enabled, the database module registers default relations (`owner`, `reader`, `editor`) and permissions (`read`, `edit`, `delete`) on the schema resource.
+
+## Step 2 — Use the built-in Team resource
+
+Authentication registers `Team` with relations `member`, `owner`, `readAll`, `editAll` and permissions including `read`, `edit`, `invite`, `manageMembers`. You do not need to redefine Team — grant team membership via authentication team routes or MCP `post_authentication_teams`.
+
+Optional: define additional resources (e.g. `Project`) via MCP:
+
+```json
+POST /authorization/resources
+{
+  "name": "Project",
+  "relations": {
+    "owner": ["User", "Team"],
+    "editor": ["User", "Team"]
+  },
+  "permissions": {
+    "read": ["editor", "owner", "owner->read"],
+    "edit": ["editor", "owner", "owner->edit"],
+    "delete": ["owner"]
+  }
+}
+```
+
+## Step 3 — Create documents with scope
+
+Pass `scope` as a **query parameter** on Client API creates — not in the request body:
+
+<APIExample
+  title="Team-owned document"
+  curl={`curl -X POST "http://localhost:3000/database/Document?scope=Team:507f1f77bcf86cd799439011" \\
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{"title":"Team roadmap","body":"Q1 goals"}'`}
+/>
+
+Behavior:
+
+1. Pre-check: authenticated user must have `edit` on `Team:507f1f77bcf86cd799439011`
+2. Tuple created: `Team:507f1f77bcf86cd799439011#owner@Document:{newDocId}`
+3. The user does **not** receive a direct `User#owner` tuple when scope is set — access flows through team membership and inheritance
+
+## Step 4 — Check permissions before mutations
+
+<APIExample
+  title="Permission check"
+  curl={`curl "http://localhost:3000/authorization/check?action=edit&resource=Document:DOC_ID" \\
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"`}
+/>
+
+Call `/authorization/check` in your server route **before** PATCH or DELETE. Never rely on UI-only permission gates.
+
+Optional: pass `scope` on the check when evaluating team context:
+
+```
+GET /authorization/check?action=edit&resource=Document:docId&scope=Team:teamId
+```
+
+## Step 5 — Grant relations when users join teams
+
+When a user joins a team, team membership tuples enable inherited access to team-owned documents via `owner->read` / `owner->edit` rules. For explicit sharing (e.g. external collaborator on one document), create a relation tuple:
+
+```json
+POST /authorization/relations
+{
+  "subject": "User:collaboratorId",
+  "relation": "editor",
+  "resource": "Document:docId"
+}
+```
+
+## MCP workflow
+
+Enable `?modules=authorization,database,authentication`. Typical tool sequence:
+
+| Tool | Action |
+|------|--------|
+| `patch_database_schemas_id` | Set `authorization.enabled: true` |
+| `post_authorization_resources` | Define custom resources (optional) |
+| `post_authorization_relations` | Grant explicit editor/viewer tuples |
+| `get_authorization_permissions_can` | Verify permission in admin context (`permission`, not `action`) |
+
+Use the Conduit Cursor plugin `/conduit-scope` command for scaffolded ReBAC provisioning.
+
+## Failure modes
+
+| Symptom | Likely cause |
+|---------|--------------|
+| 403 on create with scope | User lacks `edit` on the scope Team |
+| User cannot read team doc | Not a team member; no reader/editor tuple |
+| Scope ignored | `scope` passed in body instead of query param |
+| Empty list after team create | `scope` omitted on GET — pass same `scope=Team:id` on reads |
+| Check always false | Wrong resource id format (`Document:id` not just `id`) |
+
+## Rules
+
+1. Pass **`scope`** on every Client API create for team-owned records
+2. Enable `authorization.enabled` on schemas that need document-level ReBAC
+3. Call `/authorization/check` server-side before updates and deletes
+4. Never check permissions only in UI — always enforce in API routes
+
+<NextSteps steps={[
+  { title: "Authorization module", href: "/docs/modules/authorization" },
+  { title: "Database module", href: "/docs/modules/database" },
+  { title: "Authentication & teams", href: "/docs/modules/authentication" },
+  { title: "Next.js integration", href: "/docs/guides/first-app-nextjs" },
+]} />

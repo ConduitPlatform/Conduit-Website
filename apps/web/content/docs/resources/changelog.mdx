@@ -1,0 +1,42 @@
+---
+title: Changelog
+description: Release notes for Conduit Platform — v0.17 alpha and recent patches.
+agent_summary: "v0.17 alpha: communications module, Node 24/pnpm, Admin MCP, GitOps export/import; see GitHub for full history."
+---
+
+Notable changes from the [Conduit CHANGELOG](https://github.com/ConduitPlatform/Conduit/blob/main/CHANGELOG.md). For upgrade steps, see [Migration v0.16 → v0.17](/docs/resources/migration-v0.16-to-v0.17).
+
+## v0.17.0-alpha.2 (2026-06-10)
+
+### Bug fixes
+
+- **authentication:** Resolve container build TypeScript errors
+
+## v0.17.0-alpha.1 (2026-06-10)
+
+### Bug fixes
+
+- **authentication:** Reconcile logged-in users metric ([#1468](https://github.com/ConduitPlatform/Conduit/issues/1468))
+- **chat:** Missing migration on `findMany`
+- **ci:** Sync lockfile and harden alpha release pipeline ([#1473](https://github.com/ConduitPlatform/Conduit/issues/1473))
+- **database:** Persistence issues in schema patching
+- **ci:** New CI pipeline failure
+
+## v0.17.0-alpha.0 (2026-05-19)
+
+### Features
+
+- **v0.17-alpha** ([#1471](https://github.com/ConduitPlatform/Conduit/issues/1471)) — major release track including:
+
+| Area | Change |
+|------|--------|
+| **communications** | Email, SMS, and push-notifications consolidated into one module |
+| **toolchain** | Node.js 24+, pnpm, and Turbo replace Yarn/Lerna for platform development |
+| **Admin MCP** | Streamable HTTP MCP at `{ADMIN_BASE_URL}/mcp` for dev-time provisioning |
+| **GitOps (preview)** | Admin state export/import for config-as-code workflows — see [GitOps state export](/docs/guides/gitops-state-export) |
+
+v0.17 is currently **alpha**. Pin image and npm versions in production until stable.
+
+## Older releases
+
+Full history back to early versions: [GitHub releases](https://github.com/ConduitPlatform/Conduit/releases) and [CHANGELOG.md](https://github.com/ConduitPlatform/Conduit/blob/main/CHANGELOG.md).

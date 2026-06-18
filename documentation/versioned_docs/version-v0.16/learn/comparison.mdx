@@ -1,0 +1,176 @@
+---
+sidebar_label: 'Comparison'
+sidebar_position: 5
+title: 'Conduit vs Alternatives'
+---
+
+# Conduit vs Other Backend Solutions
+
+Choosing the right backend solution depends on your specific needs. Here's how Conduit compares to popular alternatives.
+
+## Quick Comparison
+
+| Feature | Conduit | Firebase | Supabase | Parse | Appwrite |
+|---------|---------|----------|----------|-------|----------|
+| **Self-Hosted** | ✅ | ❌ | ✅ | ✅ | ✅ |
+| **Open Source** | ✅ | ❌ | ✅ | ✅ | ✅ |
+| **Custom Modules** | ✅ | ❌ | ❌ | ✅ | ❌ |
+| **Multi-Database** | ✅ | ❌ | ❌ | ✅ | ❌ |
+| **GraphQL Built-in** | ✅ | ❌ | ✅ | ❌ | ✅ |
+| **Admin Panel** | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Microservices** | ✅ | ❌ | ❌ | ❌ | ❌ |
+
+**Legend:** ✅ Yes | ❌ No
+
+---
+
+## Conduit vs Firebase
+
+### Where Conduit Wins
+
+- **Self-hosted** - Full control over your data and infrastructure
+- **No vendor lock-in** - Own your code and data
+- **Extensible** - Build custom modules in any language
+- **Predictable costs** - No usage-based pricing surprises
+- **Multi-database** - Choose MongoDB or PostgreSQL
+
+### Where Firebase Wins
+
+- **Zero infrastructure** - No servers to manage
+- **Global CDN** - Built-in edge network
+- **Ecosystem** - Deep integration with Google Cloud
+- **Mobile SDKs** - Mature SDKs for iOS/Android
+
+### Best For
+
+- **Choose Conduit** if you need control, customization, or have compliance requirements
+- **Choose Firebase** if you want a fully managed solution with minimal setup
+
+---
+
+## Conduit vs Supabase
+
+### Where Conduit Wins
+
+- **Multi-database** - MongoDB + PostgreSQL support
+- **Custom modules** - Extend with your own microservices
+- **Microservice architecture** - Scale components independently
+- **No SQL required** - CMS-like schema management
+
+### Where Supabase Wins
+
+- **PostgreSQL power** - Full SQL capabilities
+- **Realtime subscriptions** - Built into the core
+- **Edge functions** - Deno-based serverless
+- **Managed hosting** - Cloud option available
+
+### Best For
+
+- **Choose Conduit** if you need flexibility and extensibility
+- **Choose Supabase** if you want powerful SQL with a modern API
+
+---
+
+## Conduit vs Parse
+
+### Where Conduit Wins
+
+- **Modern architecture** - gRPC-based microservices
+- **Better performance** - Optimized for modern workloads
+- **Active development** - Regular updates and improvements
+- **TypeScript SDK** - First-class TypeScript support
+
+### Where Parse Wins
+
+- **Mature ecosystem** - Years of community contributions
+- **Proven at scale** - Used in production since 2011
+- **Broad language support** - SDKs for many platforms
+
+### Best For
+
+- **Choose Conduit** if you're starting fresh with modern requirements
+- **Choose Parse** if you have existing Parse experience or need specific Parse features
+
+---
+
+## Conduit vs Appwrite
+
+### Where Conduit Wins
+
+- **Custom modules** - Build and integrate your own services
+- **Database flexibility** - Choose your database engine
+- **Microservice scaling** - Scale services independently
+- **Query language** - Powerful MongoDB-style queries
+
+### Where Appwrite Wins
+
+- **Simpler setup** - Single Docker container
+- **Built-in storage** - S3-compatible file storage
+- **Functions** - Serverless functions support
+- **Teams & roles** - Built-in team management
+
+### Best For
+
+- **Choose Conduit** if you need customization and scaling flexibility
+- **Choose Appwrite** if you want a simpler all-in-one solution
+
+---
+
+## When to Choose Conduit
+
+Conduit is the right choice when you need:
+
+### 1. Full Control
+- Self-hosted on your infrastructure
+- No vendor lock-in
+- Data sovereignty requirements
+
+### 2. Extensibility
+- Build custom modules in any language
+- Integrate with existing microservices
+- Replace or extend any component
+
+### 3. Scaling Flexibility
+- Scale modules independently
+- Deploy across multiple servers
+- Handle varying traffic patterns
+
+### 4. Database Choice
+- Use MongoDB for flexibility
+- Use PostgreSQL for relational data
+- Migrate between databases
+
+### 5. API Flexibility
+- Auto-generated REST and GraphQL
+- WebSocket support
+- Custom endpoints without code
+
+---
+
+## Migration Paths
+
+### From Firebase
+1. Export data from Firebase
+2. Import schemas to Conduit Database
+3. Update authentication to use Conduit
+4. Migrate storage files
+5. Update client SDKs
+
+### From Supabase
+1. Export PostgreSQL schema
+2. Use Conduit's introspection feature
+3. Migrate authentication users
+4. Update API calls
+
+### From Parse
+1. Export Parse schemas and data
+2. Recreate schemas in Conduit
+3. Import data via API
+4. Update client code
+
+---
+
+## Still Not Sure?
+
+Join our [Discord community](https://discord.com/invite/fBqUQ23M7g) to discuss your specific use case. We're happy to help you determine if Conduit is the right fit for your project.
+

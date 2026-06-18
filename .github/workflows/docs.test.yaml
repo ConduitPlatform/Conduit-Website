@@ -1,3 +1,5 @@
+name: Docs (archive site)
+
 on:
   pull_request:
     types:
@@ -6,17 +8,24 @@ on:
       - reopened
     paths:
       - "documentation/**"
+      - ".github/workflows/docs.test.yaml"
 
 jobs:
   build-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: "16"
+          node-version: "24"
+          cache: "yarn"
+          cache-dependency-path: yarn.lock
 
-      - run: yarn
-      - run: cd documentation && yarn build
+      # Monorepo workspaces include apps/web (engines: node >=24); install at root.
+      - run: yarn install --frozen-lockfile
+
+      - name: Build Docusaurus archive
+        run: yarn build
+        working-directory: documentation

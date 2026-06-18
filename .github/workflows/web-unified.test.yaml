@@ -1,0 +1,28 @@
+name: Web (unified site)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/web/**"
+      - ".github/workflows/web-unified.test.yaml"
+  pull_request:
+    paths:
+      - "apps/web/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "npm"
+          cache-dependency-path: apps/web/package-lock.json
+      - run: npm ci --workspaces=false --install-strategy=nested
+      - run: npm run build
+      - run: npm run check:links

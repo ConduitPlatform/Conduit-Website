@@ -1,0 +1,94 @@
+---
+title: GitOps State Export
+description: Export and import Conduit configs and module resources for config-as-code workflows.
+agent_summary: "GET /state/export, POST /state/import, POST /config/import on Admin API; modules export by priority; preview in v0.17 alpha."
+---
+
+Conduit v0.17 adds **state export/import** on the Admin API so operators can treat platform configuration and provisioned resources as versioned artifacts — schemas, ReBAC definitions, templates, functions, and module configs.
+
+<AgentHint>
+  GitOps endpoints require **admin credentials** (`masterkey`, admin JWT, or `cdt_` token). Use in CI or operator scripts only — never from application runtime code.
+</AgentHint>
+
+## Endpoints
+
+All routes are on `ADMIN_BASE_URL` (default `:3030`).
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| `GET` | `/state/export` | Full snapshot: all module configs + exportable resources from each module |
+| `POST` | `/state/import` | Apply configs first, then module resources in priority order |
+| `POST` | `/config/import` | Bulk module config only (same shape as `GET /config` → `config.modules`) |
+
+### Export response shape
+
+```json
+{
+  "configs": {
+    "modules": {
+      "core": { },
+      "admin": { },
+      "database": { }
+    }
+  },
+  "modules": {
+    "database": {
+      "schemas": [ ],
+      "extensions": [ ],
+      "customEndpoints": [ ]
+    },
+    "authorization": {
+      "resourceDefinitions": [ ]
+    }
+  }
+}
+```
+
+Modules that do not implement export are skipped silently.
+
+### Import behavior
+
+1. **Configs** — `configs.modules` entries are applied per module (`setConfig` + config bus). Core and admin configs use core's config manager.
+2. **Resources** — `modules` payload is imported per module in **ascending priority** (lower numbers first) so dependencies resolve correctly (e.g. authorization before database custom endpoints).
+
+Returns `{ configResults, moduleResults }` with per-module success or error details.
+
+`POST /config/import` accepts `{ "config": { "modules": { ... } } }` only — core config import is not supported on this route.
+
+## Exportable resources by module
+
+| Module | Resource types | Priority |
+|--------|----------------|----------|
+| **authorization** | `resourceDefinitions` | 5 |
+| **database** | `schemas`, `extensions`, `customEndpoints` | 10, 11, 20 |
+| **storage** | `containers`, `folders` | 25, 26 |
+| **communications** | `emailTemplates`, `communicationTemplates` | 30 |
+| **authentication** | `teams` (structure only — name, parent, isDefault) | 35 |
+| **functions** | `functions` (routes refreshed after import) | 40 |
+
+Priorities control import order when multiple modules are present in one payload.
+
+## Typical workflow
+
+1. **Export** from staging or production:
+   ```bash
+   curl -s -H "Authorization: Bearer $ADMIN_JWT" \
+     "$ADMIN_BASE_URL/state/export" > conduit-state.json
+   ```
+2. **Commit** `conduit-state.json` (or split configs vs resources) to git.
+3. **Review** diffs in PR — especially schema and ReBAC changes.
+4. **Import** to another environment:
+   ```bash
+   curl -s -X POST -H "Authorization: Bearer $ADMIN_JWT" \
+     -H "Content-Type: application/json" \
+     -d @conduit-state.json \
+     "$ADMIN_BASE_URL/state/import"
+   ```
+
+For config-only updates, use `POST /config/import` with a smaller payload.
+
+## Status and follow-ups
+
+State export/import shipped in **v0.17 alpha** as a preview. CLI wrappers and GitHub Actions for apply workflows are planned in [ConduitPlatform/CLI](https://github.com/ConduitPlatform/CLI).
+
+See also [Admin API](/docs/reference/admin-api) and [Migration v0.16 → v0.17](/docs/resources/migration-v0.16-to-v0.17).

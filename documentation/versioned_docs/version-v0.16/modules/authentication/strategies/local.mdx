@@ -1,0 +1,148 @@
+---
+sidebar_label: 'Local'
+sidebar_position: 1
+title: 'Local Authentication'
+---
+
+Local authentication uses email/password credentials and is enabled by default.
+
+## Overview
+
+- Email-based user identification
+- Optional email verification
+- Password reset functionality
+- JWT token-based sessions
+
+## User Registration
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/local/new' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "email": "user@example.com",
+    "password": "securePassword123"
+  }'
+```
+
+**Response:**
+```json
+{
+  "user": {
+    "email": "user@example.com",
+    "active": true,
+    "isVerified": false,
+    "_id": "..."
+  }
+}
+```
+
+## Login
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/local' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "email": "user@example.com",
+    "password": "securePassword123"
+  }'
+```
+
+**Response:**
+```json
+{
+  "userId": "...",
+  "accessToken": "eyJhbGciOiJIUzI1NiIs...",
+  "refreshToken": "aDYLqHPw6yK+GTNsWApA..."
+}
+```
+
+## Token Usage
+
+Include the access token in subsequent requests:
+
+```bash
+curl -X GET 'http://localhost:3000/protected-route' \
+  -H 'Authorization: Bearer YOUR_ACCESS_TOKEN'
+```
+
+## Token Refresh
+
+Access tokens expire. Use the refresh token to get new tokens:
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/renew' \
+  -H 'Authorization: Bearer YOUR_REFRESH_TOKEN'
+```
+
+:::caution
+Refreshing tokens invalidates the previous token pair.
+:::
+
+## Password Reset Flow
+
+### 1. Request Reset
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/forgot-password' \
+  -H 'Content-Type: application/json' \
+  -d '{"email": "user@example.com"}'
+```
+
+### 2. Reset Password
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/reset-password' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "passwordResetToken": "token-from-email",
+    "password": "newSecurePassword"
+  }'
+```
+
+## Email Verification
+
+### Resend Verification
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/local/resend-verification' \
+  -H 'Content-Type: application/json' \
+  -d '{"email": "user@example.com"}'
+```
+
+### Verify Email
+
+User clicks link in email, which calls:
+```
+GET /hook/authentication/verify-email/{token}
+```
+
+## Account Management
+
+### Change Email
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/local/change-email' \
+  -H 'Authorization: Bearer YOUR_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{"newEmail": "newemail@example.com"}'
+```
+
+### Change Password
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/local/change-password' \
+  -H 'Authorization: Bearer YOUR_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "oldPassword": "currentPassword",
+    "newPassword": "newPassword123"
+  }'
+```
+
+## Logout
+
+```bash
+curl -X POST 'http://localhost:3000/authentication/logout' \
+  -H 'Authorization: Bearer YOUR_TOKEN'
+```
+

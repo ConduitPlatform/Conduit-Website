@@ -1,0 +1,83 @@
+---
+sidebar_label: 'Configuration'
+sidebar_position: 2
+title: 'Email Configuration'
+---
+
+Configure the Email module with your preferred provider.
+
+## Provider Setup
+
+1. Go to **Admin Panel** > **Email** > **Settings**
+2. Select provider
+3. Enter credentials
+4. Save
+
+## Provider Configuration
+
+### Mailgun
+
+| Setting | Description |
+|---------|-------------|
+| API Key | Your Mailgun API key |
+| Domain | Your Mailgun domain |
+| Host | Mailgun API host (US or EU) |
+
+### SendGrid
+
+| Setting | Description |
+|---------|-------------|
+| API Key | Your SendGrid API key |
+
+### Mandrill
+
+| Setting | Description |
+|---------|-------------|
+| API Key | Your Mandrill API key |
+
+### SMTP
+
+| Setting | Description |
+|---------|-------------|
+| Host | SMTP server host |
+| Port | SMTP server port |
+| Username | SMTP username |
+| Password | SMTP password |
+| Secure | Use TLS |
+
+## Templates
+
+### Creating Templates
+
+1. Go to **Email** > **Templates**
+2. Click **Create Template**
+3. Enter name, subject, and body
+4. Use variables with `{{variableName}}` syntax
+
+### Template Variables
+
+```html
+<h1>Hello {{userName}}!</h1>
+<p>Your order #{{orderId}} has been confirmed.</p>
+```
+
+### Syncing with Provider
+
+Templates can be synced with your email provider:
+- Upload local templates to provider
+- Download provider templates locally
+
+## Sender Configuration
+
+| Setting | Description |
+|---------|-------------|
+| From Email | Default sender email |
+| From Name | Default sender name |
+
+## Best Practices
+
+1. **Use templates** for consistent branding
+2. **Test emails** before production
+3. **Monitor delivery** rates
+4. **Handle bounces** appropriately
+

@@ -1,0 +1,66 @@
+---
+sidebar_label: 'Configuration'
+sidebar_position: 2
+---
+
+# Config
+
+## Available Options
+
+The Authorization module can be configured through the Admin Panel or via the administrative API.
+
+### Roles
+
+Roles define a set of permissions that can be assigned to users.
+Each role has a unique name and a set of permissions associated with it.
+
+**Default roles:**
+- `admin` - Full access to all resources
+- `user` - Basic access for authenticated users
+
+### Rules
+
+Rules define the authorization logic for specific resources and actions.
+Each rule specifies:
+
+- **Resource** - The resource type the rule applies to
+- **Action** - The action being authorized (create, read, update, delete)
+- **Role** - The role required to perform the action
+- **Conditions** - Optional conditions for more granular control
+
+## Managing Roles
+
+Through the Admin Panel, you can:
+
+1. Create new roles with custom permissions
+2. Edit existing role permissions
+3. Delete roles that are no longer needed
+4. Assign roles to users
+
+:::caution
+
+Be careful when deleting roles, as this will revoke access for all users assigned to that role.
+
+:::
+
+## Managing Rules
+
+Authorization rules can be managed through:
+
+1. **Admin Panel** - Visual interface for rule management
+2. **Administrative API** - Programmatic rule management
+
+### Rule Evaluation
+
+When an authorization request is made, the module evaluates rules in the following order:
+
+1. Check if the user has the required role
+2. Evaluate any conditions associated with the rule
+3. Return allow or deny based on the evaluation
+
+:::info
+
+If no matching rule is found, the request is denied by default.
+
+:::
+

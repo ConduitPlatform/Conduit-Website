@@ -1,0 +1,96 @@
+---
+sidebar_label: 'Configuration'
+sidebar_position: 2
+title: 'Authentication Configuration'
+---
+
+Configure the Authentication module through the Admin Panel or Admin API.
+
+## General Settings
+
+![Auth Configuration](/v0.16/modules/authentication/admin/auth_config.png)
+
+| Setting | Description |
+|---------|-------------|
+| Rate Limiting Attempts | Number of failed attempts before rate limiting |
+| Access Token Expiry | How long access tokens remain valid (ms) |
+| Refresh Token Expiry | How long refresh tokens remain valid (ms) |
+
+## Local Authentication
+
+![Enable Sign-in Method](/v0.16/modules/authentication/admin/enable_sign_in_method.png)
+
+### Options
+
+| Setting | Description |
+|---------|-------------|
+| Enabled | Allow email/password registration |
+| Email Verification | Require users to verify email |
+| Verification Required for Login | Block unverified users |
+
+:::caution Email Module Required
+Automatic email verification requires the [Email](../email/index) module to be configured.
+:::
+
+## Two-Factor Authentication
+
+![2FA Settings](/v0.16/modules/authentication/tutorials/enable-2-fa.png)
+
+### Available Methods
+
+| Method | Description |
+|--------|-------------|
+| Phone OTP | One-time password sent via SMS |
+| QR Code | TOTP app (Google Authenticator, Authy) |
+
+:::caution SMS Module Required
+Phone-based 2FA requires the [SMS](../sms/index) module to be configured.
+:::
+
+## OAuth Providers
+
+![OAuth Configuration](/v0.16/modules/authentication/admin/facebook_enable.png)
+
+### Configuration Steps
+
+1. Navigate to **Authentication** > **Settings**
+2. Enable desired provider
+3. Enter Client ID and Client Secret
+4. Configure callback URL in provider's console
+
+### Account Linking
+
+When enabled, users authenticating with the same email across different providers will have their accounts linked automatically.
+
+## Magic Link
+
+![Magic Link Configuration](/v0.16/modules/authentication/tutorials/enable_magic_link.png)
+
+| Setting | Description |
+|---------|-------------|
+| Enabled | Allow passwordless login |
+| Redirect URI | Where to send users after verification |
+| Link Expiry | How long magic links remain valid |
+
+## Token Configuration
+
+### Access Tokens
+
+Short-lived tokens for API authentication:
+- Default: 1 hour
+- Recommended range: 15 minutes - 24 hours
+
+### Refresh Tokens
+
+Long-lived tokens for obtaining new access tokens:
+- Default: 7 days
+- Recommended range: 1 day - 30 days
+
+## Security Best Practices
+
+1. **Enable email verification** in production
+2. **Use 2FA** for sensitive applications
+3. **Set appropriate token expiry** times
+4. **Configure rate limiting** to prevent brute force
+5. **Use HTTPS** for all authentication endpoints
+

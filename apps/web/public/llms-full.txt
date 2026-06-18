@@ -1,0 +1,60 @@
+# Conduit Platform (full index)
+> Agent-oriented summaries from doc frontmatter
+
+## Getting Started
+
+- [Introduction](https://getconduit.dev/docs/intro): Conduit is a self-hosted modular BaaS with Client API (apps), Admin API (operators/MCP), and gRPC (trusted server code).
+- [Overview](https://getconduit.dev/docs/getting-started): Onboarding hub — choose install, MCP, first app, or Start with AI.
+- [Install Conduit](https://getconduit.dev/docs/getting-started/install): Bootstrap with npx @conduitplatform/cli deploy setup or docker compose in Conduit/docker/.
+- [MCP Setup](https://getconduit.dev/docs/getting-started/mcp-setup): Add ADMIN_URL/mcp?modules=... to .cursor/mcp.json with Bearer admin JWT or cdt_ token.
+- [Your First App](https://getconduit.dev/docs/getting-started/first-app): REST tutorial — POST /authentication/local/new, then POST /authentication/local for tokens, then CRUD /database/Post.
+- [Start with AI](https://getconduit.dev/docs/getting-started/with-llms): Copy onboarding prompt referencing llms.txt, MCP URL, Client API-only runtime rule.
+
+## Learn
+
+- [Architecture](https://getconduit.dev/docs/learn/architecture): Core registers modules over gRPC; router exposes Client API; Redis config bus; database module owns DB engine.
+- [Client vs Admin API](https://getconduit.dev/docs/learn/client-vs-admin-api): Apps use Client API :3000 with user tokens; Admin :3030 for MCP/operators; gRPC server-only with scope.
+- [Configuration](https://getconduit.dev/docs/learn/configuration): Modules react to config via Redis config bus; patch via Admin API or MCP patch_config_<module>.
+
+## Deployment
+
+- [Deployment Overview](https://getconduit.dev/docs/deployment): Decision matrix for deployment modes; links to Compose, Helm, local source, and container images.
+- [Docker Compose](https://getconduit.dev/docs/deployment/docker-compose): From Conduit/docker: docker compose --profile mongodb up; or docker-compose.standalone.yml.
+- [Kubernetes and Helm](https://getconduit.dev/docs/deployment/kubernetes-helm): helm install conduit conduit-platform/conduit -f values.yaml from conduit-platform/conduit chart repo.
+- [Local from Source](https://getconduit.dev/docs/deployment/local-source): Node 24+, pnpm install, turbo build, start core then modules with CONDUIT_SERVER set.
+- [Container Images](https://getconduit.dev/docs/deployment/container-images): GHCR :dev on main; version tags on release; :latest stable only; amd64+arm64 via images.build.yml.
+
+## Modules
+
+- [Overview](https://getconduit.dev/docs/modules): Index of first-party modules: auth, authorization, database, storage, communications, chat, router, functions.
+- [Authentication](https://getconduit.dev/docs/modules/authentication): Client API: /authentication/local/new, /authentication/local, renew, logout, teams; server-side token vault; MCP ?modules=authentication.
+- [Authorization](https://getconduit.dev/docs/modules/authorization): Zanzibar-style ReBAC; define resources/relations via MCP; Client API /authorization/check; pass scope on database creates.
+- [Database](https://getconduit.dev/docs/modules/database): Client: /database/{Schema}, /database/function/{name}; provision schemas via MCP; no client-side filtering — custom endpoints for filtered queries.
+- [Storage](https://getconduit.dev/docs/modules/storage): Presigned upload server-side; store storageFileId on documents; serve binaries via server preview proxy — never expose presigned URLs to browsers.
+- [Communications](https://getconduit.dev/docs/modules/communications): v0.17 unified communications; email/SMS/push via Admin API and grpcSdk; MCP ?modules=communications; Handlebars templates.
+- [Chat](https://getconduit.dev/docs/modules/chat): Client API REST + Socket.io on CLIENT_SOCKET_PORT 3001; namespace /chat/, path /realtime; rooms, messages, storage attachments.
+- [Router](https://getconduit.dev/docs/modules/router): Hermes gateway on CLIENT_HTTP_PORT 3000 and CLIENT_SOCKET_PORT 3001; aggregates module client routes; Admin API on core :3030.
+- [Functions](https://getconduit.dev/docs/modules/functions): Admin-trusted JS — webhooks, event bus handlers, admin routes; grpcSdk access; not a substitute for database custom endpoints.
+
+## Guides
+
+- [Next.js Integration](https://getconduit.dev/docs/guides/first-app-nextjs): iron-session + Redis token vault; server-only conduitRequest with auto-refresh; REST Client API only; preview proxy for storage.
+- [ReBAC Team Scoping](https://getconduit.dev/docs/guides/rebac-team-scoping): authorization.enabled on schema; Team resource built-in; scope query param on POST; /authorization/check before mutations; MCP ?modules=authorization,database,authentication.
+- [GitOps State Export](https://getconduit.dev/docs/guides/gitops-state-export): GET /state/export, POST /state/import, POST /config/import on Admin API; modules export by priority; preview in v0.17 alpha.
+
+## Reference
+
+- [CLI Reference](https://getconduit.dev/docs/reference/cli): Bootstrap via getconduit.dev/bootstrap; conduit deploy setup --config for local stack.
+- [Client API](https://getconduit.dev/docs/reference/client-api): CLIENT_BASE_URL :3000; user Bearer tokens; /authentication, /database, /storage, /chat, /authorization; never Admin API from apps.
+- [Admin API](https://getconduit.dev/docs/reference/admin-api): ADMIN_BASE_URL :3030; masterkey, admin JWT, or cdt_ tokens; provisioning only — not for app runtime.
+- [Environment Variables](https://getconduit.dev/docs/reference/env-vars): CONDUIT_SERVER and SERVICE_URL required per module; CLIENT_HTTP_PORT 3000; ADMIN_HTTP_PORT 3030; GRPC_KEY for inter-module auth.
+- [MCP Tools](https://getconduit.dev/docs/reference/mcp-tools): Pattern: {method}_{path_with_underscores}; list_modules always available; enable modules via ?modules= URL.
+
+## Resources
+
+- [Migration v0.16 → v0.17](https://getconduit.dev/docs/resources/migration-v0.16-to-v0.17): Communications replaces email/sms/push; Node 24 pnpm toolchain; MCP admin server; update MCP and module enable lists.
+- [Legacy Documentation](https://getconduit.dev/docs/resources/legacy-docs): v0.17 docs are on getconduit.dev/docs; v0.15/v0.16 archived at archive.getconduit.dev with redirects from /docs/v0.16/*.
+- [Changelog](https://getconduit.dev/docs/resources/changelog): v0.17 alpha: communications module, Node 24/pnpm, Admin MCP, GitOps export/import; see GitHub for full history.
+- [FAQ](https://getconduit.dev/docs/resources/faq): Self-hosted BaaS; Client API for apps; MCP for provisioning; communications unified in v0.17.
+- [Glossary](https://getconduit.dev/docs/resources/glossary): Key terms: Client API, Admin API, MCP, custom endpoints, scope, ManagedModule, Hermes.
+- [Contributing](https://getconduit.dev/docs/resources/contributing): Node 24+, pnpm, turbo build; see GitHub CONTRIBUTING.md.

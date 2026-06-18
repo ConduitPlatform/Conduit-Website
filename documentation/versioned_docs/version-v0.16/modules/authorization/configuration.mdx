@@ -1,0 +1,88 @@
+---
+sidebar_label: 'Configuration'
+sidebar_position: 2
+title: 'Authorization Configuration'
+---
+
+Configure roles and rules through the Admin Panel or API.
+
+## Roles
+
+Roles define permissions that can be assigned to users.
+
+### Default Roles
+
+| Role | Description |
+|------|-------------|
+| `admin` | Full access to all resources |
+| `user` | Basic access for authenticated users |
+
+### Creating Roles
+
+1. Go to **Admin Panel** > **Authorization** > **Roles**
+2. Click **Create Role**
+3. Define role name and permissions
+4. Save
+
+### Assigning Roles
+
+Roles can be assigned to users through:
+- Admin Panel user management
+- Admin API programmatically
+
+:::caution
+Deleting a role revokes access for all assigned users.
+:::
+
+## Rules
+
+Rules define authorization logic for resources and actions.
+
+### Rule Components
+
+| Component | Description |
+|-----------|-------------|
+| Resource | Resource type the rule applies to |
+| Action | Operation being authorized (CRUD) |
+| Role | Required role to perform action |
+| Conditions | Optional granular conditions |
+
+### Rule Evaluation Order
+
+1. Check if user has required role
+2. Evaluate conditions (if any)
+3. Return allow or deny
+
+:::info
+Requests without matching rules are denied by default.
+:::
+
+## Managing Rules
+
+### Via Admin Panel
+
+1. Navigate to **Authorization** > **Rules**
+2. Create, edit, or delete rules
+3. Set conditions as needed
+
+### Via API
+
+```bash
+# Create rule via Admin API
+curl -X POST 'http://localhost:3030/authorization/rules' \
+  -H 'masterkey: YOUR_MASTER_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "resource": "Posts",
+    "action": "read",
+    "role": "user"
+  }'
+```
+
+## Best Practices
+
+1. **Principle of Least Privilege** - Grant minimum required permissions
+2. **Role Hierarchy** - Use inheritance to simplify management
+3. **Audit Rules** - Regularly review authorization rules
+4. **Test Rules** - Verify rules work as expected before production
+

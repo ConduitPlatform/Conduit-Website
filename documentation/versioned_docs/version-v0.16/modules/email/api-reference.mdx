@@ -1,0 +1,136 @@
+---
+sidebar_label: 'API Reference'
+sidebar_position: 3
+title: 'Email API Reference'
+---
+
+API reference for the Email module.
+
+## Send Email
+
+### Send Raw Email
+
+```http
+POST /email/send
+masterkey: {masterKey}
+```
+
+**Request Body:**
+```json
+{
+  "to": "recipient@example.com",
+  "subject": "Hello",
+  "body": "<h1>Welcome!</h1>",
+  "from": "sender@example.com"
+}
+```
+
+### Send Template Email
+
+```http
+POST /email/send
+masterkey: {masterKey}
+```
+
+**Request Body:**
+```json
+{
+  "to": "recipient@example.com",
+  "templateName": "welcome",
+  "variables": {
+    "userName": "John",
+    "activationLink": "https://..."
+  }
+}
+```
+
+## Templates
+
+### List Templates
+
+```http
+GET /admin/email/templates
+masterkey: {masterKey}
+```
+
+### Get Template
+
+```http
+GET /admin/email/templates/{templateId}
+masterkey: {masterKey}
+```
+
+### Create Template
+
+```http
+POST /admin/email/templates
+masterkey: {masterKey}
+```
+
+**Request Body:**
+```json
+{
+  "name": "welcome",
+  "subject": "Welcome to {{appName}}",
+  "body": "<h1>Hello {{userName}}!</h1>",
+  "variables": ["appName", "userName"]
+}
+```
+
+### Update Template
+
+```http
+PUT /admin/email/templates/{templateId}
+masterkey: {masterKey}
+```
+
+### Delete Template
+
+```http
+DELETE /admin/email/templates/{templateId}
+masterkey: {masterKey}
+```
+
+## Provider Sync
+
+### Upload to Provider
+
+```http
+POST /admin/email/templates/{templateId}/upload
+masterkey: {masterKey}
+```
+
+### Sync from Provider
+
+```http
+POST /admin/email/sync
+masterkey: {masterKey}
+```
+
+## Configuration
+
+### Get Config
+
+```http
+GET /admin/email/config
+masterkey: {masterKey}
+```
+
+### Update Config
+
+```http
+PUT /admin/email/config
+masterkey: {masterKey}
+```
+
+**Request Body:**
+```json
+{
+  "provider": "mailgun",
+  "mailgun": {
+    "apiKey": "...",
+    "domain": "..."
+  }
+}
+```
+

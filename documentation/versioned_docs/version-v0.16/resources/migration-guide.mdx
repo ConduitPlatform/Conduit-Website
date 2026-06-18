@@ -1,0 +1,171 @@
+---
+sidebar_label: 'Migration Guide'
+sidebar_position: 4
+title: 'Migrating to v0.16'
+---
+
+# Migration Guide: v0.15 to v0.16
+
+This guide covers the breaking changes and migration steps when upgrading from Conduit v0.15 to v0.16.
+
+## Overview
+
+Conduit v0.16 introduces several improvements and changes. Most applications can upgrade with minimal changes.
+
+## Before You Begin
+
+1. **Backup your data** - Always backup your database before upgrading
+2. **Review changelog** - Check the [Changelog](./changelog) for full details
+3. **Test in staging** - Upgrade a staging environment first
+
+## Breaking Changes
+
+### Authentication Module
+
+#### Token Response Format
+
+The token response structure has been standardized:
+
+**v0.15 (Old)**
+```json
+{
+  "token": "eyJ...",
+  "refreshToken": "abc..."
+}
+```
+
+**v0.16 (New)**
+```json
+{
+  "accessToken": "eyJ...",
+  "refreshToken": "abc...",
+  "expiresIn": 86400
+}
+```
+
+**Migration:** Update your frontend code to use `accessToken` instead of `token`.
+
+### Database Module
+
+#### Query Operators
+
+Some query operators have been renamed for consistency:
+
+| v0.15 Operator | v0.16 Operator |
+|---------------|----------------|
+| `$like` | `$regex` |
+| `$nin` | `$notIn` |
+
+**Migration:** Update your queries to use the new operator names.
+
+### Router Module
+
+#### CORS Configuration
+
+CORS settings have moved from environment variables to module configuration:
+
+**v0.15 (Old)**
+```bash
+CORS_ORIGIN=*
+CORS_METHODS=GET,POST
+```
+
+**v0.16 (New)**
+
+Configure via Admin Panel or API:
+```json
+{
+  "cors": {
+    "enabled": true,
+    "origins": ["*"],
+    "methods": ["GET", "POST", "PUT", "DELETE"],
+    "credentials": true
+  }
+}
+```
+
+## New Features
+
+### Multi-Tenancy Support
+
+v0.16 introduces experimental multi-tenancy support. See [Architecture](../learn/architecture) for details.
+
+### Improved Admin Panel
+
+The Admin Panel has been redesigned with:
+- Better navigation
+- Improved schema editor
+- Enhanced monitoring
+
+## Upgrade Steps
+
+### Step 1: Update Docker Images
+
+```bash
+# Stop existing containers
+docker compose down
+
+# Pull new images
+docker compose pull
+
+# Start with new version
+docker compose up -d
+```
+
+### Step 2: Run Database Migrations
+
+Migrations run automatically on startup, but you can verify:
+
+```bash
+docker logs conduit-core | grep migration
+```
+
+### Step 3: Update Configuration
+
+Review and update any deprecated configuration options via the Admin Panel.
+
+### Step 4: Update Client Code
+
+Update your frontend/client applications:
+- Token field name changes
+- Any deprecated API endpoints
+
+### Step 5: Test
+
+Verify core functionality:
+- [ ] User authentication works
+- [ ] Token refresh works
+- [ ] Database queries work
+- [ ] File uploads work (if using Storage)
+
+## Rollback Procedure
+
+If you encounter issues:
+
+1. Stop v0.16 containers
+2. Restore database from backup
+3. Start v0.15 containers
+
+```bash
+docker compose down
+# Restore database
+docker compose -f docker-compose.v015.yml up -d
+```
+
+## Getting Help
+
+If you encounter issues during migration:
+
+1. Check the [Troubleshooting](./troubleshooting) guide
+2. Search [GitHub Issues](https://github.com/ConduitPlatform/Conduit/issues)
+3. Ask in [Discord](https://discord.com/invite/fBqUQ23M7g)
+
+## Version Compatibility
+
+| Component | Minimum Version | Recommended |
+|-----------|----------------|-------------|
+| Docker | 20.10+ | Latest |
+| Node.js (for SDK) | 16+ | 20 LTS |
+| MongoDB | 4.4+ | 6.0+ |
+| PostgreSQL | 12+ | 15+ |
+

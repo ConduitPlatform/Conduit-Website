@@ -1,0 +1,23 @@
+---
+title: Kubernetes and Helm
+description: Deploy Conduit with the official Helm chart.
+agent_summary: "helm install conduit conduit-platform/conduit -f values.yaml from conduit-platform/conduit chart repo."
+---
+
+Conduit is **Kubernetes-first**. Official chart: `conduit-platform/conduit`.
+
+```bash
+helm repo add conduit-platform https://conduitplatform.github.io/helm-charts/
+helm install -f values.yaml conduit conduit-platform/conduit
+```
+
+Starter values live in the Conduit repo under `deploy/k8s/values/`.
+
+Configure ingress for:
+
+- **Admin UI** and Admin API
+- **Router** (Client API)
+
+For local clusters see the Conduit repo `deploy/k8s/minikube.md`. Chart defaults target dev/demo — use external DB, Redis, and observability stacks for production.
+
+See also [conduit-helm-charts](https://github.com/ConduitPlatform/conduit-helm-charts) for advanced layouts.

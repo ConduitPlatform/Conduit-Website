@@ -1,0 +1,37 @@
+---
+sidebar_label: 'Apple'
+sidebar_position: 4
+title: 'Apple OAuth'
+---
+
+Set up Apple Sign In for your Conduit application.
+
+## Configuration Steps
+
+1. Create an App ID in Apple Developer Portal
+2. Enable Sign In with Apple
+3. Create a Services ID for web authentication
+4. Configure callback URL:
+   ```
+   http://localhost:3000/hook/authentication/apple
+   ```
+5. Generate a private key for client secret
+6. In Conduit Admin Panel, enable Apple provider
+7. Enter your credentials and save
+
+## Test Authentication
+
+```bash
+curl -X GET 'http://localhost:3000/authentication/init/apple'
+```
+
+Navigate to the returned URL to complete the OAuth flow.
+
+## Production
+
+Update callback URL for production:
+```
+https://yourdomain.com/hook/authentication/apple
+```
+
+<OtherProviders currentProvider="apple" />

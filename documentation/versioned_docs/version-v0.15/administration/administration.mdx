@@ -48,6 +48,7 @@ This header is required by most administrative routes, with the exception of:
 <details>
 <summary>Getting an Admin Authentication Token</summary>
 
+
 ``` bash title="Request"
 curl --location --request POST 'http://localhost:3030/login' \
 --header 'masterkey: M4ST3RK3Y' \
@@ -62,6 +63,7 @@ curl --location --request POST 'http://localhost:3030/login' \
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmYxZGQ5NThkZDIwMDAxNzgwNWVmYyIsImlhdCI6MTY0NzM0MjMwMiwiZXhwIjoxNjQ3NDE0MzAyfQ.trHYfxt9Wf6ohgi5PWez-dZEDaQSBBR6wu2PINveQmI"
 }
 ```
+
 </details>
 
 **Admin access tokens cannot be used interchangeably with [user access tokens](../modules/router/headers/#headers-auth)!**

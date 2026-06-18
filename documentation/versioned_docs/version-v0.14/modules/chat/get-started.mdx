@@ -20,7 +20,9 @@ npx @conduitplatform/cli deploy --config
 </TabItem>
 
 <TabItem value="docker" label="Docker">
-<details><summary>Prerequisites</summary>
+<details>
+<summary>Prerequisites</summary>
+
 
 ``` bash
 # Set up the Container Network
@@ -69,6 +71,7 @@ docker run -d --name conduit-router \
               -e REGISTER_NAME="true" -e CONDUIT_SERVER="conduit-core:55152" \
               ghcr.io/conduitplatform/authentication:latest
 ```
+
 </details>
 
 ``` bash

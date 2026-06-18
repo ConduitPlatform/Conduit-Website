@@ -1,0 +1,135 @@
+---
+title: Database
+description: Schemas, CRUD, custom endpoints, indexes, and query trees.
+agent_summary: "Client: /database/{Schema}, /database/function/{name}; provision schemas via MCP; no client-side filtering — custom endpoints for filtered queries."
+---
+
+The **database** module is the data layer. Apps never connect to MongoDB or PostgreSQL directly — schemas define document shapes, CMS options expose CRUD routes, and custom endpoints serve filtered queries.
+
+## Use cases
+
+<ModuleUseCases
+  items={[
+    {
+      title: "App data models",
+      outcome: "Define Project, Order, Profile schemas with typed fields and CRUD routes",
+    },
+    {
+      title: "Filtered lists",
+      outcome: "Custom endpoints for WHERE clauses, search, and pagination",
+    },
+    {
+      title: "Multi-tenant records",
+      outcome: "Authorization-enabled schemas with scope on create",
+    },
+    {
+      title: "Extend auth User",
+      outcome: "Schema extensions add fields to module-owned schemas",
+    },
+  ]}
+/>
+
+## Capabilities
+
+<ModuleCapabilities
+  items={[
+    "Schema definitions",
+    "CMS CRUD routes",
+    "Custom endpoints",
+    "Query trees",
+    "Indexes",
+    "Populate relations",
+    "Text search (like: true)",
+    "Schema extensions",
+    "GraphQL (via router)",
+  ]}
+/>
+
+## Example: Schema + custom endpoint (no client-side filter)
+
+<ModuleExample
+  steps={[
+    "Create Post schema via MCP post_database_schemas with cms CRUD enabled",
+    "Provision GetPostsByAuthor custom endpoint with authorId input and query tree filter",
+    "Add an index on authorId for performance",
+    "App calls GET /database/function/GetPostsByAuthor?authorId=USER_ID — never GET /database/Post then filter in JS",
+  ]}
+>
+  <APIExample
+    title="List via custom endpoint"
+    curl={`curl "http://localhost:3000/database/function/GetPostsByAuthor?authorId=507f1f77bcf86cd799439011" \\
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"`}
+  />
+  <APIExample
+    title="Create document"
+    curl={`curl -X POST http://localhost:3000/database/Post \\
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{"title":"Hello","body":"First post","authorId":"507f1f77bcf86cd799439011"}'`}
+  />
+</ModuleExample>
+
+## How it works
+
+<ModuleDeepDive>
+### CMS CRUD
+
+When `conduitOptions.cms.enabled` and per-operation flags are set, the Client API exposes:
+
+| Intent | HTTP | Path |
+|--------|------|------|
+| List (unfiltered) | GET | `/database/{Schema}?skip&limit&sort&populate&scope` |
+| Get by id | GET | `/database/{Schema}/{id}` |
+| Create | POST | `/database/{Schema}` |
+| Update | PATCH | `/database/{Schema}/{id}` |
+| Delete | DELETE | `/database/{Schema}/{id}` |
+
+`GET /database/{Schema}` runs `findMany({}, …)` — **no filter parameter exists**.
+
+### The iron rule
+
+Any query needing WHERE clauses, `$in`, date ranges, text search, or ownership scoping must use a **provisioned custom endpoint** at `/database/function/{name}`. Never fetch a collection and `.filter()` in application code.
+
+### Custom endpoints
+
+Provision via MCP `post_database_customendpoints`. Operations map to HTTP methods (GET, POST, PUT, PATCH, DELETE). Query trees declare inputs, filters, populate, pagination (`paginated: true` requires `skip` + `limit`), and optional `like: true` text search.
+
+On authorization-enabled schemas, custom endpoints **must** have `authentication: true` and accept optional `scope`.
+</ModuleDeepDive>
+
+## Configure
+
+Provision at dev/deploy time via MCP with `?modules=database`:
+
+```text
+post_database_schemas
+patch_database_schemas_id
+post_database_customendpoints
+post_database_schemas_id_indexes
+```
+
+Key `conduitOptions` keys: `cms.enabled`, `cms.crudOperations.*.enabled`, `cms.crudOperations.*.authenticated`, `authorization.enabled`.
+
+## Client API
+
+| Operation | Path |
+|-----------|------|
+| CRUD | `/database/{SchemaName}` |
+| Custom endpoint | `/database/function/{endpointName}` |
+| GraphQL | `/graphql` (via router) |
+
+## MCP
+
+| Tool | Purpose |
+|------|---------|
+| `post_database_schemas` | Create schema |
+| `get_database_schemas` | List schemas |
+| `post_database_customendpoints` | Create filtered query endpoint |
+| `post_database_schemas_id_indexes` | Add DB index |
+
+<NextSteps steps={[
+  { title: "Your first app", href: "/docs/getting-started/first-app" },
+  { title: "Authorization & scope", href: "/docs/modules/authorization" },
+  { title: "Client API reference", href: "/docs/reference/client-api" },
+  { title: "MCP tools", href: "/docs/reference/mcp-tools" },
+]} />

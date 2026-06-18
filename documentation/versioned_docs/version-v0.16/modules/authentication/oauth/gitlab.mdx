@@ -1,0 +1,35 @@
+---
+sidebar_label: 'GitLab'
+sidebar_position: 7
+title: 'GitLab OAuth'
+---
+
+Set up GitLab authentication for your Conduit application.
+
+## Configuration Steps
+
+1. Go to GitLab User Settings > Applications
+2. Create new application
+3. Configure callback URL:
+   ```
+   http://localhost:3000/hook/authentication/gitlab
+   ```
+4. Select scopes: `read_user`, `email`
+5. Note your Application ID and Secret
+6. In Conduit Admin Panel, enable GitLab provider
+7. Enter your credentials and save
+
+## Test Authentication
+
+```bash
+curl -X GET 'http://localhost:3000/authentication/init/gitlab'
+```
+
+Navigate to the returned URL to complete the OAuth flow.
+
+## Production
+
+Update callback URL for production:
+```
+https://yourdomain.com/hook/authentication/gitlab
+```

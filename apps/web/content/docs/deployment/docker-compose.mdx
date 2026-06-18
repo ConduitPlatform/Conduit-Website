@@ -1,0 +1,35 @@
+---
+title: Docker Compose
+description: Run Conduit microservices or standalone with Docker Compose.
+agent_summary: "From Conduit/docker: docker compose --profile mongodb up; or docker-compose.standalone.yml."
+---
+
+## Microservices mode
+
+From `Conduit/docker/`:
+
+1. Copy `.env`, set `GRPC_KEY` and `DB_CONN_URI`
+2. Choose profile: `--profile mongodb` or `--profile postgres`
+3. Run: `docker compose --profile mongodb up -d`
+
+Images: `docker.io/conduitplatform/{module}:${IMAGE_TAG}`.
+
+## Standalone mode
+
+```bash
+docker compose -f docker-compose.standalone.yml up -d
+```
+
+Bundles core + default modules in `conduit-standalone` via PM2. Requires Redis + MongoDB only.
+
+## Admin UI
+
+`conduit-ui` container on port **8080**, configured with `CONDUIT_URL` pointing at Admin API.
+
+## CLI alternative
+
+```bash
+npx @conduitplatform/cli deploy setup
+```
+
+See [Install](/docs/getting-started/install).

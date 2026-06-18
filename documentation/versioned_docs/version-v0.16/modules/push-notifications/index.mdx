@@ -1,0 +1,63 @@
+---
+sidebar_label: 'Overview'
+sidebar_position: 1
+title: 'Push Notifications'
+---
+
+The Push Notifications module enables mobile push notification delivery.
+
+## Features
+
+- **FCM Support** - Firebase Cloud Messaging
+- **User Targeting** - Send to specific users
+- **Topic Subscriptions** - Group notifications
+- **Silent Pushes** - Background data sync
+
+## Supported Providers
+
+| Provider | Status |
+|----------|--------|
+| Firebase Cloud Messaging (FCM) | Supported |
+| OneSignal | Coming Soon |
+
+## Dependencies
+
+| Module | Required | Purpose |
+|--------|----------|---------|
+| [Authentication](../authentication/index) | Yes | User targeting |
+
+## Minimum Configuration
+
+Requires FCM configuration. Disabled by default.
+
+## Environment Variables
+
+| Name | Required | Description | Example |
+|:----:|:--------:|:-----------:|:-------:|
+| `CONDUIT_SERVER` | Yes | Conduit Core address | `0.0.0.0:55152` |
+| `SERVICE_URL` | No | Service address | `0.0.0.0:56154` |
+| `GRPC_PORT` | No | gRPC server port | `56154` |
+| `GRPC_KEY` | No | gRPC signed request protection | `someSecret` |
+
+## Quick Start
+
+1. Configure FCM in Admin Panel
+2. Register device tokens from mobile app
+3. Send notifications via API
+
+```bash
+curl -X POST 'http://localhost:3030/pushNotifications/send' \
+  -H 'masterkey: YOUR_MASTER_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "userId": "...",
+    "title": "Hello",
+    "body": "You have a new message"
+  }'
+```
+
+## Next Steps
+
+- [Configuration](./configuration) - Set up FCM
+- [API Reference](./api-reference) - Available endpoints
+

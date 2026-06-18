@@ -1,0 +1,57 @@
+---
+sidebar_label: 'Overview'
+sidebar_position: 1
+title: 'Router'
+---
+
+:::info
+This module handles **application-level** APIs. For administration APIs, see [Admin API Reference](../../reference/admin-api/rest).
+:::
+
+The Router module provides API routing for your application.
+
+## Features
+
+- **REST API** - Express-based HTTP endpoints
+- **GraphQL API** - Auto-generated GraphQL schema
+- **WebSockets** - Real-time communication via Socket.io
+- **Auto Documentation** - Swagger/OpenAPI for REST, introspection for GraphQL
+- **Validation** - Automatic parameter validation
+- **Middleware** - Custom middleware support
+
+## Minimum Configuration
+
+No configuration required.
+
+## Environment Variables
+
+| Name | Required | Description | Example |
+|:----:|:--------:|:-----------:|:-------:|
+| `CONDUIT_SERVER` | Yes | Conduit Core address | `0.0.0.0:55152` |
+| `CLIENT_HTTP_PORT` | No | REST/GraphQL port | `3000` |
+| `CLIENT_SOCKET_PORT` | No | WebSocket port | `3001` |
+| `SERVICE_URL` | No | Service address | `0.0.0.0:56154` |
+| `GRPC_PORT` | No | gRPC server port | `56154` |
+| `GRPC_KEY` | No | gRPC signed request protection | `someSecret` |
+
+## API Transports
+
+| Transport | Port | Endpoint |
+|-----------|------|----------|
+| REST | 3000 | `http://localhost:3000/` |
+| GraphQL | 3000 | `http://localhost:3000/graphql` |
+| WebSocket | 3001 | `ws://localhost:3001/` |
+| Swagger | 3000 | `http://localhost:3000/swagger` |
+
+## Route Registration
+
+Modules automatically register their routes. For custom routes, build a [custom module](../overview).
+
+## Next Steps
+
+- [Configuration](./configuration) - Router settings
+- [REST](./rest) - REST API details
+- [GraphQL](./graphql) - GraphQL API details
+- [WebSockets](./sockets) - Real-time communication
+- [Security](./security) - API security features
+

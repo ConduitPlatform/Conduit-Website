@@ -1,0 +1,64 @@
+---
+sidebar_label: 'Facebook'
+---
+
+# Facebook
+
+In this tutorial, we'll set up Facebook authentication for Conduit.<br />
+To get started, you have to create a Facebook Web Application.<br />
+
+## Creating a Facebook Web App
+
+Navigate to the [Facebook for Developers](https://developers.facebook.com/) website and sign in.<br />
+We'll be creating an app to be used for our Conduit authentication.
+
+![Facebook app](/v0.16/modules/authentication/tutorials/create_facebook_app.png)
+
+Select Consumer app type.
+
+![Facebook app type](/v0.16/modules/authentication/tutorials/app_type.png)
+
+Fill the application details and finalize your app!<br />
+
+![Facebook app details](/v0.16/modules/authentication/tutorials/add_details.png)
+
+In this step, you will be asked to add products to your app. Select Facebook Login.<br />
+
+![Facebook app details](/v0.16/modules/authentication/tutorials/login_app.png)
+
+You will be asked to select a type for your application. Select `WEB`.<br />
+Select  Facebook Login.<br />
+
+Your app is ready. Make sure you download the relevant file.
+
+[Additional information on Facebook Apps](https://developers.facebook.com/docs/development/create-an-app/).
+
+------------------------------------------------------------------------------------------------
+
+## Setting up the configuration
+
+***NOTE***<br />
+**Do not forget to configure the Facebook provider through the [Admin Panel](../../config#third-party-providers).**<br />
+Go to the Authentication -> SIGN IN METHODS and select the Facebook provider.<br />
+Then, fill the required fields you obtained from the Facebook App.
+
+
+------------------------------------------------------------------------------------------------
+
+## Authenticate with Facebook
+
+To begin authenticating with Facebook you request a redirect url with the proper scopes<br />
+
+``` bash title="Request"
+curl --location --request GET 'http://localhost:3000/authentication/facebook'
+```
+
+``` json title="Response"
+{
+    "result": "https://www.facebook.com/v11.0/dialog/oauth?client_id=1234567890&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauthentication%2Ffacebook%2Fcallback&scope=email&state=eyJpZCI6IjYzNjNjZGNkMDhkNTU2MDk1NmM4MGQ4OSIsImlhdCI6MTY2OTIxMDM1MywiZXhwIjoxNjY5MjgyM30zfQ.TyvHCuyDKLiKFoEpaXRdbYoFwrzDlFiW4VdUVQJdf7U"
+}
+```
+
+Open a browser and navigate to the url returned to you from Conduit.<br />
+Now the `/hook/authentication` route has been triggered.<br />
+Once your browser has been redirected, your authentication has been completed.

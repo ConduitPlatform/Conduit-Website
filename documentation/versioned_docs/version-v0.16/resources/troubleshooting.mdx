@@ -1,0 +1,129 @@
+---
+sidebar_label: 'Troubleshooting'
+sidebar_position: 1
+title: 'Troubleshooting'
+---
+
+Common issues and solutions when working with Conduit.
+
+## Installation Issues
+
+### Docker Connection Failed
+
+**Symptom:** CLI cannot connect to Docker
+
+**Solution:**
+1. Ensure Docker is running
+2. Add user to docker group: `sudo usermod -aG docker $USER`
+3. Restart terminal session
+
+### Port Already in Use
+
+**Symptom:** Service fails to start, port conflict error
+
+**Solution:**
+1. Check running services: `docker ps`
+2. Stop conflicting containers
+3. Or change port via environment variable
+
+## Module Issues
+
+### Module Not Appearing in Admin Panel
+
+**Possible Causes:**
+- Module not running
+- Cannot connect to Core
+
+**Solutions:**
+1. Check module logs: `docker logs conduit-{module}`
+2. Verify `CONDUIT_SERVER` points to Core
+3. Check network connectivity
+
+### Module Configuration Not Saving
+
+**Possible Causes:**
+- Module not online
+- Validation error
+
+**Solutions:**
+1. Ensure module is online
+2. Check Admin Panel for validation errors
+3. Check module logs for details
+
+## Authentication Issues
+
+### Login Returns 401
+
+**Possible Causes:**
+- Wrong credentials
+- User blocked
+- Token expired
+
+**Solutions:**
+1. Verify credentials
+2. Check user status in Admin Panel
+3. Request new token
+
+### OAuth Callback Error
+
+**Possible Causes:**
+- Wrong callback URL
+- Missing provider credentials
+
+**Solutions:**
+1. Verify callback URL in provider console
+2. Check client ID/secret in Conduit config
+3. Ensure callback URL matches exactly
+
+## Database Issues
+
+### Connection Failed
+
+**Possible Causes:**
+- Database not running
+- Wrong connection string
+
+**Solutions:**
+1. Verify database is running
+2. Check `DB_CONN_URI` format
+3. Test connection with database client
+
+### Schema Not Found
+
+**Possible Causes:**
+- Schema not created
+- Schema archived
+
+**Solutions:**
+1. Create schema in Admin Panel
+2. Check Archived Schemas tab
+3. Enable schema if archived
+
+## API Issues
+
+### CORS Error
+
+**Symptom:** Browser blocks requests
+
+**Solution:**
+1. Configure CORS in Router settings
+2. Add your domain to allowed origins
+
+### Rate Limited
+
+**Symptom:** 429 Too Many Requests
+
+**Solution:**
+1. Adjust rate limit settings
+2. Reduce request frequency
+3. Contact administrator
+
+## Getting Help
+
+If these solutions don't help:
+
+1. Check [GitHub Issues](https://github.com/ConduitPlatform/Conduit/issues)
+2. Join [Discord](https://discord.com/invite/fBqUQ23M7g)
+3. Search documentation
+4. Open new issue with logs
+

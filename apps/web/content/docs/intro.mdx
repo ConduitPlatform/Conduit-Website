@@ -1,0 +1,42 @@
+---
+title: Introduction
+description: What Conduit is and how the modular BaaS architecture works.
+agent_summary: "Conduit is a self-hosted modular BaaS with Client API (apps), Admin API (operators/MCP), and gRPC (trusted server code)."
+---
+
+Conduit is a **self-hosted, modular Backend-as-a-Service (BaaS)**. Common backend capabilities — authentication, database, storage, authorization, communications, chat, and more — ship as pluggable modules you deploy as microservices or as a single **standalone** image.
+
+Application teams consume Conduit through the **Client API** with user bearer tokens. Operators and AI agents provision schemas, config, and admin tasks through the **Admin API** or the **Conduit MCP server**. Trusted server processes use the **gRPC service API** via `@conduitplatform/grpc-sdk`.
+
+<AgentHint>
+  Fetch the full doc index at [llms.txt](/llms.txt). For Cursor, also install the [Conduit plugin](https://github.com/Quintessential-SFT/conduit-cursor-plugin).
+</AgentHint>
+
+## Default ports
+
+| Surface | Env var | Default |
+|---------|---------|---------|
+| Client API (REST/GraphQL) | `CLIENT_HTTP_PORT` | **3000** |
+| Client WebSockets | `CLIENT_SOCKET_PORT` | **3001** |
+| Admin API | `ADMIN_HTTP_PORT` | **3030** |
+
+Use `CLIENT_BASE_URL` and `ADMIN_BASE_URL` in your project — never hard-code deployment URLs.
+
+## Module map
+
+<ModuleGrid>
+  <ModuleCard title="Authentication" href="/docs/modules/authentication" description="Users, OAuth, tokens, teams, 2FA" />
+  <ModuleCard title="Authorization" href="/docs/modules/authorization" description="ReBAC resources, relations, permissions" />
+  <ModuleCard title="Database" href="/docs/modules/database" description="Schemas, CRUD, custom endpoints" />
+  <ModuleCard title="Storage" href="/docs/modules/storage" description="S3, Azure, GCS, local files" />
+  <ModuleCard title="Communications" href="/docs/modules/communications" description="Email, SMS, push (unified module)" />
+  <ModuleCard title="Chat" href="/docs/modules/chat" description="Rooms, messages, Socket.io" />
+  <ModuleCard title="Router" href="/docs/modules/router" description="Client API gateway" />
+  <ModuleCard title="Functions" href="/docs/modules/functions" description="Admin-defined server-side JS" />
+</ModuleGrid>
+
+<NextSteps steps={[
+  { title: "Getting started", href: "/docs/getting-started", description: "Install and run your first stack" },
+  { title: "Client vs Admin API", href: "/docs/learn/client-vs-admin-api", description: "Critical boundary for app code" },
+  { title: "MCP setup", href: "/docs/getting-started/mcp-setup", description: "Provision schemas with AI agents" },
+]} />

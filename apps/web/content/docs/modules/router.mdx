@@ -1,0 +1,115 @@
+---
+title: Router
+description: Client API gateway — REST, GraphQL, and WebSockets.
+agent_summary: "Hermes gateway on CLIENT_HTTP_PORT 3000 and CLIENT_SOCKET_PORT 3001; aggregates module client routes; Admin API on core :3030."
+---
+
+The **router** module (Hermes) exposes the **Client API** by aggregating routes registered by other modules. It is the single entry point applications connect to.
+
+## Use cases
+
+<ModuleUseCases
+  items={[
+    {
+      title: "Unified API surface",
+      outcome: "One base URL for auth, database, storage, chat, and more",
+    },
+    {
+      title: "Realtime apps",
+      outcome: "REST on :3000, Socket.io on :3001 with shared auth",
+    },
+    {
+      title: "GraphQL queries",
+      outcome: "Optional /graphql endpoint when modules register types",
+    },
+    {
+      title: "Client credentials",
+      outcome: "Router validates client id/secret context for auth flows",
+    },
+  ]}
+/>
+
+## Capabilities
+
+<ModuleCapabilities
+  items={[
+    "REST aggregation",
+    "GraphQL",
+    "WebSockets / Socket.io",
+    "Module route mounting",
+    "Client credential context",
+    "CORS & middleware",
+  ]}
+/>
+
+## Example: Single API surface diagram
+
+<ModuleExample
+  steps={[
+    "Application calls CLIENT_BASE_URL (default http://localhost:3000)",
+    "Router forwards /authentication/* to authentication module routes",
+    "Router forwards /database/* to database module routes",
+    "Router forwards /storage/*, /chat/*, /authorization/* to respective modules",
+    "Socket.io listens on CLIENT_SOCKET_PORT (default 3001) with path /realtime",
+    "Admin API (:3030) lives on core — not router",
+  ]}
+/>
+
+## How it works
+
+<ModuleDeepDive>
+### Port layout
+
+| Port | Env var | Protocol |
+|------|---------|----------|
+| 3000 | `CLIENT_HTTP_PORT` | REST, GraphQL |
+| 3001 | `CLIENT_SOCKET_PORT` | WebSockets / Socket.io |
+| 3030 | Admin | Admin API (core module) |
+
+### Request flow
+
+```
+App → Router (Hermes) → Module client routes
+                      → authMiddleware, client credentials
+                      → database, storage, chat, …
+```
+
+Each module registers its Client API routes with Hermes at startup. The database module is required by router and most feature modules.
+
+### What router is not
+
+Router does **not** replace [database custom endpoints](/docs/modules/database) — filtered queries still need provisioned `/database/function/{name}` endpoints. Router also does not expose Admin API routes; use `:3030` or MCP for provisioning.
+</ModuleDeepDive>
+
+## Configure
+
+Router is a core dependency — enable other modules in deployment; their Client routes appear automatically. Environment variables:
+
+| Variable | Default | Meaning |
+|----------|---------|---------|
+| `CLIENT_HTTP_PORT` | 3000 | REST/GraphQL port |
+| `CLIENT_SOCKET_PORT` | 3001 | WebSocket port |
+
+See [Environment variables](/docs/reference/env-vars) and [Architecture](/docs/learn/architecture).
+
+## Client API
+
+All module Client paths are relative to `CLIENT_BASE_URL`:
+
+- `/authentication/*`
+- `/database/*`
+- `/storage/*`
+- `/chat/*`
+- `/authorization/*`
+- `/graphql`
+
+## MCP
+
+Router has no separate MCP module — configure via core and enable feature modules (`?modules=database,authentication,…`).
+
+<NextSteps steps={[
+  { title: "Architecture", href: "/docs/learn/architecture" },
+  { title: "Client vs Admin API", href: "/docs/learn/client-vs-admin-api" },
+  { title: "Database module", href: "/docs/modules/database" },
+  { title: "Deployment overview", href: "/docs/deployment" },
+]} />

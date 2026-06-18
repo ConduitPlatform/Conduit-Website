@@ -1,0 +1,53 @@
+---
+sidebar_label: 'Overview'
+sidebar_position: 1
+title: 'Forms'
+---
+
+The Forms module provides form submission and management capabilities.
+
+## Features
+
+- **Form Creation** - Define custom forms
+- **Submissions** - Collect and store form data
+- **Reply Retrieval** - Access submitted data
+- **Validation** - Input validation rules
+
+## Dependencies
+
+No module dependencies.
+
+## Minimum Configuration
+
+Configurable module. See [Configuration](./configuration).
+
+## Environment Variables
+
+| Name | Required | Description | Example |
+|:----:|:--------:|:-----------:|:-------:|
+| `CONDUIT_SERVER` | Yes | Conduit Core address | `0.0.0.0:55152` |
+| `SERVICE_URL` | No | Service address | `0.0.0.0:56154` |
+| `GRPC_PORT` | No | gRPC server port | `56154` |
+| `GRPC_KEY` | No | gRPC signed request protection | `someSecret` |
+
+## Quick Start
+
+1. Create a form in Admin Panel
+2. Define form fields
+3. Submit data via API
+
+```bash
+curl -X POST 'http://localhost:3000/forms/submit/{formId}' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "name": "John",
+    "email": "john@example.com",
+    "message": "Hello!"
+  }'
+```
+
+## Next Steps
+
+- [Configuration](./configuration) - Set up forms
+- [API Reference](./api-reference) - Available endpoints
+

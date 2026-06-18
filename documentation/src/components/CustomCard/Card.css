@@ -1,8 +1,70 @@
 .root-card {
-    height: 100%;
-    text-decoration:none !important;
+  height: 100%;
+  text-decoration: none !important;
+  border-radius: 8px;
+  border: 1px solid var(--ifm-toc-border-color);
+  transition: all 0.2s ease;
+  display: block;
 }
 
-.p-color {
-    color:var(--ifm-font-color-base);
+.root-card:hover {
+  border-color: var(--ifm-color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-decoration: none !important;
+}
+
+html[data-theme='dark'] .root-card:hover {
+  box-shadow: 0 4px 12px rgba(7, 217, 196, 0.15);
+}
+
+.card__body {
+  padding: 1.25rem;
+}
+
+.card__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ifm-color-content);
+}
+
+.card__icon {
+  font-size: 1.25rem;
+}
+
+.card__description {
+  margin: 0;
+  color: var(--ifm-color-content-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Highlighted variant */
+.card--highlighted {
+  border-color: var(--ifm-color-primary);
+  background: rgba(7, 217, 196, 0.05);
+}
+
+.card--highlighted:hover {
+  background: rgba(7, 217, 196, 0.1);
+}
+
+/* Minimal variant */
+.card--minimal {
+  border: none;
+  background: transparent;
+}
+
+.card--minimal:hover {
+  background: var(--ifm-background-surface-color);
+  box-shadow: none;
+  transform: none;
+}
+
+.card--minimal .card__title {
+  color: var(--ifm-color-primary);
 }

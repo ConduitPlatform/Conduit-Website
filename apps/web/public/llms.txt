@@ -1,0 +1,68 @@
+# Conduit Platform
+> Self-hosted modular Backend-as-a-Service — documentation for v0.17
+
+Application runtime code uses the **Client API** (default port 3000) with user bearer tokens.
+Provisioning uses the **Admin API** or **MCP** at `/mcp` — never from app code.
+
+## Getting Started
+
+- [Introduction](https://getconduit.dev/docs/intro): What Conduit is and how the modular BaaS architecture works.
+- [Overview](https://getconduit.dev/docs/getting-started): Install Conduit, connect MCP, and build your first app.
+- [Install Conduit](https://getconduit.dev/docs/getting-started/install): Install via CLI, Docker Compose microservices, or standalone image.
+- [MCP Setup](https://getconduit.dev/docs/getting-started/mcp-setup): Configure the Conduit Admin MCP server for development-time provisioning.
+- [Your First App](https://getconduit.dev/docs/getting-started/first-app): Register a user and query the Client API with curl.
+- [Start with AI](https://getconduit.dev/docs/getting-started/with-llms): Give your LLM a copy-paste prompt to build on Conduit v0.17.
+
+## Learn
+
+- [Architecture](https://getconduit.dev/docs/learn/architecture): Core, router, modules, Redis, and gRPC service discovery.
+- [Client vs Admin API](https://getconduit.dev/docs/learn/client-vs-admin-api): Which API to use in apps, MCP, and server-side code — and what never to mix.
+- [Configuration](https://getconduit.dev/docs/learn/configuration): Module config via Admin API, config bus, and environment variables.
+
+## Deployment
+
+- [Deployment Overview](https://getconduit.dev/docs/deployment): Choose how to run Conduit — local dev, Docker Compose, Kubernetes, or from source.
+- [Docker Compose](https://getconduit.dev/docs/deployment/docker-compose): Run Conduit microservices or standalone with Docker Compose.
+- [Kubernetes and Helm](https://getconduit.dev/docs/deployment/kubernetes-helm): Deploy Conduit with the official Helm chart.
+- [Local from Source](https://getconduit.dev/docs/deployment/local-source): Develop Conduit core and modules with pnpm and Turbo.
+- [Container Images](https://getconduit.dev/docs/deployment/container-images): How Conduit publishes multi-arch images to GHCR and Docker Hub.
+
+## Modules
+
+- [Overview](https://getconduit.dev/docs/modules): Conduit Platform modules overview.
+- [Authentication](https://getconduit.dev/docs/modules/authentication): Users, local/OAuth login, tokens, teams, and 2FA.
+- [Authorization](https://getconduit.dev/docs/modules/authorization): ReBAC resources, relations, permissions, and scope.
+- [Database](https://getconduit.dev/docs/modules/database): Schemas, CRUD, custom endpoints, indexes, and query trees.
+- [Storage](https://getconduit.dev/docs/modules/storage): File uploads, storageFileId linking, and preview proxy pattern.
+- [Communications](https://getconduit.dev/docs/modules/communications): Unified email, SMS, and push notifications (replaces legacy modules).
+- [Chat](https://getconduit.dev/docs/modules/chat): Realtime rooms and messages over REST and Socket.io.
+- [Router](https://getconduit.dev/docs/modules/router): Client API gateway — REST, GraphQL, and WebSockets.
+- [Functions](https://getconduit.dev/docs/modules/functions): Admin-defined server-side JavaScript with grpcSdk access.
+
+## Guides
+
+- [Next.js Integration](https://getconduit.dev/docs/guides/first-app-nextjs): Auth vault, conduitRequest, API routes, and Client API patterns.
+- [ReBAC Team Scoping](https://getconduit.dev/docs/guides/rebac-team-scoping): Enable authorization, define resources, and scope all creates.
+- [GitOps State Export](https://getconduit.dev/docs/guides/gitops-state-export): Export and import Conduit configs and module resources for config-as-code workflows.
+
+## Reference
+
+- [CLI Reference](https://getconduit.dev/docs/reference/cli): Conduit CLI install and deploy commands.
+- [Client API](https://getconduit.dev/docs/reference/client-api): REST and GraphQL surface on the router — user-scoped application runtime.
+- [Admin API](https://getconduit.dev/docs/reference/admin-api): REST, GraphQL, and WebSocket admin surface on core — auth, scope, and MCP relationship.
+- [Environment Variables](https://getconduit.dev/docs/reference/env-vars): Core and module environment variable reference.
+- [MCP Tools](https://getconduit.dev/docs/reference/mcp-tools): How Admin API routes map to MCP tool names.
+
+## Resources
+
+- [Migration v0.16 → v0.17](https://getconduit.dev/docs/resources/migration-v0.16-to-v0.17): What changed and how to upgrade your deployment and docs.
+- [Legacy Documentation](https://getconduit.dev/docs/resources/legacy-docs): Archived Docusaurus docs for Conduit v0.14, v0.15, and v0.16.
+- [Changelog](https://getconduit.dev/docs/resources/changelog): Release notes for Conduit Platform — v0.17 alpha and recent patches.
+- [FAQ](https://getconduit.dev/docs/resources/faq): Frequently asked questions about Conduit Platform.
+- [Glossary](https://getconduit.dev/docs/resources/glossary): Conduit Platform terminology.
+- [Contributing](https://getconduit.dev/docs/resources/contributing): How to contribute to Conduit Platform.
+
+## Optional
+
+- [llms-full.txt](https://getconduit.dev/llms-full.txt): Expanded index with agent summaries
+- [Conduit Cursor plugin](https://github.com/Quintessential-SFT/conduit-cursor-plugin): Agent skills and MCP workflows

@@ -1,15 +1,17 @@
 {
-  "name": "root",
+  "name": "conduit-website",
   "private": true,
   "workspaces": [
-    "www",
+    "apps/web",
     "documentation"
   ],
-  "devDependencies": {
-    "husky": "^7.0.0",
-    "lerna": "^4.0.0"
-  },
   "scripts": {
+    "dev": "npm run dev --workspace=web",
+    "build": "npm run build --workspace=web",
     "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^9.0.0",
+    "lerna": "^9.0.0"
   }
 }

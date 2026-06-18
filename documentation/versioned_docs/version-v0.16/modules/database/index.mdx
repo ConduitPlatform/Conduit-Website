@@ -1,0 +1,69 @@
+---
+sidebar_label: 'Overview'
+sidebar_position: 1
+title: 'Database'
+---
+
+![Database Overview](/v0.16/modules/database/admin/overview.png)
+
+The Database module provides data persistence with CMS capabilities.
+
+## Features
+
+- **Multi-Database Support** - MongoDB and PostgreSQL
+- **Consistent Query Language** - MongoDB-style queries for all databases
+- **Schema Management** - Create custom content types
+- **Auto-generated CRUD** - Automatic REST/GraphQL endpoints
+- **Custom Endpoints** - Build complex queries without code
+- **Introspection** - Import existing database schemas
+
+## Supported Databases
+
+| Database | Status |
+|----------|--------|
+| MongoDB | Fully Supported (Recommended) |
+| PostgreSQL | Fully Supported |
+
+## Minimum Configuration
+
+No configuration required. Provide database connection via environment variables.
+
+## Environment Variables
+
+| Name | Required | Description | Example |
+|:----:|:--------:|:-----------:|:-------:|
+| `CONDUIT_SERVER` | Yes | Conduit Core address | `0.0.0.0:55152` |
+| `DB_TYPE` | No | Database engine | `mongodb` |
+| `DB_CONN_URI` | No | Connection string | `mongodb://localhost/conduit` |
+| `SERVICE_URL` | No | Service address | `0.0.0.0:56154` |
+| `GRPC_PORT` | No | gRPC server port | `56154` |
+| `GRPC_KEY` | No | gRPC signed request protection | `someSecret` |
+
+## Quick Start
+
+Create a schema via Admin Panel:
+1. Navigate to **Database** > **Schemas**
+2. Click **Create New**
+3. Add fields and configure CRUD options
+4. Save - endpoints are auto-generated
+
+## API Access
+
+```bash
+# Get all documents
+curl 'http://localhost:3000/database/YourSchema'
+
+# Create document
+curl -X POST 'http://localhost:3000/database/YourSchema' \
+  -H 'Authorization: Bearer TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{"field": "value"}'
+```
+
+## Next Steps
+
+- [Configuration](./configuration) - Database settings
+- [Query Language](./query-language) - Learn the query syntax
+- [Custom Endpoints](./custom-endpoints) - Build advanced queries
+- [Introspection](./introspection) - Import existing databases
+

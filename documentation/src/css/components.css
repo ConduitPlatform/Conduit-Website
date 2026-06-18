@@ -1,0 +1,503 @@
+/**
+ * Conduit Documentation - Component Styles
+ * Styles for custom React components used in documentation
+ */
+
+/* ========================================
+   STEP INDICATOR COMPONENT
+   ======================================== */
+
+.step-indicator {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  background: var(--ifm-background-surface-color);
+  border-radius: 8px;
+  border-left: 4px solid var(--ifm-color-primary);
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: var(--ifm-color-primary);
+  color: white;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-content h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.step-content p {
+  margin: 0;
+  color: var(--ifm-color-content-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Steps container for numbered list */
+.steps-container {
+  counter-reset: step-counter;
+  margin: 2rem 0;
+}
+
+.steps-container .step-indicator {
+  counter-increment: step-counter;
+}
+
+.steps-container .step-indicator .step-number::before {
+  content: counter(step-counter);
+}
+
+/* ========================================
+   API EXAMPLE COMPONENT
+   ======================================== */
+
+.api-example {
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--ifm-toc-border-color);
+}
+
+.api-example-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--ifm-background-surface-color);
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+.api-example-method {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.api-example-url {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.875rem;
+  color: var(--ifm-color-content);
+}
+
+.api-example-copy {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  background: transparent;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--ifm-color-content-secondary);
+}
+
+.api-example-copy:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.api-example-copy--copied {
+  border-color: #49cc90;
+  color: #49cc90;
+}
+
+.api-example-body {
+  padding: 0;
+}
+
+.api-example-body pre {
+  margin: 0;
+  border-radius: 0;
+  border: none;
+}
+
+/* Request/Response tabs */
+.api-example-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+.api-example-tab {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--ifm-color-content-secondary);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.2s ease;
+}
+
+.api-example-tab:hover {
+  color: var(--ifm-color-content);
+}
+
+.api-example-tab--active {
+  color: var(--ifm-color-primary);
+  border-bottom-color: var(--ifm-color-primary);
+}
+
+/* ========================================
+   PROVIDER GRID COMPONENT
+   ======================================== */
+
+.provider-grid-container {
+  margin: 2rem 0;
+}
+
+.provider-grid-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--ifm-color-content-secondary);
+}
+
+.provider-grid-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--ifm-toc-border-color);
+  background: var(--ifm-background-surface-color);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+
+.provider-grid-item:hover {
+  border-color: var(--ifm-color-primary);
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: inherit;
+}
+
+.provider-grid-item--current {
+  border-color: var(--ifm-color-primary);
+  background: rgba(7, 217, 196, 0.1);
+}
+
+.provider-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.provider-name {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* ========================================
+   NEXT STEPS COMPONENT
+   ======================================== */
+
+.next-steps-container {
+  margin: 3rem 0 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--ifm-toc-border-color);
+}
+
+.next-steps-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.next-steps-title::before {
+  content: '→';
+  color: var(--ifm-color-primary);
+}
+
+.next-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.next-step-item {
+  display: block;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  border: 1px solid var(--ifm-toc-border-color);
+  background: var(--ifm-background-surface-color);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+
+.next-step-item:hover {
+  border-color: var(--ifm-color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: inherit;
+}
+
+html[data-theme='dark'] .next-step-item:hover {
+  box-shadow: 0 4px 8px rgba(7, 217, 196, 0.1);
+}
+
+.next-step-item-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ifm-color-primary);
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.next-step-item-description {
+  font-size: 0.85rem;
+  color: var(--ifm-color-content-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ========================================
+   VERSION BADGE COMPONENT
+   ======================================== */
+
+.version-badge-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.version-badge-label {
+  font-size: 0.75rem;
+  color: var(--ifm-color-content-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.version-badge-value {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: var(--ifm-font-family-monospace);
+}
+
+.version-badge-value--stable {
+  background: rgba(73, 204, 144, 0.15);
+  color: #49cc90;
+  border: 1px solid rgba(73, 204, 144, 0.3);
+}
+
+.version-badge-value--beta {
+  background: rgba(252, 161, 48, 0.15);
+  color: #fca130;
+  border: 1px solid rgba(252, 161, 48, 0.3);
+}
+
+.version-badge-value--deprecated {
+  background: rgba(249, 62, 62, 0.15);
+  color: #f93e3e;
+  border: 1px solid rgba(249, 62, 62, 0.3);
+}
+
+/* ========================================
+   MIGRATION NOTICE COMPONENT
+   ======================================== */
+
+.migration-notice {
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  border-radius: 8px;
+  border: 1px solid #fca130;
+  background: rgba(252, 161, 48, 0.1);
+}
+
+html[data-theme='dark'] .migration-notice {
+  background: rgba(252, 161, 48, 0.15);
+}
+
+.migration-notice-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.migration-notice-icon {
+  font-size: 1.25rem;
+}
+
+.migration-notice-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0;
+  color: #d98e00;
+}
+
+html[data-theme='dark'] .migration-notice-title {
+  color: #fca130;
+}
+
+.migration-notice-content {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ifm-color-content);
+}
+
+.migration-notice-content p {
+  margin: 0 0 0.5rem 0;
+}
+
+.migration-notice-content p:last-child {
+  margin-bottom: 0;
+}
+
+.migration-notice-link {
+  font-weight: 500;
+  color: var(--ifm-color-primary);
+}
+
+/* ========================================
+   FEATURE COMPARISON COMPONENT
+   ======================================== */
+
+.feature-comparison {
+  margin: 2rem 0;
+  overflow-x: auto;
+}
+
+.feature-comparison table {
+  min-width: 600px;
+}
+
+.feature-comparison th {
+  text-align: center;
+}
+
+.feature-comparison th:first-child {
+  text-align: left;
+}
+
+.feature-comparison td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.feature-comparison td:first-child {
+  text-align: left;
+  font-weight: 500;
+}
+
+.feature-icon {
+  font-size: 1.25rem;
+}
+
+.feature-icon--yes {
+  color: #49cc90;
+}
+
+.feature-icon--no {
+  color: #f93e3e;
+}
+
+.feature-icon--partial {
+  color: #fca130;
+}
+
+/* ========================================
+   GLOSSARY COMPONENT
+   ======================================== */
+
+.glossary-list {
+  margin: 2rem 0;
+}
+
+.glossary-item {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+.glossary-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.glossary-term {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--ifm-color-primary);
+}
+
+.glossary-definition {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ifm-color-content);
+  margin: 0;
+}
+
+.glossary-related {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--ifm-color-content-secondary);
+}
+
+.glossary-related a {
+  margin-left: 0.25rem;
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media (max-width: 768px) {
+  .next-steps-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .api-example-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .api-example-method {
+    flex-wrap: wrap;
+  }
+  
+  .step-indicator {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .step-number {
+    margin-bottom: 0.5rem;
+  }
+}
+

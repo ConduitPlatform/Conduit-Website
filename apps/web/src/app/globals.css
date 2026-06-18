@@ -1,0 +1,115 @@
+@import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+:root {
+  --background: #fafafc;
+  --foreground: #12121a;
+  --card: #ffffff;
+  --card-foreground: #12121a;
+  --muted: #f1f3f9;
+  --muted-foreground: #64748b;
+  --border: rgba(17, 24, 39, 0.08);
+  --primary: #5b44f2;
+  --primary-foreground: #ffffff;
+  --accent: #07d9c4;
+  --accent-foreground: #0b1f1c;
+  --radius: 0.5rem;
+  --surface-1: #ffffff;
+  --surface-2: #f4f5fb;
+  --shadow-1: 0 1px 2px rgba(17, 24, 39, 0.04), 0 1px 3px rgba(17, 24, 39, 0.06);
+  --shadow-2: 0 2px 4px rgba(17, 24, 39, 0.04), 0 4px 12px rgba(17, 24, 39, 0.08);
+  --shadow-3: 0 4px 8px rgba(17, 24, 39, 0.06), 0 12px 24px rgba(17, 24, 39, 0.1);
+  --shadow-4: 0 8px 16px rgba(17, 24, 39, 0.08), 0 24px 48px rgba(17, 24, 39, 0.12);
+  --ease-productive: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark {
+  --background: #12121a;
+  --foreground: #f4f4f8;
+  --card: #1a1a28;
+  --card-foreground: #f4f4f8;
+  --muted: #222233;
+  --muted-foreground: #94a3b8;
+  --border: rgba(255, 255, 255, 0.08);
+  --primary: #7b6af4;
+  --primary-foreground: #ffffff;
+  --accent: #07d9c4;
+  --accent-foreground: #0b1f1c;
+  --surface-1: #1a1a28;
+  --surface-2: #222233;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-3: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-4: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-outfit);
+  --font-mono: var(--font-jetbrains);
+  --radius-lg: var(--radius);
+  --ease-productive: var(--ease-productive);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  font-variant-numeric: tabular-nums;
+  text-wrap: pretty;
+  font-optical-sizing: auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading), var(--font-sans), system-ui, sans-serif;
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+}
+
+.tnum-code {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: slashed-zero;
+  font-feature-settings: "ss02" 1, "calt" 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .motion-safe-lift {
+    transition:
+      transform 200ms var(--ease-productive),
+      box-shadow 200ms var(--ease-productive),
+      border-color 200ms var(--ease-productive);
+  }
+  .motion-safe-lift:hover {
+    transform: translateY(-2px);
+  }
+}

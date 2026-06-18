@@ -1,0 +1,27 @@
+---
+title: Local from Source
+description: Develop Conduit core and modules with pnpm and Turbo.
+agent_summary: "Node 24+, pnpm install, turbo build, start core then modules with CONDUIT_SERVER set."
+---
+
+**Requirements:** Node.js **24+**, pnpm, `protoc`, Redis, MongoDB or PostgreSQL.
+
+```bash
+pnpm install --frozen-lockfile
+turbo run build
+
+# 1. Core first
+REDIS_HOST=localhost REDIS_PORT=6379 pnpm --filter @conduitplatform/core start
+
+# 2. Database module
+CONDUIT_SERVER=0.0.0.0:55152 SERVICE_URL=0.0.0.0:55160 \
+  DB_CONN_URI=mongodb://localhost:27017/conduit \
+  pnpm --filter @conduitplatform/database start
+
+# 3. Router and other modules — set CONDUIT_SERVER + SERVICE_URL per module
+pnpm --filter @conduitplatform/router start
+```
+
+Start **core** before any module. On v0.17, legacy separate `email`/`sms`/`push-notifications` modules are consolidated into **communications**.
+
+See [Contributing](https://github.com/ConduitPlatform/Conduit/blob/main/.github/CONTRIBUTING.md).

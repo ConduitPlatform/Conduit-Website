@@ -1,0 +1,43 @@
+---
+title: Migration v0.16 → v0.17
+description: What changed and how to upgrade your deployment and docs.
+agent_summary: "Communications replaces email/sms/push; Node 24 pnpm toolchain; MCP admin server; update MCP and module enable lists."
+---
+
+## Major changes
+
+### Communications module
+
+Separate **email**, **sms**, and **push-notifications** modules are **consolidated** into **communications**.
+
+- Update Helm/compose module lists
+- Update MCP URL: `?modules=communications` (aliases `email,push,sms` still work)
+- Update documentation links from `/docs/modules/email` etc. to `/docs/modules/communications`
+
+### Toolchain
+
+- **Node.js 24+** and **pnpm** + Turbo replace Yarn/Lerna for Conduit development
+- Application consumers unaffected — Docker images and Client API stable
+
+### Admin MCP server
+
+- Streamable HTTP MCP at `{ADMIN_BASE_URL}/mcp`
+- Protocol `2025-06-18`
+- Enable `transports.mcp: true` in admin config
+- Auth: admin JWT or `cdt_` API tokens
+
+### GitOps (preview)
+
+- Admin state export/import endpoints for config-as-code workflows — see [GitOps state export](/docs/guides/gitops-state-export)
+
+## Upgrade steps
+
+1. Pull v0.17 images or rebuild from `main`
+2. Replace legacy communication module containers with **communications**
+3. Update MCP client config with required `?modules=`
+4. Re-run integration tests against Client API
+5. Read [changelog](/docs/resources/changelog) for patch-level fixes
+
+## Breaking changes
+
+Review [GitHub release notes](https://github.com/ConduitPlatform/Conduit/releases) for alpha-specific fixes. v0.17 is currently **alpha** — pin versions in production until stable.

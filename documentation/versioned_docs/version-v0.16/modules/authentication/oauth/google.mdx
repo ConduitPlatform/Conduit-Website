@@ -1,0 +1,80 @@
+---
+sidebar_label: 'Google'
+sidebar_position: 1
+title: 'Google OAuth'
+---
+
+Set up Google authentication for your Conduit application.
+
+## Prerequisites
+
+- Google Cloud Console account
+- Conduit with Authentication module running
+
+## Step 1: Create Google Project
+
+1. Go to [Google Cloud Console](https://console.developers.google.com/)
+2. Create a new project or select existing
+3. Navigate to **APIs & Services** > **Credentials**
+
+## Step 2: Create OAuth Credentials
+
+1. Click **Create Credentials** > **OAuth Client ID**
+
+![Google Credentials](/v0.16/modules/authentication/tutorials/google_credentials.png)
+
+2. Select **Web application** as application type
+3. Add authorized redirect URI:
+   ```
+   http://localhost:3000/hook/authentication/google
+   ```
+
+![Google Redirect URI](/v0.16/modules/authentication/tutorials/google_redirect_uri.png)
+
+4. Save your **Client ID** and **Client Secret**
+
+![Google Secrets](/v0.16/modules/authentication/tutorials/google_secrets.png)
+
+## Step 3: Configure Conduit
+
+1. Open **Admin Panel** > **Authentication** > **Settings**
+2. Enable **Google** provider
+3. Enter your Client ID and Client Secret
+4. Save configuration
+
+## Step 4: Test Authentication
+
+### Get Auth URL
+
+```bash
+curl -X GET 'http://localhost:3000/authentication/init/google'
+```
+
+**Response:**
+```json
+{
+  "result": "https://accounts.google.com/o/oauth2/v2/auth?client_id=..."
+}
+```
+
+### Complete Flow
+
+1. Navigate to the returned URL in browser
+2. Sign in with Google account
+3. Authorize the application
+4. Conduit handles the callback and returns tokens
+
+## Production Configuration
+
+For production, update the redirect URI:
+```
+https://yourdomain.com/hook/authentication/google
+```
+
+## Scopes Requested
+
+- `email` - User's email address
+- `profile` - User's name and profile picture
+
+<OtherProviders currentProvider="google" />
+

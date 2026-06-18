@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" role="img" aria-label="Conduit">
+  <path d="M16 4L26 16H20L16 10L12 16H6L16 4Z" fill="#5B44F2"/>
+  <path d="M16 28L6 16H12L16 22L20 16H26L16 28Z" fill="#07D9C4"/>
+  <path d="M4 16L16 6V12L10 16L16 20V26L4 16Z" fill="#4B5CF7"/>
+  <path d="M28 16L16 26V20L22 16L16 12V6L28 16Z" fill="#1CAEB8"/>
+  <rect x="14" y="14" width="4" height="4" rx="0.5" transform="rotate(45 16 16)" fill="currentColor" opacity="0.15"/>
+</svg>

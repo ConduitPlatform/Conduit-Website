@@ -1,0 +1,123 @@
+---
+title: Communications
+description: Unified email, SMS, and push notifications (replaces legacy modules).
+agent_summary: "v0.17 unified communications; email/SMS/push via Admin API and grpcSdk; MCP ?modules=communications; Handlebars templates."
+---
+
+In **v0.17**, separate **email**, **sms**, and **push-notifications** modules are consolidated into **communications** — one module, one config namespace, three channels.
+
+## Use cases
+
+<ModuleUseCases
+  items={[
+    {
+      title: "Transactional email",
+      outcome: "Welcome emails, receipts, password resets via Handlebars templates",
+    },
+    {
+      title: "Push notifications",
+      outcome: "FCM device tokens registered from apps; send via Admin API or workers",
+    },
+    {
+      title: "SMS & 2FA",
+      outcome: "Twilio or AWS SNS for verification codes and alerts",
+    },
+    {
+      title: "Multi-channel orchestration",
+      outcome: "Fallback chains (email then push) configured admin-side",
+    },
+  ]}
+/>
+
+## Capabilities
+
+<ModuleCapabilities
+  items={[
+    "Email (SMTP, SendGrid, Mailgun, SES, …)",
+    "Push (FCM, OneSignal, SNS)",
+    "SMS (Twilio, AWS SNS, MessageBird)",
+    "Handlebars templates",
+    "Device token registration",
+    "Delivery history",
+    "Orchestration & fallback",
+  ]}
+/>
+
+## Example: Transactional email + push token
+
+<ModuleExample
+  steps={[
+    "Provision WelcomeEmail template via MCP post_email_templates (deploy time)",
+    "From a custom module or admin script, POST /email/send with templateName and variables",
+    "App registers FCM token via Client API push routes after user login",
+    "Send push via Admin API when triggering notifications from server-side code",
+  ]}
+>
+  <APIExample
+    title="Send email (Admin API — server-side only)"
+    curl={`curl -X POST http://localhost:3030/email/send \\
+  -H "Authorization: Bearer ADMIN_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{"email":"user@example.com","templateName":"WelcomeEmail","variables":{"name":"Alex"}}'`}
+  />
+</ModuleExample>
+
+## How it works
+
+<ModuleDeepDive>
+### API surfaces
+
+| Layer | Role |
+|-------|------|
+| **Client API** | Device token registration, in-app notification inbox |
+| **Admin API** | Send email/push/SMS, template CRUD, delivery history |
+| **gRPC / grpc-sdk** | Server-side sending from custom modules (`grpcSdk.email`, etc.) |
+
+Legacy grpc-sdk client names (`grpcSdk.email`, `grpcSdk.pushNotifications`, `grpcSdk.sms`) route to communications automatically.
+
+### Templates
+
+Email templates use Handlebars (`{{variableName}}`) in subject and body. Variables are extracted on create. Reference `templateName` when sending — provision templates at deploy time, not from app runtime.
+
+### Migration from v0.16
+
+Standalone email, sms, and push-notifications modules are replaced. MCP aliases `?modules=email,push,sms` still work. See [Migration guide](/docs/resources/migration-v0.16-to-v0.17).
+</ModuleDeepDive>
+
+## Configure
+
+MCP: `?modules=communications` (aliases: `email`, `push`, `sms`).
+
+| Tool | Purpose |
+|------|---------|
+| `get_config_communications` | Read email, push, SMS, orchestration |
+| `patch_config_communications` | Provider credentials and channel settings |
+| `post_email_templates` | Create Handlebars template |
+
+Config nests `email`, `pushNotifications`, `sms`, and `orchestration` under the communications key.
+
+## Client API
+
+Push and in-app notification routes (authenticated). v0.17 unified communications serves these at the router root (no module prefix):
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| POST | `/token` | Register FCM/device token `{ token, platform }` |
+| DELETE | `/token` | Clear tokens; optional `?platform=` |
+| GET | `/notifications` | In-app inbox (`read`, `skip`, `limit`, `platform`) |
+| PATCH | `/notifications` | Mark read `{ id }` or `{ before }` |
+
+**Sending** email/SMS/push is Admin API or grpc-sdk — not from browser-exposed app code with admin credentials.
+
+## MCP
+
+- `?modules=communications`
+- Aliases: `?modules=email,push,sms`
+- Note: `push-notifications` is not a valid MCP alias — use `push` or `communications`
+
+<NextSteps steps={[
+  { title: "Migration from v0.16", href: "/docs/resources/migration-v0.16-to-v0.17" },
+  { title: "Authentication (2FA, verify email)", href: "/docs/modules/authentication" },
+  { title: "Legacy docs (email module)", href: "/docs/resources/legacy-docs" },
+  { title: "Admin API reference", href: "/docs/reference/admin-api" },
+]} />

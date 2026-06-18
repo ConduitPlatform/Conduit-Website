@@ -1,0 +1,197 @@
+---
+sidebar_label: 'Real-Time Chat'
+sidebar_position: 4
+title: 'Real-Time Chat'
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+This guide walks you through implementing real-time chat functionality using Conduit's Chat module.
+
+## Prerequisites
+
+- Conduit [installed and running](../quickstart/installation)
+- Authentication module deployed
+- Chat module deployed
+- At least two registered users
+
+## Step 1: Create Users
+
+First, create users who will participate in the chat:
+
+```bash
+# Create User 1
+curl -X POST 'http://localhost:3000/authentication/local/new' \
+  -H 'Content-Type: application/json' \
+  -d '{"email": "alice@example.com", "password": "password123"}'
+
+# Create User 2
+curl -X POST 'http://localhost:3000/authentication/local/new' \
+  -H 'Content-Type: application/json' \
+  -d '{"email": "bob@example.com", "password": "password123"}'
+```
+
+## Step 2: Login Users
+
+Get access tokens for your users:
+
+```bash
+# Login Alice
+curl -X POST 'http://localhost:3000/authentication/local' \
+  -H 'Content-Type: application/json' \
+  -d '{"email": "alice@example.com", "password": "password123"}'
+```
+
+Save the `accessToken` from the response.
+
+## Step 3: Create a Chat Room
+
+Alice creates a room and invites Bob:
+
+```bash
+curl -X POST 'http://localhost:3000/chat/rooms' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer ALICE_TOKEN' \
+  -d '{
+    "roomName": "Project Discussion",
+    "users": ["BOB_USER_ID"]
+  }'
+```
+
+Response:
+```json
+{
+  "roomId": "ROOM_ID"
+}
+```
+
+## Step 4: Connect via WebSocket
+
+Chat uses WebSockets for real-time messaging. Connect using the following configuration:
+
+| Setting | Value |
+|---------|-------|
+| URL | `http://localhost:3001/chat/` |
+| Handshake Path | `/realtime` |
+| Authorization Header | `Bearer YOUR_TOKEN` |
+
+### Using Postman
+
+1. Create new **WebSocket Request**
+2. Select **Socket.IO**
+3. Enter URL: `http://localhost:3001/chat/`
+4. Add Header: `Authorization: Bearer YOUR_TOKEN`
+5. In Settings, set Handshake Path: `/realtime`
+6. Click **Connect**
+
+## Step 5: Send Messages
+
+Once connected, send a message:
+
+**Event:** `message`
+
+**Arguments:**
+- Arg 1: Room ID
+- Arg 2: Message text
+
+Example:
+```
+Event: message
+Arg 1: "ROOM_ID"
+Arg 2: "Hello, Bob!"
+```
+
+## Step 6: Receive Messages
+
+Listen for the `message` event to receive incoming messages:
+
+```javascript
+socket.on('message', (data) => {
+  console.log('New message:', data);
+});
+```
+
+## Room Management
+
+### Add Users to Room
+
+```bash
+curl -X PUT 'http://localhost:3000/chat/rooms/ROOM_ID/addUsers' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer YOUR_TOKEN' \
+  -d '{"users": ["NEW_USER_ID"]}'
+```
+
+### Leave Room
+
+```bash
+curl -X PUT 'http://localhost:3000/chat/leave/ROOM_ID' \
+  -H 'Authorization: Bearer YOUR_TOKEN'
+```
+
+### Get Room Messages
+
+```bash
+curl 'http://localhost:3000/chat/rooms/ROOM_ID/messages' \
+  -H 'Authorization: Bearer YOUR_TOKEN'
+```
+
+## Admin Panel Features
+
+Administrators can:
+
+1. **View all chat rooms** - See all rooms and participants
+2. **Read messages** - Monitor conversations
+3. **Manage rooms** - Create, edit, delete rooms
+4. **Block users** - Prevent users from chatting
+
+## Chat Configuration
+
+Configure chat settings in **Admin Panel** > **Chat** > **Settings**:
+
+- **Allow Message Edit**: Enable/disable message editing
+- **Allow Message Delete**: Enable/disable message deletion
+
+## Frontend Integration Example
+
+```javascript
+import { io } from 'socket.io-client';
+
+// Connect to chat
+const socket = io('http://localhost:3001/chat/', {
+  path: '/realtime',
+  auth: {
+    token: userAccessToken
+  }
+});
+
+// Join room
+socket.emit('join', roomId);
+
+// Send message
+function sendMessage(roomId, text) {
+  socket.emit('message', roomId, text);
+}
+
+// Receive messages
+socket.on('message', (message) => {
+  displayMessage(message);
+});
+
+// Handle connection
+socket.on('connect', () => {
+  console.log('Connected to chat');
+});
+
+socket.on('disconnect', () => {
+  console.log('Disconnected from chat');
+});
+```
+
+## Next Steps
+
+- Configure [Push Notifications](../modules/push-notifications/index) for offline messages
+- Set up [Email](../modules/email/index) for chat notifications
+- Explore [Chat API Reference](../modules/chat/api-reference)
+
