@@ -1,0 +1,142 @@
+---
+title: Authentication
+description: Users, local/OAuth login, tokens, teams, and 2FA.
+agent_summary: "Client API: /authentication/local/new, /authentication/local, renew, logout, teams; server-side token vault; MCP ?modules=authentication."
+---
+
+The **authentication** module handles user accounts, token issuance, OAuth providers, teams, magic links, and 2FA. Application runtime code uses the **Client API** with user bearer tokens; provisioning uses Admin API or MCP.
+
+## Use cases
+
+<ModuleUseCases
+  items={[
+    {
+      title: "User sign-up and login",
+      outcome: "Email/password or OAuth with JWT access and refresh tokens",
+    },
+    {
+      title: "Multi-tenant B2B",
+      outcome: "Teams with hierarchy, invites, and default team membership",
+    },
+    {
+      title: "Secure web apps",
+      outcome: "Server-side token vault — tokens never in browser storage",
+    },
+    {
+      title: "Back-office access",
+      outcome: "Admin-team role gates for operator-only Admin API routes",
+    },
+  ]}
+/>
+
+## Capabilities
+
+<ModuleCapabilities
+  items={[
+    "Local register/login",
+    "OAuth (Google, GitHub, Apple, …)",
+    "Access + refresh tokens",
+    "Magic link & 2FA",
+    "Teams & invites",
+    "Email verification",
+    "Password reset",
+    "User profile extension fields",
+  ]}
+/>
+
+## Example: Register, login, and invite a teammate
+
+<ModuleExample
+  steps={[
+    "Enable the authentication module and local strategy via MCP `patch_config_authentication`",
+    "Register a user with POST /authentication/local/new",
+    "Log in with POST /authentication/local and save accessToken server-side",
+    "Create a team via MCP post_authentication_teams (admin) or Client API team routes",
+    "Invite a teammate with an invitation token on register",
+  ]}
+>
+  <APIExample
+    title="Register"
+    curl={`curl -X POST http://localhost:3000/authentication/local/new \\
+  -H "Content-Type: application/json" \\
+  -d '{"email":"dev@example.com","password":"SecurePass123!"}'`}
+  />
+  <APIExample
+    title="Login"
+    curl={`curl -X POST http://localhost:3000/authentication/local \\
+  -H "Content-Type: application/json" \\
+  -d '{"email":"dev@example.com","password":"SecurePass123!"}'`}
+  />
+</ModuleExample>
+
+## How it works
+
+<ModuleDeepDive>
+### Token lifecycle
+
+Access tokens (default 1h) authenticate Client API requests. When `refreshTokens.enabled` is true, `POST /authentication/renew` rotates the refresh token and issues a new pair. Blocked users (`active: false`) cannot renew or log in.
+
+### Application token storage
+
+**Web / Next.js:** Store `{ accessToken, refreshToken }` in a server-side vault (Redis). The browser holds only an opaque session cookie. On 401, renew once and retry. See the [Next.js guide](/docs/guides/first-app-nextjs).
+
+**Mobile:** Platform secure storage (Keychain, SecureStore) when no server vault exists.
+
+Never persist tokens in `localStorage` or `sessionStorage`.
+
+### Teams
+
+Teams register as a built-in ReBAC resource (`Team`) with relations `member`, `owner`, and team-scoped permissions. Team routes on the Client API require authentication; admin CRUD uses MCP tools like `get_authentication_teams` and `post_authentication_teams`.
+
+### OAuth
+
+When a provider is enabled in config, `GET /authentication/init/{provider}` redirects to the IdP. Callback hits `/authentication/hook/{provider}`; tokens return in JSON or httpOnly cookies depending on `accessTokens.setCookie` / `refreshTokens.setCookie`.
+</ModuleDeepDive>
+
+## Configure
+
+Patch module config via MCP `patch_config_authentication`:
+
+| Key | Default | Meaning |
+|-----|---------|---------|
+| `accessTokens.expiryPeriod` | 3600000 (1h) | Access JWT lifetime (ms) |
+| `refreshTokens.enabled` | true | Enable `/authentication/renew` |
+| `refreshTokens.expiryPeriod` | 604800000 (7d) | Refresh token lifetime |
+| `local.verification.required` | false | Require email verification before login |
+| `teams.enabled` | false | Enable team routes and team-scoped ReBAC |
+
+OAuth providers need `clientId` + `clientSecret` per provider under `config.{provider}`.
+
+Local and OAuth routes require **router client id/secret** in request context (Conduit router client credentials).
+
+## Client API
+
+| Operation | Path |
+|-----------|------|
+| Register | `POST /authentication/local/new` |
+| Login | `POST /authentication/local` |
+| Renew | `POST /authentication/renew` |
+| Logout | `POST /authentication/logout` |
+| Current user | `GET /authentication/user` |
+| Teams | `GET /authentication/teams`, `POST /authentication/teams`, … |
+
+Register returns `{ user }` only — the user must log in separately for tokens.
+
+## MCP
+
+Enable with `?modules=authentication` in your MCP server URL.
+
+| Tool | Purpose |
+|------|---------|
+| `get_authentication_users` | List users |
+| `post_authentication_users` | Create user (admin) |
+| `get_authentication_teams` | List teams |
+| `post_authentication_teams` | Create team |
+| `patch_config_authentication` | Token, OAuth, team settings |
+
+<NextSteps steps={[
+  { title: "Your first app", href: "/docs/getting-started/first-app" },
+  { title: "Next.js integration", href: "/docs/guides/first-app-nextjs" },
+  { title: "Authorization (ReBAC)", href: "/docs/modules/authorization" },
+  { title: "ReBAC team scoping", href: "/docs/guides/rebac-team-scoping" },
+]} />

@@ -1,0 +1,38 @@
+---
+title: Client vs Admin API
+description: Which API to use in apps, MCP, and server-side code — and what never to mix.
+agent_summary: "Apps use Client API :3000 with user tokens; Admin :3030 for MCP/operators; gRPC server-only with scope."
+---
+
+Conduit has **three API surfaces**. Mixing them causes security incidents and broken integrations.
+
+## Comparison
+
+| | **Client API** | **Admin API** | **gRPC service API** |
+|--|----------------|---------------|----------------------|
+| **Address** | `CLIENT_BASE_URL` (router, default `:3000`) | `ADMIN_BASE_URL` (core, default `:3030`) | `CONDUIT_SERVER` |
+| **Consumers** | Web/mobile apps, Next.js routes acting for users | Admin panel, MCP, CI scripts | Custom modules, trusted server code |
+| **Auth** | User bearer tokens | `masterkey`, admin JWT, `cdt_` tokens | Service identity; DB calls need `scope`/`userId` |
+| **Database** | `/database/{Schema}`, `/database/function/{name}` | Schema/endpoint admin, indexes | `grpcSdk.database` |
+| **MCP** | Not exposed | Wrapped as MCP tools | Not exposed |
+
+## Rules (non-negotiable)
+
+1. **Never** embed `masterkey`, admin JWTs, or `cdt_` tokens in app code or browser config.
+2. **Never** call Admin API from user-facing request paths.
+3. **Provisioning** (schemas, endpoints, config) happens at **dev/deploy time** via MCP or admin scripts — not runtime app code.
+4. **Never** fetch whole collections and filter client-side — use [custom endpoints](/docs/modules/database).
+5. **Never** expose presigned storage URLs to browsers — [preview proxy](/docs/modules/storage) with `storageFileId`.
+
+## MCP vs Client API
+
+| Use MCP when | Use Client API when |
+|--------------|---------------------|
+| Creating schemas at dev time | User CRUD at runtime |
+| Patching module config | Login, register, renew |
+| Admin user/team management | Permission checks with user token |
+| Index creation | Calling custom endpoints |
+
+<AgentHint>
+  This page is the canonical guardrail reference. Plugin rules link here instead of duplicating content.
+</AgentHint>

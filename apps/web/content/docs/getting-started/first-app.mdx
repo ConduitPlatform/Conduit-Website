@@ -1,0 +1,63 @@
+---
+title: Your First App
+description: Register a user and query the Client API with curl.
+agent_summary: "REST tutorial — POST /authentication/local/new, then POST /authentication/local for tokens, then CRUD /database/Post."
+---
+
+This tutorial uses the **Client API** only (default `http://localhost:3000`).
+
+## 1. Create a schema (Admin or MCP)
+
+Use the admin panel or MCP `post_database_schemas` to create a `Post` schema with fields `title` (String) and `body` (String). Enable authentication on the schema if you want owner-scoped documents.
+
+## 2. Register a user
+
+<APIExample
+  title="Register"
+  curl={`curl -X POST http://localhost:3000/authentication/local/new \\
+  -H "Content-Type: application/json" \\
+  -d '{"email":"dev@example.com","password":"SecurePass123!"}'`}
+/>
+
+Register returns `{ user }` only — no tokens yet.
+
+## 3. Log in
+
+<APIExample
+  title="Login"
+  curl={`curl -X POST http://localhost:3000/authentication/local \\
+  -H "Content-Type: application/json" \\
+  -d '{"email":"dev@example.com","password":"SecurePass123!"}'`}
+/>
+
+Save the `accessToken` from the login response.
+
+## 4. Create a document
+
+<APIExample
+  title="Create Post"
+  curl={`curl -X POST http://localhost:3000/database/Post \\
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{"title":"Hello Conduit","body":"My first document"}'`}
+/>
+
+## 5. List documents
+
+<APIExample
+  title="List Posts"
+  curl={`curl http://localhost:3000/database/Post \\
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"`}
+/>
+
+## Rules
+
+- Never use the Admin API (`:3030`) from this flow — that is for operators and MCP
+- For filtered queries, provision a [custom endpoint](/docs/modules/database) and call `/database/function/{name}`
+
+<NextSteps steps={[
+  { title: "Next.js integration", href: "/docs/guides/first-app-nextjs" },
+  { title: "Deployment overview", href: "/docs/deployment" },
+  { title: "Database module", href: "/docs/modules/database" },
+  { title: "Client vs Admin API", href: "/docs/learn/client-vs-admin-api" },
+]} />

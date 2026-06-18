@@ -1,0 +1,68 @@
+---
+title: MCP Setup
+description: Configure the Conduit Admin MCP server for development-time provisioning.
+agent_summary: "Add ADMIN_URL/mcp?modules=... to .cursor/mcp.json with Bearer admin JWT or cdt_ token."
+---
+
+The Conduit **MCP server** exposes Admin API operations as tools so AI agents can provision schemas, users, and config during development. **Never call MCP from application runtime code.**
+
+<AgentHint>
+  MCP is dev/deploy only. Apps use the Client API at port 3000 with user tokens. See [Client vs Admin API](/docs/learn/client-vs-admin-api).
+</AgentHint>
+
+## Prerequisites
+
+1. Running Conduit instance with Admin API reachable (default port **3030**)
+2. MCP transport enabled: `transports.mcp: true` in admin config
+3. Admin JWT or `cdt_` API token
+
+## Cursor configuration
+
+Add to `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "conduit": {
+      "url": "http://localhost:3030/mcp?modules=authentication,database,storage,authorization",
+      "headers": {
+        "Authorization": "Bearer YOUR_ADMIN_JWT_OR_cdt_TOKEN"
+      }
+    }
+  }
+}
+```
+
+**Protocol:** Streamable HTTP (`2025-06-18`). Path is fixed at `/mcp`.
+
+## Module loading
+
+On connect, only `core` and `__meta__` load by default. Enable modules via the URL query:
+
+| Need | Add to URL |
+|------|------------|
+| Schemas, custom endpoints | `database` |
+| Users, teams | `authentication` |
+| Files | `storage` |
+| ReBAC | `authorization` |
+| Chat | `chat` |
+| Email/SMS/push | `communications` (or `email,push,sms`) |
+
+After changing the URL, **reconnect MCP** and call `list_modules` to verify `loaded: true`.
+
+## Authentication
+
+- **Admin JWT** — from admin login flow
+- **API token** — create via Admin API (`cdt_` prefix, shown once)
+
+Every request: `Authorization: Bearer <token>`.
+
+## Tool naming
+
+Admin routes map to tools: `GET /database/schemas` → `get_database_schemas`.
+
+<NextSteps steps={[
+  { title: "MCP tools reference", href: "/docs/reference/mcp-tools" },
+  { title: "Start with AI", href: "/docs/getting-started/with-llms" },
+  { title: "Database module", href: "/docs/modules/database" },
+]} />

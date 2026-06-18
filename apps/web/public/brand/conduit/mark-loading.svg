@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" role="img" aria-label="Conduit loading">
+  <g>
+    <path d="M16 4L26 16H20L16 10L12 16H6L16 4Z" fill="#5B44F2">
+      <animate attributeName="opacity" values="1;0.45;1" dur="1.4s" repeatCount="indefinite" begin="0s"/>
+      <animateTransform attributeName="transform" type="translate" values="0 0;1 -1;0 0" dur="1.4s" repeatCount="indefinite" begin="0s"/>
+    </path>
+    <path d="M16 28L6 16H12L16 22L20 16H26L16 28Z" fill="#07D9C4">
+      <animate attributeName="opacity" values="1;0.45;1" dur="1.4s" repeatCount="indefinite" begin="0.35s"/>
+      <animateTransform attributeName="transform" type="translate" values="0 0;-1 1;0 0" dur="1.4s" repeatCount="indefinite" begin="0.35s"/>
+    </path>
+    <path d="M4 16L16 6V12L10 16L16 20V26L4 16Z" fill="#4B5CF7">
+      <animate attributeName="opacity" values="1;0.45;1" dur="1.4s" repeatCount="indefinite" begin="0.7s"/>
+      <animateTransform attributeName="transform" type="translate" values="0 0;1 0;0 0" dur="1.4s" repeatCount="indefinite" begin="0.7s"/>
+    </path>
+    <path d="M28 16L16 26V20L22 16L16 12V6L28 16Z" fill="#1CAEB8">
+      <animate attributeName="opacity" values="1;0.45;1" dur="1.4s" repeatCount="indefinite" begin="1.05s"/>
+      <animateTransform attributeName="transform" type="translate" values="0 0;-1 0;0 0" dur="1.4s" repeatCount="indefinite" begin="1.05s"/>
+    </path>
+    <rect x="14" y="14" width="4" height="4" rx="0.5" transform="rotate(45 16 16)" fill="#5B44F2">
+      <animate attributeName="opacity" values="0.2;1;0.2" dur="1.4s" repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" type="rotate" values="45 16 16;405 16 16" dur="2.8s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+</svg>

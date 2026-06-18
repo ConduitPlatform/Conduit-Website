@@ -1,0 +1,31 @@
+---
+title: Architecture
+description: Core, router, modules, Redis, and gRPC service discovery.
+agent_summary: "Core registers modules over gRPC; router exposes Client API; Redis config bus; database module owns DB engine."
+---
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  Core (packages/core)                                           │
+│  • ConfigManager + Redis config/event bus                       │
+│  • Service discovery (module registry, health, recovery)        │
+│  • Admin API (REST / GraphQL / WebSockets)  :3030               │
+│  • MCP server at /mcp                                           │
+└───────────────┬─────────────────────────────────────────────────┘
+                │ gRPC (@conduitplatform/grpc-sdk)
+    ┌───────────┼───────────┬──────────────┬──────────────┐
+    ▼           ▼           ▼              ▼              ▼
+ database    router    authentication  storage    …modules
+```
+
+| Layer | Role |
+|-------|------|
+| **Core** | Module registration, config, Admin API, MCP |
+| **Router** | Client API gateway (REST, GraphQL, Socket.io) on `:3000` |
+| **Feature modules** | Domain logic; register routes via `RoutingManager` |
+| **Redis** | Config bus, pub/sub, shared state |
+| **Database module** | MongoDB or PostgreSQL — apps never connect directly |
+
+Each module connects to core via `CONDUIT_SERVER` and registers on startup. Custom modules extend `ManagedModule` from `@conduitplatform/module-tools`.
+
+See [Deployment modes](/docs/deployment/docker-compose) and [Client vs Admin API](/docs/learn/client-vs-admin-api).

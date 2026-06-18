@@ -1,0 +1,42 @@
+---
+title: Start with AI
+description: Give your LLM a copy-paste prompt to build on Conduit v0.17.
+agent_summary: "Copy onboarding prompt referencing llms.txt, MCP URL, Client API-only runtime rule."
+---
+
+Use this page when you want an AI assistant (Cursor, Claude, ChatGPT, etc.) to build on Conduit without pasting docs manually.
+
+## Copy the prompt
+
+<CopyPromptButton prompt={`You are building on Conduit Platform v0.17.
+
+1. Read https://getconduit.dev/llms.txt for the documentation index.
+2. Install locally: npx @conduitplatform/cli deploy setup
+3. Configure the Conduit MCP at {ADMIN_BASE_URL}/mcp?modules=authentication,database,storage,authorization
+   Use a Bearer admin JWT or cdt_ API token — never expose these in app code.
+4. Application runtime code uses the Client API only (default port 3000) with user bearer tokens.
+5. Never call the Admin API or MCP from user-facing application code.
+6. Never fetch whole collections and filter client-side — use custom endpoints at /database/function/{name}.
+7. Never expose presigned storage URLs to browsers — use a server-side preview proxy with storageFileId.`} label="Copy LLM onboarding prompt" />
+
+## Cursor users
+
+Install the [Conduit Cursor plugin](https://github.com/Quintessential-SFT/conduit-cursor-plugin) for skills, rules, and subagents that enforce Client vs Admin API boundaries.
+
+## What the prompt enforces
+
+1. **llms.txt** — machine-readable doc index
+2. **MCP for provisioning** — schemas and config at dev time
+3. **Client API for runtime** — user bearer tokens only
+4. **Custom endpoints** — no client-side filtering of full collections
+5. **Storage proxy** — no presigned URLs in browsers
+
+<AgentHint>
+  Agents should call `list_modules` after MCP connect and read [Client vs Admin API](/docs/learn/client-vs-admin-api) before writing app code.
+</AgentHint>
+
+<NextSteps steps={[
+  { title: "Install", href: "/docs/getting-started/install" },
+  { title: "MCP setup", href: "/docs/getting-started/mcp-setup" },
+  { title: "First app", href: "/docs/getting-started/first-app" },
+]} />

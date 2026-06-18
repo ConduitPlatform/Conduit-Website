@@ -1,0 +1,177 @@
+---
+title: Next.js Integration
+description: Auth vault, conduitRequest, API routes, and Client API patterns.
+agent_summary: "iron-session + Redis token vault; server-only conduitRequest with auto-refresh; REST Client API only; preview proxy for storage."
+---
+
+Build Next.js apps on Conduit with **server-side token vaulting** and **Client API** calls only.
+
+## Stack
+
+- **Auth:** iron-session + Redis token vault, or `@quintessential-sft/next-auth`
+- **Networking:** `conduitRequest` wrapper with auto token refresh
+- **Data:** REST Client API — `/database/{Schema}`, `/database/function/{name}`
+- **Files:** Preview proxy route — never presigned URLs in the browser
+
+## Layering
+
+```
+app/          → UI, Server Components
+lib/api/      → route handlers calling conduitRequest
+lib/logic/    → business logic
+lib/models/   → types
+```
+
+## Token vault pattern
+
+The browser holds an **opaque session cookie** (iron-session). Tokens live in Redis keyed by session id.
+
+```typescript
+// lib/session.ts — iron-session config
+import { getIronSession } from "iron-session";
+
+export type SessionData = { userId?: string; vaultKey?: string };
+
+export const sessionOptions = {
+  password: process.env.SESSION_SECRET!,
+  cookieName: "conduit_session",
+  cookieOptions: { secure: process.env.NODE_ENV === "production" },
+};
+
+// lib/token-vault.ts — Redis vault
+import { Redis } from "ioredis";
+
+const redis = new Redis(process.env.REDIS_URL!);
+
+export async function saveTokens(vaultKey: string, tokens: { accessToken: string; refreshToken: string }) {
+  await redis.set(`vault:${vaultKey}`, JSON.stringify(tokens), "EX", 604800);
+}
+
+export async function getTokens(vaultKey: string) {
+  const raw = await redis.get(`vault:${vaultKey}`);
+  return raw ? JSON.parse(raw) : null;
+}
+```
+
+After login, store tokens in the vault and set `session.vaultKey`. Never return tokens to the client.
+
+## conduitRequest with auto-refresh
+
+```typescript
+// lib/conduit-request.ts
+import axios from "axios";
+import { getTokens, saveTokens } from "./token-vault";
+
+const CLIENT_BASE_URL = process.env.CLIENT_BASE_URL ?? "http://localhost:3000";
+
+export async function conduitRequest<T>(
+  vaultKey: string,
+  config: { method: string; url: string; data?: unknown; params?: Record<string, string> },
+): Promise<T> {
+  const tokens = await getTokens(vaultKey);
+  if (!tokens?.accessToken) throw new Error("Not authenticated");
+
+  const client = axios.create({ baseURL: CLIENT_BASE_URL });
+
+  try {
+    const res = await client.request({
+      ...config,
+      headers: { Authorization: `Bearer ${tokens.accessToken}` },
+    });
+    return res.data;
+  } catch (err) {
+    if (!axios.isAxiosError(err) || err.response?.status !== 401) throw err;
+
+    // Refresh once
+    const refreshRes = await client.post(
+      "/authentication/renew",
+      {},
+      { headers: { Authorization: `Bearer ${tokens.refreshToken}` } },
+    );
+    const newTokens = refreshRes.data;
+    await saveTokens(vaultKey, newTokens);
+
+    const retry = await client.request({
+      ...config,
+      headers: { Authorization: `Bearer ${newTokens.accessToken}` },
+    });
+    return retry.data;
+  }
+}
+```
+
+## API route example
+
+```typescript
+// app/api/posts/route.ts
+import { getIronSession } from "iron-session";
+import { cookies } from "next/headers";
+import { conduitRequest } from "@/lib/conduit-request";
+import { sessionOptions, type SessionData } from "@/lib/session";
+
+export async function GET() {
+  const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
+  if (!session.vaultKey) return Response.json({ error: "Unauthorized" }, { status: 401 });
+
+  const data = await conduitRequest<{ documents: unknown[]; count: number }>(
+    session.vaultKey,
+    { method: "GET", url: "/database/Post", params: { skip: "0", limit: "20" } },
+  );
+
+  return Response.json(data);
+}
+```
+
+For filtered lists, call a provisioned custom endpoint instead:
+
+```typescript
+conduitRequest(session.vaultKey, {
+  method: "GET",
+  url: "/database/function/GetPostsByAuthor",
+  params: { authorId: session.userId! },
+});
+```
+
+## Storage preview proxy
+
+Preferred pattern: resolve a presigned URL server-side, fetch bytes, stream to the browser — never expose the presigned URL to the client.
+
+```typescript
+// app/api/preview/[fileId]/route.ts
+export async function GET(_req: Request, { params }: { params: Promise<{ fileId: string }> }) {
+  const { fileId } = await params;
+  const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
+  if (!session.vaultKey) return new Response("Unauthorized", { status: 401 });
+
+  const { result: url } = await conduitRequest<{ result: string }>(session.vaultKey, {
+    method: "GET",
+    url: `/storage/getFileUrl/${fileId}`,
+  });
+
+  const fileRes = await fetch(url);
+  if (!fileRes.ok) return new Response("Not found", { status: 404 });
+
+  return new Response(fileRes.body, {
+    headers: { "Content-Type": fileRes.headers.get("Content-Type") ?? "application/octet-stream" },
+  });
+}
+```
+
+For small server-side transforms only, `GET /storage/file/data/:id` returns base64 in `{ data }` — not for general image or video delivery to browsers.
+
+## Rules
+
+1. No Admin API or MCP in app runtime
+2. No gRPC SDK in client bundles — server-only if used at all
+3. No tokens in `localStorage` / `sessionStorage`
+4. Custom endpoints for filtered queries — never client-side filter
+5. Pass `scope` query param on creates when using ReBAC team scoping
+
+Install the [Conduit Cursor plugin](https://github.com/Quintessential-SFT/conduit-cursor-plugin) for scaffolds and `/conduit-bootstrap`.
+
+<NextSteps steps={[
+  { title: "Deployment overview", href: "/docs/deployment" },
+  { title: "ReBAC team scoping", href: "/docs/guides/rebac-team-scoping" },
+  { title: "Client API reference", href: "/docs/reference/client-api" },
+  { title: "Storage module", href: "/docs/modules/storage" },
+]} />

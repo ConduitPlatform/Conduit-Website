@@ -1,0 +1,36 @@
+---
+title: MCP Tools
+description: How Admin API routes map to MCP tool names.
+agent_summary: "Pattern: {method}_{path_with_underscores}; list_modules always available; enable modules via ?modules= URL."
+---
+
+## Discovery
+
+Call **`list_modules`** on every new MCP connection. Tools for unloaded modules are unavailable until you add `?modules=` to the MCP URL and reconnect.
+
+## Naming pattern
+
+Admin routes convert to tools:
+
+1. Strip leading `/admin/` if present
+2. Replace `/` with `_`
+3. Lowercase
+4. Prepend HTTP method: `get_`, `post_`, `patch_`, `put_`, `delete_`
+
+| Admin route | MCP tool |
+|-------------|----------|
+| `GET /database/schemas` | `get_database_schemas` |
+| `POST /database/schemas` | `post_database_schemas` |
+| `PATCH /config/database` | `patch_config_database` |
+| `GET /ready` | `get_ready` |
+
+## Config tools
+
+When a module is loaded:
+
+- `get_config_{module}`
+- `patch_config_{module}`
+
+## Resources
+
+MCP exposes `conduit://docs/*` resources including API guides. See [MCP setup](/docs/getting-started/mcp-setup).

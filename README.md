@@ -1,32 +1,40 @@
-<div align="center">
-    <br>
-    <a href="https://getconduit.dev" target="_blank"><img src="https://getconduit.dev/conduitLogo.svg" height="80px" alt="logo"/></a>
-    <br/>
-    <h3>The only Backend you'll ever need.</h3>
-</div>
-
 # Conduit Website
 
-This repo contains the implementations for [Conduit](https://github.com/ConduitPlatform/Conduit)'s website and documentation.<br />
-Check out our project's [website](https://getconduit.dev/) and [docs](https://getconduit.dev/docs/overview/intro).
+Unified **Next.js 16** marketing site and **v0.17 documentation** for [getconduit.dev](https://getconduit.dev).
 
-Feel free to request improvements and submit fixes. 
+## Structure
 
-# Running from source 🔨
+| Path | Purpose |
+|------|---------|
+| `apps/web/` | **New unified site** — marketing + Fumadocs MDX docs |
+| `www/` | Legacy marketing (Next 12) — retire after cutover |
+| `documentation/` | Legacy Docusaurus docs — retire after cutover |
 
-Build once and serve:
+## Development
 
-``` bash
-yarn --frozen-lockfile
-npx lerna run build
-yarn --cwd ./documentation serve
-yarn --cwd ./www start
+```bash
+cd apps/web
+npm install
+npm run dev
 ```
 
-Live rebuild and serve on modification:
+Open [http://localhost:3000](http://localhost:3000). Docs at `/docs`.
 
-``` bash
-yarn --frozen-lockfile
-yarn --cwd ./documentation start
-yarn --cwd ./www dev
+## Build
+
+```bash
+cd apps/web
+npm run build
 ```
+
+Generates `public/llms.txt` before build via `prebuild` script.
+
+## Node
+
+Node.js **24+** recommended.
+
+## Deploy
+
+Build `apps/web` and deploy as a single static/SSR site. Legacy Netlify split (`www` + `documentation` proxy) is replaced by one app.
+
+See `apps/web/public/_redirects` for legacy URL mappings.

@@ -1,0 +1,35 @@
+---
+title: Deployment Overview
+description: Choose how to run Conduit — local dev, Docker Compose, Kubernetes, or from source.
+agent_summary: "Decision matrix for deployment modes; links to Compose, Helm, local source, and container images."
+---
+
+Choose how to run Conduit based on your environment and operational needs.
+
+## Decision matrix
+
+| Mode | Best for | Complexity |
+|------|----------|------------|
+| [Local from source](/docs/deployment/local-source) | Contributing to Conduit core or modules | High |
+| [Docker Compose](/docs/deployment/docker-compose) | Local dev and small self-hosted stacks | Low |
+| [Kubernetes / Helm](/docs/deployment/kubernetes-helm) | Production clusters, GitOps | Medium |
+| [Container images](/docs/deployment/container-images) | CI/CD, pinning versions, multi-arch pulls | Reference |
+
+## Prerequisites (all modes)
+
+- **MongoDB** or **PostgreSQL** for the database module
+- **Redis** for core bus and realtime
+- Node.js **24+** only when building from source or running the CLI locally
+
+## After deployment
+
+1. Enable modules you need via Admin API or [MCP](/docs/getting-started/mcp-setup)
+2. Provision schemas and config at dev time — not from app runtime
+3. Point applications at the **Client API** (default port 3000)
+
+<NextSteps steps={[
+  { title: "Docker Compose", href: "/docs/deployment/docker-compose", description: "Fastest path to a full stack" },
+  { title: "Kubernetes / Helm", href: "/docs/deployment/kubernetes-helm", description: "Production clusters" },
+  { title: "Environment variables", href: "/docs/reference/env-vars", description: "Core and module config" },
+  { title: "Migration from v0.16", href: "/docs/resources/migration-v0.16-to-v0.17", description: "Upgrading an existing deploy" },
+]} />

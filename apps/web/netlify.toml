@@ -1,0 +1,18 @@
+# Conduit unified site (Next.js 16) — DEPRECATED: use Cloudflare Workers (wrangler.toml)
+#
+# Kept for rollback only. Primary deploy: npm run deploy:cf in apps/web.
+# See apps/web/README.md and CUTOVER.md.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+[dev]
+  command = "npm run dev"
+  targetPort = 3000
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

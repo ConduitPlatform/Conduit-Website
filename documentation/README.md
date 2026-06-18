@@ -1,41 +1,40 @@
-# Website
+# Legacy Docusaurus documentation (archive site)
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+This directory contains **legacy** Conduit documentation for **v0.14**, **v0.15**, and **v0.16**. Current **v0.17** docs live on the unified site at [getconduit.dev/docs](https://getconduit.dev/docs/intro).
 
-### Installation
+## Archive deployment (Cloudflare Pages)
 
-```
-$ yarn
-```
+| Setting | Value |
+|---------|-------|
+| **Root directory** | `documentation` |
+| **Build command** | `yarn install && yarn build` |
+| **Output directory** | `build` |
+| **Node** | 24 |
+| **Custom domain** | `archive.getconduit.dev` |
 
-### Local Development
+Add a **Bulk Redirect** in Cloudflare: `/` → `/v0.16/intro` (302).
 
-```
-$ yarn start
-```
+The main site redirects `/docs/v0.16/*`, `/docs/v0.15/*`, and `/docs/v0.14/*` to this archive subdomain.
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+## Local development
 
-### Build
-
-```
-$ yarn build
-```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
+```bash
+cd documentation
+yarn install
+yarn start
 ```
 
-Not using SSH:
+## Local build
 
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
+```bash
+cd documentation
+yarn install
+yarn build
+yarn serve
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+Built output is in `build/`. Versioned paths: `/v0.16/...`, `/v0.15/...`, `/v0.14/...`.
+
+## Do not delete
+
+This archive is retained intentionally. See [CUTOVER.md](../CUTOVER.md) for the unified site cutover plan.

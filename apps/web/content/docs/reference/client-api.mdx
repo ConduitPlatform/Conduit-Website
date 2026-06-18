@@ -1,0 +1,127 @@
+---
+title: Client API
+description: REST and GraphQL surface on the router — user-scoped application runtime.
+agent_summary: "CLIENT_BASE_URL :3000; user Bearer tokens; /authentication, /database, /storage, /chat, /authorization; never Admin API from apps."
+---
+
+The **Client API** runs on the **router** module (default `CLIENT_BASE_URL` → port **3000**). All application runtime code — web apps, mobile backends, server actions — calls this surface with **user bearer tokens** from the authentication module.
+
+<AgentHint>
+  Provisioning (schemas, config, admin users) uses the **Admin API** (`:3030`) or MCP — not the Client API. See [Client vs Admin API](/docs/learn/client-vs-admin-api).
+</AgentHint>
+
+## Comparison
+
+| | **Client API** | **Admin API** |
+|--|----------------|---------------|
+| **Host** | Router (`:3000`) | Core (`:3030`) |
+| **Consumers** | Web/mobile apps, user-scoped server routes | Admin panel, MCP, CI |
+| **Auth** | User access/refresh tokens | masterkey, admin JWT, `cdt_` tokens |
+| **Database** | `/database/{Schema}`, `/database/function/{name}` | Schema/endpoint/index admin |
+| **Realtime** | Socket.io on `:3001` (`/chat/` namespace) | Admin WebSockets where registered |
+
+## Authentication
+
+Obtain tokens via login or register flows:
+
+| Method | Path | Notes |
+|--------|------|-------|
+| POST | `/authentication/local/new` | Register — returns user, not tokens |
+| POST | `/authentication/local` | Login — returns accessToken, refreshToken |
+| POST | `/authentication/renew` | Rotate refresh token |
+| POST | `/authentication/logout` | Invalidate session |
+| GET | `/authentication/user` | Current user profile |
+
+Store tokens **server-side** (Redis vault + iron-session cookie). See [Next.js guide](/docs/guides/first-app-nextjs).
+
+## Database
+
+| Intent | Method | Path |
+|--------|--------|------|
+| List (unfiltered) | GET | `/database/{Schema}?skip&limit&sort&populate&scope` |
+| Get by id | GET | `/database/{Schema}/{id}` |
+| Create | POST | `/database/{Schema}?scope=Team:id` |
+| Update | PATCH | `/database/{Schema}/{id}` |
+| Delete | DELETE | `/database/{Schema}/{id}` |
+| Custom endpoint | GET/POST/… | `/database/function/{name}` |
+
+`GET /database/{Schema}` has **no filter parameter**. Use provisioned custom endpoints for filtered queries.
+
+GraphQL: `POST /graphql` when modules register types.
+
+## Authorization
+
+| Method | Path |
+|--------|------|
+| GET | `/authorization/check?action=edit&resource=Document:id&scope=Team:tid` |
+| GET | `/authorization/role/:resource?scope=Team:tid` |
+
+Pass `scope` on database **creates** for team-owned records. See [ReBAC guide](/docs/guides/rebac-team-scoping).
+
+## Storage
+
+| Method | Path | Auth |
+|--------|------|------|
+| POST | `/storage/upload` | Required |
+| PATCH | `/storage/upload/:id` | Required |
+| GET | `/storage/getFileUrl/:id` | Optional |
+| GET | `/storage/file/:id` | Optional (metadata) |
+| GET | `/storage/file/data/:id` | Required (transform-only) |
+| DELETE | `/storage/file/:id` | Required |
+
+Use `getFileUrl` server-side for preview proxy; stream bytes without exposing presigned URLs to browsers.
+
+## Chat
+
+| Method | Path |
+|--------|------|
+| POST | `/chat/rooms` |
+| GET | `/chat/rooms?skip&limit` |
+| GET | `/chat/messages?roomId&skip&limit` |
+| PATCH | `/chat/messages/:messageId` |
+| DELETE | `/chat/messages/:messageId` |
+
+Socket.io: connect to `SOCKET_BASE_URL/chat/` with path `/realtime` and `Authorization: Bearer` header. Default socket port **3001**.
+
+## Communications
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| POST | `/token` | Register push device token |
+| DELETE | `/token` | Clear push tokens |
+| GET | `/notifications` | In-app notification inbox |
+| PATCH | `/notifications` | Mark notifications read |
+
+**Sending** email/SMS/push uses Admin API or grpc-sdk from server-side workers — not with admin credentials in the browser.
+
+## Teams
+
+Team routes under `/authentication/teams` (list, create, invite, join) require user authentication. Team membership drives ReBAC inheritance on team-scoped documents.
+
+## Environment
+
+| Variable | Default | Meaning |
+|----------|---------|---------|
+| `CLIENT_HTTP_PORT` | 3000 | REST/GraphQL |
+| `CLIENT_SOCKET_PORT` | 3001 | WebSockets |
+| `CLIENT_BASE_URL` | `http://localhost:3000` | App server target |
+
+## Rules
+
+1. **Never** call Admin API from user-facing code paths
+2. **Never** store tokens in browser storage
+3. **Never** fetch whole collections and filter client-side — use custom endpoints
+4. **Never** expose presigned storage URLs to clients
+5. Provision schemas and endpoints at dev/deploy time via MCP
+
+## Module reference
+
+| Module | Doc |
+|--------|-----|
+| Authentication | [/docs/modules/authentication](/docs/modules/authentication) |
+| Authorization | [/docs/modules/authorization](/docs/modules/authorization) |
+| Database | [/docs/modules/database](/docs/modules/database) |
+| Storage | [/docs/modules/storage](/docs/modules/storage) |
+| Chat | [/docs/modules/chat](/docs/modules/chat) |
+| Communications | [/docs/modules/communications](/docs/modules/communications) |
+| Router | [/docs/modules/router](/docs/modules/router) |

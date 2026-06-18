@@ -1,0 +1,36 @@
+/docs/resources/migration  /docs/resources/migration-v0.16-to-v0.17  301
+
+# CLI bootstrap script
+/bootstrap  https://raw.githubusercontent.com/ConduitPlatform/Conduit/master/docker/get-conduit.sh  302
+
+# Legacy versioned docs → archive site
+/docs/v0.16/*  https://archive.getconduit.dev/v0.16/:splat  301
+/docs/v0.15/*  https://archive.getconduit.dev/v0.15/:splat  301
+/docs/v0.14/*  https://archive.getconduit.dev/v0.14/:splat  301
+
+# Legacy docs (v0.16 Docusaurus paths)
+/docs/overview/intro  /docs/intro  301
+/docs/quickstart/installation  /docs/getting-started/install  301
+/docs/quickstart/introduction  /docs/intro  301
+
+# Merged communications module (email / sms / push)
+/docs/modules/email  /docs/modules/communications  301
+/docs/modules/email/*  /docs/modules/communications  301
+/docs/modules/sms  /docs/modules/communications  301
+/docs/modules/sms/*  /docs/modules/communications  301
+/docs/modules/push-notifications  /docs/modules/communications  301
+/docs/modules/push-notifications/*  /docs/modules/communications  301
+
+# Legacy marketing module shortcuts
+/authentication  /modules/authentication  301
+/chat  /modules/chat  301
+/database  /modules/database  301
+/mails  /modules/communications  301
+/sms  /modules/communications  301
+/push-notifications  /modules/communications  301
+/storage  /modules/storage  301
+/forms  /modules/functions  301
+
+# Retired blog (2022 posts) → changelog
+/blog  /docs/resources/changelog  301
+/blog/*  /docs/resources/changelog  301

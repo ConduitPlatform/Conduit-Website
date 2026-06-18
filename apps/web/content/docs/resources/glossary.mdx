@@ -1,0 +1,18 @@
+---
+title: Glossary
+description: Conduit Platform terminology.
+agent_summary: "Key terms: Client API, Admin API, MCP, custom endpoints, scope, ManagedModule, Hermes."
+---
+
+| Term | Definition |
+|------|------------|
+| **Client API** | User-facing HTTP/GraphQL/WebSocket API on router (`:3000`) |
+| **Admin API** | Operator API on core (`:3030`) — MCP, admin panel |
+| **MCP** | Model Context Protocol server at `/mcp` for dev-time admin tools |
+| **Custom endpoint** | Database query handler at `/database/function/{name}` |
+| **scope** | ReBAC context parameter on creates and permission checks |
+| **ManagedModule** | Base class for Conduit modules (`@conduitplatform/module-tools`) |
+| **Hermes** | HTTP routing library for REST, GraphQL, Socket.io |
+| **Config bus** | Redis pub/sub for module configuration updates |
+| **storageFileId** | Reference to a storage blob — not inline file bytes |
+| **communications** | Unified email, SMS, push module (v0.17+) |

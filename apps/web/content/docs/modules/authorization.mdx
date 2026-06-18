@@ -1,0 +1,144 @@
+---
+title: Authorization
+description: ReBAC resources, relations, permissions, and scope.
+agent_summary: "Zanzibar-style ReBAC; define resources/relations via MCP; Client API /authorization/check; pass scope on database creates."
+---
+
+The **authorization** module implements relationship-based access control (ReBAC, Zanzibar-style). Subjects (users, teams) link to resources via **relations**; **permissions** resolve from those relations with optional inheritance (`owner->read`).
+
+## Use cases
+
+<ModuleUseCases
+  items={[
+    {
+      title: "Multi-tenant B2B",
+      outcome: "Team-owned records — documents belong to a Team, not just a user",
+    },
+    {
+      title: "Document sharing",
+      outcome: "Grant editor/viewer relations without duplicating ownership logic",
+    },
+    {
+      title: "Scoped creates",
+      outcome: "New records inherit team context via the scope query param",
+    },
+    {
+      title: "Runtime permission checks",
+      outcome: "Ask can this user edit this resource? before showing UI actions",
+    },
+  ]}
+/>
+
+## Capabilities
+
+<ModuleCapabilities
+  items={[
+    "Resource definitions",
+    "Relation tuples",
+    "Permission inheritance (->)",
+    "scope on creates",
+    "/authorization/check",
+    "Built-in Team resource",
+    "Authorized schema integration",
+  ]}
+/>
+
+## Example: Team-owned documents with scope
+
+<ModuleExample
+  steps={[
+    "Enable authorization on the Document schema (conduitOptions.authorization.enabled)",
+    "Ensure the user has edit permission on Team:abc (team member or owner)",
+    "Create a document with scope=Team:abc as a query parameter",
+    "Before PATCH, call GET /authorization/check?action=edit&resource=Document:docId",
+  ]}
+>
+  <APIExample
+    title="Create with scope"
+    curl={`curl -X POST "http://localhost:3000/database/Document?scope=Team:507f1f77bcf86cd799439011" \\
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{"title":"Q1 roadmap","body":"Team-owned doc"}'`}
+  />
+  <APIExample
+    title="Check permission"
+    curl={`curl "http://localhost:3000/authorization/check?action=edit&resource=Document:DOC_ID" \\
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"`}
+  />
+</ModuleExample>
+
+## How it works
+
+<ModuleDeepDive>
+### Mental model
+
+```
+ResourceDefinition "Document"
+  relations: owner -> [User, Team], editor -> [User, Team]
+  permissions: read -> [editor, owner, owner->read], edit -> [editor, owner]
+
+Tuple: Team:abc#owner@Document:xyz
+Check: can(User:uid, edit, Document:xyz) -> true via team inheritance
+```
+
+### Three layers (do not confuse)
+
+| Layer | Controls |
+|-------|----------|
+| **Document ReBAC** | Per-document read/edit/delete on authorized schemas |
+| **Schema CMS permissions** | Who can use Admin Panel CRUD on a schema |
+| **Route middleware** | HTTP route authentication flags on custom endpoints |
+
+This page covers **document ReBAC**.
+
+### Ownership on create
+
+When `scope=Team:tid` is set on `POST /database/{Schema}`:
+
+1. Pre-check: user must have `edit` on the scope resource
+2. Tuple created: `Team:tid#owner@{Schema}:{docId}` — not a direct User owner tuple
+
+When scope is omitted, the authenticated user becomes `User:uid#owner@{Schema}:{docId}`.
+
+### Inheritance (`->`)
+
+`owner->read` means: subject has `owner` on this resource, and the owner subject type (e.g. Team) defines a `read` permission that team members inherit.
+
+### Built-in Team resource
+
+Authentication registers `Team` with relations `member`, `owner`, `readAll`, `editAll` and permissions `read`, `edit`, `delete`, `invite`, `manageMembers`, etc. Use these action names — do not invent new ones without extending the definition.
+</ModuleDeepDive>
+
+## Configure
+
+1. Enable authorization module in deployment
+2. Set `conduitOptions.authorization.enabled: true` on schemas via MCP `patch_database_schemas_id`
+3. Define custom resources with `POST /authorization/resources` or MCP equivalent
+4. Grant tuples with `POST /authorization/relations`
+
+## Client API
+
+| Operation | Path |
+|-----------|------|
+| Permission check | `GET /authorization/check?action=edit&resource=Document:id&scope=Team:tid` |
+| Roles on resource | `GET /authorization/role/:resource?scope=Team:tid` |
+
+Always pass `scope` on database **creates** when using team-owned records.
+
+## MCP
+
+Enable `?modules=authorization`.
+
+| Tool | Purpose |
+|------|---------|
+| `get_authorization_resources` | List resource definitions |
+| `post_authorization_resources` | Define resources, relations, permissions |
+| `post_authorization_relations` | Create relationship tuples |
+| `get_authorization_permissions_can` | Admin-side permission check (`permission`, `subject`, `resource`) |
+
+<NextSteps steps={[
+  { title: "ReBAC team scoping guide", href: "/docs/guides/rebac-team-scoping" },
+  { title: "Database module", href: "/docs/modules/database" },
+  { title: "Authentication & teams", href: "/docs/modules/authentication" },
+  { title: "Client vs Admin API", href: "/docs/learn/client-vs-admin-api" },
+]} />

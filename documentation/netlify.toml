@@ -1,15 +1,15 @@
+[build]
+  command = "yarn install && yarn build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# Archive site serves versioned docs at /v0.16/*, /v0.15/*, /v0.14/*
+# Netlify site base directory should be set to `documentation` in the UI.
+# Main site getconduit.dev redirects /docs/v0.16/* here via next.config.ts + _redirects
+
 [[redirects]]
-from = "/docs"
-to = "/docs/overview/intro"
-status = 200
-force = true
-[[redirects]]
-from = "/docs/"
-to = "/docs/overview/intro"
-status = 200
-force = true
-[[redirects]]
-from = "/docs/*"
-to = "/:splat"
-status = 200
-force = true
+  from = "/"
+  to = "/v0.16/intro"
+  status = 302

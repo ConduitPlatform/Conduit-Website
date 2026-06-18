@@ -1,0 +1,31 @@
+---
+title: Environment Variables
+description: Core and module environment variable reference.
+agent_summary: "CONDUIT_SERVER and SERVICE_URL required per module; CLIENT_HTTP_PORT 3000; ADMIN_HTTP_PORT 3030; GRPC_KEY for inter-module auth."
+---
+
+## Every module process
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `CONDUIT_SERVER` | Yes | Core gRPC address (`host:port`) |
+| `SERVICE_URL` | Yes | This module's reachable address |
+| `GRPC_PORT` | No | gRPC bind port (default `5000`) |
+| `GRPC_KEY` | Production | Shared inter-module secret |
+
+## Core / ports
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `ADMIN_HTTP_PORT` | `3030` | Admin API |
+| `CLIENT_HTTP_PORT` | `3000` | Client API (router) |
+| `CLIENT_SOCKET_PORT` | `3001` | Client WebSockets |
+| `REDIS_HOST` / `REDIS_PORT` | — | Config bus |
+
+## Database module
+
+| Variable | Purpose |
+|----------|---------|
+| `DB_CONN_URI` | MongoDB or PostgreSQL connection string |
+
+See deployment guides for compose and Helm-specific overrides.

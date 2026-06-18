@@ -1,0 +1,104 @@
+---
+title: Functions
+description: Admin-defined server-side JavaScript with grpcSdk access.
+agent_summary: "Admin-trusted JS — webhooks, event bus handlers, admin routes; grpcSdk access; not a substitute for database custom endpoints."
+---
+
+The **functions** module runs **admin-defined JavaScript** in-process with full `grpcSdk` access. Treat function code like server configuration — admin-trusted, not user-supplied.
+
+## Use cases
+
+<ModuleUseCases
+  items={[
+    {
+      title: "Webhooks",
+      outcome: "Receive Stripe/GitHub callbacks and call grpcSdk.database or grpcSdk.email",
+    },
+    {
+      title: "Event automation",
+      outcome: "React to bus events — send notifications when records change",
+    },
+    {
+      title: "Admin-only routes",
+      outcome: "Custom HTTP handlers registered on Admin API surface",
+    },
+    {
+      title: "Cross-module orchestration",
+      outcome: "Chain database writes, chat system messages, and email in one handler",
+    },
+  ]}
+/>
+
+## Capabilities
+
+<ModuleCapabilities
+  items={[
+    "In-process JS execution",
+    "grpcSdk access",
+    "Webhook handlers",
+    "Event bus subscribers",
+    "Admin HTTP routes",
+    "Database & comms integration",
+  ]}
+/>
+
+## Example: Webhook handler concept
+
+<ModuleExample
+  steps={[
+    "Admin defines a Function that exposes POST /hook/stripe (Admin API)",
+    "Function validates webhook signature in JS",
+    "On payment_intent.succeeded, grpcSdk.database finds Order and updates status",
+    "grpcSdk.email sends receipt using a provisioned template",
+    "Optional: grpcSdk.chat sends system message to order room",
+  ]}
+>
+  <APIExample
+    title="Conceptual handler (admin-defined JS — not Client API)"
+    curl={`# Functions run on Admin API surface, configured via admin panel or MCP
+# Example: webhook receives POST, calls grpcSdk internally
+curl -X POST http://localhost:3030/function/stripeWebhook \\
+  -H "Content-Type: application/json" \\
+  -d '{"type":"payment_intent.succeeded","data":{...}}'`}
+  />
+</ModuleExample>
+
+## How it works
+
+<ModuleDeepDive>
+### Trust boundary
+
+Functions code is **admin-trusted** — equivalent to a custom module deployed by operators. It is not exposed to end users as arbitrary script upload. For user-facing filtered queries, use [database custom endpoints](/docs/modules/database) at `/database/function/{name}` on the Client API instead.
+
+### grpcSdk access
+
+Inside a function, `grpcSdk` provides typed clients for database, authentication, storage, chat, communications, and other registered modules — same as custom ManagedModule services.
+
+### When to use Functions vs custom modules
+
+| Need | Use |
+|------|-----|
+| Filtered Client API query | Database custom endpoint |
+| Long-running domain service | Custom ManagedModule |
+| Webhook, cron, one-off admin automation | Functions |
+| System chat message from backend | grpcSdk.chat from Function or custom module |
+</ModuleDeepDive>
+
+## Configure
+
+Define functions via Admin panel or MCP when the functions module is enabled. Each function specifies trigger type (HTTP route, bus event), source code, and enabled flag.
+
+## Client API
+
+Functions do **not** replace Client API routes for app runtime. App code calls `/database/function/{name}` for provisioned queries — those are database custom endpoints, not this module.
+
+## MCP
+
+Enable functions module in deployment. Admin tools manage function CRUD alongside other admin routes.
+
+<NextSteps steps={[
+  { title: "Database custom endpoints", href: "/docs/modules/database" },
+  { title: "Communications (email from webhooks)", href: "/docs/modules/communications" },
+  { title: "Admin API reference", href: "/docs/reference/admin-api" },
+  { title: "Module authoring (custom modules)", href: "/docs/learn/architecture" },
+]} />

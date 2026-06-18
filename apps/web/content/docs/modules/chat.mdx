@@ -1,0 +1,138 @@
+---
+title: Chat
+description: Realtime rooms and messages over REST and Socket.io.
+agent_summary: "Client API REST + Socket.io on CLIENT_SOCKET_PORT 3001; namespace /chat/, path /realtime; rooms, messages, storage attachments."
+---
+
+The **chat** module provides persisted rooms, message history, and realtime delivery over REST and Socket.io on the Client API.
+
+## Use cases
+
+<ModuleUseCases
+  items={[
+    {
+      title: "In-app messaging",
+      outcome: "Direct and group chat with REST history + live Socket.io updates",
+    },
+    {
+      title: "Support tickets",
+      outcome: "Custom module creates rooms via grpcSdk.chat; users join via Client API",
+    },
+    {
+      title: "File attachments",
+      outcome: "Upload via storage, reference file IDs in message payload",
+    },
+    {
+      title: "Read receipts & typing",
+      outcome: "Socket events for presence and message state",
+    },
+  ]}
+/>
+
+## Capabilities
+
+<ModuleCapabilities
+  items={[
+    "Room CRUD",
+    "Message history",
+    "Socket.io realtime",
+    "Typing indicators",
+    "Read receipts",
+    "File attachments",
+    "System messages (grpcSdk)",
+    "Explicit room joins (optional)",
+  ]}
+/>
+
+## Example: Create room and send a message
+
+<ModuleExample
+  steps={[
+    "Authenticate user and obtain accessToken",
+    "POST /chat/rooms with roomName and users[] participant IDs",
+    "Connect Socket.io to SOCKET_BASE_URL/chat/ with path /realtime and Bearer header",
+    "Load history via GET /chat/messages?roomId=ROOM_ID&skip=0&limit=20",
+    "Send live messages via socket emit message with contentType text",
+  ]}
+>
+  <APIExample
+    title="Create room"
+    curl={`curl -X POST http://localhost:3000/chat/rooms \\
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{"roomName":"Support #42","users":["507f1f77bcf86cd799439011","507f191e810c19729de860ea"]}'`}
+  />
+  <APIExample
+    title="Message history"
+    curl={`curl "http://localhost:3000/chat/messages?roomId=ROOM_ID&skip=0&limit=20" \\
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"`}
+  />
+</ModuleExample>
+
+## How it works
+
+<ModuleDeepDive>
+### Surfaces
+
+| Surface | Base | Purpose |
+|---------|------|---------|
+| REST | `CLIENT_BASE_URL/chat/...` | Room CRUD, message history, edit/delete |
+| Socket.io | Namespace `/chat/` on socket port | Live messages, typing, read receipts |
+| gRPC | `grpcSdk.chat` | Custom modules create rooms / system messages |
+
+Default ports: REST `3000`, WebSockets `3001` (override via env).
+
+### Socket connection
+
+```typescript
+import { io } from "socket.io-client";
+
+const socket = io(`${SOCKET_BASE_URL}/chat/`, {
+  path: "/realtime",
+  extraHeaders: { authorization: `Bearer ${accessToken}` },
+});
+```
+
+On connect, the server auto-joins the user to their rooms. Call `connectToRoom(roomId)` when opening a specific room UI.
+
+### REST + socket split
+
+| Concern | Channel |
+|---------|---------|
+| Initial history, infinite scroll | REST GET /chat/messages |
+| Send, typing, read receipts | Socket emit |
+| Edit / delete | REST PATCH/DELETE (broadcasts on socket) |
+
+Merge by message `_id`; dedupe socket events against REST pages.
+
+### Attachments
+
+Upload files via [storage](/docs/modules/storage) first. Send `contentType: file` with `files: [storageFileId]` in the message payload. Serve binaries through a preview proxy — never presigned URLs in the client.
+</ModuleDeepDive>
+
+## Configure
+
+Chat module config via MCP `?modules=chat`: `allowMessageEdit`, `allowMessageDelete`, `explicit_room_joins.enabled`.
+
+Domain workflows (e.g. auto-create room on order) typically use `grpcSdk.chat` from a custom module — see [Functions](/docs/modules/functions) and module authoring docs.
+
+## Client API
+
+| Method | Path |
+|--------|------|
+| POST | `/chat/rooms` |
+| GET | `/chat/rooms` |
+| GET | `/chat/messages?roomId=&skip=&limit=` |
+| PATCH | `/chat/messages/:messageId` |
+| DELETE | `/chat/messages/:messageId` |
+
+## MCP
+
+Enable `?modules=chat` for admin room and message management.
+
+<NextSteps steps={[
+  { title: "Storage (attachments)", href: "/docs/modules/storage" },
+  { title: "Authentication", href: "/docs/modules/authentication" },
+  { title: "Router (socket port)", href: "/docs/modules/router" },
+  { title: "Next.js integration", href: "/docs/guides/first-app-nextjs" },
+]} />
