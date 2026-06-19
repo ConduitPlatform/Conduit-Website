@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { GitHubStarLink } from "@/components/github-star-link";
+import { GITHUB_REPO_URL } from "@/lib/constants";
 
 export const metadata = {
   title: "Contribute",
@@ -12,10 +14,22 @@ export default function ContributePage() {
       <p className="mt-4 text-muted-foreground">
         Conduit is open source. Join us on GitHub and Discord.
       </p>
+
+      <div className="mt-8 rounded-2xl border border-border bg-surface-1 p-6 shadow-[var(--shadow-1)]">
+        <p className="text-sm text-muted-foreground text-pretty">
+          If Conduit helps your team, star the repo so more builders can find it.
+        </p>
+        <div className="mt-4">
+          <GitHubStarLink variant="button" label="Star Conduit on GitHub" />
+        </div>
+      </div>
+
       <ul className="mt-8 space-y-4">
         <li>
           <a
-            href="https://github.com/ConduitPlatform/Conduit"
+            href={GITHUB_REPO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="font-medium text-primary hover:underline"
           >
             Conduit Platform repository

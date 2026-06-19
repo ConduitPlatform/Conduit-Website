@@ -6,6 +6,7 @@ import { ModulesShowcase } from "@/components/marketing/modules-showcase";
 import { PathToProduction } from "@/components/marketing/path-to-production";
 import { StatRow } from "@/components/marketing/stat-row";
 import { WhyConduit } from "@/components/marketing/why-conduit";
+import { GitHubStarLink } from "@/components/github-star-link";
 import { StartWithAiButton } from "@/components/start-with-ai-button";
 import { ButtonLink } from "@/components/ui/button-link";
 
@@ -38,6 +39,7 @@ export default function HomePage() {
                   Read the docs
                 </ButtonLink>
                 <StartWithAiButton />
+                <GitHubStarLink variant="button" />
               </div>
             </div>
             <HeroCodePreview className="mt-12 lg:mt-0" />

@@ -1,5 +1,7 @@
 export const SITE_URL = "https://getconduit.dev";
 
+export const GITHUB_REPO_URL = "https://github.com/ConduitPlatform/Conduit";
+
 export const LLM_ONBOARDING_PROMPT = `You are building on Conduit Platform v0.17.
 
 1. Read ${SITE_URL}/llms.txt for the documentation index.

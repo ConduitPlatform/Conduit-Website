@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { GitHubStarLink } from "@/components/github-star-link";
 
 export function SiteFooter() {
   const pathname = usePathname();
@@ -65,9 +66,7 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <a href="https://github.com/ConduitPlatform/Conduit" className="hover:text-foreground">
-                  GitHub
-                </a>
+                <GitHubStarLink variant="text" showStarIcon={false} label="Star on GitHub" />
               </li>
               <li>
                 <a href="https://discord.gg/3Jsuxs2KJt" className="hover:text-foreground">
