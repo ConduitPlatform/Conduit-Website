@@ -54,6 +54,8 @@ Configure required modules and probe behavior via `READY_*` env vars — see [En
 
 Token format: `cdt_` + base64url random bytes. Prefix (`cdt_xxxxxxxx`) is stored for lookup; full value is bcrypt-hashed server-side.
 
+**v0.17 breaking change:** Client API authentication **service accounts** (`POST /authentication/service`) are removed. Migrate automation and CI from service-account credentials to `cdt_` tokens created here. See [Migration v0.16 → v0.17](/docs/resources/migration-v0.16-to-v0.17).
+
 Never embed admin credentials in application code, browser env vars, or client bundles.
 
 ## Surfaces
