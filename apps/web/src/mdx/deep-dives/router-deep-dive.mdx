@@ -1,0 +1,75 @@
+### Client vs Admin surfaces
+
+| Surface | Host | Consumers | What router does |
+|---------|------|-----------|------------------|
+| **Client API** | `CLIENT_BASE_URL` (`:3000` REST/GraphQL) | Apps, mobile, user-scoped server routes | Proxies registered module client routes |
+| **Client sockets** | `SOCKET_BASE_URL` (`:3001`) | Socket.io clients | Proxies module socket namespaces and events |
+| **Admin API** | `ADMIN_BASE_URL` (`:3030`, core) | Admin panel, MCP, CI | Router module registers **operator** routes only (`/router/*`, `/routes`, `/security/client`) |
+
+Hermes powers both the router (client) and the admin package (admin). End-user apps must never call `:3030`. See [Client vs Admin API](/docs/learn/client-vs-admin-api).
+
+### Port layout
+
+| Port | Env var | Protocol |
+|------|---------|----------|
+| 3000 | `CLIENT_HTTP_PORT` | REST, GraphQL, Swagger |
+| 3001 | `CLIENT_SOCKET_PORT` | WebSockets / Socket.io |
+| 3030 | Admin (core) | Admin API — not router |
+
+### Request proxy flow
+
+```
+App → Router (Hermes) → global middleware (CORS, rate limit, client validation, …)
+                      → route middleware (authMiddleware, captcha, …)
+                      → gRPC call to registering module handler
+                      → database, storage, chat, functions, …
+```
+
+At startup (and on HA recovery), each module calls `registerConduitRoute` over gRPC. Router stores route metadata, mounts paths in Hermes, and publishes route state to the Redis bus so peer router replicas stay in sync.
+
+### Transports
+
+Router config toggles three transports — all default to `true`:
+
+| Key | Default | Effect |
+|-----|---------|--------|
+| `transports.rest` | `true` | REST + Swagger |
+| `transports.graphql` | `true` | `/graphql` |
+| `transports.sockets` | `true` | Socket.io on socket port |
+
+There is **no** `transports.proxy` flag. Older deployments that referenced a proxy transport should use `rest`, `graphql`, and `sockets` instead.
+
+### WebSockets
+
+Socket.io listens on `CLIENT_SOCKET_PORT` with **`path: /realtime`**. Each module registers a namespace (for example `/chat/`). Clients connect with bearer auth in headers:
+
+```typescript
+import { io } from "socket.io-client";
+
+const socket = io(`${SOCKET_BASE_URL}/chat/`, {
+  path: "/realtime",
+  extraHeaders: { authorization: `Bearer ${accessToken}` },
+});
+```
+
+Modules push events to connected clients via router's `socketPush` gRPC method (rooms, receivers, namespace).
+
+### Global middleware
+
+When at least one transport is enabled, router registers:
+
+- **rateLimiter** — per-user request cap (`rateLimit.maxRequests` per `rateLimit.resetInterval` seconds)
+- **corsMiddleware** — configurable origins, methods, credentials
+- **helmetMiddleware** — security headers (relaxed for `/graphql`, `/swagger`, `/reference` GET)
+- **clientMiddleware** — optional client id/secret validation when `security.clientValidation` is `true`
+- **captchaMiddleware** — optional reCAPTCHA / hCaptcha / Turnstile when `captcha.enabled` is `true`
+
+Per-route middleware (for example `authMiddleware`) is declared by each module and can be patched at runtime via Admin API.
+
+### Public base URL (`hostUrl`)
+
+`hostUrl` defaults to `http://localhost:{CLIENT_HTTP_PORT}`. Set it via `patch_config_router` to your public Client API origin so modules can embed correct absolute URLs — for example [chat invitation hooks](/docs/modules/chat) at `{hostUrl}/hook/chat/invitations/accept/{token}`.
+
+### What router is not
+
+Router does **not** replace [database custom endpoints](/docs/modules/database) — filtered queries still need provisioned `/database/function/{name}` endpoints. Router does **not** serve the Admin API on port 3000; provisioning uses `:3030` or MCP.

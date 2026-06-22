@@ -1,0 +1,123 @@
+### Presigned two-step upload
+
+1. **Metadata on Conduit** — `POST /storage/upload` returns `{ file: { _id }, url }`
+2. **Bytes to object store** — `PUT {url}` with `Content-Type` and raw bytes (no Authorization header)
+3. **Link domain entity** — store `file._id` as `storageFileId` / `avatarFileId` on your document
+
+Never store presigned URLs in the database — they expire after **60 minutes**.
+
+For inline base64 uploads (small files, server-side only), use `POST /storage/file` with a base64 `data` field instead.
+
+### Signed URLs
+
+Conduit generates time-limited signed URLs for upload and download:
+
+| Operation | How | Expiry |
+|-----------|-----|--------|
+| Upload | `POST /storage/upload` → presigned PUT/SAS/write URL | 60 minutes |
+| Replace bytes | `PATCH /storage/upload/:id` → new presigned upload URL | 60 minutes |
+| Private download | `GET /storage/getFileUrl/:id` → signed read URL in `{ result }` | 60 minutes |
+| Public download | `GET /storage/getFileUrl/:id` → stored `url` (no signing) | N/A |
+
+Query parameters on `GET /storage/getFileUrl/:id`:
+
+| Param | Effect |
+|-------|--------|
+| `redirect=true` | HTTP redirect to the URL instead of returning JSON |
+| `download=true` | Sets `Content-Disposition: attachment` on the signed URL |
+
+Signed URLs (S3 presigned URLs, Azure SAS tokens, GCS signed URLs) **must not reach browsers or mobile clients**. Your app server calls `GET /storage/getFileUrl/:id` with the user's token, fetches the presigned URL **server-side**, and streams bytes to the browser. See the [Next.js guide](/docs/guides/first-app-nextjs).
+
+`GET /storage/file/data/:id` returns base64 and is for **small server-side transforms only** — not general image or video delivery to browsers.
+
+### Public vs private
+
+Access is controlled at two levels:
+
+**File level** — `isPublic` on upload/create:
+
+- `isPublic: true` — `GET /storage/getFileUrl/:id` returns the stored `url` without auth or signing
+- `isPublic: false` — requires authentication (and ReBAC when authorization is enabled); download uses a signed URL
+
+**Container level** — `isPublic` on the container document:
+
+- Public containers apply provider-level read policies (S3 bucket policy, Azure `blob` access, GCS `makePublic`)
+- **Files in public containers cannot be marked private** — Conduit rejects `isPublic: false` when the container is public
+
+When authorization is enabled, pass `scope` on create/upload to bind ownership: `File:{id}` is linked to the scope resource (or the uploading user) via ReBAC.
+
+### Folder markers
+
+Object stores have no real directories. Conduit models folders in the database (`_StorageFolder`) and creates **marker objects** in the provider:
+
+| Provider | Marker object |
+|----------|---------------|
+| S3 / Azure | `{folderPath}.keep.txt` (body: `DO NOT DELETE`) |
+| GCS | `{folderPath}/keep.txt` |
+
+Folder paths are normalized to end with `/` (e.g. `users/abc/avatars/`). On upload, `findOrCreateFolders` walks the path hierarchy and creates missing folders and markers. Nested paths like `a/b/c/` create markers for `a/`, `a/b/`, and `a/b/c/`.
+
+Specify `folder` on upload; omit or pass `/` for the container root. Containers are created automatically when `allowContainerCreation` is true (default).
+
+### Cloud providers
+
+Set `provider` via MCP `patch_config_storage`. Each provider has its own credential block:
+
+#### AWS S3 (`provider: "aws"`)
+
+| Config key | Purpose |
+|------------|---------|
+| `aws.region` | AWS region |
+| `aws.accessKeyId` / `aws.secretAccessKey` | IAM credentials |
+| `aws.accountId` | Used to prefix bucket names as `conduit-{accountId}-{container}` |
+| `aws.endpoint` | Custom endpoint for S3-compatible providers (MinIO, DigitalOcean Spaces, etc.) |
+| `aws.usePathStyle` | Path-style addressing for non-AWS endpoints (default: `true`) |
+
+When `endpoint` is set (non-AWS S3), `accountId` is auto-generated. Public containers disable the public access block and attach a bucket policy allowing `s3:GetObject` for all principals.
+
+#### Azure Blob Storage (`provider: "azure"`)
+
+| Config key | Purpose |
+|------------|---------|
+| `azure.connectionString` | Storage account connection string |
+
+Containers map to Azure blob containers. Public containers are created with `blob`-level public read access. Upload and download use SAS tokens.
+
+#### Google Cloud Storage (`provider: "google"`)
+
+| Config key | Purpose |
+|------------|---------|
+| `google.serviceAccountKeyPath` | Path to service account JSON key file |
+
+Buckets map to GCS buckets. Public containers call `makePublic()` on the bucket; public files call `makePublic()` on the object. Folder markers use `{path}/keep.txt`. Upload and download use GCS signed URLs.
+
+#### CDN mapping
+
+Map container names to CDN hosts via `cdnConfiguration`:
+
+```json
+{
+  "cdnConfiguration": {
+    "myapp-uploads": "cdn.example.com"
+  }
+}
+```
+
+Public files store both `sourceUrl` (provider URL) and `url` (CDN-applied). Private downloads apply CDN host replacement on signed URLs when configured.
+
+### Metrics
+
+The storage module exports Prometheus gauges (scraped via Conduit Core):
+
+| Metric | Type | Description |
+|--------|------|-------------|
+| `containers_total` | Gauge | Number of containers |
+| `folders_total` | Gauge | Number of folders (marker objects created) |
+| `files_total` | Gauge | Number of file documents |
+| `storage_size_bytes_total` | Gauge | Cumulative size of all files in bytes |
+
+Gauges are updated on create and delete. File size changes adjust `storage_size_bytes_total` by the delta.
+
+### Cleanup
+
+On entity delete, call `DELETE /storage/file/{storageFileId}` to remove the blob and decrement metrics.

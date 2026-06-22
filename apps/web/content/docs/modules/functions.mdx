@@ -4,6 +4,8 @@ description: Admin-defined server-side JavaScript with grpcSdk access.
 agent_summary: "Admin-trusted JS — request/webhook/socket/middleware/event/cron types; VM timeout + require allowlist; routes on Client API via router; CRUD on Admin API."
 ---
 
+import FunctionsDeepDive from "@/mdx/deep-dives/functions-deep-dive.mdx";
+
 The **functions** module runs **admin-defined JavaScript** in-process with full `grpcSdk` access. Operators upload function definitions through the Admin API; HTTP and socket handlers register on the **Client API** (via router), while function CRUD and execution history live on the **Admin API**. Treat function code like server configuration — admin-trusted, not user-supplied.
 
 ## Use cases
@@ -86,83 +88,7 @@ The **functions** module runs **admin-defined JavaScript** in-process with full 
 ## How it works
 
 <ModuleDeepDive>
-### Trust boundary
-
-Function code is **admin-trusted** — equivalent to deploying code to the server. It runs in the **same Node.js process** with full `grpcSdk` privileges. The VM layer applies a per-invocation **timeout** and limits **`require`** to `lodash` and `axios` only. These are guardrails against accidents, **not** a security boundary for malicious code. Do not use this module for tenant-submitted scripts.
-
-For user-facing filtered queries, use [database custom endpoints](/docs/modules/database) at `/database/function/{name}` on the Client API instead.
-
-### Handler shape
-
-Stored `functionCode` is the **body** of:
-
-```js
-function (grpcSdk, req, res) {
-  // your code
-}
-```
-
-| Parameter | Meaning |
-|-----------|---------|
-| `grpcSdk` | Conduit gRPC SDK — database, auth, storage, chat, communications, … |
-| `req` | Parsed request: HTTP params/body/query for routes; event payload for bus/cron |
-| `res` | Callback `(data) => void` — return value mapped through `returns` schema |
-
-`console.log` output is captured in execution logs.
-
-### Function types
-
-| `functionType` | Trigger | Client API surface |
-|----------------|---------|-------------------|
-| `request` | HTTP route | `/{name}` (+ optional `/:urlParams`) |
-| `webhook` | HTTP route (no auth middleware by default) | `/hook/{name}` |
-| `middleware` | Global middleware | Registered as named middleware on `/` |
-| `socket` | Socket.io event | Namespace path `/{name}`, event from `inputs.event` |
-| `event` | Redis bus subscription | `inputs.event` = bus channel name |
-| `cron` | BullMQ repeatable job | `inputs.event` = cron expression |
-
-The module waits for **router** to be serving before registering routes (`watch: router rising`).
-
-### HTTP methods and PUT mapping
-
-`inputs.method` accepts `GET`, `POST`, `PUT`, `PATCH`, or `DELETE`. **`PUT` maps to `ConduitRouteActions.UPDATE`** — the same route action Hermes uses for update verbs (not GET). This matters when declaring `returns` and when matching routes in middleware patches.
-
-Optional `inputs.auth: true` on `request` functions adds `authMiddleware`.
-
-Declare `inputs.bodyParams`, `inputs.queryParams`, and `inputs.urlParams` to validate incoming data; `urlParams` append `/:key` segments to the route path.
-
-### VM sandbox
-
-Each invocation runs inside `node:vm`:
-
-- **Timeout** — per-function `timeout` in milliseconds (default **180000** / 3 minutes)
-- **require allowlist** — only `lodash` (`lodash-es`) and `axios`; anything else throws at runtime
-- **Single run** — compile + invoke share one timeout budget
-
-Syntax is validated on upload (`POST /functions/upload`) and update (`PATCH /functions/:id`).
-
-### Event functions
-
-`functionType: event` subscribes to `grpcSdk.bus` on channel `inputs.event`. Payloads are passed as `req` (JSON-parsed when the bus message is a JSON string). Handler errors are logged; they do not block the publisher.
-
-### Cron functions (BullMQ)
-
-`functionType: cron` stores a **cron expression** in `inputs.event` (for example `0 */6 * * *`). The functions module registers a **BullMQ** repeatable job on Redis — the same job-queue infrastructure used by database and communications modules. On each tick the handler runs with an empty or minimal `req` payload.
-
-Cron requires the platform **Redis** connection used by other BullMQ workers (`grpcSdk.redisManager`) — there is no separate `FUNCTIONS_REDIS_*` configuration. Execution history is recorded like other function types.
-
-### Returns mapping
-
-If `returns` is omitted, the handler result is wrapped as `{ result: data }`. When `returns` is a schema object, only declared keys are forwarded from the `res(...)` payload. Set `returns: "String"` for a plain string result.
-
-### When to use Functions vs alternatives
-
-| Need | Use |
-|------|-----|
-| Filtered Client API query | Database custom endpoint |
-| Long-running domain service | Custom ManagedModule |
-| Webhook, cron, bus automation | Functions |
-| System chat message from backend | grpcSdk.chat from Function or custom module |
+  <FunctionsDeepDive />
 </ModuleDeepDive>
 
 ## Configure

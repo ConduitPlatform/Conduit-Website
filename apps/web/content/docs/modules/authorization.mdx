@@ -4,6 +4,8 @@ description: ReBAC resources, relations, permissions, indexing, and scope.
 agent_summary: "Zanzibar-style ReBAC; define resources/relations via Admin API or MCP; Client API /authorization/check; pass scope on database creates."
 ---
 
+import AuthorizationDeepDive from "@/mdx/deep-dives/authorization-deep-dive.mdx";
+
 The **authorization** module implements relationship-based access control (ReBAC, Zanzibar-style). Subjects (users, teams) link to resources via **relation tuples**; **permissions** resolve from those tuples with optional inheritance (`owner->read`). An internal **index** (ActorIndex + ObjectIndex) makes `can` checks fast; tuples are the source of truth.
 
 Apps call the **Client API** to check the signed-in user's access. Operators define resources, grant tuples, and debug evaluations through the **Admin API** or MCP at provision time — never from browser code.
@@ -84,131 +86,7 @@ Apps call the **Client API** to check the signed-in user's access. Operators def
 ## How it works
 
 <ModuleDeepDive>
-### Mental model
-
-ReBAC stores **tuples** and resolves **permissions** from a **resource definition**:
-
-```
-ResourceDefinition "Document"
-  relations: { owner: [User, Team], editor: [User, Team] }
-  permissions: { read: [editor, owner, owner->read], edit: [editor, owner] }
-
-Tuple:   Team:abc#owner@Document:xyz
-Format:  subject#relation@resource
-
-Check:   can(Team:abc, edit, Document:xyz) → true via team inheritance
-```
-
-Every tuple is persisted as a `Relationship` document with a unique `computedTuple` (`User:uid#owner@Document:id`). Creating or deleting a tuple updates **ActorIndex** and **ObjectIndex** rows so `can` checks avoid graph walks at request time.
-
-### Three layers (do not confuse)
-
-| Layer | Controls |
-|-------|----------|
-| **Document ReBAC** | Per-document read/edit/delete on authorized schemas |
-| **Schema CMS permissions** | Who can use Admin Panel CRUD on a schema |
-| **Route middleware** | HTTP route authentication flags on custom endpoints |
-
-This page covers **document ReBAC**.
-
-### Resource definitions
-
-A **resource** is a named type (e.g. `Document`, `Team`) with two JSON maps:
-
-| Field | Shape | Meaning |
-|-------|-------|---------|
-| `relations` | `{ relationName: [allowedSubjectTypes] }` | Who may hold each relation on instances of this type. Use `*` to allow any subject type. |
-| `permissions` | `{ actionName: [roles] }` | Which relations (or inherited actions) grant each action. Use `*` for public access; `[]` for none. |
-
-Example:
-
-```json
-{
-  "name": "Document",
-  "relations": {
-    "owner": ["User", "Team"],
-    "editor": ["User", "Team"]
-  },
-  "permissions": {
-    "read": ["editor", "owner", "owner->read"],
-    "edit": ["editor", "owner"],
-    "delete": ["owner"]
-  },
-  "version": 0
-}
-```
-
-When a resource definition changes, Conduit schedules a **re-index** for all tuples involving that type. Schemas with `conduitOptions.authorization.enabled` automatically register a resource definition matching the schema name.
-
-### Relation tuples
-
-Grant access by writing tuples — not by copying permission logic into app code.
-
-| Operation | When |
-|-----------|------|
-| **Create** | Share a document, add a team member relation, assign ownership on create |
-| **Read** | Audit who has access; debug Admin Panel |
-| **Delete** | Revoke sharing; cleanup on resource delete |
-
-Validation on create:
-
-- `subject`, `relation`, and `resource` must be `Type:id` identifiers
-- The target resource's definition must declare the `relation`
-- The subject's type must appear in that relation's allowed list (unless `*`)
-
-Single-tuple create builds indexes **synchronously**. Bulk create writes all tuples, then enqueues async index jobs per tuple.
-
-### Inheritance (`->`)
-
-`owner->read` in a permission rule means: a subject holding `owner` on this resource inherits the `read` permission defined on the **owner subject's type**. For teams, Authentication registers `Team` with `member`, `owner`, and permissions like `read`, `edit`, `delete` — so `Team:tid#owner@Document:doc` lets team members read via `owner->read`.
-
-### Ownership on create
-
-When `scope=Team:tid` is set on `POST /database/{Schema}`:
-
-1. Pre-check: user must have `edit` on the scope resource
-2. Tuple created: `Team:tid#owner@{Schema}:{docId}` — not a direct User owner tuple
-
-When scope is omitted, the authenticated user becomes `User:uid#owner@{Schema}:{docId}`.
-
-### Built-in Team resource
-
-Authentication registers `Team` with relations `member`, `owner`, `readAll`, `editAll` and permissions `read`, `edit`, `delete`, `invite`, `manageMembers`, etc. Use these action names — do not invent new ones without extending the definition.
-
-### Permission resolution
-
-`can(subject, action, resource)` resolves in order:
-
-1. **Self-access** — subject equals resource → allowed
-2. **Direct permission tuple** — explicit `subject#action@resource` grant
-3. **Index lookup** — ObjectIndex + ActorIndex graph for relation-derived permissions
-
-The Admin **`/permissions/evaluate`** endpoint returns the same decision plus the resolution path (assigned direct grant vs inherited index chain) for debugging.
-
-### Index reconstruction
-
-Indexes can drift after bulk imports, manual DB edits, or rare worker failures. Operators can rebuild them:
-
-```
-POST ADMIN_BASE_URL/authorization/indexer/reconstruct
-Body: { "soft": true | false }   // default false
-```
-
-| Mode | Behavior | When to use |
-|------|----------|-------------|
-| **`soft: true`** | Does **not** wipe existing index documents. Enqueues index-build jobs for every stored relation tuple. | First attempt after suspected drift; safer, idempotent |
-| **`soft: false` (default)** | **Deletes all** ActorIndex and ObjectIndex documents, then enqueues jobs for every relation tuple. | Confirmed corruption; only with explicit operator confirmation |
-
-The endpoint returns `"ok"` immediately; reconstruction runs in the background (batched, 1000 relations per resource type at a time). During hard rebuild, permission checks may temporarily fail until workers finish — schedule maintenance windows for `soft: false`.
-
-### Surfaces
-
-| Surface | Base | Purpose |
-|---------|------|---------|
-| **Client API** | `CLIENT_BASE_URL/authorization/...` | Signed-in user checks (`/check`, `/role/:resource`) |
-| **Admin API** | `ADMIN_BASE_URL/authorization/...` | Resource/relation CRUD, bulk grants, indexer, evaluate |
-| **gRPC** | `grpcSdk.authorization` | Custom modules: `can`, `createRelation`, `createRelations`, access-list views |
-| **MCP** | Admin-backed tools | Provision resources and tuples at deploy time |
+  <AuthorizationDeepDive />
 </ModuleDeepDive>
 
 ## Configure

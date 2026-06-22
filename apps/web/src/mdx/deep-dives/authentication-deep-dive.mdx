@@ -1,0 +1,114 @@
+### Token lifecycle
+
+Access tokens are JWTs (default **1h** via `accessTokens.expiryPeriod`). The payload includes:
+
+| Claim | Meaning |
+|-------|---------|
+| `id` | User ID |
+| `authorized` | `true` when login is complete (including 2FA if enabled) |
+| `sudo` | `true` on tokens issued from a **fresh** login — required for sensitive routes |
+
+When `refreshTokens.enabled` is true, `POST /authentication/renew` rotates the refresh token and issues a new pair. Renewed tokens set `sudo: false` — the user must re-authenticate for destructive operations. Blocked users (`active: false`) cannot renew or log in.
+
+`clients.multipleUserSessions` and `clients.multipleClientLogins` control whether new logins invalidate existing tokens per client or globally.
+
+### Sudo mode
+
+Several routes require `jwtPayload.sudo === true` on the access token. Sudo is granted only when:
+
+1. The user completed login (and 2FA, if enabled), and
+2. Tokens were issued from a **login** flow — not from `/authentication/renew`
+
+If sudo is missing, the API returns `PERMISSION_DENIED` with *"Re-login required to enter sudo mode"*.
+
+| Route | Action |
+|-------|--------|
+| `DELETE /authentication/user` | Delete own account |
+| `POST /authentication/local/change-password` | Change password |
+| `POST /authentication/local/change-email` | Change email |
+| `PUT /authentication/twoFa/enable` | Enable 2FA |
+| `PUT /authentication/twoFa/disable` | Disable 2FA |
+| `GET /authentication/twoFa/generate` | Generate backup codes |
+| `DELETE /authentication/teams/:teamId` | Delete team |
+
+**Pattern:** prompt the user to log in again before sensitive settings changes; use the new access token for the sudo-gated call.
+
+### Application token storage
+
+**Web / Next.js:** Store `{ accessToken, refreshToken }` in a server-side vault (Redis). The browser holds only an opaque session cookie. On 401, renew once and retry. See the [Next.js guide](/docs/guides/first-app-nextjs).
+
+**Mobile:** Platform secure storage (Keychain, SecureStore) when no server vault exists.
+
+Never persist tokens in `localStorage` or `sessionStorage`.
+
+### Two-factor authentication (2FA)
+
+Enable globally with `twoFa.enabled`. Per-method toggles:
+
+| Config key | Method value | Notes |
+|------------|--------------|-------|
+| `twoFa.methods.authenticator` | `"authenticator"` | TOTP via authenticator app |
+| `twoFa.methods.sms` | `"sms"` | SMS via the **communications** module — use method name **`sms`**, not `phone` |
+
+**Login with 2FA:** `POST /authentication/local` returns a challenge (SMS sent or OTP required) instead of full tokens. Complete with `POST /authentication/twoFa/verify` and the code.
+
+**Enable flow:** `PUT /authentication/twoFa/enable` with `{ "method": "sms", "phoneNumber": "+1..." }` or `{ "method": "authenticator" }` (requires sudo). Confirm via `POST /authentication/twoFa/enable/verify`.
+
+**Backup codes:** When `twoFa.backUpCodes.enabled` is `true`, these routes are registered:
+
+| Route | Purpose |
+|-------|---------|
+| `GET /authentication/twoFa/generate` | Generate 10 one-time codes (requires sudo) |
+| `POST /authentication/twoFa/recover` | Recover access with an 8-digit backup code during login |
+
+When `twoFa.backUpCodes.enabled` is `false`, backup-code routes are **not** exposed.
+
+### Teams
+
+Enable with `teams.enabled`. Teams register as a built-in ReBAC resource (`Team`) with relations `member`, `owner`, and team-scoped permissions. See [Authorization](/docs/modules/authorization) and [ReBAC team scoping](/docs/guides/rebac-team-scoping).
+
+| Concept | Behavior |
+|---------|----------|
+| **Flat B2B** | Each root `Team` (`parentTeam: null`) is a tenant boundary |
+| **Sub-teams** | `parentTeam` on create sets `Team:parent#owner@Team:child` for permission inheritance |
+| **Invites** | `teams.invites.enabled` — email invites with `invitationToken` on register/OAuth |
+| **Default team** | `teams.enableDefaultTeam` auto-creates a personal team per user |
+
+Key Client API routes (all require authentication):
+
+| Operation | Path |
+|-----------|------|
+| List my teams | `GET /authentication/teams` |
+| Create team | `POST /authentication/teams` |
+| Get / update / delete team | `GET\|PATCH\|DELETE /authentication/teams/:teamId` |
+| Members | `GET\|PATCH\|DELETE /authentication/teams/:teamId/members` |
+| Sub-teams | `GET /authentication/teams/:teamId/teams` |
+| Invite user | `POST /authentication/teams/:teamId/invite` |
+| Accept invite | `GET /authentication/teams/invite/accept?invitationToken=…` |
+| Pending invites | `GET /authentication/teams/invites` |
+
+Team **delete** requires sudo. Admin CRUD uses MCP tools like `get_authentication_teams` and `post_authentication_teams`.
+
+### OAuth
+
+When a provider is enabled with `clientId` + `clientSecret`, routes are registered per provider:
+
+| Step | Path |
+|------|------|
+| Start redirect flow | `GET /authentication/init/{provider}` |
+| Native/mobile init | `GET /authentication/initNative/{provider}` |
+| IdP callback | `GET /authentication/hook/{provider}` |
+
+Supported providers include **Google**, **GitHub**, **Apple**, **Microsoft**, **Facebook**, **Slack**, **GitLab**, **Twitter**, **Twitch**, **Figma**, **Reddit**, **Bitbucket**, **LinkedIn**, and **Metamask** (when configured).
+
+Pass `invitationToken` and `redirectUri` on init to join a team during OAuth sign-up. Tokens return in JSON or httpOnly cookies depending on `accessTokens.setCookie` / `refreshTokens.setCookie`. `redirectUris.whitelistedUris` restricts post-auth redirects.
+
+### Machine auth (service accounts removed in v0.17)
+
+v0.17 **removes** Client API service accounts (`POST /authentication/service`) as a **breaking change**. The `Service` collection is dropped on authentication module startup migration. For automation, CI, and MCP clients, use **[Admin API tokens](/docs/reference/admin-api)** instead:
+
+- Create `cdt_` API tokens via Admin API (`POST /api-tokens`) or MCP `post_apitokens`
+- Authenticate MCP with `Authorization: Bearer <cdt_token>`
+- Never embed admin tokens in application runtime code or browser config
+
+Until you upgrade from v0.16, legacy deployments may still expose service-account login behind `service.enabled` — plan migration before promoting v0.17. See [Migration v0.16 → v0.17](/docs/resources/migration-v0.16-to-v0.17).
