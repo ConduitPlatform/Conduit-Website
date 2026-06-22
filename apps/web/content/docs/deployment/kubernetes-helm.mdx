@@ -1,10 +1,10 @@
 ---
 title: Kubernetes and Helm
-description: Deploy Conduit with the official Helm chart.
-agent_summary: "helm install conduit conduit-platform/conduit -f values.yaml from conduit-platform/conduit chart repo."
+description: Deploy Conduit with the official Helm chart — probes, readiness, and production layout.
+agent_summary: "helm install conduit conduit-platform/conduit; core readiness HTTP :3030/ready; liveness gRPC :5000; READY_REQUIRED_MODULES set by chart."
 ---
 
-Conduit is **Kubernetes-first**. Official chart: `conduit-platform/conduit`.
+Conduit is **Kubernetes-first**. Official chart: `conduit-platform/conduit` ([conduit-helm-charts](https://github.com/ConduitPlatform/conduit-helm-charts)).
 
 ```bash
 helm repo add conduit-platform https://conduitplatform.github.io/helm-charts/
@@ -15,9 +15,55 @@ Starter values live in the Conduit repo under `deploy/k8s/values/`.
 
 Configure ingress for:
 
-- **Admin UI** and Admin API
-- **Router** (Client API)
+- **Admin UI** and Admin API (`:3030`)
+- **Router** (Client API, `:3000`)
 
 For local clusters see the Conduit repo `deploy/k8s/minikube.md`. Chart defaults target dev/demo — use external DB, Redis, and observability stacks for production.
 
-See also [conduit-helm-charts](https://github.com/ConduitPlatform/conduit-helm-charts) for advanced layouts.
+## Health probes (core pod)
+
+The chart distinguishes **readiness** from **liveness** on the core container:
+
+| Probe | Mechanism | Target | Why |
+|-------|-----------|--------|-----|
+| **Readiness** | HTTP `GET` | `:3030/ready` | **Deep** check — core bootstrap, Redis, required modules (`READY_REQUIRED_MODULES`) |
+| **Startup** | HTTP `GET` | `:3030/ready` | Gates slow module registration before liveness failures (up to ~150s by default) |
+| **Liveness** | gRPC health | `:5000` | **Shallow** — process and gRPC server alive; avoids restarts during module warm-up |
+
+Readiness uses a **3s timeout** because `/ready` may probe Redis and module health. Liveness stays on gRPC so a temporarily unready platform (e.g. database pod still starting) does not kill core.
+
+Default `READY_REQUIRED_MODULES` on core:
+
+- `database` when router is disabled
+- `database,router` when the router subchart is enabled
+
+Override probes and env in `values.yaml`:
+
+```yaml
+core:
+  adminHttpPort: 3030
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: 3030
+    timeoutSeconds: 3
+  livenessProbe:
+    grpc:
+      port: 5000
+  startupProbe:
+    enabled: true
+    httpGet:
+      path: /ready
+      port: 3030
+  env:
+    - name: READY_REQUIRED_MODULES
+      value: "database,router,authentication"
+```
+
+Feature modules (database, router, authentication, etc.) use **gRPC health** for both readiness and liveness on their own pods — only **core** uses the deep HTTP `/ready` endpoint.
+
+## Shallow liveness endpoint
+
+`GET /live` on Admin HTTP (`:3030`) returns immediately with `{ status: "alive" }`. Use it for manual smoke tests; prefer the chart's gRPC liveness probe for Kubernetes.
+
+See also [conduit-helm-charts](https://github.com/ConduitPlatform/conduit-helm-charts) for advanced layouts and multi-tenant experiments.

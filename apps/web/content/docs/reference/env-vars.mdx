@@ -1,7 +1,7 @@
 ---
 title: Environment Variables
-description: Core and module environment variable reference.
-agent_summary: "CONDUIT_SERVER and SERVICE_URL required per module; CLIENT_HTTP_PORT 3000; ADMIN_HTTP_PORT 3030; GRPC_KEY for inter-module auth."
+description: Core and module environment variable reference — ports, gRPC, and readiness tuning.
+agent_summary: "CONDUIT_SERVER and SERVICE_URL required per module; READY_* on core; ADMIN_HTTP_PORT 3030; CLIENT_HTTP_PORT 3000."
 ---
 
 ## Every module process
@@ -17,10 +17,31 @@ agent_summary: "CONDUIT_SERVER and SERVICE_URL required per module; CLIENT_HTTP_
 
 | Variable | Default | Purpose |
 |----------|---------|---------|
-| `ADMIN_HTTP_PORT` | `3030` | Admin API |
+| `ADMIN_HTTP_PORT` | `3030` | Admin API, `/ready`, `/live`, MCP (`/mcp`) |
 | `CLIENT_HTTP_PORT` | `3000` | Client API (router) |
 | `CLIENT_SOCKET_PORT` | `3001` | Client WebSockets |
 | `REDIS_HOST` / `REDIS_PORT` | — | Config bus |
+
+## Core readiness (`READY_*`)
+
+Set on the **core** process. Controls `GET /ready` deep health evaluation:
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `READY_REQUIRED_MODULES` | _(empty)_ | Comma-separated modules that must register before ready (Helm sets `database` or `database,router`) |
+| `READY_CHECK_REDIS` | `true` | Include Redis PING in readiness |
+| `READY_STRICT` | `false` | Fail readiness when optional modules are not serving |
+| `READY_PROBE_MODULES_ACTIVE` | `false` | Actively gRPC-health-check each module |
+| `READY_TOTAL_TIMEOUT_MS` | `3000` | Overall readiness evaluation budget |
+| `READY_REDIS_TIMEOUT_MS` | `500` | Redis PING timeout |
+| `READY_MODULE_TIMEOUT_MS` | `1000` | Per-module health probe timeout |
+
+Example for a minimal compose stack:
+
+```env
+READY_REQUIRED_MODULES=database,router
+READY_CHECK_REDIS=true
+```
 
 ## Database module
 
@@ -28,4 +49,4 @@ agent_summary: "CONDUIT_SERVER and SERVICE_URL required per module; CLIENT_HTTP_
 |----------|---------|
 | `DB_CONN_URI` | MongoDB or PostgreSQL connection string |
 
-See deployment guides for compose and Helm-specific overrides.
+See [Kubernetes and Helm](/docs/deployment/kubernetes-helm) for probe and `READY_REQUIRED_MODULES` defaults in the official chart, and deployment guides for compose-specific overrides.
