@@ -1,7 +1,7 @@
 ---
 title: Architecture
-description: Core, router, modules, Redis, and gRPC service discovery.
-agent_summary: "Core registers modules over gRPC; router exposes Client API; Redis config bus; database module owns DB engine."
+description: Core, router, modules, Redis, gRPC service discovery, and health probes.
+agent_summary: "Core registers modules over gRPC; router exposes Client API; Redis config bus; deep /ready vs shallow /live on :3030."
 ---
 
 ```
@@ -10,6 +10,7 @@ agent_summary: "Core registers modules over gRPC; router exposes Client API; Red
 │  • ConfigManager + Redis config/event bus                       │
 │  • Service discovery (module registry, health, recovery)        │
 │  • Admin API (REST / GraphQL / WebSockets)  :3030               │
+│  • Health: GET /ready (deep), GET /live (shallow)               │
 │  • MCP server at /mcp                                           │
 └───────────────┬─────────────────────────────────────────────────┘
                 │ gRPC (@conduitplatform/grpc-sdk)
@@ -20,12 +21,29 @@ agent_summary: "Core registers modules over gRPC; router exposes Client API; Red
 
 | Layer | Role |
 |-------|------|
-| **Core** | Module registration, config, Admin API, MCP |
+| **Core** | Module registration, config, Admin API, MCP, readiness coordination |
 | **Router** | Client API gateway (REST, GraphQL, Socket.io) on `:3000` |
 | **Feature modules** | Domain logic; register routes via `RoutingManager` |
 | **Redis** | Config bus, pub/sub, shared state |
 | **Database module** | MongoDB or PostgreSQL — apps never connect directly |
 
 Each module connects to core via `CONDUIT_SERVER` and registers on startup. Custom modules extend `ManagedModule` from `@conduitplatform/module-tools`.
+
+## Health and readiness
+
+Core exposes two Admin HTTP probes on port **3030** (no auth required):
+
+| Endpoint | Purpose | Checks |
+|----------|---------|--------|
+| **`GET /live`** | **Liveness** — process alive, Admin HTTP responding | Returns `{ status: "alive" }` immediately |
+| **`GET /ready`** | **Readiness** — platform can serve traffic | Core bootstrap, gRPC health, Redis PING, required/optional module registration |
+
+`/ready` returns **200** with a structured report when ready, or **503** when any required check fails. Each check includes `name`, `status` (`pass` \| `fail` \| `warn`), optional `message`, and `latencyMs`.
+
+**Legacy clients** (plain-text `curl` without `Accept: application/json`) still receive `Conduit Core is online!` or `Conduit Core is not ready`. Pass `?legacy=true` to force plain text. Send `Accept: application/json` for the structured report.
+
+Configure which modules must be registered before core is ready via `READY_REQUIRED_MODULES` (comma-separated). The official Helm chart sets this to `database` or `database,router` depending on whether the router subchart is enabled. See [Environment variables](/docs/reference/env-vars) for all `READY_*` settings.
+
+**Kubernetes pattern:** point **readiness** and **startup** probes at HTTP `GET /ready:3030`; keep **liveness** on gRPC health (`:5000`) so transient module-registration delays do not restart the pod. See [Kubernetes and Helm](/docs/deployment/kubernetes-helm).
 
 See [Deployment modes](/docs/deployment/docker-compose) and [Client vs Admin API](/docs/learn/client-vs-admin-api).
