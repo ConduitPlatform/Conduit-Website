@@ -4,13 +4,58 @@ description: Conduit Platform modules overview.
 agent_summary: "Index of first-party modules: auth, authorization, database, storage, communications, chat, router, functions."
 ---
 
-Eight first-party modules ship on Conduit **v0.17**. Legacy **email**, **sms**, and **push-notifications** are consolidated into **communications**.
+Eight first-party modules ship on Conduit **v0.17**. Legacy **email**, **sms**, and **push-notifications** are consolidated into **communications**; the **forms** module is removed — use database schemas, custom endpoints, or the functions module instead.
 
-For a visual module catalog with use cases, see the [marketing modules page](/modules).
+For a visual module catalog with use cases, see the [marketing modules page](/modules). For upgrade steps from v0.16, see [Migration v0.16 → v0.17](/docs/resources/migration-v0.16-to-v0.17).
+
+## Official modules
+
+<ModuleGrid>
+  <ModuleCard title="Authentication" href="/docs/modules/authentication" description="Users, local/OAuth login, tokens, teams, 2FA, and magic links" />
+  <ModuleCard title="Authorization" href="/docs/modules/authorization" description="ReBAC resources, relations, permissions, and scoped creates" />
+  <ModuleCard title="Database" href="/docs/modules/database" description="MongoDB or PostgreSQL, schemas, CRUD, custom endpoints, GraphQL" />
+  <ModuleCard title="Storage" href="/docs/modules/storage" description="Local, S3, Azure, GCS, and Alibaba Cloud file storage" />
+  <ModuleCard title="Communications" href="/docs/modules/communications" description="Unified email, SMS, push, orchestration, and multi-channel templates" />
+  <ModuleCard title="Chat" href="/docs/modules/chat" description="Rooms, messages, read status, and Socket.io realtime" />
+  <ModuleCard title="Router" href="/docs/modules/router" description="Client API gateway — REST, GraphQL, and WebSockets" />
+  <ModuleCard title="Functions" href="/docs/modules/functions" description="Admin-defined server-side JS — webhooks, events, cron, middleware" />
+</ModuleGrid>
+
+## v0.17 highlights
+
+| Area | What changed |
+|------|----------------|
+| **Communications** | One module replaces email, SMS, and push; unified templates and fallback orchestration |
+| **Admin API tokens** | `cdt_` tokens replace authentication service accounts for MCP and automation |
+| **Readiness** | Core deep `GET /ready` on the Admin port for Kubernetes probes |
+| **Functions** | `vm2` removed; constrained VM context; **cron** function type for scheduled handlers |
+| **Removed** | **forms** module; router proxy routes; legacy channel module containers |
+
+## Module dependencies
+
+Some modules require others at runtime:
+
+| Module | Required | Optional |
+|--------|----------|----------|
+| **Authentication** | Database | Communications (verification email, SMS 2FA) |
+| **Authorization** | — | — |
+| **Database** | MongoDB or PostgreSQL | — |
+| **Storage** | Database | — |
+| **Communications** | — | — |
+| **Chat** | Database, Authentication | — |
+| **Router** | Database | Other modules (routes they register) |
+| **Functions** | — | Any module accessed via `grpcSdk` in handlers |
+
+Modules communicate over **gRPC**. The router exposes application routes on the **Client API** (`CLIENT_HTTP_PORT`, default **3000**). Operators provision schemas and config via the **Admin API** or [MCP server](/docs/getting-started/mcp-setup).
+
+## Custom modules
+
+Build additional modules in any gRPC-compatible language. TypeScript teams use [`@conduitplatform/grpc-sdk`](/docs/reference/grpc-sdk) for typed clients and lifecycle hooks.
 
 <NextSteps steps={[
   { title: "Authentication", href: "/docs/modules/authentication" },
+  { title: "Communications", href: "/docs/modules/communications" },
   { title: "Database", href: "/docs/modules/database" },
-  { title: "Authorization (ReBAC)", href: "/docs/modules/authorization" },
+  { title: "Migration v0.16 → v0.17", href: "/docs/resources/migration-v0.16-to-v0.17" },
   { title: "All modules (visual catalog)", href: "/modules" },
 ]} />
