@@ -1,0 +1,131 @@
+### Unified module, channel-scoped Admin paths
+
+One **communications** module owns all three channels. Admin routes register at the **router root** — there is no `/communications` prefix:
+
+| Prefix | Purpose |
+|--------|---------|
+| `/email/*` | Send, templates, delivery history, resend |
+| `/push/*` | Send notifications, manage device tokens — **not** `/pushNotifications` |
+| `/sms/*` | Send SMS, delivery history |
+| `/send/*` | Orchestrator — multi-channel broadcast and fallback |
+
+Config nests push settings under `pushNotifications` (legacy key name); Admin API paths use `/push`.
+
+### API surfaces
+
+| Layer | Role |
+|-------|------|
+| **Client API** | Device token registration, in-app notification inbox (router root, no prefix) |
+| **Admin API** | Send email/push/SMS, template CRUD, delivery history, orchestration |
+| **gRPC / grpc-sdk** | Server-side sending from custom modules (`grpcSdk.email`, `grpcSdk.communications`, …) |
+
+Legacy grpc-sdk clients (`grpcSdk.email`, `grpcSdk.pushNotifications`, `grpcSdk.sms`) route to communications automatically.
+
+### Templates: EmailTemplate vs CommunicationTemplate
+
+**EmailTemplate** — email-only Handlebars templates. Full Admin CRUD at `/email/templates`. Variables are auto-extracted from `{{placeholders}}` in subject and body on create. Reference by **`templateName`** when calling `POST /email/send` or `grpcSdk.email.sendEmail`.
+
+| Field | Purpose |
+|-------|---------|
+| `name` | Unique identifier — used as `templateName` when sending |
+| `subject`, `body` | Handlebars strings |
+| `variables` | Auto-derived from `{{…}}` placeholders |
+| `sender` | Optional override sender |
+| `externalManaged` | Sync with SendGrid/Mailgun provider templates |
+
+**CommunicationTemplate** — unified multi-channel template stored in the database. One document covers every channel the message uses:
+
+| Field | Purpose |
+|-------|---------|
+| `name` | Unique template identifier |
+| `channels` | `['email', 'push', 'sms']` — which channels this template serves |
+| `email` | `{ subject, body, sender? }` — Handlebars in subject/body |
+| `push` | `{ title, body }` — `{{variable}}` interpolation |
+| `sms` | `{ message }` — `{{variable}}` interpolation |
+| `variables` | Declared variable names shared across channels |
+
+CommunicationTemplate documents are **exportable/importable** via [state export](/docs/guides/gitops-state-export) (`communicationTemplates` resource type). Provision at deploy time alongside EmailTemplates.
+
+For **EmailTemplate**, use Admin REST (`POST /email/templates`) or MCP `post_email_templates`. For **CommunicationTemplate**, prefer GitOps state import or direct database provisioning today. gRPC `RegisterCommunicationTemplate` is the orchestrator registration hook (server-side grpc-sdk only); it currently returns a minimal placeholder response — full unified Admin REST CRUD for CommunicationTemplate is not exposed yet.
+
+### Sending with `templateName`
+
+| Path | `templateName` behavior |
+|------|-------------------------|
+| `POST /email/send` | Resolves **EmailTemplate** by name; compiles Handlebars with `variables`. Omit only when providing inline `subject` + `body`. |
+| `grpcSdk.email.sendEmail(templateName, …)` | Same resolution as Admin API |
+| `POST /send/multiple`, `POST /send/fallback` | Inline `subject`, `body`, `variables` per channel — **no** `templateName` lookup on REST |
+| gRPC `SendToMultipleChannels`, `SendWithFallback` | Accept `templateName` in the proto for CommunicationTemplate resolution |
+| `POST /push/send`, `POST /sms/send` | Inline `title`/`body` or `message` — no template lookup |
+
+```typescript
+// Email — template by name (server-side only)
+await grpcSdk.email!.sendEmail("WelcomeEmail", {
+  email: "user@example.com",
+  variables: { name: "Alex" },
+});
+
+// Orchestrator — multi-channel broadcast
+await grpcSdk.communications!.sendToMultipleChannels(
+  ["email", "push"],
+  "BEST_EFFORT",
+  {
+    recipient: "user@example.com",
+    subject: "Order shipped",
+    body: "Your order {{orderId}} is on the way",
+    variables: { orderId: "ORD-42" },
+  }
+);
+```
+
+### Orchestration
+
+The orchestrator coordinates delivery across channels through two Admin API entry points:
+
+| Admin route | Strategy | Behavior |
+|-------------|----------|----------|
+| `POST /send/multiple` | `BEST_EFFORT` or `ALL_OR_NOTHING` | Parallel send to listed channels; `ALL_OR_NOTHING` fails if any channel fails |
+| `POST /send/fallback` | Ordered chain | Try each channel in sequence with per-step `timeout` (ms) until one succeeds |
+
+`POST /send/multiple` returns `{ successCount, failureCount, results[] }`. `POST /send/fallback` returns `{ successfulChannel, messageId, attempts[] }`.
+
+Orchestration config (`retryAttempts`, `retryDelay`, `timeout`, `fallbackTimeout`) lives under `communications.orchestration`.
+
+### Migration from v0.16
+
+Standalone **email**, **sms**, and **push-notifications** modules are deprecated. Communications is a drop-in replacement:
+
+1. **Deploy** — register `Communications` instead of three separate modules.
+2. **Config** — nest legacy keys under `communications` (example below).
+3. **Code** — existing `grpcSdk.email`, `grpcSdk.pushNotifications`, `grpcSdk.sms` calls continue unchanged.
+4. **MCP** — use `?modules=communications` or aliases `?modules=email,push,sms`. `push-notifications` is **not** a valid alias.
+
+```yaml
+communications:
+  active: true
+  email:
+    active: true
+    transport: sendgrid
+    sendingDomain: example.com
+    transportSettings:
+      sendgrid:
+        apiKey: "…"
+  pushNotifications:   # config key — Admin paths use /push
+    active: true
+    providerName: firebase
+    firebase:
+      projectId: "…"
+  sms:
+    active: true
+    providerName: twilio
+    twilio:
+      accountSID: "…"
+      authToken: "…"
+  orchestration:
+    retryAttempts: 3
+    fallbackTimeout: 5000
+```
+
+On first boot, communications can auto-merge legacy top-level `email`, `pushNotifications`, and `sms` config into the unified namespace when channel values still match defaults. Legacy gRPC service names are preserved on the unified `Communications` gRPC service.
+
+See [Migration guide](/docs/resources/migration-v0.16-to-v0.17).
