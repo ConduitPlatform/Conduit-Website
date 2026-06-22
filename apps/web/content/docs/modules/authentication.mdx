@@ -1,10 +1,16 @@
 ---
 title: Authentication
-description: Users, local/OAuth login, tokens, teams, and 2FA.
-agent_summary: "Client API: /authentication/local/new, /authentication/local, renew, logout, teams; server-side token vault; MCP ?modules=authentication."
+description: Users, local/OAuth login, tokens, teams, 2FA, and sudo for sensitive operations.
+agent_summary: "Client API: /authentication/local, renew, logout, teams, twoFa; server-side token vault; sudo after fresh login; Admin API cdt_ tokens for automation — not service accounts."
 ---
 
-The **authentication** module handles user accounts, token issuance, OAuth providers, teams, magic links, and 2FA. Application runtime code uses the **Client API** with user bearer tokens; provisioning uses Admin API or MCP.
+import AuthenticationDeepDive from "@/mdx/deep-dives/authentication-deep-dive.mdx";
+
+Apps need sign-up, login, token lifecycle, and optional multi-tenant membership without building auth from scratch. The **authentication** module handles user accounts, JWT access/refresh tokens, OAuth providers, teams, magic links, and 2FA. Application runtime code uses the **Client API** with user bearer tokens; provisioning uses the Admin API or MCP.
+
+<AgentHint>
+  Machine-to-machine and operator automation use **[Admin API tokens](/docs/reference/admin-api)** (`cdt_` prefix) — not Client API service accounts. See [Client vs Admin API](/docs/learn/client-vs-admin-api).
+</AgentHint>
 
 ## Use cases
 
@@ -16,15 +22,19 @@ The **authentication** module handles user accounts, token issuance, OAuth provi
     },
     {
       title: "Multi-tenant B2B",
-      outcome: "Teams with hierarchy, invites, and default team membership",
+      outcome: "Teams with hierarchy, invites, and ReBAC-backed membership",
     },
     {
       title: "Secure web apps",
       outcome: "Server-side token vault — tokens never in browser storage",
     },
     {
-      title: "Back-office access",
-      outcome: "Admin-team role gates for operator-only Admin API routes",
+      title: "Sensitive account changes",
+      outcome: "Sudo mode after fresh login gates password, email, 2FA, and team deletion",
+    },
+    {
+      title: "CI and provisioning",
+      outcome: "Admin API `cdt_` tokens or MCP for operator workflows — not end-user tokens",
     },
   ]}
 />
@@ -34,13 +44,17 @@ The **authentication** module handles user accounts, token issuance, OAuth provi
 <ModuleCapabilities
   items={[
     "Local register/login",
-    "OAuth (Google, GitHub, Apple, …)",
-    "Access + refresh tokens",
-    "Magic link & 2FA",
-    "Teams & invites",
-    "Email verification",
-    "Password reset",
+    "OAuth (Google, GitHub, Apple, Microsoft, Facebook, Slack, GitLab, …)",
+    "Access + refresh tokens (JWT)",
+    "Sudo mode for destructive/sensitive routes",
+    "Magic link login",
+    "2FA (authenticator + SMS)",
+    "2FA backup codes (config-gated)",
+    "Teams, invites, and sub-teams",
+    "Email verification & password reset",
     "User profile extension fields",
+    "Anonymous users (optional)",
+    "Account linking (same email across providers)",
   ]}
 />
 
@@ -49,10 +63,11 @@ The **authentication** module handles user accounts, token issuance, OAuth provi
 <ModuleExample
   steps={[
     "Enable the authentication module and local strategy via MCP `patch_config_authentication`",
-    "Register a user with POST /authentication/local/new",
-    "Log in with POST /authentication/local and save accessToken server-side",
-    "Create a team via MCP post_authentication_teams (admin) or Client API team routes",
-    "Invite a teammate with an invitation token on register",
+    "Set `teams.enabled: true` and configure invites if needed",
+    "Register a user with POST /authentication/local/new (pass `invitationToken` when invites are required)",
+    "Log in with POST /authentication/local — store `{ accessToken, refreshToken }` server-side",
+    "Create a team via POST /authentication/teams or MCP `post_authentication_teams`",
+    "Invite a teammate with POST /authentication/teams/:teamId/invite",
   ]}
 >
   <APIExample
@@ -69,28 +84,12 @@ The **authentication** module handles user accounts, token issuance, OAuth provi
   />
 </ModuleExample>
 
+Register returns `{ user }` only — the user must log in separately for tokens.
+
 ## How it works
 
 <ModuleDeepDive>
-### Token lifecycle
-
-Access tokens (default 1h) authenticate Client API requests. When `refreshTokens.enabled` is true, `POST /authentication/renew` rotates the refresh token and issues a new pair. Blocked users (`active: false`) cannot renew or log in.
-
-### Application token storage
-
-**Web / Next.js:** Store `{ accessToken, refreshToken }` in a server-side vault (Redis). The browser holds only an opaque session cookie. On 401, renew once and retry. See the [Next.js guide](/docs/guides/first-app-nextjs).
-
-**Mobile:** Platform secure storage (Keychain, SecureStore) when no server vault exists.
-
-Never persist tokens in `localStorage` or `sessionStorage`.
-
-### Teams
-
-Teams register as a built-in ReBAC resource (`Team`) with relations `member`, `owner`, and team-scoped permissions. Team routes on the Client API require authentication; admin CRUD uses MCP tools like `get_authentication_teams` and `post_authentication_teams`.
-
-### OAuth
-
-When a provider is enabled in config, `GET /authentication/init/{provider}` redirects to the IdP. Callback hits `/authentication/hook/{provider}`; tokens return in JSON or httpOnly cookies depending on `accessTokens.setCookie` / `refreshTokens.setCookie`.
+  <AuthenticationDeepDive />
 </ModuleDeepDive>
 
 ## Configure
@@ -100,14 +99,25 @@ Patch module config via MCP `patch_config_authentication`:
 | Key | Default | Meaning |
 |-----|---------|---------|
 | `accessTokens.expiryPeriod` | 3600000 (1h) | Access JWT lifetime (ms) |
+| `accessTokens.setCookie` | false | Return tokens as httpOnly cookies |
 | `refreshTokens.enabled` | true | Enable `/authentication/renew` |
 | `refreshTokens.expiryPeriod` | 604800000 (7d) | Refresh token lifetime |
-| `local.verification.required` | false | Require email verification before login |
-| `teams.enabled` | false | Enable team routes and team-scoped ReBAC |
+| `local.enabled` | true | Email/password strategy |
+| `local.verification.required` | false | Block login until email verified |
+| `local.verification.method` | `link` | `link` or `code` verification |
+| `teams.enabled` | false | Team routes and team-scoped ReBAC |
+| `teams.invites.enabled` | false | Email team invitations |
+| `teams.enableDefaultTeam` | false | Auto-create personal team on register |
+| `twoFa.enabled` | false | Global 2FA toggle |
+| `twoFa.methods.sms` | false | SMS 2FA (requires communications module) |
+| `twoFa.methods.authenticator` | true | TOTP authenticator 2FA |
+| `twoFa.backUpCodes.enabled` | true | Expose backup-code generate/recover routes |
+| `magic_link.enabled` | false | Passwordless email login |
+| `anonymousUsers.enabled` | false | Anonymous user registration |
 
-OAuth providers need `clientId` + `clientSecret` per provider under `config.{provider}`.
+OAuth providers need `clientId` + `clientSecret` per provider under `config.{provider}.enabled`.
 
-Local and OAuth routes require **router client id/secret** in request context (Conduit router client credentials).
+Local and OAuth routes require **router client id/secret** in request context (Conduit router client credentials). Email verification, magic links, and invite emails require the **communications** module.
 
 ## Client API
 
@@ -118,9 +128,16 @@ Local and OAuth routes require **router client id/secret** in request context (C
 | Renew | `POST /authentication/renew` |
 | Logout | `POST /authentication/logout` |
 | Current user | `GET /authentication/user` |
-| Teams | `GET /authentication/teams`, `POST /authentication/teams`, … |
-
-Register returns `{ user }` only — the user must log in separately for tokens.
+| Update user | `PATCH /authentication/user` |
+| Delete user | `DELETE /authentication/user` (sudo) |
+| Change password | `POST /authentication/local/change-password` (sudo) |
+| Forgot / reset password | `POST /authentication/forgot-password`, `POST /authentication/reset-password` |
+| Magic link | `POST /authentication/magic-link` |
+| OAuth init | `GET /authentication/init/{provider}` |
+| 2FA verify | `POST /authentication/twoFa/verify` |
+| 2FA enable / disable | `PUT /authentication/twoFa/enable`, `PUT /authentication/twoFa/disable` (sudo) |
+| 2FA backup codes | `GET /authentication/twoFa/generate`, `POST /authentication/twoFa/recover` (when `twoFa.backUpCodes.enabled`) |
+| Teams | `GET /authentication/teams`, `POST /authentication/teams`, `GET /authentication/teams/:teamId`, … |
 
 ## MCP
 
@@ -132,11 +149,14 @@ Enable with `?modules=authentication` in your MCP server URL.
 | `post_authentication_users` | Create user (admin) |
 | `get_authentication_teams` | List teams |
 | `post_authentication_teams` | Create team |
-| `patch_config_authentication` | Token, OAuth, team settings |
+| `patch_config_authentication` | Token, OAuth, team, and 2FA settings |
+
+For operator automation, prefer `cdt_` API tokens over legacy service-account config. See [MCP setup](/docs/getting-started/mcp-setup).
 
 <NextSteps steps={[
   { title: "Your first app", href: "/docs/getting-started/first-app" },
   { title: "Next.js integration", href: "/docs/guides/first-app-nextjs" },
   { title: "Authorization (ReBAC)", href: "/docs/modules/authorization" },
   { title: "ReBAC team scoping", href: "/docs/guides/rebac-team-scoping" },
+  { title: "Admin API tokens", href: "/docs/reference/admin-api" },
 ]} />
