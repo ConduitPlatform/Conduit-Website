@@ -31,7 +31,7 @@ Remove **forms** from module enable lists and deployment manifests.
 
 ### Service accounts → Admin API tokens
 
-Authentication **service account** login (API keys stored in the `Service` collection) is **removed** on the v0.17 track.
+Authentication **service account** login (API keys stored in the `Service` collection) is **removed in v0.17** (breaking change).
 
 - **Before:** `POST /authentication/service` with service-account credentials
 - **After:** Create **`cdt_` API tokens** on core via `POST /api-tokens` (authenticated with admin JWT or `masterkey`)
