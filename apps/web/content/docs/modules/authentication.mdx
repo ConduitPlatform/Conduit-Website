@@ -192,15 +192,15 @@ Supported providers include **Google**, **GitHub**, **Apple**, **Microsoft**, **
 
 Pass `invitationToken` and `redirectUri` on init to join a team during OAuth sign-up. Tokens return in JSON or httpOnly cookies depending on `accessTokens.setCookie` / `refreshTokens.setCookie`. `redirectUris.whitelistedUris` restricts post-auth redirects.
 
-### Machine auth (no service accounts)
+### Machine auth (service accounts removed in v0.17)
 
-v0.17 does **not** recommend Client API service accounts (`POST /authentication/service`). For automation, CI, and MCP clients, use **[Admin API tokens](/docs/reference/admin-api)**:
+v0.17 **removes** Client API service accounts (`POST /authentication/service`) as a **breaking change**. The `Service` collection is dropped on authentication module startup migration. For automation, CI, and MCP clients, use **[Admin API tokens](/docs/reference/admin-api)** instead:
 
-- Create `cdt_` API tokens via Admin API or MCP
+- Create `cdt_` API tokens via Admin API (`POST /api-tokens`) or MCP `post_apitokens`
 - Authenticate MCP with `Authorization: Bearer <cdt_token>`
 - Never embed admin tokens in application runtime code or browser config
 
-Service-account login remains in the codebase behind `service.enabled` for legacy deployments; new integrations should use Admin API tokens.
+Until you upgrade from v0.16, legacy deployments may still expose service-account login behind `service.enabled` — plan migration before promoting v0.17. See [Migration v0.16 → v0.17](/docs/resources/migration-v0.16-to-v0.17).
 </ModuleDeepDive>
 
 ## Configure
