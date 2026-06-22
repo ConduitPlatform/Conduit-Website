@@ -176,7 +176,13 @@ GET {router.hostUrl}/hook/chat/invitations/accept/{token}
 GET {router.hostUrl}/hook/chat/invitations/decline/{token}
 ```
 
-The hook route is rate-limited and resolves the opaque `token` (not the document id). The receiver must be authenticated when the link is opened (session cookie or bearer token). The hook returns plain text (`Invitation accepted` / `Invitation declined`); redirect users to your app UI client-side after a successful response, or use the in-app `/chat/invitations/...` routes from your frontend.
+The hook route is rate-limited and resolves the opaque `token` (not the document id).
+
+- **Route auth:** The hook uses optional auth middleware (`authMiddleware?`) — the URL itself is not a secret, but accepting or declining still requires a logged-in user before the invitation is applied.
+- **Unauthenticated visitors:** When `explicit_room_joins.redirect.login_uri` is set, unauthenticated users are redirected to your login page with `redirectUri` set back to the hook URL so they can complete the flow after signing in.
+- **After accept/decline:** Configure `explicit_room_joins.redirect.accept_uri` / `decline_uri` (supports `{roomId}`) for server-side redirects; otherwise the hook returns a plain-text result (`Invitation accepted` / `Invitation declined`).
+
+> **Note:** Email links have always used the `/hook/chat/invitations/...` path. Older releases registered the handler at `/hook/invitations/...` (without the `chat` segment), so those links 404'd until the route and email builder were aligned. Use `/hook/chat/invitations/{accept|decline}/{token}` as the canonical path.
 
 Set **`router.hostUrl`** (`patch_config_router`) to your public Client API base URL so invitation links resolve correctly in production — defaults to `http://localhost:3000` when unset.
 
@@ -218,6 +224,9 @@ Patch via MCP `patch_config_chat` (`?modules=chat`):
 | `explicit_room_joins.enabled` | `false` | Require invitation acceptance before membership |
 | `explicit_room_joins.send_email` | `false` | Email invitation links (needs communications email) |
 | `explicit_room_joins.send_notification` | `false` | Push on invite (needs communications push) |
+| `explicit_room_joins.redirect.login_uri` | `""` | Login page for unauthenticated hook visitors (`redirectUri` query param) |
+| `explicit_room_joins.redirect.accept_uri` | `""` | Post-accept redirect (`{roomId}` placeholder) |
+| `explicit_room_joins.redirect.decline_uri` | `""` | Post-decline redirect |
 
 For invitation email links, also set **`router.hostUrl`** to your public API origin.
 
@@ -240,7 +249,7 @@ Domain workflows (e.g. auto-create room on order) typically use `grpcSdk.chat` f
 | GET | `/chat/invitations/sent` | If `explicit_room_joins.enabled` |
 | GET | `/chat/invitations/{accept\|decline}/:id` | If `explicit_room_joins.enabled` |
 | DELETE | `/chat/invitations/cancel/:id` | If `explicit_room_joins.enabled` |
-| GET | `/hook/chat/invitations/{accept\|decline}/:token` | Email deep link; no auth middleware on hook path |
+| GET | `/hook/chat/invitations/{accept\|decline}/:token` | Email deep link; optional auth + redirect config |
 
 ## Admin API
 
