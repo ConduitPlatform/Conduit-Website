@@ -1,0 +1,96 @@
+---
+title: gRPC SDK
+description: TypeScript SDK for custom Conduit modules and trusted server-side gRPC clients.
+agent_summary: "@conduitplatform/grpc-sdk for module authors and server workers; not for browser or Client API app runtime."
+---
+
+The **gRPC SDK** (`@conduitplatform/grpc-sdk`) is the TypeScript toolkit for **custom module authors** and **trusted server-side processes** that talk to Conduit over gRPC. Application web and mobile clients use the [Client API](/docs/reference/client-api) with user bearer tokens instead.
+
+<AgentHint>
+  Do **not** import the gRPC SDK in browser bundles or call it from user-facing request handlers. End-user apps use REST on the router (`CLIENT_BASE_URL`). See [Client vs Admin API](/docs/learn/client-vs-admin-api).
+</AgentHint>
+
+## When to use
+
+| Use case | Surface |
+|----------|---------|
+| Build a custom Conduit module in TypeScript | gRPC SDK (`ConduitModule`, route/schema helpers) |
+| Server worker calling database, storage, communications from a module | `grpcSdk` clients inside module code |
+| Provision schemas, config, admin tasks | [Admin API](/docs/reference/admin-api) or [MCP](/docs/getting-started/mcp-setup) — not grpc-sdk from app runtime |
+| End-user CRUD, auth, chat | [Client API](/docs/reference/client-api) |
+
+## Installation
+
+```bash
+npm install @conduitplatform/grpc-sdk
+```
+
+## What the SDK provides
+
+- **Module lifecycle** — `ConduitModule` base class, initialization hooks, health integration
+- **Service clients** — typed `grpcSdk` accessors to database, storage, authentication, communications, and other modules
+- **Schema helpers** — `ConduitSchema` and model constructors for module-owned collections
+- **Route registration** — register Client API or Admin API routes from module code via `RoutingManager`
+
+## Usage sketch
+
+### Custom module entry
+
+```typescript
+import { ConduitModule } from "@conduitplatform/grpc-sdk";
+
+class MyModule extends ConduitModule {
+  async initialize() {
+    // Register routes, subscribe to events, wire grpcSdk clients
+  }
+}
+```
+
+### Schema definition
+
+```typescript
+import { ConduitSchema } from "@conduitplatform/grpc-sdk";
+
+const OrderSchema = new ConduitSchema("Order", {
+  total: { type: "Number", required: true },
+  status: { type: "String", default: "pending" },
+});
+```
+
+### Client API route from a module
+
+```typescript
+this.routeManager.registerRoute({
+  path: "/my-module/health",
+  method: "GET",
+  handler: async (_req, res) => {
+    res.json({ ok: true });
+  },
+});
+```
+
+For exhaustive types and APIs, use the package source and TypeScript definitions in the [Conduit monorepo](https://github.com/ConduitPlatform/Conduit/tree/main/libraries/grpc-sdk).
+
+## v0.17 notes
+
+- **`admin`, `commons`, and `core` packages** merged into `packages/core`. Depend on `@conduitplatform/grpc-sdk` and documented `packages/core` paths only — see [Migration v0.16 → v0.17](/docs/resources/migration-v0.16-to-v0.17).
+- **Communications** — legacy client names (`grpcSdk.email`, `grpcSdk.sms`, `grpcSdk.pushNotifications`) route to the communications module automatically.
+
+## Other languages
+
+Conduit modules can be implemented in any gRPC-compatible language:
+
+1. Use proto definitions from the Conduit repository (`packages/commons` protofiles)
+2. Implement the module service interfaces for your runtime
+3. Register with core over gRPC
+
+TypeScript teams typically use this SDK; other languages use generated stubs from the same protos.
+
+## Related
+
+| Topic | Doc |
+|-------|-----|
+| Platform architecture | [/docs/learn/architecture](/docs/learn/architecture) |
+| Client vs Admin boundary | [/docs/learn/client-vs-admin-api](/docs/learn/client-vs-admin-api) |
+| Custom modules overview | [/docs/modules](/docs/modules) |
+| Communications (grpcSdk sending) | [/docs/modules/communications](/docs/modules/communications) |
