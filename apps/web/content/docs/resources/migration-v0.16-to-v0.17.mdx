@@ -1,8 +1,10 @@
 ---
 title: Migration v0.16 → v0.17
-description: What changed and how to upgrade your deployment and docs.
-agent_summary: "Communications replaces email/sms/push; Node 24 pnpm toolchain; MCP admin server; update MCP and module enable lists."
+description: What changed and how to upgrade your deployment and integrations.
+agent_summary: "Communications replaces email/sms/push; forms removed; service accounts removed — use cdt_ API tokens; deep /ready; unified templates; cron functions; Node 24 pnpm toolchain; MCP admin server."
 ---
+
+v0.17 is currently **alpha** — pin image and package versions in production until stable. Review [changelog](/docs/resources/changelog) and [GitHub releases](https://github.com/ConduitPlatform/Conduit/releases) for patch notes.
 
 ## Major changes
 
@@ -10,34 +12,91 @@ agent_summary: "Communications replaces email/sms/push; Node 24 pnpm toolchain; 
 
 Separate **email**, **sms**, and **push-notifications** modules are **consolidated** into **communications**.
 
-- Update Helm/compose module lists
-- Update MCP URL: `?modules=communications` (aliases `email,push,sms` still work)
-- Update documentation links from `/docs/modules/email` etc. to `/docs/modules/communications`
+- Replace legacy module containers with **communications** in Helm, compose, and standalone images
+- Update MCP URL: `?modules=communications` (aliases `email`, `push`, `sms` still work)
+- Update documentation links from `/docs/modules/email` (v0.16 archive) to [/docs/modules/communications](/docs/modules/communications)
+- Config migrates under the communications key (`email`, `pushNotifications`, `sms`, `orchestration` nested fields)
+- grpc-sdk client names (`grpcSdk.email`, `grpcSdk.sms`, `grpcSdk.pushNotifications`) route to communications automatically
 
-### Toolchain
+**Unified templates** coordinate messaging across channels — Handlebars for email, `{{variable}}` interpolation for SMS and push. Use orchestration for multi-channel broadcasts and fallback chains (for example, email then SMS).
 
-- **Node.js 24+** and **pnpm** + Turbo replace Yarn/Lerna for Conduit development
-- Application consumers unaffected — Docker images and Client API stable
+### Removed modules
+
+| v0.16 module | v0.17 |
+|--------------|-------|
+| **email**, **sms**, **push-notifications** | **communications** |
+| **forms** | Removed — use database schemas + custom endpoints or the functions module |
+
+Remove **forms** from module enable lists and deployment manifests.
+
+### Service accounts → Admin API tokens
+
+Authentication **service account** login (API keys stored in the `Service` collection) is **removed** on the v0.17 track.
+
+- **Before:** `POST /authentication/service` with service-account credentials
+- **After:** Create **`cdt_` API tokens** on core via `POST /api-tokens` (authenticated with admin JWT or `masterkey`)
+- Use the token as `Authorization: Bearer cdt_…` for Admin API, MCP, and CI — same privilege model as the creating admin
+- The `Service` collection is dropped on authentication module startup migration
+
+Never expose `cdt_` tokens in application runtime or browser-accessible config. See [Admin API](/docs/reference/admin-api).
+
+### Core package merge
+
+`admin`, `commons`, and `core` are merged into **`packages/core`**. Custom modules and operators that imported from separate packages should depend on `@conduitplatform/grpc-sdk` and `packages/core` paths only.
 
 ### Admin MCP server
 
 - Streamable HTTP MCP at `{ADMIN_BASE_URL}/mcp`
 - Protocol `2025-06-18`
 - Enable `transports.mcp: true` in admin config
-- Auth: admin JWT or `cdt_` API tokens
+- Auth: admin JWT or `cdt_` API tokens (recommended for agents and CI)
+
+### Deep readiness (Kubernetes)
+
+Core exposes **deep** `GET /ready` on the Admin port (default **3030**):
+
+- Returns JSON with per-check status; HTTP **503** when not ready
+- Verifies bootstrap, gRPC health, Redis (when `READY_CHECK_REDIS` is set), and modules listed in `READY_REQUIRED_MODULES`
+- Pass `?legacy=true` or `Accept: text/plain` for the legacy plain-text response
+
+The official Helm chart configures HTTP readiness and startup probes against `/ready`. The router's shallow `GET /ready` on `:3000` does **not** replace core's probe. See [Kubernetes and Helm](/docs/deployment/kubernetes-helm) and [Architecture](/docs/learn/architecture).
+
+### Functions module
+
+- **`vm2` removed** — handlers run in a constrained `node:vm` context with a limited `require` surface (`lodash`, `axios`) and per-invocation **timeout**
+- **Cron function type** — schedule admin-defined handlers with cron expressions (alongside request, webhook, middleware, socket, and event types)
+- Treat function code as **admin-trusted** server configuration, not tenant-submitted scripts
+
+### Toolchain (platform developers)
+
+- **Node.js 24+** and **pnpm** + Turbo replace Yarn/Lerna for Conduit development
+- Application consumers unaffected — Docker images and Client API contracts remain the same
 
 ### GitOps (preview)
 
-- Admin state export/import endpoints for config-as-code workflows — see [GitOps state export](/docs/guides/gitops-state-export)
+Admin state export/import endpoints for config-as-code workflows — see [GitOps state export](/docs/guides/gitops-state-export).
+
+### Other breaking changes
+
+- **Router proxy routes** removed — use explicit module routes or functions handlers
+- **Database:** MongoDB read preference, write concern, and read concern configurable via `PATCH /config/database`; optional view cleanup cron
 
 ## Upgrade steps
 
-1. Pull v0.17 images or rebuild from `main`
-2. Replace legacy communication module containers with **communications**
-3. Update MCP client config with required `?modules=`
-4. Re-run integration tests against Client API
-5. Read [changelog](/docs/resources/changelog) for patch-level fixes
+1. Pull v0.17 images or rebuild from `main` / the latest alpha tag
+2. Replace legacy communication module containers with **communications**; remove **forms**
+3. Migrate automation from authentication service accounts to **`cdt_` API tokens**
+4. Update MCP client config: `?modules=communications` (or required module list)
+5. For Kubernetes: confirm readiness probes target core `GET /ready` on port **3030**
+6. Re-run integration tests against Client API (`:3000`)
+7. Read [changelog](/docs/resources/changelog) for patch-level fixes
 
-## Breaking changes
+## Breaking changes summary
 
-Review [GitHub release notes](https://github.com/ConduitPlatform/Conduit/releases) for alpha-specific fixes. v0.17 is currently **alpha** — pin versions in production until stable.
+| Change | Action required |
+|--------|-----------------|
+| Communications merge | Swap module images; update MCP and config paths |
+| Forms removed | Remove from deployments; migrate to database/functions |
+| Service accounts removed | Issue `cdt_` tokens via Admin API |
+| Proxy routes removed | Remove proxy config; use module or function routes |
+| Alpha stability | Pin versions; test before production promotion |

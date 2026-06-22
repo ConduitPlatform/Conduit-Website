@@ -1,10 +1,24 @@
 ---
 title: Changelog
 description: Release notes for Conduit Platform — v0.17 alpha and recent patches.
-agent_summary: "v0.17 alpha: communications module, Node 24/pnpm, Admin MCP, GitOps export/import; see GitHub for full history."
+agent_summary: "v0.17 alpha: communications module, unified templates, forms removed, API tokens, service account removal on main, deep /ready, cron functions, Node 24/pnpm, Admin MCP, GitOps export/import."
 ---
 
 Notable changes from the [Conduit CHANGELOG](https://github.com/ConduitPlatform/Conduit/blob/main/CHANGELOG.md). For upgrade steps, see [Migration v0.16 → v0.17](/docs/resources/migration-v0.16-to-v0.17).
+
+## On main after v0.17.0-alpha.3
+
+These breaking changes are on the v0.17 track (`main`) and will ship in the next alpha tag:
+
+- **authentication:** Legacy **service account** login removed — superseded by core **`cdt_` API tokens** (`POST /api-tokens`); `Service` collection migrated away on startup
+
+## v0.17.0-alpha.3 (2026-06-19)
+
+### Bug fixes
+
+- **build:** Restore alpha release build
+- **hermes:** Support Socket.IO handshake auth ([#1487](https://github.com/ConduitPlatform/Conduit/issues/1487))
+- **module-tools:** Restore grpc-sdk prod dependency for container runtime
 
 ## v0.17.0-alpha.2 (2026-06-10)
 
@@ -31,9 +45,17 @@ Notable changes from the [Conduit CHANGELOG](https://github.com/ConduitPlatform/
 | Area | Change |
 |------|--------|
 | **communications** | Email, SMS, and push-notifications consolidated into one module |
-| **toolchain** | Node.js 24+, pnpm, and Turbo replace Yarn/Lerna for platform development |
+| **communications** | Unified multi-channel templates, orchestration, and fallback chains |
+| **removed modules** | **forms** dropped; legacy channel modules replaced by communications |
+| **core** | Admin, commons, and core merged into `packages/core` |
+| **API tokens** | `cdt_` tokens on Admin API for MCP and automation (`POST /api-tokens`) |
 | **Admin MCP** | Streamable HTTP MCP at `{ADMIN_BASE_URL}/mcp` for dev-time provisioning |
-| **GitOps (preview)** | Admin state export/import for config-as-code workflows — see [GitOps state export](/docs/guides/gitops-state-export) |
+| **GitOps (preview)** | Admin state export/import for config-as-code — [GitOps guide](/docs/guides/gitops-state-export) |
+| **readiness** | Core deep `GET /ready` on Admin port for orchestration (JSON checks; legacy plain-text via `?legacy=true`) |
+| **toolchain** | Node.js 24+, pnpm, and Turbo replace Yarn/Lerna for platform development |
+| **router** | Per-route rate limits; proxy route functionality removed |
+| **functions** | `vm2` removed; constrained VM context; **cron** function type for scheduled handlers |
+| **database** | MongoDB read preference / replica-set tuning; stale view cleanup ([#1461](https://github.com/ConduitPlatform/Conduit/issues/1461)) |
 
 v0.17 is currently **alpha**. Pin image and npm versions in production until stable.
 
