@@ -192,7 +192,7 @@ The storage module exports Prometheus gauges (scraped via Conduit Core):
 | `files_total` | Gauge | Number of file documents |
 | `storage_size_bytes_total` | Gauge | Cumulative size of all files in bytes |
 
-Counters increment on create and decrement on delete. File size updates adjust `storage_size_bytes_total` by the delta.
+Gauges are updated on create and delete. File size changes adjust `storage_size_bytes_total` by the delta.
 
 ### Cleanup
 
