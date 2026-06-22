@@ -149,7 +149,7 @@ Syntax is validated on upload (`POST /functions/upload`) and update (`PATCH /fun
 
 `functionType: cron` stores a **cron expression** in `inputs.event` (for example `0 */6 * * *`). The functions module registers a **BullMQ** repeatable job on Redis — the same job-queue infrastructure used by database and communications modules. On each tick the handler runs with an empty or minimal `req` payload.
 
-Cron requires Redis to be available to the Conduit stack. Execution history is recorded like other function types.
+Cron requires the platform **Redis** connection used by other BullMQ workers (`grpcSdk.redisManager`) — there is no separate `FUNCTIONS_REDIS_*` configuration. Execution history is recorded like other function types.
 
 ### Returns mapping
 
