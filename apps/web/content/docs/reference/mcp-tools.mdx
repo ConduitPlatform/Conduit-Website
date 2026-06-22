@@ -1,12 +1,14 @@
 ---
 title: MCP Tools
-description: How Admin API routes map to MCP tool names.
-agent_summary: "Pattern: {method}_{path_with_underscores}; list_modules always available; enable modules via ?modules= URL."
+description: How Admin API routes map to MCP tool names — modules, exclusions, and bulk operations.
+agent_summary: "Pattern: {method}_{path_with_underscores}; list_modules always available; DB import/introspect excluded; authz bulk via post_authorization_relations_many."
 ---
 
 ## Discovery
 
 Call **`list_modules`** on every new MCP connection. Tools for unloaded modules are unavailable until you add `?modules=` to the MCP URL and reconnect.
+
+Only **`core`** and **`__meta__`** load by default. The `core` module includes config tools, API token management, and health (`get_ready`, `get_live`).
 
 ## Naming pattern
 
@@ -23,6 +25,10 @@ Admin routes convert to tools:
 | `POST /database/schemas` | `post_database_schemas` |
 | `PATCH /config/database` | `patch_config_database` |
 | `GET /ready` | `get_ready` |
+| `GET /live` | `get_live` |
+| `POST /api-tokens` | `post_api_tokens` |
+| `POST /authorization/relations/many` | `post_authorization_relations_many` |
+| `POST /authorization/indexer/reconstruct` | `post_authorization_indexer_reconstruct` |
 
 ## Config tools
 
@@ -31,6 +37,36 @@ When a module is loaded:
 - `get_config_{module}`
 - `patch_config_{module}`
 
+Global: `get_config` returns all module configs.
+
+## Authorization bulk tools
+
+With `?modules=authorization` loaded:
+
+| Tool | Admin route | Body |
+|------|-------------|------|
+| `post_authorization_relations` | `POST /authorization/relations` | Single tuple: `subject`, `relation`, `resource` |
+| `post_authorization_relations_many` | `POST /authorization/relations/many` | Bulk: `subject`, `relation`, `resources[]` (async index jobs per tuple) |
+| `post_authorization_indexer_reconstruct` | `POST /authorization/indexer/reconstruct` | Optional `{ soft: true }` — rebuild ReBAC indexes after corruption or bulk import |
+
+Prefer `post_authorization_relations_many` when seeding many tuples at provision time. Validate `subject`/`relation` against the `ResourceDefinition`; keep batches ≤100 resources when possible.
+
+## Excluded routes (`mcp: false`)
+
+These Admin routes **never** register as MCP tools. Call the Admin API or admin panel directly:
+
+| Module | Routes | Why excluded |
+|--------|--------|--------------|
+| **database** | `POST /database/schemas/import` | Bulk schema import — operator intent required |
+| **database** | `GET/POST /database/introspection`, `GET /database/introspection/schemas`, `POST /database/introspection/schemas/finalize` | DB introspection mutates pending schema state |
+| **core** | `POST /login`, admin password/2FA/user bootstrap routes | Credential and session flows |
+
+`GET /database/schemas/export` **is** available as `get_database_schemas_export`.
+
 ## Resources
 
-MCP exposes `conduit://docs/*` resources including API guides. See [MCP setup](/docs/getting-started/mcp-setup).
+MCP exposes `conduit://docs/*` resources including Admin and Client API OpenAPI specs and an API usage guide. See [MCP setup](/docs/getting-started/mcp-setup).
+
+## Module aliases
+
+`?modules=communications` expands to `email`, `push`, and `sms` module tools.

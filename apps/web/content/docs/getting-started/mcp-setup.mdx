@@ -1,7 +1,7 @@
 ---
 title: MCP Setup
 description: Configure the Conduit Admin MCP server for development-time provisioning.
-agent_summary: "Add ADMIN_URL/mcp?modules=... to .cursor/mcp.json with Bearer admin JWT or cdt_ token."
+agent_summary: "Add ADMIN_URL/mcp?modules=... to .cursor/mcp.json with Bearer admin JWT or cdt_ token; DB import/introspect excluded from MCP."
 ---
 
 The Conduit **MCP server** exposes Admin API operations as tools so AI agents can provision schemas, users, and config during development. **Never call MCP from application runtime code.**
@@ -14,7 +14,7 @@ The Conduit **MCP server** exposes Admin API operations as tools so AI agents ca
 
 1. Running Conduit instance with Admin API reachable (default port **3030**)
 2. MCP transport enabled: `transports.mcp: true` in admin config
-3. Admin JWT or `cdt_` API token
+3. Admin JWT or `cdt_` API token (recommended for automation)
 
 ## Cursor configuration
 
@@ -44,7 +44,7 @@ On connect, only `core` and `__meta__` load by default. Enable modules via the U
 | Schemas, custom endpoints | `database` |
 | Users, teams | `authentication` |
 | Files | `storage` |
-| ReBAC | `authorization` |
+| ReBAC (incl. bulk relations) | `authorization` |
 | Chat | `chat` |
 | Email/SMS/push | `communications` (or `email,push,sms`) |
 
@@ -52,14 +52,42 @@ After changing the URL, **reconnect MCP** and call `list_modules` to verify `loa
 
 ## Authentication
 
-- **Admin JWT** — from admin login flow
-- **API token** — create via Admin API (`cdt_` prefix, shown once)
+| Method | Usage |
+|--------|--------|
+| **Admin JWT** | Short-lived; from admin login (`POST /login`) |
+| **`cdt_` API token** | Long-lived; create via `POST /api-tokens` — **shown once**, ideal for MCP and CI |
 
 Every request: `Authorization: Bearer <token>`.
 
+### API tokens (`cdt_`)
+
+Create tokens on the Admin API (or via MCP `post_api_tokens` once core tools are loaded):
+
+```bash
+curl -X POST http://localhost:3030/api-tokens \
+  -H "Authorization: Bearer <admin-jwt>" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"cursor-mcp","expiresInDays":90}'
+```
+
+Response includes the plaintext `cdt_<random>` token **once**. Store it in your MCP client config or secrets manager. List and revoke tokens with `GET /api-tokens` and `DELETE /api-tokens/:id` — values are never returned after creation.
+
+API tokens bypass the `masterkey` header requirement and authenticate as the creating admin. Each token is scoped to that admin's privileges.
+
+## Routes excluded from MCP
+
+Some Admin routes are marked `mcp: false` and **never** appear as MCP tools — use the Admin API or admin panel directly:
+
+| Area | Excluded routes | Reason |
+|------|-----------------|--------|
+| **Database** | `POST /database/schemas/import`, all `/database/introspection/*` | Destructive bulk schema import and DB introspection need explicit operator intent |
+| **Auth bootstrap** | `POST /login`, admin user/password/2FA routes | Session and credential flows — not agent-safe |
+
+Schema **export** (`GET /database/schemas/export`) remains available via MCP. For GitOps-style full platform state, use `GET /state/export` / `POST /state/import` on the Admin API — see [GitOps guide](/docs/guides/gitops-state-export).
+
 ## Tool naming
 
-Admin routes map to tools: `GET /database/schemas` → `get_database_schemas`.
+Admin routes map to tools: `GET /database/schemas` → `get_database_schemas`. See [MCP tools reference](/docs/reference/mcp-tools).
 
 <NextSteps steps={[
   { title: "MCP tools reference", href: "/docs/reference/mcp-tools" },

@@ -1,7 +1,7 @@
 ---
 title: Configuration
-description: Module config via Admin API, config bus, and environment variables.
-agent_summary: "Modules react to config via Redis config bus; patch via Admin API or MCP patch_config_<module>."
+description: Module config via Admin API, config bus, environment variables, and readiness tuning.
+agent_summary: "Modules react to config via Redis config bus; patch via Admin API or MCP patch_config_<module>; READY_* env vars gate /ready."
 ---
 
 Conduit stores module configuration in core. Changes propagate over the **config bus** (Redis pub/sub). Modules implement `onConfig` lifecycle hooks.
@@ -19,6 +19,22 @@ Conduit stores module configuration in core. Changes propagate over the **config
 - Admin API `PATCH /config/{module}`
 
 Never patch production config from application runtime code.
+
+## Readiness configuration
+
+Core's deep readiness probe (`GET /ready`) evaluates bootstrap state, gRPC health, Redis, and module registration. Tune behavior with `READY_*` environment variables on the **core** process:
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `READY_REQUIRED_MODULES` | _(empty)_ | Comma-separated module names that must be registered and serving before `/ready` returns 200 |
+| `READY_CHECK_REDIS` | `true` | PING Redis as part of readiness |
+| `READY_STRICT` | `false` | When `true`, optional modules that are not serving fail readiness (not just warn) |
+| `READY_PROBE_MODULES_ACTIVE` | `false` | When `true`, actively gRPC-health-check each module instead of trusting registry `serving` flag |
+| `READY_TOTAL_TIMEOUT_MS` | `3000` | Overall budget for the readiness evaluation |
+| `READY_REDIS_TIMEOUT_MS` | `500` | Timeout for Redis PING |
+| `READY_MODULE_TIMEOUT_MS` | `1000` | Per-module health probe timeout |
+
+Helm sets `READY_REQUIRED_MODULES` automatically on the core deployment. Override in `core.env` when running custom topologies.
 
 ## Environment variables
 

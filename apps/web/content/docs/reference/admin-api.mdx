@@ -1,7 +1,7 @@
 ---
 title: Admin API
-description: REST, GraphQL, and WebSocket admin surface on core — auth, scope, and MCP relationship.
-agent_summary: "ADMIN_BASE_URL :3030; masterkey, admin JWT, or cdt_ tokens; provisioning only — not for app runtime."
+description: REST, GraphQL, and WebSocket admin surface on core — auth, scope, health, and MCP relationship.
+agent_summary: "ADMIN_BASE_URL :3030; masterkey, admin JWT, or cdt_ tokens; GET /ready deep, GET /live shallow; provisioning only."
 ---
 
 The **Admin API** runs on **core** (default `ADMIN_BASE_URL` → port **3030**). It powers the Conduit Admin Panel, CI provisioning scripts, and the [MCP server](/docs/getting-started/mcp-setup). Application code must **not** call it from user-facing paths.
@@ -23,13 +23,36 @@ The **Admin API** runs on **core** (default `ADMIN_BASE_URL` → port **3030**).
 
 Response formats are **not interchangeable** between Admin and Client APIs.
 
+## Health endpoints
+
+No authentication required:
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/live` | **Liveness** — shallow; `{ status: "alive", message: "..." }` |
+| GET | `/ready` | **Readiness** — deep; structured report with per-check `pass`/`fail`/`warn` |
+
+`/ready` returns **503** when not ready (e.g. required module not registered, Redis down). Use `Accept: application/json` for the full report; legacy plain-text clients get `Conduit Core is online!` / `Conduit Core is not ready` (or `?legacy=true`).
+
+Configure required modules and probe behavior via `READY_*` env vars — see [Environment variables](/docs/reference/env-vars).
+
 ## Authentication
 
 | Method | Usage |
 |--------|--------|
 | `masterkey` | Header on trusted bootstrap/ops scripts |
-| Admin JWT | `Authorization: Bearer <token>` after admin login |
+| Admin JWT | `Authorization: Bearer <token>` after `POST /login` |
 | `cdt_` API tokens | Long-lived tokens for automation and MCP clients |
+
+### API tokens (`cdt_`)
+
+| Method | Path | Notes |
+|--------|------|-------|
+| POST | `/api-tokens` | Body: `{ name, expiresInDays? }` — returns plaintext `cdt_…` **once** |
+| GET | `/api-tokens` | Lists metadata (`tokenPrefix`, `lastUsedAt`) — never the secret |
+| DELETE | `/api-tokens/:id` | Revoke; admins can only delete their own tokens |
+
+Token format: `cdt_` + base64url random bytes. Prefix (`cdt_xxxxxxxx`) is stored for lookup; full value is bcrypt-hashed server-side.
 
 Never embed admin credentials in application code, browser env vars, or client bundles.
 
@@ -45,10 +68,10 @@ Interactive reference: Admin API **Swagger** (available on a running instance). 
 
 ## MCP relationship
 
-The MCP server at `{ADMIN_BASE_URL}/mcp` wraps a **subset** of Admin API operations as tools. Authentication is handled by the MCP connection — tools run with admin privileges.
+The MCP server at `{ADMIN_BASE_URL}/mcp` wraps a **subset** of Admin API operations as tools. Routes with `mcp: false` (database import/introspection, login, credential management) are **excluded**. Authentication is handled by the MCP connection — tools run with admin privileges.
 
 - Call `list_modules` to see loaded modules
-- Enable more tools via `/mcp?modules=authentication,database,storage`
+- Enable more tools via `/mcp?modules=authentication,database,storage,authorization`
 - Tool naming: HTTP method + path with `/` → `_` (see [MCP tools](/docs/reference/mcp-tools))
 
 MCP is for **development and deploy-time provisioning** only. Do not substitute MCP calls for Client API calls in application runtime.
@@ -60,7 +83,9 @@ MCP is for **development and deploy-time provisioning** only. Do not substitute 
 | Create or patch schemas, indexes, custom endpoints | Admin API or MCP |
 | Patch module config (auth providers, storage buckets, email templates) | Admin API or MCP |
 | Manage admin users, API tokens, teams (operator workflows) | Admin API or MCP |
+| Bulk ReBAC tuples (`POST /authorization/relations/many`) | Admin API or MCP (`post_authorization_relations_many`) |
 | Export/import platform state (GitOps) | `GET /state/export`, `POST /state/import` — [GitOps guide](/docs/guides/gitops-state-export) |
+| Database introspection or schema import | Admin API / panel only — **not MCP** |
 | End-user login, CRUD, permission checks | **Client API** only |
 | Application file upload/download | **Client API** with user token |
 
