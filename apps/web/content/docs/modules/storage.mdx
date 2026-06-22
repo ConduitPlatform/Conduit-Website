@@ -1,10 +1,12 @@
 ---
 title: Storage
-description: File uploads, storageFileId linking, and preview proxy pattern.
+description: File uploads, cloud providers (S3, Azure, GCS), signed URLs, public access, folder markers, and Prometheus metrics.
 agent_summary: "Presigned upload server-side; store storageFileId on documents; serve binaries via server preview proxy — never expose presigned URLs to browsers."
 ---
 
-The **storage** module handles blobs across local, S3, Azure, GCS, and Aliyun providers. All binary assets flow through Conduit Storage — never base64 in database documents.
+import StorageDeepDive from "@/mdx/deep-dives/storage-deep-dive.mdx";
+
+The **storage** module handles blobs across **local**, **AWS S3** (and S3-compatible endpoints), **Azure Blob Storage**, **Google Cloud Storage**, and **Aliyun OSS**. All binary assets flow through Conduit Storage — never base64 in database documents.
 
 ## Use cases
 
@@ -23,6 +25,10 @@ The **storage** module handles blobs across local, S3, Azure, GCS, and Aliyun pr
       outcome: "Preview proxy route serves bytes — browsers never see presigned URLs",
     },
     {
+      title: "Public assets",
+      outcome: "isPublic: true with CDN host mapping for cacheable delivery",
+    },
+    {
       title: "Chat file messages",
       outcome: "Upload to storage, reference file IDs in chat message payload",
     },
@@ -33,13 +39,18 @@ The **storage** module handles blobs across local, S3, Azure, GCS, and Aliyun pr
 
 <ModuleCapabilities
   items={[
-    "Presigned upload/download",
-    "S3, Azure, GCS, local",
+    "Presigned upload/download (60 min expiry)",
+    "AWS S3 & S3-compatible providers",
+    "Azure Blob Storage",
+    "Google Cloud Storage",
+    "Local filesystem",
     "storageFileId linking",
     "Preview proxy pattern",
-    "Public & private files",
+    "Public & private files and containers",
     "ReBAC scope on reads",
-    "Container/folder paths",
+    "Container/folder hierarchy with marker files",
+    "CDN host mapping per container",
+    "Prometheus metrics (files, folders, size)",
   ]}
 />
 
@@ -65,37 +76,29 @@ The **storage** module handles blobs across local, S3, Azure, GCS, and Aliyun pr
 ## How it works
 
 <ModuleDeepDive>
-### Presigned two-step upload
-
-1. **Metadata on Conduit** — `POST /storage/upload` returns `{ file: { _id }, url }`
-2. **Bytes to object store** — `PUT {url}` with `Content-Type` and raw bytes (no Authorization header)
-3. **Link domain entity** — store `file._id` as `storageFileId` / `avatarFileId` on your document
-
-Never store presigned URLs in the database — they expire.
-
-### Preview proxy (required for browsers)
-
-Presigned SAS/S3 URLs must not reach browsers or mobile clients. Your app server calls `GET /storage/getFileUrl/:id` with the user's token, fetches the presigned URL **server-side**, and streams bytes to the browser — the presigned URL never reaches the client. See the [Next.js guide](/docs/guides/first-app-nextjs).
-
-`GET /storage/file/data/:id` returns base64 and is for **small server-side transforms only** — not general image or video delivery to browsers.
-
-### Public vs private
-
-`isPublic: true` skips auth on `GET /storage/getFileUrl/:id`. Private files enforce authorization when the authorization module is enabled; pass `scope` for ReBAC checks.
-
-### Cleanup
-
-On entity delete, call `DELETE /storage/file/{storageFileId}` to remove the blob.
+  <StorageDeepDive />
 </ModuleDeepDive>
 
 ## Configure
 
-Provider credentials and `defaultContainer` via MCP `?modules=storage`:
+Provider credentials and module settings via MCP `?modules=storage`:
 
 | Tool | Purpose |
 |------|---------|
-| `get_config_storage` | Read provider settings |
-| `patch_config_storage` | S3/Azure/GCS/local config |
+| `get_config_storage` | Read provider, container, and CDN settings |
+| `patch_config_storage` | Set provider (`aws` / `azure` / `google` / `aliyun` / `local`), credentials, `defaultContainer`, `allowContainerCreation`, `suffixOnNameConflict`, `cdnConfiguration` |
+
+Key config fields:
+
+| Field | Default | Description |
+|-------|---------|-------------|
+| `provider` | `local` | Active storage backend |
+| `defaultContainer` | `conduit` | Container used when none is specified on upload |
+| `allowContainerCreation` | `true` | Allow Client API to create containers on first use |
+| `suffixOnNameConflict` | `false` | Append ` (n)` to filename when a duplicate exists |
+| `authorization.enabled` | `false` | Enable ReBAC checks and `scope` parameter |
+
+Requires the [database](/docs/modules/database) module (file metadata is stored as documents).
 
 ## Client API
 
@@ -103,14 +106,18 @@ Provider credentials and `defaultContainer` via MCP `?modules=storage`:
 |--------|------|------|
 | POST | `/storage/upload` | Required |
 | PATCH | `/storage/upload/:id` | Required |
-| GET | `/storage/getFileUrl/:id` | Optional (returns presigned URL in `{ result }` — use server-side only) |
+| POST | `/storage/file` | Required (base64 inline upload) |
+| PATCH | `/storage/file/:id` | Required (base64 inline update) |
+| GET | `/storage/getFileUrl/:id` | Optional (`redirect`, `download` query params) |
 | GET | `/storage/file/:id` | Optional (metadata document) |
 | GET | `/storage/file/data/:id` | Required (base64 — small server-side transforms only) |
 | DELETE | `/storage/file/:id` | Required |
 
+When authorization is enabled, add `scope` as a query parameter on mutating routes and reads of private files.
+
 ## MCP
 
-Enable `?modules=storage` for provider and container configuration.
+Enable `?modules=storage` for provider and container configuration. Admin API routes under `/storage/` expose container, folder, and file management for operators.
 
 <NextSteps steps={[
   { title: "Next.js integration", href: "/docs/guides/first-app-nextjs" },
