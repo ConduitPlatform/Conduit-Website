@@ -1,10 +1,12 @@
 ---
 title: Authorization
-description: ReBAC resources, relations, permissions, and scope.
-agent_summary: "Zanzibar-style ReBAC; define resources/relations via MCP; Client API /authorization/check; pass scope on database creates."
+description: ReBAC resources, relations, permissions, indexing, and scope.
+agent_summary: "Zanzibar-style ReBAC; define resources/relations via Admin API or MCP; Client API /authorization/check; pass scope on database creates."
 ---
 
-The **authorization** module implements relationship-based access control (ReBAC, Zanzibar-style). Subjects (users, teams) link to resources via **relations**; **permissions** resolve from those relations with optional inheritance (`owner->read`).
+The **authorization** module implements relationship-based access control (ReBAC, Zanzibar-style). Subjects (users, teams) link to resources via **relation tuples**; **permissions** resolve from those tuples with optional inheritance (`owner->read`). An internal **index** (ActorIndex + ObjectIndex) makes `can` checks fast; tuples are the source of truth.
+
+Apps call the **Client API** to check the signed-in user's access. Operators define resources, grant tuples, and debug evaluations through the **Admin API** or MCP at provision time — never from browser code.
 
 ## Use cases
 
@@ -26,6 +28,14 @@ The **authorization** module implements relationship-based access control (ReBAC
       title: "Runtime permission checks",
       outcome: "Ask can this user edit this resource? before showing UI actions",
     },
+    {
+      title: "Bulk sharing",
+      outcome: "Grant one relation to many resources via POST /relations/many",
+    },
+    {
+      title: "Operator debugging",
+      outcome: "Trace why access was granted with GET /permissions/evaluate",
+    },
   ]}
 />
 
@@ -33,13 +43,17 @@ The **authorization** module implements relationship-based access control (ReBAC
 
 <ModuleCapabilities
   items={[
-    "Resource definitions",
-    "Relation tuples",
+    "Resource definitions (relations + permissions)",
+    "Relation tuple CRUD",
+    "Bulk relation creation (/relations/many)",
     "Permission inheritance (->)",
-    "scope on creates",
-    "/authorization/check",
+    "scope on database creates",
+    "Client API /authorization/check",
+    "Admin API /permissions/can and /evaluate",
+    "Index reconstruction (soft / hard)",
     "Built-in Team resource",
     "Authorized schema integration",
+    "gRPC Can / access-list views",
   ]}
 />
 
@@ -61,7 +75,7 @@ The **authorization** module implements relationship-based access control (ReBAC
   -d '{"title":"Q1 roadmap","body":"Team-owned doc"}'`}
   />
   <APIExample
-    title="Check permission"
+    title="Check permission (Client API)"
     curl={`curl "http://localhost:3000/authorization/check?action=edit&resource=Document:DOC_ID" \\
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"`}
   />
@@ -72,14 +86,20 @@ The **authorization** module implements relationship-based access control (ReBAC
 <ModuleDeepDive>
 ### Mental model
 
+ReBAC stores **tuples** and resolves **permissions** from a **resource definition**:
+
 ```
 ResourceDefinition "Document"
-  relations: owner -> [User, Team], editor -> [User, Team]
-  permissions: read -> [editor, owner, owner->read], edit -> [editor, owner]
+  relations: { owner: [User, Team], editor: [User, Team] }
+  permissions: { read: [editor, owner, owner->read], edit: [editor, owner] }
 
-Tuple: Team:abc#owner@Document:xyz
-Check: can(User:uid, edit, Document:xyz) -> true via team inheritance
+Tuple:   Team:abc#owner@Document:xyz
+Format:  subject#relation@resource
+
+Check:   can(Team:abc, edit, Document:xyz) → true via team inheritance
 ```
+
+Every tuple is persisted as a `Relationship` document with a unique `computedTuple` (`User:uid#owner@Document:id`). Creating or deleting a tuple updates **ActorIndex** and **ObjectIndex** rows so `can` checks avoid graph walks at request time.
 
 ### Three layers (do not confuse)
 
@@ -91,6 +111,57 @@ Check: can(User:uid, edit, Document:xyz) -> true via team inheritance
 
 This page covers **document ReBAC**.
 
+### Resource definitions
+
+A **resource** is a named type (e.g. `Document`, `Team`) with two JSON maps:
+
+| Field | Shape | Meaning |
+|-------|-------|---------|
+| `relations` | `{ relationName: [allowedSubjectTypes] }` | Who may hold each relation on instances of this type. Use `*` to allow any subject type. |
+| `permissions` | `{ actionName: [roles] }` | Which relations (or inherited actions) grant each action. Use `*` for public access; `[]` for none. |
+
+Example:
+
+```json
+{
+  "name": "Document",
+  "relations": {
+    "owner": ["User", "Team"],
+    "editor": ["User", "Team"]
+  },
+  "permissions": {
+    "read": ["editor", "owner", "owner->read"],
+    "edit": ["editor", "owner"],
+    "delete": ["owner"]
+  },
+  "version": 0
+}
+```
+
+When a resource definition changes, Conduit schedules a **re-index** for all tuples involving that type. Schemas with `conduitOptions.authorization.enabled` automatically register a resource definition matching the schema name.
+
+### Relation tuples
+
+Grant access by writing tuples — not by copying permission logic into app code.
+
+| Operation | When |
+|-----------|------|
+| **Create** | Share a document, add a team member relation, assign ownership on create |
+| **Read** | Audit who has access; debug Admin Panel |
+| **Delete** | Revoke sharing; cleanup on resource delete |
+
+Validation on create:
+
+- `subject`, `relation`, and `resource` must be `Type:id` identifiers
+- The target resource's definition must declare the `relation`
+- The subject's type must appear in that relation's allowed list (unless `*`)
+
+Single-tuple create builds indexes **synchronously**. Bulk create writes all tuples, then enqueues async index jobs per tuple.
+
+### Inheritance (`->`)
+
+`owner->read` in a permission rule means: a subject holding `owner` on this resource inherits the `read` permission defined on the **owner subject's type**. For teams, Authentication registers `Team` with `member`, `owner`, and permissions like `read`, `edit`, `delete` — so `Team:tid#owner@Document:doc` lets team members read via `owner->read`.
+
 ### Ownership on create
 
 When `scope=Team:tid` is set on `POST /database/{Schema}`:
@@ -100,41 +171,203 @@ When `scope=Team:tid` is set on `POST /database/{Schema}`:
 
 When scope is omitted, the authenticated user becomes `User:uid#owner@{Schema}:{docId}`.
 
-### Inheritance (`->`)
-
-`owner->read` means: subject has `owner` on this resource, and the owner subject type (e.g. Team) defines a `read` permission that team members inherit.
-
 ### Built-in Team resource
 
 Authentication registers `Team` with relations `member`, `owner`, `readAll`, `editAll` and permissions `read`, `edit`, `delete`, `invite`, `manageMembers`, etc. Use these action names — do not invent new ones without extending the definition.
+
+### Permission resolution
+
+`can(subject, action, resource)` resolves in order:
+
+1. **Self-access** — subject equals resource → allowed
+2. **Direct permission tuple** — explicit `subject#action@resource` grant
+3. **Index lookup** — ObjectIndex + ActorIndex graph for relation-derived permissions
+
+The Admin **`/permissions/evaluate`** endpoint returns the same decision plus the resolution path (assigned direct grant vs inherited index chain) for debugging.
+
+### Index reconstruction
+
+Indexes can drift after bulk imports, manual DB edits, or rare worker failures. Operators can rebuild them:
+
+```
+POST ADMIN_BASE_URL/authorization/indexer/reconstruct
+Body: { "soft": true | false }   // default false
+```
+
+| Mode | Behavior | When to use |
+|------|----------|-------------|
+| **`soft: true`** | Does **not** wipe existing index documents. Enqueues index-build jobs for every stored relation tuple. | First attempt after suspected drift; safer, idempotent |
+| **`soft: false` (default)** | **Deletes all** ActorIndex and ObjectIndex documents, then enqueues jobs for every relation tuple. | Confirmed corruption; only with explicit operator confirmation |
+
+The endpoint returns `"ok"` immediately; reconstruction runs in the background (batched, 1000 relations per resource type at a time). During hard rebuild, permission checks may temporarily fail until workers finish — schedule maintenance windows for `soft: false`.
+
+### Surfaces
+
+| Surface | Base | Purpose |
+|---------|------|---------|
+| **Client API** | `CLIENT_BASE_URL/authorization/...` | Signed-in user checks (`/check`, `/role/:resource`) |
+| **Admin API** | `ADMIN_BASE_URL/authorization/...` | Resource/relation CRUD, bulk grants, indexer, evaluate |
+| **gRPC** | `grpcSdk.authorization` | Custom modules: `can`, `createRelation`, `createRelations`, access-list views |
+| **MCP** | Admin-backed tools | Provision resources and tuples at deploy time |
 </ModuleDeepDive>
 
 ## Configure
 
-1. Enable authorization module in deployment
+1. Enable authorization module in deployment (`patch_config_authorization` or Helm values)
 2. Set `conduitOptions.authorization.enabled: true` on schemas via MCP `patch_database_schemas_id`
-3. Define custom resources with `POST /authorization/resources` or MCP equivalent
-4. Grant tuples with `POST /authorization/relations`
+3. Define custom resources with `POST /authorization/resources` or MCP `post_authorization_resources`
+4. Grant tuples with `POST /authorization/relations` (single) or `POST /authorization/relations/many` (bulk)
+
+For team-owned records, always pass `scope` on database **creates** and verify access with `/authorization/check` before destructive UI actions.
 
 ## Client API
 
-| Operation | Path |
-|-----------|------|
-| Permission check | `GET /authorization/check?action=edit&resource=Document:id&scope=Team:tid` |
-| Roles on resource | `GET /authorization/role/:resource?scope=Team:tid` |
+User bearer token required (`authMiddleware`). The server derives the subject from the authenticated user — callers never pass arbitrary `subject` on these routes.
 
-Always pass `scope` on database **creates** when using team-owned records.
+| Method | Path | Query / params | Response |
+|--------|------|----------------|----------|
+| GET | `/authorization/check` | `action` (required), `resource` (required), `scope` (optional) | `{ allowed: boolean }` |
+| GET | `/authorization/role/:resource` | `scope` (optional) | `{ roles: string[] }` |
+
+**`/check` flow:**
+
+1. If `scope` is set, verify the user may use that scope (`can(User:uid, action, scope)`)
+2. Evaluate `can(scope ?? User:uid, action, resource)`
+
+**`/role/:resource` flow:**
+
+1. If `scope` is set, verify the user has `read` on the scope
+2. Return relation names where `subject = scope ?? User:uid` and `resource = :resource`
+
+<APIExample
+  title="Check with team scope"
+  curl={`curl "http://localhost:3000/authorization/check?action=edit&resource=Document:DOC_ID&scope=Team:TEAM_ID" \\
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"`}
+/>
+
+<APIExample
+  title="Roles on a resource"
+  curl={`curl "http://localhost:3000/authorization/role/Document:DOC_ID" \\
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"`}
+/>
+
+Never use Client API routes to define resources or create tuples for other users — that is Admin API / provisioning work.
+
+## Admin API
+
+Operator credentials on `ADMIN_BASE_URL/authorization/...` (`masterkey`, admin JWT, or `cdt_` token). Use for provisioning, bulk grants, and debugging — not from app runtime code.
+
+### Resources
+
+| Method | Path | Body / query | Notes |
+|--------|------|--------------|-------|
+| POST | `/authorization/resources` | `{ name, relations, permissions, version? }` | Create definition; returns `{ status, resourceDefinition }` |
+| GET | `/authorization/resources` | `search`, `skip`, `limit`, `sort` | Paginated list |
+| GET | `/authorization/resources/:id` | — | By MongoDB id **or** resource name |
+| PATCH | `/authorization/resources/:id` | `{ relations, permissions, version? }` | Triggers re-index for that type |
+| DELETE | `/authorization/resources/:id` | — | Deletes definition and related index data |
+
+<APIExample
+  title="Define a resource (Admin API)"
+  curl={`curl -X POST http://localhost:3030/authorization/resources \\
+  -H "masterkey: YOUR_MASTERKEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "name": "Document",
+    "relations": { "owner": ["User", "Team"], "editor": ["User", "Team"] },
+    "permissions": { "read": ["editor", "owner", "owner->read"], "edit": ["editor", "owner"] }
+  }'`}
+/>
+
+### Relations
+
+| Method | Path | Body / query | Notes |
+|--------|------|--------------|-------|
+| POST | `/authorization/relations` | `{ subject, relation, resource }` | Single tuple; indexes built synchronously; idempotent if tuple exists |
+| POST | `/authorization/relations/many` | `{ subject, relation, resources: string[] }` | Bulk grant same relation to many resources; async index jobs; prefer single route for one tuple; batch ≤100 resources when possible |
+| GET | `/authorization/relations` | `search`, `subjectType`, `resourceType`, `skip`, `limit`, `sort` | List / filter tuples |
+| GET | `/authorization/relations/:id` | — | Single tuple by id |
+| DELETE | `/authorization/relations/:id` | — | Removes tuple and index edges |
+
+<APIExample
+  title="Bulk grant editor on many documents"
+  curl={`curl -X POST http://localhost:3030/authorization/relations/many \\
+  -H "masterkey: YOUR_MASTERKEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "subject": "User:507f1f77bcf86cd799439011",
+    "relation": "editor",
+    "resources": ["Document:aaa", "Document:bbb", "Document:ccc"]
+  }'`}
+/>
+
+### Permissions (admin checks)
+
+Unlike Client `/check`, these accept an explicit `subject` and use `permission` (not `action`) as the query param name.
+
+| Method | Path | Query | Response |
+|--------|------|-------|----------|
+| GET | `/authorization/permissions/can` | `subject`, `permission`, `resource`, `scope?` | `{ allowed: boolean }` |
+| GET | `/authorization/permissions/evaluate` | `subject`, `permission`, `resource`, `scope?` | `{ allowed, assigned?, paths?, subjectIndex?, objectIndex? }` |
+
+**`/permissions/can`** — same boolean result as gRPC `Can`. When `scope` is set, verifies the subject has some relation or permission on the scope before evaluating against the target resource.
+
+**`/permissions/evaluate`** — debugging aid. Returns whether access was **directly assigned** (`assigned: true`) or resolved via the index graph, plus `paths` (human-readable tuple chain) and raw `subjectIndex` / `objectIndex` documents.
+
+<APIExample
+  title="Admin permission check"
+  curl={`curl "http://localhost:3030/authorization/permissions/can?subject=User:UID&permission=edit&resource=Document:DOC_ID" \\
+  -H "masterkey: YOUR_MASTERKEY"`}
+/>
+
+<APIExample
+  title="Trace permission resolution"
+  curl={`curl "http://localhost:3030/authorization/permissions/evaluate?subject=Team:TID&permission=read&resource=Document:DOC_ID" \\
+  -H "masterkey: YOUR_MASTERKEY"`}
+/>
+
+### Indexer
+
+| Method | Path | Body | Notes |
+|--------|------|------|-------|
+| POST | `/authorization/indexer/reconstruct` | `{ soft?: boolean }` | Rebuild ActorIndex/ObjectIndex; see [Index reconstruction](#index-reconstruction) |
+
+<APIExample
+  title="Soft index rebuild (preferred)"
+  curl={`curl -X POST http://localhost:3030/authorization/indexer/reconstruct \\
+  -H "masterkey: YOUR_MASTERKEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"soft": true}'`}
+/>
+
+## Admin vs Client API
+
+| | **Client API** | **Admin API** |
+|--|----------------|---------------|
+| **Host** | Router (`:3000`) | Core (`:3030`) |
+| **Auth** | User bearer token | `masterkey`, admin JWT, or `cdt_` token |
+| **Subject** | Implicit (`User:{authenticatedId}`) | Explicit `subject` query param |
+| **Check param** | `action` | `permission` (same semantics) |
+| **Define resources** | No | `POST/PATCH /authorization/resources` |
+| **Manage tuples** | No | `POST/GET/DELETE /authorization/relations` |
+| **Bulk tuples** | No | `POST /authorization/relations/many` |
+| **Debug paths** | No | `GET /authorization/permissions/evaluate` |
+| **Rebuild index** | No | `POST /authorization/indexer/reconstruct` |
+
+Application UI gates actions with **Client `/check`**. CI, MCP, and operators use **Admin** routes. See [Client vs Admin API](/docs/learn/client-vs-admin-api).
 
 ## MCP
 
-Enable `?modules=authorization`.
+Enable `?modules=authorization` in your MCP server URL.
 
 | Tool | Purpose |
 |------|---------|
 | `get_authorization_resources` | List resource definitions |
 | `post_authorization_resources` | Define resources, relations, permissions |
-| `post_authorization_relations` | Create relationship tuples |
-| `get_authorization_permissions_can` | Admin-side permission check (`permission`, `subject`, `resource`) |
+| `post_authorization_relations` | Create a single relationship tuple |
+| `get_authorization_permissions_can` | Admin-side check (`permission`, `subject`, `resource`) |
+
+MCP wraps Admin API operations — use at deploy time to provision definitions and seed tuples, not from application runtime.
 
 <NextSteps steps={[
   { title: "ReBAC team scoping guide", href: "/docs/guides/rebac-team-scoping" },
