@@ -18,6 +18,7 @@ Admin routes convert to tools:
 2. Replace `/` with `_`
 3. Lowercase
 4. Prepend HTTP method: `get_`, `post_`, `patch_`, `put_`, `delete_`
+5. Remove hyphens and other non-alphanumeric characters from path segments (e.g. `/api-tokens` → `apitokens`, not `api_tokens`)
 
 | Admin route | MCP tool |
 |-------------|----------|
@@ -26,7 +27,9 @@ Admin routes convert to tools:
 | `PATCH /config/database` | `patch_config_database` |
 | `GET /ready` | `get_ready` |
 | `GET /live` | `get_live` |
-| `POST /api-tokens` | `post_api_tokens` |
+| `POST /api-tokens` | `post_apitokens` |
+| `GET /api-tokens` | `get_apitokens` |
+| `DELETE /api-tokens/:id` | `delete_apitokens_id` |
 | `POST /authorization/relations/many` | `post_authorization_relations_many` |
 | `POST /authorization/indexer/reconstruct` | `post_authorization_indexer_reconstruct` |
 
