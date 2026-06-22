@@ -1,16 +1,16 @@
 ---
 title: Changelog
 description: Release notes for Conduit Platform — v0.17 alpha and recent patches.
-agent_summary: "v0.17 alpha: communications module, unified templates, forms removed, API tokens, service account removal on main, deep /ready, cron functions, Node 24/pnpm, Admin MCP, GitOps export/import."
+agent_summary: "v0.17 alpha: communications module, unified templates, forms removed, API tokens replace service accounts, deep /ready, cron functions, Node 24/pnpm, Admin MCP, GitOps export/import."
 ---
 
 Notable changes from the [Conduit CHANGELOG](https://github.com/ConduitPlatform/Conduit/blob/main/CHANGELOG.md). For upgrade steps, see [Migration v0.16 → v0.17](/docs/resources/migration-v0.16-to-v0.17).
 
-## On main after v0.17.0-alpha.3
+## v0.17 breaking changes (next alpha)
 
-These breaking changes are on the v0.17 track (`main`) and will ship in the next alpha tag:
+These ship on the v0.17 track and require action when upgrading from v0.16:
 
-- **authentication:** Legacy **service account** login removed — superseded by core **`cdt_` API tokens** (`POST /api-tokens`); `Service` collection migrated away on startup
+- **authentication:** Legacy **service account** login removed — superseded by core **`cdt_` API tokens** (`POST /api-tokens`); `Service` collection migrated away on startup. See [Migration](/docs/resources/migration-v0.16-to-v0.17).
 
 ## v0.17.0-alpha.3 (2026-06-19)
 
