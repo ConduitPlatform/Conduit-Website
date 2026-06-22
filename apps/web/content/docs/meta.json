@@ -36,6 +36,7 @@
     "reference/cli",
     "reference/client-api",
     "reference/admin-api",
+    "reference/grpc-sdk",
     "reference/env-vars",
     "reference/mcp-tools",
     "---Resources---",
