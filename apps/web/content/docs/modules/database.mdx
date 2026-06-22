@@ -4,6 +4,8 @@ description: Schemas, CRUD, custom endpoints, indexes, query trees, and GitOps e
 agent_summary: "Client: /database/{Schema}, /database/function/{name}; provision schemas and custom endpoints via MCP; never filter collections client-side; introspection is Admin API only (not MCP)."
 ---
 
+import DatabaseDeepDive from "@/mdx/deep-dives/database-deep-dive.mdx";
+
 Your app needs structured data, but connecting to MongoDB or PostgreSQL directly bypasses Conduit auth, authorization, and routing. The **database** module is the data layer: you define **schemas**, enable **CMS CRUD** routes for simple access, and provision **custom endpoints** for every filtered query.
 
 The most common mistake is calling `GET /database/{Schema}` and filtering in application code. That route runs `findMany({}, …)` — **there is no filter parameter**. Any WHERE clause, ownership scope, date range, or text search belongs in a provisioned custom endpoint at `/database/function/{name}`.
@@ -80,118 +82,7 @@ The most common mistake is calling `GET /database/{Schema}` and filtering in app
 ## How it works
 
 <ModuleDeepDive>
-### Schemas
-
-A schema declares field types, indexes, and `conduitOptions` that control runtime behavior:
-
-| `conduitOptions` key | Effect |
-|---------------------|--------|
-| `cms.enabled` | Register CMS routes for this schema |
-| `cms.crudOperations.*.enabled` | Per-operation route exposure (create, read, update, delete) |
-| `cms.crudOperations.*.authenticated` | Require bearer token on that operation |
-| `authorization.enabled` | ReBAC ownership tuples on documents — pass `scope` on creates |
-| `permissions.*` | Admin-panel schema permissions (separate from document ReBAC) |
-
-**Schema extensions** add fields to module-owned schemas (e.g. extend the auth `User` schema). Extensions are database-owned and included in GitOps export alongside base schemas.
-
-Provision schemas at dev/deploy time via MCP `post_database_schemas` or `patch_database_schemas_id`. Module-owned schemas cannot be overwritten by import.
-
-### CMS CRUD
-
-When `conduitOptions.cms` flags are set, the Client API exposes:
-
-| Intent | HTTP | Path |
-|--------|------|------|
-| List (unfiltered) | GET | `/database/{Schema}?skip&limit&sort&populate&scope` |
-| Get by id | GET | `/database/{Schema}/{id}` |
-| Create | POST | `/database/{Schema}?scope` |
-| Update | PATCH | `/database/{Schema}/{id}` |
-| Delete | DELETE | `/database/{Schema}/{id}` |
-
-List queries accept `skip`, `limit`, `sort`, and `populate` (GraphQL-style relation joins on REST). On authorization-enabled schemas, pass `scope` (e.g. `Team:abc`) on **creates** so ownership tuples attach to the right resource.
-
-`GET /database/{Schema}` always queries with an empty filter `{}`. Use it only when a full collection scan (with pagination) is intentional.
-
-### Custom endpoints
-
-Custom endpoints map to Client API routes at `/database/function/{name}`. Provision via MCP `post_database_customendpoints`.
-
-| Field | Purpose |
-|-------|---------|
-| `operation` | HTTP verb: `0` GET, `1` POST, `2` PUT, `3` DELETE, `4` PATCH |
-| `selectedSchema` / `selectedSchemaName` | Target schema |
-| `inputs` | Parameters (`location`: `0` body, `1` query, `2` URL) |
-| `query` | Query tree for read/update/delete filters |
-| `assignments` | Field writes for POST/PUT/PATCH |
-| `authentication` | Require bearer token (mandatory on authorization-enabled schemas) |
-| `paginated` | Require `skip` + `limit` inputs |
-| `sorted` | Enable sort parameter |
-
-**Query trees** nest `AND` / `OR` arrays of leaf nodes. Each leaf has `schemaField`, `operation`, and `comparisonField`:
-
-```json
-{
-  "AND": [
-    {
-      "schemaField": "authorId",
-      "operation": 0,
-      "comparisonField": { "type": "Input", "value": "authorId" }
-    }
-  ]
-}
-```
-
-`comparisonField.type` is `Input` (from endpoint params), `Schema` (literal schema field), `Custom` (fixed value), or `Context` (request context path).
-
-Set `comparisonField.like: true` for case-insensitive text search (`$ilike`); `caseSensitiveLike: true` uses `$like`. On **PostgreSQL**, `$ilike` maps to `ILIKE` via the Sequelize adapter. On **MongoDB**, both operators are supported natively. Avoid `like: true` on non-text field types.
-
-#### Comparison operations
-
-| Op | Name | BSON / behavior |
-|----|------|-----------------|
-| `0` | Equal | `{ field: value }` |
-| `1` | Not equal | `{ field: { $ne: value } }` |
-| `2` | Greater than | `{ field: { $gt: value } }` |
-| `3` | Greater or equal | `{ field: { $gte: value } }` |
-| `4` | Less than | `{ field: { $lt: value } }` |
-| `5` | Less or equal | `{ field: { $lte: value } }` |
-| `6` | In set | `{ field: { $in: value } }` — value must be an array |
-| `7` | Not in set | `{ field: { $nin: value } }` |
-| `8` | Contains (reserved) | Currently translates to `{ field: value }` — same as **Equal** (`0`). Array-contains semantics are not implemented yet; use MongoDB `$in` / element-match patterns via custom logic until this operator is completed. |
-
-#### Assignment actions (write endpoints)
-
-For POST/PUT/PATCH endpoints, `assignments` map inputs to schema fields:
-
-| Action | Name | Effect |
-|--------|------|--------|
-| `0` | Set | Assign field value |
-| `1` | Increment | `$inc` positive |
-| `2` | Decrement | `$inc` negative |
-| `3` | Append | `$push` (array fields only; PUT only) |
-| `4` | Remove | `$pull` (array fields only; PUT only) |
-
-### Database introspection
-
-When you already have collections or tables outside Conduit, **introspection** discovers them and registers **pending schemas** for review. Finalize pending schemas to convert them into CMS schemas (CRUD disabled by default on imported schemas).
-
-Introspection is an **operator workflow** on the Admin API (`GET`/`POST /database/introspection`, pending schema routes). These routes are marked `mcp: false` — **no MCP tools exist for introspection**. Use the Admin Panel or direct Admin API calls with admin credentials.
-
-Large MongoDB collections can slow introspection; PostgreSQL introspection improved in recent releases.
-
-### GitOps export
-
-The database module participates in platform state export/import. Exportable resource types:
-
-| Type | Priority | Contents |
-|------|----------|----------|
-| `schemas` | 10 | CMS schema definitions |
-| `extensions` | 11 | Database-owned schema extensions |
-| `customEndpoints` | 20 | Custom endpoint definitions |
-
-Use `GET /state/export` and `POST /state/import` on the Admin API, or module-scoped `GET /database/schemas/export` and `GET /database/customEndpoints/export`. See [GitOps state export](/docs/guides/gitops-state-export).
-
-`POST /database/schemas/import` is also excluded from MCP (`mcp: false`) — prefer `/state/import` or Admin API directly in CI pipelines.
+  <DatabaseDeepDive />
 </ModuleDeepDive>
 
 ## Configure
