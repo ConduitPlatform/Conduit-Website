@@ -18,6 +18,7 @@ The **Client API** runs on the **router** module (default `CLIENT_BASE_URL` → 
 | **Consumers** | Web/mobile apps, user-scoped server routes | Admin panel, MCP, CI |
 | **Auth** | User access/refresh tokens | masterkey, admin JWT, `cdt_` tokens |
 | **Database** | `/database/{Schema}`, `/database/function/{name}` | Schema/endpoint/index admin |
+| **Health** | Not exposed | `GET /live`, `GET /ready` on core |
 | **Realtime** | Socket.io on `:3001` (`/chat/` namespace) | Admin WebSockets where registered |
 
 ## Authentication
@@ -49,6 +50,8 @@ Store tokens **server-side** (Redis vault + iron-session cookie). See [Next.js g
 
 GraphQL: `POST /graphql` when modules register types.
 
+Admin-only database operations (schema import, introspection, bulk schema management) live on the **Admin API** and are excluded from MCP — provision schemas at deploy time.
+
 ## Authorization
 
 | Method | Path |
@@ -57,6 +60,8 @@ GraphQL: `POST /graphql` when modules register types.
 | GET | `/authorization/role/:resource?scope=Team:tid` |
 
 Pass `scope` on database **creates** for team-owned records. See [ReBAC guide](/docs/guides/rebac-team-scoping).
+
+Bulk relation creation (`POST /authorization/relations/many` with `subject`, `relation`, `resources[]`) is **Admin API only** — use MCP `post_authorization_relations_many` at provision time, not from app runtime.
 
 ## Storage
 
