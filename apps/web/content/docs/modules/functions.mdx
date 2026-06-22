@@ -1,10 +1,12 @@
 ---
 title: Functions
 description: Admin-defined server-side JavaScript with grpcSdk access.
-agent_summary: "Admin-trusted JS — webhooks, event bus handlers, admin routes; grpcSdk access; not a substitute for database custom endpoints."
+agent_summary: "Admin-trusted JS — request/webhook/socket/middleware/event/cron types; VM timeout + require allowlist; routes on Client API via router; CRUD on Admin API."
 ---
 
-The **functions** module runs **admin-defined JavaScript** in-process with full `grpcSdk` access. Treat function code like server configuration — admin-trusted, not user-supplied.
+import FunctionsDeepDive from "@/mdx/deep-dives/functions-deep-dive.mdx";
+
+The **functions** module runs **admin-defined JavaScript** in-process with full `grpcSdk` access. Operators upload function definitions through the Admin API; HTTP and socket handlers register on the **Client API** (via router), while function CRUD and execution history live on the **Admin API**. Treat function code like server configuration — admin-trusted, not user-supplied.
 
 ## Use cases
 
@@ -12,15 +14,23 @@ The **functions** module runs **admin-defined JavaScript** in-process with full 
   items={[
     {
       title: "Webhooks",
-      outcome: "Receive Stripe/GitHub callbacks and call grpcSdk.database or grpcSdk.email",
+      outcome: "Receive Stripe/GitHub callbacks at /hook/{name} and call grpcSdk.database or grpcSdk.email",
+    },
+    {
+      title: "Custom Client API routes",
+      outcome: "Authenticated request handlers at /{name} with declared params and returns",
     },
     {
       title: "Event automation",
-      outcome: "React to bus events — send notifications when records change",
+      outcome: "React to Redis bus events — send notifications when records change",
     },
     {
-      title: "Admin-only routes",
-      outcome: "Custom HTTP handlers registered on Admin API surface",
+      title: "Scheduled jobs",
+      outcome: "Cron functions run on a BullMQ schedule (Redis-backed)",
+    },
+    {
+      title: "Socket handlers",
+      outcome: "Custom Socket.io event handlers on a dedicated namespace path",
     },
     {
       title: "Cross-module orchestration",
@@ -33,72 +43,100 @@ The **functions** module runs **admin-defined JavaScript** in-process with full 
 
 <ModuleCapabilities
   items={[
-    "In-process JS execution",
+    "Six function types (request, webhook, middleware, socket, event, cron)",
+    "Client API route registration via router",
+    "node:vm sandbox (timeout + require allowlist)",
     "grpcSdk access",
-    "Webhook handlers",
-    "Event bus subscribers",
-    "Admin HTTP routes",
-    "Database & comms integration",
+    "BullMQ cron scheduler",
+    "Execution logging & metrics",
+    "GitOps export/import",
   ]}
 />
 
-## Example: Webhook handler concept
+## Example: Webhook handler
 
 <ModuleExample
   steps={[
-    "Admin defines a Function that exposes POST /hook/stripe (Admin API)",
-    "Function validates webhook signature in JS",
-    "On payment_intent.succeeded, grpcSdk.database finds Order and updates status",
-    "grpcSdk.email sends receipt using a provisioned template",
-    "Optional: grpcSdk.chat sends system message to order room",
+    "Admin uploads a webhook function via POST /functions/upload (Admin API)",
+    "Router registers POST /hook/stripeWebhook on CLIENT_BASE_URL",
+    "External provider POSTs to the hook URL",
+    "Function validates signature in JS, calls grpcSdk.database to update Order",
+    "grpcSdk.email sends receipt; res({ ok: true }) returns the response shape",
   ]}
 >
   <APIExample
-    title="Conceptual handler (admin-defined JS — not Client API)"
-    curl={`# Functions run on Admin API surface, configured via admin panel or MCP
-# Example: webhook receives POST, calls grpcSdk internally
-curl -X POST http://localhost:3030/function/stripeWebhook \\
+    title="Invoke webhook (Client API)"
+    curl={`curl -X POST http://localhost:3000/hook/stripeWebhook \\
   -H "Content-Type: application/json" \\
   -d '{"type":"payment_intent.succeeded","data":{...}}'`}
+  />
+  <APIExample
+    title="Upload function (Admin API)"
+    curl={`curl -X POST http://localhost:3030/functions/upload \\
+  -H "masterkey: YOUR_MASTERKEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "name": "stripeWebhook",
+    "functionType": "webhook",
+    "functionCode": "const sig = req.headers[\\"stripe-signature\\"]; /* verify + handle */ res({ received: true });",
+    "inputs": { "method": "POST" },
+    "returns": { "received": "Boolean" }
+  }'`}
   />
 </ModuleExample>
 
 ## How it works
 
 <ModuleDeepDive>
-### Trust boundary
-
-Functions code is **admin-trusted** — equivalent to a custom module deployed by operators. It is not exposed to end users as arbitrary script upload. For user-facing filtered queries, use [database custom endpoints](/docs/modules/database) at `/database/function/{name}` on the Client API instead.
-
-### grpcSdk access
-
-Inside a function, `grpcSdk` provides typed clients for database, authentication, storage, chat, communications, and other registered modules — same as custom ManagedModule services.
-
-### When to use Functions vs custom modules
-
-| Need | Use |
-|------|-----|
-| Filtered Client API query | Database custom endpoint |
-| Long-running domain service | Custom ManagedModule |
-| Webhook, cron, one-off admin automation | Functions |
-| System chat message from backend | grpcSdk.chat from Function or custom module |
+  <FunctionsDeepDive />
 </ModuleDeepDive>
 
 ## Configure
 
-Define functions via Admin panel or MCP when the functions module is enabled. Each function specifies trigger type (HTTP route, bus event), source code, and enabled flag.
+| Key | Default | Meaning |
+|-----|---------|---------|
+| `active` | `true` | Module serves and registers routes when router is up |
+
+Define functions via Admin panel or Admin API when the functions module is enabled. Each document stores `name`, `functionType`, `functionCode`, `inputs`, optional `returns`, and `timeout`.
+
+On create/update/delete the module publishes to the `functions` bus channel and **refreshes router registrations**.
 
 ## Client API
 
-Functions do **not** replace Client API routes for app runtime. App code calls `/database/function/{name}` for provisioned queries — those are database custom endpoints, not this module.
+Functions register routes on the router (not Admin API):
+
+| Type | Example path | Notes |
+|------|--------------|-------|
+| `request` | `PUT /myHandler` | When `inputs.method` is `PUT` → UPDATE action |
+| `webhook` | `POST /hook/stripeWebhook` | Typically unauthenticated |
+| `socket` | Namespace `/{name}` | Event from `inputs.event` |
+
+App runtime code calls these URLs on `CLIENT_BASE_URL` like any other Client API route. **`request` functions with `inputs.auth: true` require a bearer token.**
+
+Functions do **not** replace `/database/function/{name}` — those are database custom endpoints.
+
+## Admin API
+
+Function management on `ADMIN_BASE_URL/functions/...`:
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| POST | `/functions/upload` | Create function |
+| GET | `/functions/` | List (`search`, `skip`, `limit`, `sort`) |
+| GET | `/functions/:id` | Get function |
+| PATCH | `/functions/:id` | Update code, inputs, returns, timeout |
+| DELETE | `/functions/:id` | Delete function |
+| DELETE | `/functions/` | Bulk delete (`ids[]` query) |
+| GET | `/functions/list/executions` | All execution logs |
+| GET | `/functions/executions/:functionId` | Per-function executions (`success` filter) |
 
 ## MCP
 
-Enable functions module in deployment. Admin tools manage function CRUD alongside other admin routes.
+Enable with `?modules=functions` in your MCP server URL. Admin tools manage function CRUD; uploaded functions appear on the Client API after router refresh.
 
 <NextSteps steps={[
+  { title: "Router (Client API gateway)", href: "/docs/modules/router" },
   { title: "Database custom endpoints", href: "/docs/modules/database" },
   { title: "Communications (email from webhooks)", href: "/docs/modules/communications" },
-  { title: "Admin API reference", href: "/docs/reference/admin-api" },
-  { title: "Module authoring (custom modules)", href: "/docs/learn/architecture" },
+  { title: "Client vs Admin API", href: "/docs/learn/client-vs-admin-api" },
 ]} />
