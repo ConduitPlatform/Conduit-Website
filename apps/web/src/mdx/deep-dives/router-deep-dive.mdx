@@ -18,7 +18,7 @@ Hermes powers both the router (client) and the admin package (admin). End-user a
 
 ### Request proxy flow
 
-```
+```text
 App → Router (Hermes) → global middleware (CORS, rate limit, client validation, …)
                       → route middleware (authMiddleware, captcha, …)
                       → gRPC call to registering module handler

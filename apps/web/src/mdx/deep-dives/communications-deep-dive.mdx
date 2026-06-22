@@ -54,7 +54,8 @@ For **EmailTemplate**, use Admin REST (`POST /email/templates`) or MCP `post_ema
 |------|-------------------------|
 | `POST /email/send` | Resolves **EmailTemplate** by name; compiles Handlebars with `variables`. Omit only when providing inline `subject` + `body`. |
 | `grpcSdk.email.sendEmail(templateName, …)` | Same resolution as Admin API |
-| `POST /send/multiple`, `POST /send/fallback` | Inline `subject`, `body`, `variables` per channel. gRPC unified methods (`SendToMultipleChannels`, `SendWithFallback`) accept `templateName` in the proto for CommunicationTemplate resolution. |
+| `POST /send/multiple`, `POST /send/fallback` | Inline `subject`, `body`, `variables` per channel — **no** `templateName` lookup on REST |
+| gRPC `SendToMultipleChannels`, `SendWithFallback` | Accept `templateName` in the proto for CommunicationTemplate resolution |
 | `POST /push/send`, `POST /sms/send` | Inline `title`/`body` or `message` — no template lookup |
 
 ```typescript
@@ -95,7 +96,9 @@ Orchestration config (`retryAttempts`, `retryDelay`, `timeout`, `fallbackTimeout
 Standalone **email**, **sms**, and **push-notifications** modules are deprecated. Communications is a drop-in replacement:
 
 1. **Deploy** — register `Communications` instead of three separate modules.
-2. **Config** — nest legacy keys under `communications`:
+2. **Config** — nest legacy keys under `communications` (example below).
+3. **Code** — existing `grpcSdk.email`, `grpcSdk.pushNotifications`, `grpcSdk.sms` calls continue unchanged.
+4. **MCP** — use `?modules=communications` or aliases `?modules=email,push,sms`. `push-notifications` is **not** a valid alias.
 
 ```yaml
 communications:
@@ -122,9 +125,6 @@ communications:
     retryAttempts: 3
     fallbackTimeout: 5000
 ```
-
-3. **Code** — existing `grpcSdk.email`, `grpcSdk.pushNotifications`, `grpcSdk.sms` calls continue unchanged.
-4. **MCP** — use `?modules=communications` or aliases `?modules=email,push,sms`. `push-notifications` is **not** a valid alias.
 
 On first boot, communications can auto-merge legacy top-level `email`, `pushNotifications`, and `sms` config into the unified namespace when channel values still match defaults. Legacy gRPC service names are preserved on the unified `Communications` gRPC service.
 

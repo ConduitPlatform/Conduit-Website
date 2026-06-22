@@ -59,7 +59,7 @@ Custom endpoints map to Client API routes at `/database/function/{name}`. Provis
 }
 ```
 
-`comparisonField.type` is `Input` (from endpoint params), `Schema` (literal schema field), `Custom` (fixed value), or `Context` (request context path).
+`comparisonField.type` is `Input` (from endpoint params), `Schema` (field value from the matched document), `Custom` (fixed value), or `Context` (request context path).
 
 Set `comparisonField.like: true` for case-insensitive text search (`$ilike`); `caseSensitiveLike: true` uses `$like`. On **PostgreSQL**, `$ilike` maps to `ILIKE` via the Sequelize adapter. On **MongoDB**, both operators are supported natively. Avoid `like: true` on non-text field types.
 
@@ -75,7 +75,9 @@ Set `comparisonField.like: true` for case-insensitive text search (`$ilike`); `c
 | `5` | Less or equal | `{ field: { $lte: value } }` |
 | `6` | In set | `{ field: { $in: value } }` — value must be an array |
 | `7` | Not in set | `{ field: { $nin: value } }` |
-| `8` | Contains (reserved) | Currently translates to `{ field: value }` — same as **Equal** (`0`). Array-contains semantics are not implemented yet; use MongoDB `$in` / element-match patterns via custom logic until this operator is completed. |
+| `8` | Contains (reserved) | Same as **Equal** (`0`) — `{ field: value }` |
+
+Op `8` does not implement array-contains yet. Use MongoDB `$in` / element-match patterns via custom logic until this operator is completed.
 
 #### Assignment actions (write endpoints)
 
