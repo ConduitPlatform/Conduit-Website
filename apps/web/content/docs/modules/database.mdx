@@ -1,10 +1,12 @@
 ---
 title: Database
-description: Schemas, CRUD, custom endpoints, indexes, and query trees.
-agent_summary: "Client: /database/{Schema}, /database/function/{name}; provision schemas via MCP; no client-side filtering — custom endpoints for filtered queries."
+description: Schemas, CRUD, custom endpoints, indexes, query trees, and GitOps export.
+agent_summary: "Client: /database/{Schema}, /database/function/{name}; provision schemas and custom endpoints via MCP; never filter collections client-side; introspection is Admin API only (not MCP)."
 ---
 
-The **database** module is the data layer. Apps never connect to MongoDB or PostgreSQL directly — schemas define document shapes, CMS options expose CRUD routes, and custom endpoints serve filtered queries.
+Your app needs structured data, but connecting to MongoDB or PostgreSQL directly bypasses Conduit auth, authorization, and routing. The **database** module is the data layer: you define **schemas**, enable **CMS CRUD** routes for simple access, and provision **custom endpoints** for every filtered query.
+
+The most common mistake is calling `GET /database/{Schema}` and filtering in application code. That route runs `findMany({}, …)` — **there is no filter parameter**. Any WHERE clause, ownership scope, date range, or text search belongs in a provisioned custom endpoint at `/database/function/{name}`.
 
 ## Use cases
 
@@ -16,15 +18,19 @@ The **database** module is the data layer. Apps never connect to MongoDB or Post
     },
     {
       title: "Filtered lists",
-      outcome: "Custom endpoints for WHERE clauses, search, and pagination",
+      outcome: "Custom endpoints with query trees for WHERE, search, and pagination",
     },
     {
       title: "Multi-tenant records",
       outcome: "Authorization-enabled schemas with scope on create",
     },
     {
-      title: "Extend auth User",
-      outcome: "Schema extensions add fields to module-owned schemas",
+      title: "Brownfield databases",
+      outcome: "Introspect existing collections via Admin API, finalize as CMS schemas",
+    },
+    {
+      title: "Config-as-code",
+      outcome: "Export schemas, extensions, and custom endpoints in GitOps state snapshots",
     },
   ]}
 />
@@ -33,14 +39,16 @@ The **database** module is the data layer. Apps never connect to MongoDB or Post
 
 <ModuleCapabilities
   items={[
-    "Schema definitions",
+    "MongoDB & PostgreSQL",
+    "Schema definitions & extensions",
     "CMS CRUD routes",
-    "Custom endpoints",
-    "Query trees",
+    "Custom endpoints & query trees",
+    "Comparison operators (eq, in, contains, …)",
     "Indexes",
     "Populate relations",
     "Text search (like: true)",
-    "Schema extensions",
+    "Database introspection (Admin API)",
+    "GitOps export (schemas, extensions, endpoints)",
     "GraphQL (via router)",
   ]}
 />
@@ -72,43 +80,140 @@ The **database** module is the data layer. Apps never connect to MongoDB or Post
 ## How it works
 
 <ModuleDeepDive>
+### Schemas
+
+A schema declares field types, indexes, and `conduitOptions` that control runtime behavior:
+
+| `conduitOptions` key | Effect |
+|---------------------|--------|
+| `cms.enabled` | Register CMS routes for this schema |
+| `cms.crudOperations.*.enabled` | Per-operation route exposure (create, read, update, delete) |
+| `cms.crudOperations.*.authenticated` | Require bearer token on that operation |
+| `authorization.enabled` | ReBAC ownership tuples on documents — pass `scope` on creates |
+| `permissions.*` | Admin-panel schema permissions (separate from document ReBAC) |
+
+**Schema extensions** add fields to module-owned schemas (e.g. extend the auth `User` schema). Extensions are database-owned and included in GitOps export alongside base schemas.
+
+Provision schemas at dev/deploy time via MCP `post_database_schemas` or `patch_database_schemas_id`. Module-owned schemas cannot be overwritten by import.
+
 ### CMS CRUD
 
-When `conduitOptions.cms.enabled` and per-operation flags are set, the Client API exposes:
+When `conduitOptions.cms` flags are set, the Client API exposes:
 
 | Intent | HTTP | Path |
 |--------|------|------|
 | List (unfiltered) | GET | `/database/{Schema}?skip&limit&sort&populate&scope` |
 | Get by id | GET | `/database/{Schema}/{id}` |
-| Create | POST | `/database/{Schema}` |
+| Create | POST | `/database/{Schema}?scope` |
 | Update | PATCH | `/database/{Schema}/{id}` |
 | Delete | DELETE | `/database/{Schema}/{id}` |
 
-`GET /database/{Schema}` runs `findMany({}, …)` — **no filter parameter exists**.
+List queries accept `skip`, `limit`, `sort`, and `populate` (GraphQL-style relation joins on REST). On authorization-enabled schemas, pass `scope` (e.g. `Team:abc`) on **creates** so ownership tuples attach to the right resource.
 
-### The iron rule
-
-Any query needing WHERE clauses, `$in`, date ranges, text search, or ownership scoping must use a **provisioned custom endpoint** at `/database/function/{name}`. Never fetch a collection and `.filter()` in application code.
+`GET /database/{Schema}` always queries with an empty filter `{}`. Use it only when a full collection scan (with pagination) is intentional.
 
 ### Custom endpoints
 
-Provision via MCP `post_database_customendpoints`. Operations map to HTTP methods (GET, POST, PUT, PATCH, DELETE). Query trees declare inputs, filters, populate, pagination (`paginated: true` requires `skip` + `limit`), and optional `like: true` text search.
+Custom endpoints map to Client API routes at `/database/function/{name}`. Provision via MCP `post_database_customendpoints`.
 
-On authorization-enabled schemas, custom endpoints **must** have `authentication: true` and accept optional `scope`.
+| Field | Purpose |
+|-------|---------|
+| `operation` | HTTP verb: `0` GET, `1` POST, `2` PUT, `3` DELETE, `4` PATCH |
+| `selectedSchema` / `selectedSchemaName` | Target schema |
+| `inputs` | Parameters (`location`: `0` body, `1` query, `2` URL) |
+| `query` | Query tree for read/update/delete filters |
+| `assignments` | Field writes for POST/PUT/PATCH |
+| `authentication` | Require bearer token (mandatory on authorization-enabled schemas) |
+| `paginated` | Require `skip` + `limit` inputs |
+| `sorted` | Enable sort parameter |
+
+**Query trees** nest `AND` / `OR` arrays of leaf nodes. Each leaf has `schemaField`, `operation`, and `comparisonField`:
+
+```json
+{
+  "AND": [
+    {
+      "schemaField": "authorId",
+      "operation": 0,
+      "comparisonField": { "type": "Input", "value": "authorId" }
+    }
+  ]
+}
+```
+
+`comparisonField.type` is `Input` (from endpoint params), `Schema` (literal schema field), `Custom` (fixed value), or `Context` (request context path).
+
+Set `comparisonField.like: true` for case-insensitive text search (`$ilike`); `caseSensitiveLike: true` uses `$like`. On **PostgreSQL**, `$ilike` maps to `ILIKE` via the Sequelize adapter. On **MongoDB**, both operators are supported natively. Avoid `like: true` on non-text field types.
+
+#### Comparison operations
+
+| Op | Name | BSON / behavior |
+|----|------|-----------------|
+| `0` | Equal | `{ field: value }` |
+| `1` | Not equal | `{ field: { $ne: value } }` |
+| `2` | Greater than | `{ field: { $gt: value } }` |
+| `3` | Greater or equal | `{ field: { $gte: value } }` |
+| `4` | Less than | `{ field: { $lt: value } }` |
+| `5` | Less or equal | `{ field: { $lte: value } }` |
+| `6` | In set | `{ field: { $in: value } }` — value must be an array |
+| `7` | Not in set | `{ field: { $nin: value } }` |
+| `8` | Contains (reserved) | Currently translates to `{ field: value }` — same as **Equal** (`0`). Array-contains semantics are not implemented yet; use MongoDB `$in` / element-match patterns via custom logic until this operator is completed. |
+
+#### Assignment actions (write endpoints)
+
+For POST/PUT/PATCH endpoints, `assignments` map inputs to schema fields:
+
+| Action | Name | Effect |
+|--------|------|--------|
+| `0` | Set | Assign field value |
+| `1` | Increment | `$inc` positive |
+| `2` | Decrement | `$inc` negative |
+| `3` | Append | `$push` (array fields only; PUT only) |
+| `4` | Remove | `$pull` (array fields only; PUT only) |
+
+### Database introspection
+
+When you already have collections or tables outside Conduit, **introspection** discovers them and registers **pending schemas** for review. Finalize pending schemas to convert them into CMS schemas (CRUD disabled by default on imported schemas).
+
+Introspection is an **operator workflow** on the Admin API (`GET`/`POST /database/introspection`, pending schema routes). These routes are marked `mcp: false` — **no MCP tools exist for introspection**. Use the Admin Panel or direct Admin API calls with admin credentials.
+
+Large MongoDB collections can slow introspection; PostgreSQL introspection improved in recent releases.
+
+### GitOps export
+
+The database module participates in platform state export/import. Exportable resource types:
+
+| Type | Priority | Contents |
+|------|----------|----------|
+| `schemas` | 10 | CMS schema definitions |
+| `extensions` | 11 | Database-owned schema extensions |
+| `customEndpoints` | 20 | Custom endpoint definitions |
+
+Use `GET /state/export` and `POST /state/import` on the Admin API, or module-scoped `GET /database/schemas/export` and `GET /database/customEndpoints/export`. See [GitOps state export](/docs/guides/gitops-state-export).
+
+`POST /database/schemas/import` is also excluded from MCP (`mcp: false`) — prefer `/state/import` or Admin API directly in CI pipelines.
 </ModuleDeepDive>
 
 ## Configure
 
-Provision at dev/deploy time via MCP with `?modules=database`:
+Enable the database module in deployment, then provision via MCP with `?modules=database`:
 
 ```text
 post_database_schemas
 patch_database_schemas_id
 post_database_customendpoints
+patch_database_customendpoints_id
 post_database_schemas_id_indexes
+patch_config_database
 ```
 
-Key `conduitOptions` keys: `cms.enabled`, `cms.crudOperations.*.enabled`, `cms.crudOperations.*.authenticated`, `authorization.enabled`.
+| Config key | Meaning |
+|------------|---------|
+| `readPreference` | MongoDB replica read preference (`primary`, `secondaryPreferred`, …) |
+| `writeConcern` | MongoDB write concern (`1`, `majority`) |
+| `readConcern` | MongoDB read concern (`local`, `majority`, …) |
+
+Sequelize/PostgreSQL caveats: index creation via Admin API is limited, case-sensitive `$like` behavior differs by dialect, and partial-row updates only change provided columns.
 
 ## Client API
 
@@ -120,16 +225,25 @@ Key `conduitOptions` keys: `cms.enabled`, `cms.crudOperations.*.enabled`, `cms.c
 
 ## MCP
 
+Enable with `?modules=database` in your MCP server URL.
+
 | Tool | Purpose |
 |------|---------|
-| `post_database_schemas` | Create schema |
 | `get_database_schemas` | List schemas |
-| `post_database_customendpoints` | Create filtered query endpoint |
-| `post_database_schemas_id_indexes` | Add DB index |
+| `post_database_schemas` | Create schema |
+| `patch_database_schemas_id` | Update schema |
+| `get_database_customendpoints` | List custom endpoints |
+| `post_database_customendpoints` | Create custom endpoint |
+| `patch_database_customendpoints_id` | Update custom endpoint |
+| `post_database_schemas_id_indexes` | Add index |
+| `patch_config_database` | Replica set / DB engine settings |
+
+**Not exposed via MCP:** introspection routes (`/database/introspection/*`), `POST /database/schemas/import`. Use Admin API or Admin Panel for those operator workflows.
 
 <NextSteps steps={[
   { title: "Your first app", href: "/docs/getting-started/first-app" },
   { title: "Authorization & scope", href: "/docs/modules/authorization" },
+  { title: "GitOps state export", href: "/docs/guides/gitops-state-export" },
   { title: "Client API reference", href: "/docs/reference/client-api" },
   { title: "MCP tools", href: "/docs/reference/mcp-tools" },
 ]} />
