@@ -1,10 +1,10 @@
 ---
 title: Chat
 description: Realtime rooms and messages over REST and Socket.io.
-agent_summary: "Client API REST + Socket.io on CLIENT_SOCKET_PORT 3001; namespace /chat/, path /realtime; rooms, messages, storage attachments."
+agent_summary: "Client API REST + Socket.io on CLIENT_SOCKET_PORT 3001; namespace /chat/, path /realtime; rooms, messages, invitations, storage attachments; grpcSdk.chat for server-side."
 ---
 
-The **chat** module provides persisted rooms, message history, and realtime delivery over REST and Socket.io on the Client API.
+Apps need persisted chat history, live delivery, and controlled membership — without building a separate messaging stack. The **chat** module stores rooms and messages in the database, exposes CRUD on the **Client API**, and pushes realtime events over Socket.io. Custom modules provision rooms and system messages via `grpcSdk.chat`; operators manage data through the Admin API or MCP.
 
 ## Use cases
 
@@ -17,6 +17,10 @@ The **chat** module provides persisted rooms, message history, and realtime deli
     {
       title: "Support tickets",
       outcome: "Custom module creates rooms via grpcSdk.chat; users join via Client API",
+    },
+    {
+      title: "Opt-in room membership",
+      outcome: "explicit_room_joins sends invitations; users accept before joining",
     },
     {
       title: "File attachments",
@@ -33,14 +37,17 @@ The **chat** module provides persisted rooms, message history, and realtime deli
 
 <ModuleCapabilities
   items={[
-    "Room CRUD",
-    "Message history",
+    "Room CRUD (Client + Admin API)",
+    "Message history & single-message fetch",
     "Socket.io realtime",
     "Typing indicators",
-    "Read receipts",
-    "File attachments",
+    "Read receipts (batched flush)",
+    "Message edit/delete (config-gated)",
+    "File & multimedia attachments",
     "System messages (grpcSdk)",
-    "Explicit room joins (optional)",
+    "Explicit room joins & invitations",
+    "Invitation email & push (optional)",
+    "Audit mode & empty-room cleanup",
   ]}
 />
 
@@ -49,10 +56,11 @@ The **chat** module provides persisted rooms, message history, and realtime deli
 <ModuleExample
   steps={[
     "Authenticate user and obtain accessToken",
-    "POST /chat/rooms with roomName and users[] participant IDs",
+    "POST /chat/rooms with roomName and users[] participant IDs (creator is added automatically — do not include your own id in users)",
     "Connect Socket.io to SOCKET_BASE_URL/chat/ with path /realtime and Bearer header",
+    "On connect the server joins all rooms the user belongs to; emit connectToRoom when opening a specific room UI",
     "Load history via GET /chat/messages?roomId=ROOM_ID&skip=0&limit=20",
-    "Send live messages via socket emit message with contentType text",
+    "Send live messages via socket emit message with roomId and payload",
   ]}
 >
   <APIExample
@@ -76,11 +84,31 @@ The **chat** module provides persisted rooms, message history, and realtime deli
 
 | Surface | Base | Purpose |
 |---------|------|---------|
-| REST | `CLIENT_BASE_URL/chat/...` | Room CRUD, message history, edit/delete |
-| Socket.io | Namespace `/chat/` on socket port | Live messages, typing, read receipts |
-| gRPC | `grpcSdk.chat` | Custom modules create rooms / system messages |
+| REST | `CLIENT_BASE_URL/chat/...` | Room CRUD, message history, edit/delete, invitations |
+| Socket.io | Namespace `/chat/` on socket port | Live messages, typing, read receipts, room membership events |
+| gRPC | `grpcSdk.chat` | Custom modules create rooms, send system messages, delete rooms |
+| Admin API | `ADMIN_BASE_URL/chat/...` | Operator room/message/invitation management |
 
-Default ports: REST `3000`, WebSockets `3001` (override via env).
+Default ports: REST `3000`, WebSockets `3001` (override via `CLIENT_HTTP_PORT` / `CLIENT_SOCKET_PORT` on router).
+
+### Rooms
+
+A **ChatRoom** has a `name`, `creator`, `participants[]`, and a `participantsLog` audit trail (`create`, `join`, `leave`, `add`, `remove`).
+
+| Mode | Create room | Add users |
+|------|-------------|-----------|
+| **Default** (`explicit_room_joins.enabled: false`) | Creator + all `users[]` become participants immediately; sockets receive `join-room` / `room-joined` | Users are added directly; same socket events |
+| **Explicit joins** (`explicit_room_joins.enabled: true`) | Only the creator is a participant; invitation tokens are created for each user in `users[]` | Sends invitations instead of adding members |
+
+`PUT /chat/leave/:roomId` removes the current user. When `deleteEmptyRooms` is true and one participant remains (or none), the room and its messages are removed — or soft-deleted when `auditMode` is true.
+
+### Messages
+
+Messages support `contentType`: `text`, `file`, `multimedia`, `typing`, or `system`. File and multimedia types require a `files[]` array of storage file IDs. Typing events are ephemeral (not persisted). Optional `nonce` on send enables idempotent retries — duplicate nonces return the existing message to the sender only.
+
+`GET /chat/messages` without `roomId` returns messages across all rooms the user participates in. With `roomId`, results are scoped and membership is validated. Pass `populate` (comma-separated relation names) to join sender or file metadata.
+
+Edit (`PATCH`) and delete (`DELETE`) routes register only when `allowMessageEdit` / `allowMessageDelete` are enabled. Only the original sender can edit or delete their message. Successful mutations broadcast `message-edited` or `message-deleted` on the room socket.
 
 ### Socket connection
 
@@ -93,46 +121,161 @@ const socket = io(`${SOCKET_BASE_URL}/chat/`, {
 });
 ```
 
-On connect, the server auto-joins the user to their rooms. Call `connectToRoom(roomId)` when opening a specific room UI.
+| Client emit | Params | Behavior |
+|-------------|--------|----------|
+| `connect` | — | Automatic on namespace connect; server joins all user rooms |
+| `connectToRoom` | `roomId` | Join a specific room socket channel |
+| `message` | `roomId`, `string \| object` | Send text string or `{ contentType, content?, files?, nonce? }` |
+| `messagesRead` | `roomId` | Mark room messages read; broadcasts `messagesRead` |
+
+| Server event | When |
+|--------------|------|
+| `join-room` | User should join room channel(s) |
+| `room-joined` | Room membership confirmed (`{ room, roomName }`) |
+| `leave-room` | User removed from room channel |
+| `message` | New or typing message |
+| `message-edited` | REST patch applied |
+| `message-deleted` | REST delete applied |
+| `messagesRead` | `{ room, readBy }` |
+| `message:error` | Persist failed for optimistic send |
+| `room-deleted` | Room removed (gRPC delete) |
 
 ### REST + socket split
 
 | Concern | Channel |
 |---------|---------|
-| Initial history, infinite scroll | REST GET /chat/messages |
+| Initial history, infinite scroll | REST `GET /chat/messages` |
 | Send, typing, read receipts | Socket emit |
 | Edit / delete | REST PATCH/DELETE (broadcasts on socket) |
 
-Merge by message `_id`; dedupe socket events against REST pages.
+Merge by message `_id`; dedupe socket events against REST pages. Read receipts are flushed to the database in a 500ms batch after `messagesRead` emits.
 
 ### Attachments
 
-Upload files via [storage](/docs/modules/storage) first. Send `contentType: file` with `files: [storageFileId]` in the message payload. Serve binaries through a preview proxy — never presigned URLs in the client.
+Upload files via [storage](/docs/modules/storage) first. Send `contentType: "file"` or `"multimedia"` with `files: [storageFileId]` in the message payload. Serve binaries through a preview proxy — never presigned URLs in the client.
+
+### Explicit room joins & invitations
+
+When `explicit_room_joins.enabled` is true, creating a room or calling `PUT /chat/rooms/:roomId/addUsers` creates **InvitationToken** documents instead of adding participants directly.
+
+**In-app flow** (authenticated Client API):
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/chat/invitations/received` | List invitations for current user |
+| GET | `/chat/invitations/sent` | List invitations sent by current user |
+| GET | `/chat/invitations/{accept\|decline}/{id}` | Accept or decline by invitation document id |
+| DELETE | `/chat/invitations/cancel/:id` | Cancel a sent invitation (sender only) |
+
+On accept, the user is added to `participants`, invitation tokens for that room/receiver are cleared, and `join-room` / `room-joined` socket events fire.
+
+**Email / deep-link hook flow** — when `explicit_room_joins.send_email` is true (requires [communications](/docs/modules/communications) email), invitation emails embed links:
+
+```
+GET {router.hostUrl}/hook/chat/invitations/accept/{token}
+GET {router.hostUrl}/hook/chat/invitations/decline/{token}
+```
+
+The hook route is rate-limited and resolves the opaque `token` (not the document id).
+
+- **Route auth:** The hook uses optional auth middleware (`authMiddleware?`) — the URL itself is not a secret, but accepting or declining still requires a logged-in user before the invitation is applied.
+- **Unauthenticated visitors:** When `explicit_room_joins.redirect.login_uri` is set, unauthenticated users are redirected to your login page with `redirectUri` set back to the hook URL so they can complete the flow after signing in.
+- **After accept/decline:** Configure `explicit_room_joins.redirect.accept_uri` / `decline_uri` (supports `{roomId}`) for server-side redirects; otherwise the hook returns a plain-text result (`Invitation accepted` / `Invitation declined`).
+
+> **Note:** Email links have always used the `/hook/chat/invitations/...` path. Older releases registered the handler at `/hook/invitations/...` (without the `chat` segment), so those links 404'd until the route and email builder were aligned. Use `/hook/chat/invitations/{accept|decline}/{token}` as the canonical path.
+
+Set **`router.hostUrl`** (`patch_config_router`) to your public Client API base URL so invitation links resolve correctly in production — defaults to `http://localhost:3000` when unset.
+
+With `explicit_room_joins.send_notification` enabled, push notifications are sent via communications when that module is serving.
+
+### Server-side provisioning
+
+From custom modules or workers:
+
+```typescript
+// Create room with all participants (bypasses invitation flow)
+const room = await grpcSdk.chat!.createRoom({ name: "Order #99", participants: [userA, userB] });
+
+// System message (optional persist: false for ephemeral)
+await grpcSdk.chat!.sendMessage({
+  roomId: room._id,
+  userId: operatorId,
+  message: "Ticket opened",
+  messageType: "system",
+});
+
+await grpcSdk.chat!.deleteRoom({ _id: room._id });
+```
+
+gRPC `createRoom` always adds participants immediately — it does not honor `explicit_room_joins`. Use Client API room creation when invitation flow is required.
 </ModuleDeepDive>
 
 ## Configure
 
-Chat module config via MCP `?modules=chat`: `allowMessageEdit`, `allowMessageDelete`, `explicit_room_joins.enabled`.
+Patch via MCP `patch_config_chat` (`?modules=chat`):
 
-Domain workflows (e.g. auto-create room on order) typically use `grpcSdk.chat` from a custom module — see [Functions](/docs/modules/functions) and module authoring docs.
+| Key | Default | Meaning |
+|-----|---------|---------|
+| `active` | `true` | Enable module |
+| `allowMessageEdit` | `true` | Register `PATCH /chat/messages/:messageId` |
+| `allowMessageDelete` | `true` | Register `DELETE /chat/messages/:messageId` |
+| `deleteEmptyRooms` | `false` | Delete room when one or zero participants remain after leave |
+| `auditMode` | `false` | Soft-delete rooms/messages instead of hard delete |
+| `explicit_room_joins.enabled` | `false` | Require invitation acceptance before membership |
+| `explicit_room_joins.send_email` | `false` | Email invitation links (needs communications email) |
+| `explicit_room_joins.send_notification` | `false` | Push on invite (needs communications push) |
+| `explicit_room_joins.redirect.login_uri` | `""` | Login page for unauthenticated hook visitors (`redirectUri` query param) |
+| `explicit_room_joins.redirect.accept_uri` | `""` | Post-accept redirect (`{roomId}` placeholder) |
+| `explicit_room_joins.redirect.decline_uri` | `""` | Post-decline redirect |
+
+For invitation email links, also set **`router.hostUrl`** to your public API origin.
+
+Domain workflows (e.g. auto-create room on order) typically use `grpcSdk.chat` from a custom module — see [Functions](/docs/modules/functions).
 
 ## Client API
 
-| Method | Path |
-|--------|------|
-| POST | `/chat/rooms` |
-| GET | `/chat/rooms` |
-| GET | `/chat/messages?roomId=&skip=&limit=` |
-| PATCH | `/chat/messages/:messageId` |
-| DELETE | `/chat/messages/:messageId` |
+| Method | Path | Notes |
+|--------|------|-------|
+| POST | `/chat/rooms` | Body: `{ roomName, users[] }` → `{ roomId }` |
+| GET | `/chat/rooms` | Query: `skip`, `limit`, `populate` |
+| GET | `/chat/rooms/:id` | Single room (membership required) |
+| PUT | `/chat/rooms/:roomId/addUsers` | Body: `{ users[] }` |
+| PUT | `/chat/leave/:roomId` | Leave room |
+| GET | `/chat/messages` | Query: `roomId?`, `skip`, `limit`, `populate` |
+| GET | `/chat/messages/:messageId` | Single message |
+| PATCH | `/chat/messages/:messageId` | Body: `{ newMessage }` — if `allowMessageEdit` |
+| DELETE | `/chat/messages/:messageId` | If `allowMessageDelete` |
+| GET | `/chat/invitations/received` | If `explicit_room_joins.enabled` |
+| GET | `/chat/invitations/sent` | If `explicit_room_joins.enabled` |
+| GET | `/chat/invitations/{accept\|decline}/:id` | If `explicit_room_joins.enabled` |
+| DELETE | `/chat/invitations/cancel/:id` | If `explicit_room_joins.enabled` |
+| GET | `/hook/chat/invitations/{accept\|decline}/:token` | Email deep link; optional auth + redirect config |
+
+## Admin API
+
+Operator routes on `ADMIN_BASE_URL/chat/...` (admin credentials):
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/chat/rooms` | List/search rooms (`search`, `users`, `deleted`, `skip`, `limit`, `sort`, `populate`) |
+| GET | `/chat/rooms/:id` | Get room |
+| POST | `/chat/rooms` | Create room (`name`, `participants[]`, optional `creator`) |
+| DELETE | `/chat/rooms` | Delete rooms by `ids[]` query |
+| PUT | `/chat/rooms/:roomId/add` | Add users (immediate, no invitation flow) |
+| PUT | `/chat/room/:roomId/remove` | Remove users |
+| GET | `/chat/invitations/:roomId` | List pending invitations for room |
+| DELETE | `/chat/invitations/:roomId` | Delete invitations by `invitations[]` query |
+| GET | `/chat/messages` | Query messages (`roomId`, `senderUser`, `skip`, `limit`, `sort`, `populate`) |
+| DELETE | `/chat/messages` | Delete messages by `ids[]` query |
 
 ## MCP
 
-Enable `?modules=chat` for admin room and message management.
+Enable with `?modules=chat` in your MCP server URL for config and admin room/message management (`patch_config_chat`, room and message admin tools).
 
 <NextSteps steps={[
   { title: "Storage (attachments)", href: "/docs/modules/storage" },
+  { title: "Communications (invite email/push)", href: "/docs/modules/communications" },
   { title: "Authentication", href: "/docs/modules/authentication" },
-  { title: "Router (socket port)", href: "/docs/modules/router" },
+  { title: "Router (socket port & hostUrl)", href: "/docs/modules/router" },
   { title: "Next.js integration", href: "/docs/guides/first-app-nextjs" },
 ]} />
