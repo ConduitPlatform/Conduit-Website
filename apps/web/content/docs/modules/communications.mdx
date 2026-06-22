@@ -1,10 +1,14 @@
 ---
 title: Communications
-description: Unified email, SMS, and push notifications (replaces legacy modules).
-agent_summary: "v0.17 unified communications; email/SMS/push via Admin API and grpcSdk; MCP ?modules=communications; Handlebars templates."
+description: Unified email, SMS, and push — one module, three channels, orchestrated delivery.
+agent_summary: "v0.17 unified communications; Admin /email /push /sms; EmailTemplate + CommunicationTemplate; orchestrator multi-channel/fallback; grpcSdk legacy aliases; MCP ?modules=communications."
 ---
 
-In **v0.17**, separate **email**, **sms**, and **push-notifications** modules are consolidated into **communications** — one module, one config namespace, three channels.
+import CommunicationsDeepDive from "@/mdx/deep-dives/communications-deep-dive.mdx";
+
+Your app needs to reach users on email, push, and SMS — without operating three separate modules, credential sets, and send paths. The **communications** module is the unified messaging layer: one config namespace, channel-specific Admin API routes under `/email`, `/push`, and `/sms` (not `/pushNotifications`), plus orchestration for multi-channel and fallback delivery.
+
+In **v0.17**, legacy **email**, **sms**, and **push-notifications** modules consolidate here. Existing `grpcSdk.email`, `grpcSdk.pushNotifications`, and `grpcSdk.sms` calls continue to work; new integrations can use `grpcSdk.communications` for orchestrated sends. Sending from application runtime stays server-side — never admin credentials in the browser.
 
 ## Use cases
 
@@ -12,19 +16,23 @@ In **v0.17**, separate **email**, **sms**, and **push-notifications** modules ar
   items={[
     {
       title: "Transactional email",
-      outcome: "Welcome emails, receipts, password resets via Handlebars templates",
+      outcome: "Welcome emails, receipts, password resets via Handlebars EmailTemplate",
     },
     {
       title: "Push notifications",
-      outcome: "FCM device tokens registered from apps; send via Admin API or workers",
+      outcome: "FCM/OneSignal device tokens registered from apps; send via Admin API or workers",
     },
     {
       title: "SMS & 2FA",
-      outcome: "Twilio or AWS SNS for verification codes and alerts",
+      outcome: "Twilio Verify, AWS SNS, or MessageBird for verification codes and alerts",
     },
     {
       title: "Multi-channel orchestration",
-      outcome: "Fallback chains (email then push) configured admin-side",
+      outcome: "Broadcast to email + push + SMS, or fallback chains when a channel fails",
+    },
+    {
+      title: "Unified templates",
+      outcome: "CommunicationTemplate documents coordinate copy across channels for GitOps export",
     },
   ]}
 />
@@ -33,26 +41,36 @@ In **v0.17**, separate **email**, **sms**, and **push-notifications** modules ar
 
 <ModuleCapabilities
   items={[
-    "Email (SMTP, SendGrid, Mailgun, SES, …)",
-    "Push (FCM, OneSignal, SNS)",
+    "Email (SMTP, SendGrid, Mailgun, SES, Mandrill, MailerSend)",
+    "Push (Firebase, OneSignal, Amazon SNS)",
     "SMS (Twilio, AWS SNS, MessageBird)",
-    "Handlebars templates",
-    "Device token registration",
-    "Delivery history",
-    "Orchestration & fallback",
+    "Handlebars email templates (EmailTemplate CRUD)",
+    "Multi-channel CommunicationTemplate schema + state export",
+    "Device token registration & in-app inbox",
+    "Delivery history (email, SMS records)",
+    "Orchestration: BEST_EFFORT / ALL_OR_NOTHING broadcast",
+    "Fallback chains with per-channel timeouts",
+    "Legacy grpc-sdk aliases (email, pushNotifications, sms)",
   ]}
 />
 
-## Example: Transactional email + push token
+## Example: Template, email send, and fallback
 
 <ModuleExample
   steps={[
-    "Provision WelcomeEmail template via MCP post_email_templates (deploy time)",
-    "From a custom module or admin script, POST /email/send with templateName and variables",
-    "App registers FCM token via Client API push routes after user login",
-    "Send push via Admin API when triggering notifications from server-side code",
+    "Provision a WelcomeEmail EmailTemplate via Admin API POST /email/templates (deploy time)",
+    "From server-side code, POST /email/send with templateName and variables",
+    "App registers FCM token via Client API POST /token after user login",
+    "For critical alerts, POST /send/fallback with an ordered channel chain",
   ]}
 >
+  <APIExample
+    title="Create email template (Admin API — deploy time)"
+    curl={`curl -X POST http://localhost:3030/email/templates \\
+  -H "Authorization: Bearer ADMIN_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{"name":"WelcomeEmail","subject":"Welcome {{name}}","body":"<p>Hi {{name}}, welcome aboard.</p>"}'`}
+  />
   <APIExample
     title="Send email (Admin API — server-side only)"
     curl={`curl -X POST http://localhost:3030/email/send \\
@@ -60,64 +78,136 @@ In **v0.17**, separate **email**, **sms**, and **push-notifications** modules ar
   -H "Content-Type: application/json" \\
   -d '{"email":"user@example.com","templateName":"WelcomeEmail","variables":{"name":"Alex"}}'`}
   />
+  <APIExample
+    title="Fallback chain (email → SMS)"
+    curl={`curl -X POST http://localhost:3030/send/fallback \\
+  -H "Authorization: Bearer ADMIN_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "fallbackChain": [
+      { "channel": "email", "timeout": 5000 },
+      { "channel": "sms", "timeout": 3000 }
+    ],
+    "recipient": "user@example.com",
+    "subject": "Security alert",
+    "body": "Suspicious sign-in detected",
+    "variables": { "code": "482910" }
+  }'`}
+  />
 </ModuleExample>
 
 ## How it works
 
 <ModuleDeepDive>
-### API surfaces
-
-| Layer | Role |
-|-------|------|
-| **Client API** | Device token registration, in-app notification inbox |
-| **Admin API** | Send email/push/SMS, template CRUD, delivery history |
-| **gRPC / grpc-sdk** | Server-side sending from custom modules (`grpcSdk.email`, etc.) |
-
-Legacy grpc-sdk client names (`grpcSdk.email`, `grpcSdk.pushNotifications`, `grpcSdk.sms`) route to communications automatically.
-
-### Templates
-
-Email templates use Handlebars (`{{variableName}}`) in subject and body. Variables are extracted on create. Reference `templateName` when sending — provision templates at deploy time, not from app runtime.
-
-### Migration from v0.16
-
-Standalone email, sms, and push-notifications modules are replaced. MCP aliases `?modules=email,push,sms` still work. See [Migration guide](/docs/resources/migration-v0.16-to-v0.17).
+  <CommunicationsDeepDive />
 </ModuleDeepDive>
 
 ## Configure
 
-MCP: `?modules=communications` (aliases: `email`, `push`, `sms`).
+Patch via MCP `patch_config_communications` (`?modules=communications` or aliases `email`, `push`, `sms`):
 
-| Tool | Purpose |
-|------|---------|
-| `get_config_communications` | Read email, push, SMS, orchestration |
-| `patch_config_communications` | Provider credentials and channel settings |
-| `post_email_templates` | Create Handlebars template |
-
-Config nests `email`, `pushNotifications`, `sms`, and `orchestration` under the communications key.
+| Key | Default | Meaning |
+|-----|---------|---------|
+| `email.active` | `false` | Enable email channel |
+| `email.transport` | `smtp` | Provider: `smtp`, `sendgrid`, `mailgun`, `amazonSes`, `mandrill`, `mailersend` |
+| `email.sendingDomain` | `conduit.com` | Appended to bare sender names |
+| `email.storeEmails.enabled` | — | Persist sent email records for resend/history |
+| `pushNotifications.active` | `false` | Enable push channel |
+| `pushNotifications.providerName` | — | `firebase`, `onesignal`, `amazonSns` |
+| `sms.active` | `false` | Enable SMS channel |
+| `sms.providerName` | `twilio` | `twilio`, `awsSns`, `messageBird` |
+| `sms.twilio.verify.active` | `false` | Twilio Verify for OTP flows |
+| `orchestration.retryAttempts` | `3` | Retries per channel send |
+| `orchestration.fallbackTimeout` | `5000` | Default fallback step timeout (ms) |
 
 ## Client API
 
-Push and in-app notification routes (authenticated). v0.17 unified communications serves these at the router root (no module prefix):
+Push and in-app notification routes (authenticated). Served at the router root (no module prefix):
 
 | Method | Path | Purpose |
 |--------|------|---------|
-| POST | `/token` | Register FCM/device token `{ token, platform }` |
+| POST | `/token` | Register device token `{ token, platform }` |
 | DELETE | `/token` | Clear tokens; optional `?platform=` |
 | GET | `/notifications` | In-app inbox (`read`, `skip`, `limit`, `platform`) |
 | PATCH | `/notifications` | Mark read `{ id }` or `{ before }` |
 
-**Sending** email/SMS/push is Admin API or grpc-sdk — not from browser-exposed app code with admin credentials.
+**Sending** email, SMS, or push is Admin API or grpc-sdk only — not from browser-exposed app code.
+
+## Admin API
+
+All routes require Admin API authentication. Default Admin port: `3030`. Paths use `/email`, `/push`, `/sms` — never `/pushNotifications`.
+
+### `/email`
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| POST | `/email/send` | Send — `templateName` or inline `subject` + `body` |
+| GET | `/email/templates` | List EmailTemplates (`skip`, `limit`, `sort`, `search`) |
+| POST | `/email/templates` | Create EmailTemplate |
+| PATCH | `/email/templates/:id` | Update EmailTemplate |
+| DELETE | `/email/templates/:id` | Delete EmailTemplate |
+| GET | `/email/templates/external` | List provider-managed templates |
+| POST | `/email/templates/external/sync` | Sync external templates into Conduit |
+| POST | `/email/resend` | Resend by email record `{ id }` |
+| GET | `/email/emails` | Sent email history |
+| GET | `/email/emails/:id` | Single email record |
+
+### `/push`
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| POST | `/push/send` | Send — `userId`, `title`, `body`, optional `data`, `platform`, `isSilent`, `doNotStore` |
+| GET | `/push/tokens` | List device tokens |
+| GET | `/push/tokens/:id` | Single token |
+| DELETE | `/push/tokens/:id` | Remove token |
+
+### `/sms`
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| POST | `/sms/send` | Send SMS — `to`, `message` |
+| GET | `/sms/messages` | Sent SMS history |
+| GET | `/sms/messages/:id` | Single SMS record |
+
+### Orchestrator (`/send`)
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| POST | `/send/multiple` | Multi-channel broadcast — `channels`, `strategy`, `recipient`, `subject?`, `body?`, `variables?` |
+| POST | `/send/fallback` | Fallback chain — `fallbackChain[{ channel, timeout }]`, `recipient`, `subject?`, `body?`, `variables?` |
+
+### CommunicationTemplate (GitOps)
+
+Multi-channel **CommunicationTemplate** documents have no dedicated Admin REST CRUD yet. Manage via [state export/import](/docs/guides/gitops-state-export) (`communicationTemplates`), direct database provisioning, or gRPC `RegisterCommunicationTemplate` from server-side workers (placeholder until unified template CRUD is complete).
+
+## grpc-sdk
+
+| Client | Use when |
+|--------|----------|
+| `grpcSdk.email` | Legacy email send, template register, status — routes to communications |
+| `grpcSdk.pushNotifications` | Legacy push send, token management |
+| `grpcSdk.sms` | Legacy SMS send, Twilio Verify |
+| `grpcSdk.communications` | Unified API: `sendMessage`, `sendToMultipleChannels`, `sendWithFallback`, `getMessageStatus` |
+
+Never import grpc-sdk in client components or browser bundles.
 
 ## MCP
 
-- `?modules=communications`
-- Aliases: `?modules=email,push,sms`
-- Note: `push-notifications` is not a valid MCP alias — use `push` or `communications`
+- `?modules=communications` — full module tools and config
+- Aliases: `?modules=email`, `?modules=push`, `?modules=sms`, or `?modules=email,push,sms`
+- **Invalid:** `push-notifications` — use `push` or `communications`
+
+| Tool | Purpose |
+|------|---------|
+| `get_config_communications` | Read email, push, SMS, orchestration settings |
+| `patch_config_communications` | Provider credentials and channel toggles |
+| `post_email_templates` | Create Handlebars EmailTemplate |
 
 <NextSteps steps={[
   { title: "Migration from v0.16", href: "/docs/resources/migration-v0.16-to-v0.17" },
+  { title: "GitOps state export", href: "/docs/guides/gitops-state-export" },
   { title: "Authentication (2FA, verify email)", href: "/docs/modules/authentication" },
-  { title: "Legacy docs (email module)", href: "/docs/resources/legacy-docs" },
+  { title: "Chat (invite email/push)", href: "/docs/modules/chat" },
   { title: "Admin API reference", href: "/docs/reference/admin-api" },
+  { title: "MCP tools", href: "/docs/reference/mcp-tools" },
 ]} />
