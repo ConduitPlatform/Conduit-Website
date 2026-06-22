@@ -143,7 +143,7 @@ Custom endpoints map to Client API routes at `/database/function/{name}`. Provis
 
 `comparisonField.type` is `Input` (from endpoint params), `Schema` (literal schema field), `Custom` (fixed value), or `Context` (request context path).
 
-Set `comparisonField.like: true` for case-insensitive text search (`$ilike`); `caseSensitiveLike: true` uses `$like`. Text `like` is not supported on PostgreSQL/Sequelize.
+Set `comparisonField.like: true` for case-insensitive text search (`$ilike`); `caseSensitiveLike: true` uses `$like`. On **PostgreSQL**, `$ilike` maps to `ILIKE` via the Sequelize adapter. On **MongoDB**, both operators are supported natively. Avoid `like: true` on non-text field types.
 
 #### Comparison operations
 
@@ -157,7 +157,7 @@ Set `comparisonField.like: true` for case-insensitive text search (`$ilike`); `c
 | `5` | Less or equal | `{ field: { $lte: value } }` |
 | `6` | In set | `{ field: { $in: value } }` — value must be an array |
 | `7` | Not in set | `{ field: { $nin: value } }` |
-| `8` | Contains | `{ field: value }` — for array fields, matches documents where the array contains the value |
+| `8` | Contains (reserved) | Currently translates to `{ field: value }` — same as **Equal** (`0`). Array-contains semantics are not implemented yet; use MongoDB `$in` / element-match patterns via custom logic until this operator is completed. |
 
 #### Assignment actions (write endpoints)
 
@@ -213,7 +213,7 @@ patch_config_database
 | `writeConcern` | MongoDB write concern (`1`, `majority`) |
 | `readConcern` | MongoDB read concern (`local`, `majority`, …) |
 
-Sequelize/PostgreSQL caveats: index creation via Admin API is limited, `like` filters do not work, and partial-row updates only change provided columns.
+Sequelize/PostgreSQL caveats: index creation via Admin API is limited, case-sensitive `$like` behavior differs by dialect, and partial-row updates only change provided columns.
 
 ## Client API
 
