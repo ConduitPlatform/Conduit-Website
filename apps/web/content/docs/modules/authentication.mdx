@@ -55,6 +55,7 @@ Apps need sign-up, login, token lifecycle, and optional multi-tenant membership 
     "User profile extension fields",
     "Anonymous users (optional)",
     "Account linking (same email across providers)",
+    "Email restrictions (disposable domains, plus-addressing, allow/block lists)",
   ]}
 />
 
@@ -114,6 +115,15 @@ Patch module config via MCP `patch_config_authentication`:
 | `twoFa.backUpCodes.enabled` | true | Expose backup-code generate/recover routes |
 | `magic_link.enabled` | false | Passwordless email login |
 | `anonymousUsers.enabled` | false | Anonymous user registration |
+| `emailRestrictions.enabled` | false | Master switch |
+| `emailRestrictions.blockDisposableEmails` | true | Bundled disposable-domain list (when enabled) |
+| `emailRestrictions.blockPlusAddressing` | true | Reject any `+` in the local part (`user+tag@domain`) |
+| `emailRestrictions.blockedAddresses` | [] | Exact emails |
+| `emailRestrictions.allowedAddresses` | [] | Exact allowlist (wins, except reserved `@anonymous.com`) |
+| `emailRestrictions.blockedDomains` | [] | Custom domains; suffix match (`evil.com` blocks `mail.evil.com`; not a bare TLD) |
+| `emailRestrictions.allowedDomains` | [] | Domain allowlist, suffix match (wins, except reserved `@anonymous.com`) |
+
+Email restrictions apply when a new or changed email is accepted — local register, change-email, OAuth new accounts and anonymous upgrade, admin create/patch, gRPC `userCreate`, and team invites — not on login, forgot-password, or magic-link for existing users. Blocked addresses return `EMAIL_NOT_ALLOWED` (*This email address is not allowed*). Plus-addressing blocks any `+` in the local part; domain allowlists and blocklists use suffix matching (allowlists win, except reserved `@anonymous.com`). The disposable-domain list is bundled — no runtime network fetch. `@anonymous.com` and its subdomains are always reserved for Conduit anonymous users. Change-email verification links are not rechecked when redeemed.
 
 OAuth providers need `clientId` + `clientSecret` per provider under `config.{provider}.enabled`.
 
@@ -149,7 +159,7 @@ Enable with `?modules=authentication` in your MCP server URL.
 | `post_authentication_users` | Create user (admin) |
 | `get_authentication_teams` | List teams |
 | `post_authentication_teams` | Create team |
-| `patch_config_authentication` | Token, OAuth, team, and 2FA settings |
+| `patch_config_authentication` | Token, OAuth, team, 2FA, and email restriction settings |
 
 For operator automation, prefer `cdt_` API tokens over legacy service-account config. See [MCP setup](/docs/getting-started/mcp-setup).
 
