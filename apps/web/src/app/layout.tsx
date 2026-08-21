@@ -30,6 +30,8 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://getconduit.dev"),
 };
 
+export const dynamic = "force-static";
+
 export default function RootLayout({
   children,
 }: Readonly<{
