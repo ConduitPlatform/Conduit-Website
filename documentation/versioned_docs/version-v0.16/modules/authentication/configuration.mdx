@@ -72,6 +72,24 @@ When enabled, users authenticating with the same email across different provider
 | Redirect URI | Where to send users after verification |
 | Link Expiry | How long magic links remain valid |
 
+## Email Restrictions
+
+Block or allow email addresses when they are accepted: local registration, change-email, OAuth new accounts and anonymous upgrade, admin create/patch, gRPC `userCreate`, and team invites. Not enforced on login, forgot-password, or magic-link flows for existing users. Off by default.
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| Enabled | `false` | Master switch |
+| Block Disposable Emails | `true` | Reject addresses on the bundled disposable-domain list |
+| Block Plus Addressing | `true` | Reject `+` in the local part (`user+tag@domain`) |
+| Blocked Addresses | `[]` | Exact email denylist |
+| Blocked Domains | `[]` | Domain denylist; suffix match (`evil.com` also blocks `mail.evil.com`; not a bare TLD) |
+| Allowed Addresses | `[]` | Exact allowlist; overrides blocks, not reserved `@anonymous.com` |
+| Allowed Domains | `[]` | Domain allowlist; suffix match; overrides blocks, not reserved `@anonymous.com` |
+
+Rejected requests return `This email address is not allowed` (`EMAIL_NOT_ALLOWED`). The disposable list is bundled (~8k domains and wildcards); no runtime network fetch.
+
+`@anonymous.com` and its subdomains are always reserved for Conduit-created anonymous users and cannot be registered or invited. Change-email verification links are not rechecked when redeemed, so a token issued before restrictions were enabled still completes.
+
 ## Token Configuration
 
 ### Access Tokens
