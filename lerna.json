@@ -1,9 +1,0 @@
-{
-  "packages": [
-    "documentation"
-  ],
-  "version": "independent",
-  "npmClient": "yarn",
-  "stream": true,
-  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
-}

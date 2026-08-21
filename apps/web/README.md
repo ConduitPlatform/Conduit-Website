@@ -71,7 +71,7 @@ DNS for `getconduit.dev` should be on Cloudflare. Uses [@opennextjs/cloudflare](
 | `SKIP_DEPENDENCY_INSTALL` | `true` |
 | `NODE_VERSION` | `24` |
 
-`SKIP_DEPENDENCY_INSTALL` is required — the monorepo root has a Yarn lockfile; without this, Cloudflare auto-runs Yarn 4 and the build fails before your npm command runs.
+`SKIP_DEPENDENCY_INSTALL` keeps Cloudflare from auto-installing before the build command. Install is part of the build command (`npm ci` in this directory). The Docusaurus archive uses Yarn under `documentation/`; the live site uses npm here.
 
 **Important:** Use `npm run deploy:cf-only`, not `npx opennextjs-cloudflare` or `npm exec -- opennextjs-cloudflare`. Those look up a non-existent npm package name; `npm run` uses the local binary from `node_modules/.bin` (same reason `npm run build:cf` works).
 

@@ -11,6 +11,8 @@ Unified **Next.js 16** marketing site and **v0.17 documentation** for [getcondui
 
 ## Development
 
+Install and run the live site from `apps/web` (its own npm lockfile). Root `npm install` is husky-only; it is not a workspace install.
+
 ```bash
 cd apps/web
 npm install
@@ -18,6 +20,14 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000). Docs at `/docs`.
+
+Legacy archive docs use Yarn **inside** `documentation/` (not a root `yarn.lock`):
+
+```bash
+cd documentation
+yarn install
+yarn start
+```
 
 ## Build
 
