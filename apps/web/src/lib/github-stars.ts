@@ -9,7 +9,7 @@ export async function getGitHubStarCount(): Promise<number | null> {
         Accept: "application/vnd.github+json",
         "User-Agent": "Conduit-Website",
       },
-      next: { revalidate: 3600 },
+      cache: "force-cache",
     });
 
     if (!response.ok) return null;
