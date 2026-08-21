@@ -2,13 +2,17 @@
 
 This directory contains **legacy** Conduit documentation for **v0.14**, **v0.15**, and **v0.16**. Current **v0.17** docs live on the unified site at [getconduit.dev/docs](https://getconduit.dev/docs/intro).
 
+Yarn for this archive lives **here**, not at the repository root. The root npm lockfile is husky-only.
+
 ## Archive deployment (Cloudflare Pages)
+
+Update these settings in the Cloudflare Pages dashboard — repo files do not change the live project.
 
 | Setting | Value |
 |---------|-------|
-| **Root directory** | `/` (repository root — not `documentation/`) |
-| **Build command** | `yarn install --frozen-lockfile && cd documentation && yarn build` |
-| **Output directory** | `documentation/build` |
+| **Root directory** | `documentation` |
+| **Build command** | `yarn install --frozen-lockfile && yarn build` |
+| **Output directory** | `build` |
 | **Node** | 24 |
 | **Custom domain** | `archive.getconduit.dev` |
 
@@ -19,7 +23,7 @@ This directory contains **legacy** Conduit documentation for **v0.14**, **v0.15*
 | `SKIP_DEPENDENCY_INSTALL` | `true` |
 | `NODE_VERSION` | `24` |
 
-`SKIP_DEPENDENCY_INSTALL` prevents Cloudflare from auto-running `pnpm install` at the repo root. The build command uses Yarn for the monorepo, then builds Docusaurus from `documentation/`.
+`SKIP_DEPENDENCY_INSTALL` keeps Cloudflare from auto-installing before the build command. Install is part of the build command so it uses Yarn 1 (`packageManager`: `yarn@1.22.22`) and `yarn.lock` in this directory. If **Root directory** is left at the repository root, Cloudflare can pick npm from the root `package-lock.json` (husky only) instead of Yarn.
 
 Add a **Bulk Redirect** in Cloudflare: `/` → `/v0.16/intro` (302).
 

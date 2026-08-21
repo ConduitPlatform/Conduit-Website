@@ -16,16 +16,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "24"
           cache: "yarn"
-          cache-dependency-path: yarn.lock
-
-      # Monorepo workspaces include apps/web (engines: node >=24); install at root.
-      - run: yarn install --frozen-lockfile
-
+          cache-dependency-path: documentation/yarn.lock
+      - name: Install
+        run: yarn install --frozen-lockfile
+        working-directory: documentation
       - name: Build Docusaurus archive
         run: yarn build
         working-directory: documentation
