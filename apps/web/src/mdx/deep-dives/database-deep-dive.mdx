@@ -14,6 +14,14 @@ A schema declares field types, indexes, and `conduitOptions` that control runtim
 
 Provision schemas at dev/deploy time via MCP `post_database_schemas` or `patch_database_schemas_id`. Module-owned schemas cannot be overwritten by import.
 
+### Vector fields
+
+`Vector` is an object-form field type: `{ type: "Vector", dimensions, similarity }`. `dimensions` is required. `similarity` is `cosine`, `euclidean`, or `dotProduct`. Shorthand `"Vector"` is rejected.
+
+This module owns vector storage, vector indexes, capabilities, and **raw-vector** search (`POST /database/schemas/:schemaName/vector-search`). Text-to-vector generation, embedding configs, backfills, and **text-in** search belong to [Embeddings](/docs/modules/embeddings). Deleting an embedding config does not drop vector fields or indexes.
+
+Supported backends are MongoDB Atlas Vector Search and Postgres pgvector.
+
 ### CMS CRUD
 
 When `conduitOptions.cms` flags are set, the Client API exposes:

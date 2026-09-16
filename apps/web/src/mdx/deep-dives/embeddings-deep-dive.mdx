@@ -1,0 +1,65 @@
+### Ownership
+
+| Concern | Module | Surface |
+|---------|--------|---------|
+| Text → vector, configs, backfills, **text-in** search | Embeddings | Admin `/embeddings/*`, Client `POST /embeddings/search` |
+| `Vector` fields, indexes, capabilities, **raw-vector** search | Database | Schema fields; Admin `POST /database/schemas/:schemaName/vector-search` |
+
+Embeddings adds a vector schema extension for `targetField` and a hidden source-hash field used to skip unchanged documents. Changing dimensions in place is rejected — create a new `targetField` and run an explicit backfill.
+
+`similarity` is `cosine` (default), `euclidean`, or `dotProduct`. Changing `similarity` recreates the vector index. Changing `sourceFields` does not.
+
+### Two enablement flags
+
+| Flag | Default | Effect |
+|------|---------|--------|
+| Workload: compose `--profile embeddings` or Helm `install.embeddings.enabled` | off | Starts or stops the embeddings **process**. Health can stay serving while workers are off so you can configure the module. |
+| Convict `enabled` | `false` | Starts generation workers and mutation subscriptions. Backfill start, backfill resume, and text search **fail closed** while this is `false`. This is **not** the Helm flag. |
+
+Production containers require a non-empty `GRPC_KEY`.
+
+### Safe lifecycle
+
+1. **Deploy the process disabled.** `docker compose --profile mongodb --profile embeddings up` with a non-empty `GRPC_KEY`, or Helm `install.embeddings.enabled=true`. Leave convict `enabled: false`. Confirm the process is registered with Core.
+2. **Inspect capabilities.** `get_embeddings_capabilities` (or `GET /embeddings/capabilities`). Database `storage`, `indexing`, and `search` must be true for MongoDB Atlas Vector Search or Postgres pgvector. Saving a disabled config may succeed with capability warnings; **activation must not**.
+3. **Configure the provider catalogue.** `patch_config_embeddings` with `endpoint`, `apiKey`, and a models catalogue (`name` + `dimensions`). `GRPC_KEY` comes from the deployment, not from module settings.
+4. **Create the config disabled.** `post_embeddings_configs` with `schemaName`, `sourceFields`, `targetField`, and `enabled: false`. The first upsert provisions the vector index when Database indexing is available. If indexing is unavailable, status reports a manual index lifecycle warning — create the index before enabling.
+5. **Wait for a queryable index.** Poll `get_embeddings_status` / `get_embeddings_configs_id` until the index for `targetField` is ready (not pending or failed).
+6. **Enable the config and the module.** Set the config `enabled: true`, then `patch_config_embeddings` with convict `enabled: true`. Backfill, resume, and text search stay fail-closed until convict `enabled` is true.
+7. **Bounded `onlyMissing` backfill.** `post_embeddings_backfills` with `onlyMissing: true` and a bounded `batchSize` (capped by `queue.maxBatchSize`, default 500). Backfills persist `BackfillRun` state and never scan in the request thread. Cancel and resume from the stored cursor.
+8. **Monitor.** Watch `get_embeddings_backfills_id` counts (`scanned` / `queued` / `processed` / `failed`) and `get_embeddings_status` queue depths.
+9. **Canary text search.** Admin `post_embeddings_search` or Client `POST /embeddings/search` with a scoped query. Confirm authorization-enabled schemas fail closed without an authenticated user or scope.
+
+Rollback: set convict `enabled: false` and per-config `enabled: false` (generation and search stop; vectors remain), then stop the workload (`docker compose stop embeddings` or Helm `install.embeddings.enabled=false`). Rollback **retains** vector fields, indexes, `EmbeddingConfig` documents, `BackfillRun` records, and Redis/BullMQ queue state. Data and index removal is a separate operator action.
+
+### Target schema
+
+The schema must be:
+
+- **CMS enabled or cms unset** (`conduit.cms.enabled` true, or `cms` omitted)
+- **Extendable** (`conduit.permissions.extendable: true`)
+- **Non-system** — not Database internals (`_DeclaredSchema`, `CustomEndpoints`, …), not core/router/authorization-owned, not embeddings-owned (`EmbeddingConfig`, `BackfillRun`), not names starting with `_`, not auth secret schemas (`AccessToken`, `RefreshToken`, `AdminApiToken`, …)
+
+Owner-controlled business schemas, including authentication `User` / `Team`, are allowed when they pass those checks.
+
+### Source fields
+
+Each `sourceFields` entry must exist on the schema, be **string-like** (`String` or an array of strings), and use a valid field name. Hidden fields (`select: false`) and sensitive-looking names (`password`, `secret`, `token`, `apiKey`, …) are rejected unless they appear on `security.sourceFieldAllowlist` (or a platform-admin `sourceFieldAllowlist` on upsert). Caller-supplied allowlists are ignored for non-admin gRPC callers.
+
+### Backfill filter
+
+Admin/MCP backfill `filter` is a document query, not a search query. Allowed: equality, comparisons (`$eq`, `$ne`, `$gt`, `$gte`, `$lt`, `$lte`), bounded `$in`/`$nin`, and `$and`. Rejected: regex, `$or`, `$not`, `$like`. Semantic-search `filter` does **not** use this allowlist — it is passed through as a Database vector-search filter.
+
+### Config deletion
+
+`delete_embeddings_configs_id` removes the **config document only**. Vector fields and indexes stay on the schema until you delete them through Database.
+
+### Search split
+
+| Caller | Path | Body | Identity | Limit |
+|--------|------|------|----------|-------|
+| Client app | `POST /embeddings/search` | Required `schemaName` + `text`. Optional `targetField`, `filter`, `limit`. | Router user / scope. Body must not include `userId`, `scope`, or `adminOperator`. | Max **50** |
+| Admin / MCP | `post_embeddings_search` | Same body shape. | Operator context | Not the Client cap |
+| Database Admin | `POST /database/schemas/:schemaName/vector-search` | Raw `vector` array | Operator | Database vector-search limits |
+
+Do not send a raw vector on either embeddings search path. Client search requires `authMiddleware`. Both embeddings search paths generate a query embedding, then delegate to Database vector search.

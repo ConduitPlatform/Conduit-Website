@@ -1,0 +1,188 @@
+---
+title: Embeddings
+description: Text-to-vector generation, embedding configs, backfills, and text-in semantic search.
+agent_summary: "Opt-in, disabled by default, not in standalone. Client: authenticated POST /embeddings/search (schemaName + text, optional targetField/filter/limit; no raw vector, no userId/scope/adminOperator, limit 50). Admin/MCP: 12 route tools plus get_config_embeddings and patch_config_embeddings. Database owns Vector fields, indexes, and raw-vector search."
+---
+
+import EmbeddingsDeepDive from "@/mdx/deep-dives/embeddings-deep-dive.mdx";
+
+The **embeddings** module turns string fields into vectors and searches by query **text**. It does not own vector storage. **Database** owns `Vector` fields, vector indexes, capabilities, and **raw-vector** search. Client apps call authenticated `POST /embeddings/search` only.
+
+## Use cases
+
+<ModuleUseCases
+  items={[
+    {
+      title: "Search by meaning",
+      outcome: "Find articles or tickets from a natural-language query instead of keyword match",
+    },
+    {
+      title: "Keep vectors current",
+      outcome: "Generate embeddings on create/update and skip unchanged documents via source hashes",
+    },
+    {
+      title: "Backfill existing data",
+      outcome: "Queue a bounded onlyMissing backfill instead of scanning in the request thread",
+    },
+    {
+      title: "Operator canary",
+      outcome: "Run Admin text search against a scoped set before opening Client search",
+    },
+    {
+      title: "Fail-closed authz search",
+      outcome: "Authorization-enabled schemas still require an authenticated user or scope",
+    },
+  ]}
+/>
+
+## Capabilities
+
+<ModuleCapabilities
+  items={[
+    "Text-to-vector generation (OpenAI-compatible HTTPS provider)",
+    "Embedding configs (schema, source fields, target field)",
+    "Vector + source-hash schema extensions",
+    "Incremental jobs on database mutations",
+    "Queued backfills (onlyMissing, cancel, resume)",
+    "Text-in semantic search (Client + Admin)",
+    "Capability and status inspection",
+    "Convict enabled default false (workers and search)",
+  ]}
+/>
+
+## Example: Config, backfill, then text search
+
+<ModuleExample
+  steps={[
+    "Deploy the embeddings process with module convict enabled still false (compose --profile embeddings or Helm install.embeddings.enabled)",
+    "Call get_embeddings_capabilities and confirm storage, indexing, and search for Atlas Vector Search or pgvector",
+    "Patch the provider catalogue with patch_config_embeddings (endpoint, apiKey, models, defaultModel)",
+    "Create an extendable, non-system schema (CMS enabled or cms unset) and post_embeddings_configs with enabled: false",
+    "Wait until the target vector index is queryable (get_embeddings_status / get_embeddings_configs_id)",
+    "Enable the config, then set convict enabled: true. Backfill, resume, and text search fail closed while convict enabled is false",
+    "Start a bounded post_embeddings_backfills with onlyMissing: true",
+    "App calls POST /embeddings/search with schemaName and text — never a raw vector, never caller-supplied userId, scope, or adminOperator",
+  ]}
+>
+  <APIExample
+    title="Client semantic search"
+    curl={`curl -X POST http://localhost:3000/embeddings/search \\
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{"schemaName":"Article","text":"how vector indexes become queryable","limit":10}'`}
+  />
+  <APIExample
+    title="Create config (disabled)"
+    curl={`curl -X POST http://localhost:3030/embeddings/configs \\
+  -H "Authorization: Bearer YOUR_ADMIN_JWT_OR_cdt_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{"schemaName":"Article","sourceFields":["title","body"],"targetField":"embedding","enabled":false}'`}
+  />
+</ModuleExample>
+
+## How it works
+
+<ModuleDeepDive>
+  <EmbeddingsDeepDive />
+</ModuleDeepDive>
+
+## Configure
+
+Two independent switches:
+
+| Switch | Default | What it does |
+|--------|---------|--------------|
+| Helm `install.embeddings.enabled` / compose `--profile embeddings` | off | Deploys or removes the embeddings **process**. Does not start workers. |
+| Module convict `enabled` | `false` | Turns on generation workers, mutation subscriptions, and search. Backfill start, backfill resume, and text search **fail closed** while this is `false`. Patch via MCP after the index is queryable. |
+
+Production images require a non-empty `GRPC_KEY`. Image tags and the compose profile are on [Docker Compose](/docs/deployment/docker-compose).
+
+Enable MCP with `?modules=embeddings`, then patch via `patch_config_embeddings`:
+
+| Key | Default | Meaning |
+|-----|---------|---------|
+| `enabled` | `false` | Workers, mutation subscriptions, and search |
+| `defaultProvider` | `openai-compatible` | Provider id used when a config omits `provider` |
+| `providers.openai-compatible.endpoint` | `""` | HTTPS embeddings endpoint |
+| `providers.openai-compatible.apiKey` | `""` | Provider API key (sensitive) |
+| `providers.openai-compatible.models` | `[]` | Catalogue of `{ name, dimensions }` |
+| `providers.openai-compatible.defaultModel` | `""` | Default model from the catalogue |
+| `queue.concurrency` | `2` | Generation worker concurrency |
+| `queue.attempts` | `3` | Generation retry attempts |
+| `queue.maxBatchSize` | `500` | Max jobs accepted from one enqueue or backfill request |
+| `security.sourceFieldAllowlist` | `[]` | Source fields allowed even when hidden or sensitive-named |
+
+`provider`, `model`, and `dimensions` on a config default from this catalogue when omitted. Provider output dimensions must match the configured vector dimensions.
+
+`similarity` is `cosine` (default), `euclidean`, or `dotProduct`. Changing `similarity` recreates the vector index. Changing `sourceFields` does not.
+
+## Client API
+
+Authenticated only (`authMiddleware`). User and scope come from the router context.
+
+| Method | Path | Body |
+|--------|------|------|
+| POST | `/embeddings/search` | `{ schemaName, text, targetField?, filter?, limit? }` |
+
+| Rule | Detail |
+|------|--------|
+| Vectors | Do not send a raw vector. |
+| Identity | Do not send `userId`, `scope`, or `adminOperator`. |
+| Limit | Positive integer; Client max **50**. |
+| Authz | Search requires an authenticated user or scope from context. |
+
+Configs, backfills, capabilities, and status are **not** Client routes.
+
+## Admin API
+
+Operator routes on `ADMIN_BASE_URL/embeddings/...` (admin JWT or `cdt_` token):
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/embeddings/configs` | List configs (`schemaName`, `id`) |
+| POST | `/embeddings/configs` | Create or update a config |
+| GET | `/embeddings/configs/:id` | Get one config |
+| DELETE | `/embeddings/configs/:id` | Delete config — **does not** drop vector fields or indexes |
+| GET | `/embeddings/capabilities` | Database vector storage, indexing, and search |
+| GET | `/embeddings/status` | Readiness, provider/index warnings, queue counts |
+| GET | `/embeddings/backfills` | List `BackfillRun` records |
+| POST | `/embeddings/backfills` | Start a queued backfill (`onlyMissing`, `batchSize`, `configId`, optional `filter`) |
+| GET | `/embeddings/backfills/:id` | Get one backfill (counts, cursor, state) |
+| POST | `/embeddings/backfills/:id/cancel` | Cancel a queued or running run |
+| POST | `/embeddings/backfills/:id/resume` | Resume from the stored cursor |
+| POST | `/embeddings/search` | Operator text-in search (no raw vectors) |
+
+Admin backfill `filter` allows equality, comparisons, bounded `$in`/`$nin`, and `$and`. It rejects regex, `$or`, `$not`, and `$like`. This subset applies to **backfill** only — semantic-search `filter` is a Database vector-search filter (JSON object), not that allowlist.
+
+Database raw-vector search stays on Admin `POST /database/schemas/:schemaName/vector-search`.
+
+## MCP
+
+Enable with `?modules=embeddings` in your MCP server URL. Hermes converts every embeddings Admin route (none set `mcp: false`).
+
+| Tool | Purpose |
+|------|---------|
+| `get_embeddings_configs` | List embedding configs |
+| `post_embeddings_configs` | Create or update a config. First upsert provisions the vector index when Database indexing is available. Save `enabled: false` until the index is queryable. |
+| `get_embeddings_configs_id` | Get one config by id |
+| `delete_embeddings_configs_id` | Delete a config. Does not drop vector fields or indexes. |
+| `get_embeddings_capabilities` | Vector storage, index, and search capabilities plus warnings |
+| `get_embeddings_status` | Module readiness, provider/index warnings, generation and backfill queue counts |
+| `get_embeddings_backfills` | List persisted backfill runs |
+| `post_embeddings_backfills` | Start a queued cursor-based backfill. Prefer `onlyMissing: true` and a bounded `batchSize`. Optional `filter` uses the backfill allowlist (not the search filter). |
+| `get_embeddings_backfills_id` | Get one backfill run |
+| `post_embeddings_backfills_id_cancel` | Cancel a queued or running backfill |
+| `post_embeddings_backfills_id_resume` | Resume a failed or canceled run from its cursor |
+| `post_embeddings_search` | Operator semantic search by text |
+| `get_config_embeddings` | Read module convict config |
+| `patch_config_embeddings` | Patch module convict config (provider, `enabled`, queue) |
+
+That is **12** embedding route tools plus the two core-injected config tools.
+
+<NextSteps steps={[
+  { title: "Database (Vector fields & indexes)", href: "/docs/modules/database" },
+  { title: "Docker Compose", href: "/docs/deployment/docker-compose" },
+  { title: "Kubernetes / Helm", href: "/docs/deployment/kubernetes-helm" },
+  { title: "MCP setup", href: "/docs/getting-started/mcp-setup" },
+  { title: "Client API", href: "/docs/reference/client-api" },
+]} />

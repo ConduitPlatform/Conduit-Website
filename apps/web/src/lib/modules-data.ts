@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Code2, Network, ShieldCheck } from "lucide-react";
+import { Code2, Network, ScanSearch, ShieldCheck } from "lucide-react";
 
 export type ModuleFeature = {
   title: string;
@@ -79,11 +79,43 @@ export const MODULE_DEFINITIONS: ModuleDefinition[] = [
         href: "/docs/modules/database",
       },
     ],
-    relatedSlugs: ["authorization", "functions"],
+    relatedSlugs: ["authorization", "functions", "embeddings"],
     docsPath: "/docs/modules/database",
     featured: true,
     accent: "pink",
     iconSrc: "/moduleIcons/database.svg",
+  },
+  {
+    slug: "embeddings",
+    title: "Embeddings",
+    description:
+      "Generate vectors from text fields, backfill collections, and search by meaning. Database still owns the Vector fields and indexes.",
+    tagline: "Opt-in text-to-vector generation and text-in semantic search.",
+    capabilities: ["Text-to-vector", "Queued backfills", "Text-in search"],
+    features: [
+      {
+        title: "Embedding configs",
+        description:
+          "Point source string fields at a Vector target. The first upsert can provision the index; keep the config disabled until it is queryable.",
+        href: "/docs/modules/embeddings",
+      },
+      {
+        title: "Backfills",
+        description:
+          "Queue bounded onlyMissing runs. Cancel and resume from a stored cursor — never scan in the request thread.",
+        href: "/docs/modules/embeddings",
+      },
+      {
+        title: "Text-in search",
+        description:
+          "Client POST /embeddings/search takes schemaName and text. Raw vectors stay on Database Admin vector-search.",
+        href: "/docs/modules/embeddings",
+      },
+    ],
+    relatedSlugs: ["database"],
+    docsPath: "/docs/modules/embeddings",
+    accent: "teal",
+    Icon: ScanSearch,
   },
   {
     slug: "authorization",

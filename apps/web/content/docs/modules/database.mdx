@@ -47,13 +47,17 @@ The most common mistake is calling `GET /database/{Schema}` and filtering in app
     "Custom endpoints & query trees",
     "Comparison operators (eq, in, contains, …)",
     "Indexes",
+    "Vector fields & indexes",
     "Populate relations",
     "Text search (like: true)",
     "Database introspection (Admin API)",
     "GitOps export (schemas, extensions, endpoints)",
     "GraphQL (via router)",
+    "Raw-vector search (Admin API)",
   ]}
 />
+
+Vector fields (`type: Vector`, `dimensions`, `similarity`), vector indexes, Database vector capabilities, and **raw-vector** search (`POST /database/schemas/:schemaName/vector-search`) belong to this module. Text-to-vector generation, embedding configs, backfills, and **text-in** search belong to [Embeddings](/docs/modules/embeddings). Deleting an embedding config does **not** drop vector fields or indexes.
 
 ## Example: Schema + custom endpoint (no client-side filter)
 
@@ -134,6 +138,7 @@ Enable with `?modules=database` in your MCP server URL.
 <NextSteps steps={[
   { title: "Your first app", href: "/docs/getting-started/first-app" },
   { title: "Authorization & scope", href: "/docs/modules/authorization" },
+  { title: "Embeddings (text-in search)", href: "/docs/modules/embeddings" },
   { title: "GitOps state export", href: "/docs/guides/gitops-state-export" },
   { title: "Client API reference", href: "/docs/reference/client-api" },
   { title: "MCP tools", href: "/docs/reference/mcp-tools" },
