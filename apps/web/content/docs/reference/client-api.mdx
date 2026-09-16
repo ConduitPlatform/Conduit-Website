@@ -1,7 +1,7 @@
 ---
 title: Client API
 description: REST and GraphQL surface on the router — user-scoped application runtime.
-agent_summary: "CLIENT_BASE_URL :3000; user Bearer tokens; /authentication, /database, /storage, /chat, /authorization; never Admin API from apps."
+agent_summary: "CLIENT_BASE_URL :3000; user Bearer tokens; /authentication, /database, /storage, /chat, /authorization, authenticated POST /embeddings/search; never Admin API from apps."
 ---
 
 The **Client API** runs on the **router** module (default `CLIENT_BASE_URL` → port **3000**). All application runtime code — web apps, mobile backends, server actions — calls this surface with **user bearer tokens** from the authentication module.
@@ -88,6 +88,21 @@ Use `getFileUrl` server-side for preview proxy; stream bytes without exposing pr
 
 Socket.io: connect to `SOCKET_BASE_URL/chat/` with path `/realtime` and `Authorization: Bearer` header. Default socket port **3001**.
 
+## Embeddings
+
+Authenticated **text-in** semantic search only. Raw vectors, configs, and backfills are not Client routes.
+
+| Method | Path | Body |
+|--------|------|------|
+| POST | `/embeddings/search` | `{ schemaName, text, targetField?, filter?, limit? }` |
+
+- Requires a user bearer token (`authMiddleware`)
+- `text` in; do not send a raw vector
+- Do not send `userId`, `scope`, or `adminOperator` — those come from router context
+- `limit` is a positive integer, max **50**
+
+See [Embeddings](/docs/modules/embeddings). Database raw-vector search is Admin `POST /database/schemas/:schemaName/vector-search`.
+
 ## Communications
 
 | Method | Path | Purpose |
@@ -126,6 +141,7 @@ Team routes under `/authentication/teams` (list, create, invite, join) require u
 | Authentication | [/docs/modules/authentication](/docs/modules/authentication) |
 | Authorization | [/docs/modules/authorization](/docs/modules/authorization) |
 | Database | [/docs/modules/database](/docs/modules/database) |
+| Embeddings | [/docs/modules/embeddings](/docs/modules/embeddings) |
 | Storage | [/docs/modules/storage](/docs/modules/storage) |
 | Chat | [/docs/modules/chat](/docs/modules/chat) |
 | Communications | [/docs/modules/communications](/docs/modules/communications) |

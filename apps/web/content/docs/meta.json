@@ -17,6 +17,7 @@
     "modules/authentication",
     "modules/authorization",
     "modules/database",
+    "modules/embeddings",
     "modules/storage",
     "modules/communications",
     "modules/chat",

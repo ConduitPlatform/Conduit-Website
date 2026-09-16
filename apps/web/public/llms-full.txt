@@ -19,17 +19,18 @@
 ## Deployment
 
 - [Deployment Overview](https://getconduit.dev/docs/deployment): Decision matrix for deployment modes; links to Compose, Helm, local source, and container images.
-- [Docker Compose](https://getconduit.dev/docs/deployment/docker-compose): From Conduit/docker: docker compose --profile mongodb up; or docker-compose.standalone.yml.
-- [Kubernetes and Helm](https://getconduit.dev/docs/deployment/kubernetes-helm): helm install conduit conduit-platform/conduit; core readiness HTTP :3030/ready; liveness gRPC :5000; READY_REQUIRED_MODULES set by chart.
+- [Docker Compose](https://getconduit.dev/docs/deployment/docker-compose): From Conduit/docker: docker compose --profile mongodb up; standalone omits embeddings; embeddings is an opt-in --profile embeddings with a published tag.
+- [Kubernetes and Helm](https://getconduit.dev/docs/deployment/kubernetes-helm): helm install conduit conduit-platform/conduit; core readiness HTTP :3030/ready; liveness gRPC :5000; READY_REQUIRED_MODULES set by chart; embeddings via install.embeddings.enabled (default false).
 - [Local from Source](https://getconduit.dev/docs/deployment/local-source): Node 24+, pnpm install, turbo build, start core then modules with CONDUIT_SERVER set.
 - [Container Images](https://getconduit.dev/docs/deployment/container-images): GHCR :dev on main; version tags on release; :latest stable only; amd64+arm64 via images.build.yml.
 
 ## Modules
 
-- [Overview](https://getconduit.dev/docs/modules): Index of first-party modules: auth, authorization, database, storage, communications, chat, router, functions.
+- [Overview](https://getconduit.dev/docs/modules): Index of first-party modules: eight stable v0.17 modules plus opt-in embeddings. Embeddings is not in standalone.
 - [Authentication](https://getconduit.dev/docs/modules/authentication): Client API: /authentication/local, renew, logout, teams, twoFa; server-side token vault; sudo after fresh login; Admin API cdt_ tokens for automation — not service accounts.
 - [Authorization](https://getconduit.dev/docs/modules/authorization): Zanzibar-style ReBAC; define resources/relations via Admin API or MCP; Client API /authorization/check; pass scope on database creates.
 - [Database](https://getconduit.dev/docs/modules/database): Client: /database/{Schema}, /database/function/{name}; provision schemas and custom endpoints via MCP; never filter collections client-side; introspection is Admin API only (not MCP).
+- [Embeddings](https://getconduit.dev/docs/modules/embeddings): Opt-in, disabled by default, not in standalone. Client: authenticated POST /embeddings/search (schemaName + text, optional targetField/filter/limit; no raw vector, no userId/scope/adminOperator, limit 50). Admin/MCP: 12 route tools plus get_config_embeddings and patch_config_embeddings. Database owns Vector fields, indexes, and raw-vector search.
 - [Storage](https://getconduit.dev/docs/modules/storage): Presigned upload server-side; store storageFileId on documents; serve binaries via server preview proxy — never expose presigned URLs to browsers.
 - [Communications](https://getconduit.dev/docs/modules/communications): v0.17 unified communications; Admin /email /push /sms; EmailTemplate + CommunicationTemplate; orchestrator multi-channel/fallback; grpcSdk legacy aliases; MCP ?modules=communications.
 - [Chat](https://getconduit.dev/docs/modules/chat): Client API REST + Socket.io on CLIENT_SOCKET_PORT 3001; namespace /chat/, path /realtime; rooms, messages, invitations, storage attachments; grpcSdk.chat for server-side.
@@ -45,7 +46,7 @@
 ## Reference
 
 - [CLI Reference](https://getconduit.dev/docs/reference/cli): Bootstrap via getconduit.dev/bootstrap; conduit deploy setup --config for local stack.
-- [Client API](https://getconduit.dev/docs/reference/client-api): CLIENT_BASE_URL :3000; user Bearer tokens; /authentication, /database, /storage, /chat, /authorization; never Admin API from apps.
+- [Client API](https://getconduit.dev/docs/reference/client-api): CLIENT_BASE_URL :3000; user Bearer tokens; /authentication, /database, /storage, /chat, /authorization, authenticated POST /embeddings/search; never Admin API from apps.
 - [Admin API](https://getconduit.dev/docs/reference/admin-api): ADMIN_BASE_URL :3030; masterkey, admin JWT, or cdt_ tokens; GET /ready deep, GET /live shallow; provisioning only.
 - [gRPC SDK](https://getconduit.dev/docs/reference/grpc-sdk): @conduitplatform/grpc-sdk for module authors and server workers; not for browser or Client API app runtime.
 - [Environment Variables](https://getconduit.dev/docs/reference/env-vars): CONDUIT_SERVER and SERVICE_URL required per module; READY_* on core; ADMIN_HTTP_PORT 3030; CLIENT_HTTP_PORT 3000.

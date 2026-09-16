@@ -46,6 +46,7 @@ On connect, only `core` and `__meta__` load by default. Enable modules via the U
 | Files | `storage` |
 | ReBAC (incl. bulk relations) | `authorization` |
 | Chat | `chat` |
+| Embeddings (configs, backfills, text search) | `embeddings` |
 | Email/SMS/push | `communications` (or `email,push,sms`) |
 
 After changing the URL, **reconnect MCP** and call `list_modules` to verify `loaded: true`.
@@ -93,4 +94,5 @@ Admin routes map to tools: `GET /database/schemas` → `get_database_schemas`. S
   { title: "MCP tools reference", href: "/docs/reference/mcp-tools" },
   { title: "Start with AI", href: "/docs/getting-started/with-llms" },
   { title: "Database module", href: "/docs/modules/database" },
+  { title: "Embeddings module", href: "/docs/modules/embeddings" },
 ]} />

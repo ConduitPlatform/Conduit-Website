@@ -1,7 +1,7 @@
 ---
 title: Kubernetes and Helm
 description: Deploy Conduit with the official Helm chart — probes, readiness, and production layout.
-agent_summary: "helm install conduit conduit-platform/conduit; core readiness HTTP :3030/ready; liveness gRPC :5000; READY_REQUIRED_MODULES set by chart."
+agent_summary: "helm install conduit conduit-platform/conduit; core readiness HTTP :3030/ready; liveness gRPC :5000; READY_REQUIRED_MODULES set by chart; embeddings via install.embeddings.enabled (default false)."
 ---
 
 Conduit is **Kubernetes-first**. Official chart: `conduit-platform/conduit` ([conduit-helm-charts](https://github.com/ConduitPlatform/conduit-helm-charts)).
@@ -67,3 +67,9 @@ Feature modules (database, router, authentication, etc.) use **gRPC health** for
 `GET /live` on Admin HTTP (`:3030`) returns immediately with `{ status: "alive" }`. Use it for manual smoke tests; prefer the chart's gRPC liveness probe for Kubernetes.
 
 See also [conduit-helm-charts](https://github.com/ConduitPlatform/conduit-helm-charts) for advanced layouts and multi-tenant experiments.
+
+## Embeddings (opt-in)
+
+The chart flag `install.embeddings.enabled` defaults to **`false`**. Setting it to `true` deploys the embeddings **pod** only. It does **not** set module convict `enabled` — workers, mutation subscriptions, and search stay off until you patch Core config (`patch_config_embeddings`).
+
+Pin the chart / image to a **published** embeddings tag. Do not enable the workload against `latest` until that tag exists. Standalone does not include this module. Rollout order, capability checks, and rollback: [Embeddings](/docs/modules/embeddings).

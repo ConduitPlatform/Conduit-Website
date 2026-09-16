@@ -1,7 +1,7 @@
 ---
 title: Docker Compose
 description: Run Conduit microservices or standalone with Docker Compose.
-agent_summary: "From Conduit/docker: docker compose --profile mongodb up; or docker-compose.standalone.yml."
+agent_summary: "From Conduit/docker: docker compose --profile mongodb up; standalone omits embeddings; embeddings is an opt-in --profile embeddings with a published tag."
 ---
 
 ## Microservices mode
@@ -14,13 +14,29 @@ From `Conduit/docker/`:
 
 Images: `docker.io/conduitplatform/{module}:${IMAGE_TAG}`.
 
+## Embeddings (opt-in)
+
+Embeddings is a **separate** module image. Enable the compose profile **in addition to** `mongodb` or `postgres`:
+
+```bash
+# Production images refuse an empty GRPC_KEY.
+export GRPC_KEY='replace-with-a-non-empty-key'
+docker compose --profile mongodb --profile embeddings up
+```
+
+- Image: `docker.io/conduitplatform/embeddings:${IMAGE_TAG}`. Pin `IMAGE_TAG` to a published embeddings tag; do not pull `embeddings:latest` until that tag exists.
+- gRPC: `${EMBEDDINGS_GRPC_PORT:-55165}`
+- Metrics: Prometheus scrapes `conduit-embeddings:9192`
+
+The profile starts the process with module convict `enabled` still **false**. Check capabilities, configure the provider catalogue, wait for a queryable vector index, then enable workers with `patch_config_embeddings`. See [Embeddings](/docs/modules/embeddings).
+
 ## Standalone mode
 
 ```bash
 docker compose -f docker-compose.standalone.yml up -d
 ```
 
-Bundles core + default modules in `conduit-standalone` via PM2. Requires Redis + MongoDB only.
+Bundles core + default modules in `conduit-standalone` via PM2. Requires Redis + MongoDB only. **Embeddings is not included** in standalone v1 — use microservices compose with `--profile embeddings` after a published tag.
 
 ## Admin UI
 

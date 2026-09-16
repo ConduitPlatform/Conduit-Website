@@ -33,6 +33,7 @@ Provisioning uses the **Admin API** or **MCP** at `/mcp` — never from app code
 - [Authentication](https://getconduit.dev/docs/modules/authentication): Users, local/OAuth login, tokens, teams, 2FA, and sudo for sensitive operations.
 - [Authorization](https://getconduit.dev/docs/modules/authorization): ReBAC resources, relations, permissions, indexing, and scope.
 - [Database](https://getconduit.dev/docs/modules/database): Schemas, CRUD, custom endpoints, indexes, query trees, and GitOps export.
+- [Embeddings](https://getconduit.dev/docs/modules/embeddings): Text-to-vector generation, embedding configs, backfills, and text-in semantic search.
 - [Storage](https://getconduit.dev/docs/modules/storage): File uploads, cloud providers (S3, Azure, GCS), signed URLs, public access, folder markers, and Prometheus metrics.
 - [Communications](https://getconduit.dev/docs/modules/communications): Unified email, SMS, and push — one module, three channels, orchestrated delivery.
 - [Chat](https://getconduit.dev/docs/modules/chat): Realtime rooms and messages over REST and Socket.io.
